@@ -1,15 +1,4 @@
-// Ovaj mali program je "robot" koji odlučuje gdje poslati svaku karticu.
-//
-// Kako radi, korak po korak:
-// 1. Netko skenira karticu (npr. tiptapreviews.com/c001)
-// 2. Vercel pokrene ovaj fajl i preda mu "c001" kao kod
-// 3. Ovaj fajl preuzme tvoju Google tablicu (objavljenu kao CSV popis)
-// 4. Pretraži popis za "c001" i pronađe destinacijski link pored njega
-// 5. Pošalje osobu direktno na taj link
-//
-// TI kontroliraš sve uređivanjem Google tablice — nikad ne trebaš mijenjati kod.
-
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   const { code } = req.query;
 
   if (!code) {
@@ -47,4 +36,4 @@ export default async function handler(req, res) {
     res.writeHead(302, { Location: FALLBACK_URL });
     return res.end();
   }
-}
+};
