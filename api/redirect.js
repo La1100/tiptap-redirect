@@ -1,5 +1,5 @@
-export default async function handler(req, res) {
-  const { code } = req.query;
+module.exports = async (req, res) => {
+  const code = req.query.code;
 
   const SHEET_CSV_URL = process.env.SHEET_CSV_URL;
   const FALLBACK_URL = 'https://tiptapreviews.com';
@@ -12,23 +12,27 @@ export default async function handler(req, res) {
     const response = await fetch(SHEET_CSV_URL);
     const csvText = await response.text();
 
-    const rows = csvText.split('\n').map((row) => row.split(','));
+    const rows = csvText
+      .split(/\r?\n/)
+      .map(row => row.split(','));
 
-    const clean = (s) =>
-      s ? s.trim().replace(/^"+|"+$/g, '').trim() : s;
+    const clean = value =>
+      value
+        ? value.trim().replace(/^"|"$/g, '').trim()
+        : '';
 
     const match = rows.find(
-      (row) =>
-        row[0] &&
+      row =>
         clean(row[0]).toLowerCase() === String(code).toLowerCase()
     );
 
-    if (match && match[1] && clean(match[1])) {
+    if (match && clean(match[1])) {
       return res.redirect(302, clean(match[1]));
     }
 
     return res.redirect(302, FALLBACK_URL);
-  } catch (err) {
+
+  } catch (error) {
     return res.redirect(302, FALLBACK_URL);
   }
-}
+};
