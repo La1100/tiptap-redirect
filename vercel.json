@@ -1,6 +1,9 @@
 {
-  "name": "tiptap-redirect",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/:code",
+      "destination": "/api/redirect?code=:code"
+    }
+  ]
 }
