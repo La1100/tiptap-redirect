@@ -2,8 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
-      "source": "/:code",
-      "destination": "/api/redirect?code=:code"
+      "source": "/c001",
+      "destination": "/api/index.js"
     }
   ]
 }
