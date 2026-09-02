@@ -1,43 +1,39 @@
 module.exports = async (req, res) => {
   const code = String(req.query.code || '').trim().toLowerCase();
+  const sheetUrl = process.env.SHEET_CSV_URL;
 
-  const SHEET_CSV_URL = process.env.SHEET_CSV_URL;
-
-  if (!code || !SHEET_CSV_URL) {
+  if (!code || !sheetUrl) {
     return res.redirect(302, 'https://tiptapreviews.com');
   }
 
   try {
-    const response = await fetch(SHEET_CSV_URL);
+    const response = await fetch(sheetUrl);
 
     if (!response.ok) {
       return res.redirect(302, 'https://tiptapreviews.com');
     }
 
-    const csvText = await response.text();
+    const csv = (await response.text()).replace(/^\uFEFF/, '');
 
-    const lines = csvText.split(/\r?\n/);
+    const rows = csv
+      .split(/\r?\n/)
+      .map(line => {
+        const match = line.match(/^"?([^",]+)"?,\s*"?([^"]*)"?$/);
+        return match
+          ? [match[1].trim(), match[2].trim()]
+          : [];
+      });
 
-    for (const line of lines) {
-      const parts = line.split(',');
+    const row = rows.find(
+      r => r[0].toLowerCase() === code
+    );
 
-      const sheetCode = String(parts[0] || '')
-        .trim()
-        .replace(/^["']|["']$/g, '')
-        .toLowerCase();
-
-      const destination = String(parts.slice(1).join(',') || '')
-        .trim()
-        .replace(/^["']|["']$/g, '');
-
-      if (sheetCode === code && destination) {
-        return res.redirect(302, destination);
-      }
+    if (row && /^https?:\/\//i.test(row[1])) {
+      return res.redirect(302, row[1]);
     }
 
     return res.redirect(302, 'https://tiptapreviews.com');
-
-  } catch (error) {
+  } catch {
     return res.redirect(302, 'https://tiptapreviews.com');
   }
 };
