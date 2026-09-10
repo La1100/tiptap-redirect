@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TipTap Demo — This Is What Your Customers See</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0a08;
+    --paper: #f4f1e9;
+    --gold: #b8923f;
+    --gold-bright: #d4af5a;
+    --grey: #8a8578;
+    --line: #2a2620;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--paper);
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: 60px 24px;
+  }
+  .serif{ font-family:'Fraunces', serif; font-weight:400; }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--line);
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:12.5px;
+    color: var(--gold-bright);
+    letter-spacing:0.5px;
+    margin-bottom:36px;
+  }
+  .badge svg{ width:14px; height:14px; }
+
+  .phone-mock{
+    width: 100%;
+    max-width: 360px;
+    background: #fff;
+    border-radius: 32px;
+    overflow:hidden;
+    box-shadow: 0 60px 100px -30px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,90,0.15);
+  }
+  .phone-status{
+    background:#fff; height:28px;
+  }
+  .review-card{
+    padding: 28px 24px 32px 24px;
+  }
+  .review-card .biz-name{
+    font-size: 20px;
+    color:#111;
+    font-weight:600;
+  }
+  .review-card .poster{
+    display:flex; align-items:center; gap:10px;
+    margin-top:18px;
+  }
+  .review-card .avatar{
+    width:44px;height:44px;border-radius:50%;
+    background: linear-gradient(135deg,#d9a94c,#8a6a2c);
+  }
+  .review-card .poster .name{ font-size:14px; color:#111; font-weight:600; }
+  .review-card .poster .sub{ font-size:12px; color:#888; margin-top:2px; }
+
+  .stars-row{ display:flex; gap:8px; margin-top:24px; }
+  .stars-row svg{ width:34px; height:34px; color:#e0e0e0; transition:color .15s ease; cursor:pointer; }
+  .stars-row svg.filled{ color:#fbbc04; }
+
+  .review-box{
+    margin-top:24px;
+    border:1px solid #e5e5e5;
+    border-radius:10px;
+    padding:14px;
+    font-size:13.5px;
+    color:#999;
+    min-height:70px;
+  }
+
+  .post-btn{
+    margin-top:20px;
+    width:100%;
+    background:#1a73e8;
+    color:#fff;
+    border:none;
+    padding:13px;
+    border-radius:8px;
+    font-size:14.5px;
+    font-weight:600;
+  }
+
+  .explain{
+    max-width: 480px;
+    text-align:center;
+    margin-top: 46px;
+  }
+  .explain h1{ font-size: clamp(24px, 4vw, 32px); line-height:1.25; }
+  .explain p{ margin-top:16px; color:var(--grey); font-size:15px; line-height:1.65; }
+
+  .cta-row{
+    margin-top: 34px;
+    display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
+  }
+  .btn-primary{
+    background: var(--gold-bright);
+    color: #14120c;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 500;
+    text-decoration:none;
+  }
+  .btn-ghost{
+    color: var(--paper);
+    padding: 14px 6px;
+    font-size: 14.5px;
+    text-decoration:none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  footer{
+    margin-top: 60px;
+    font-size: 12.5px;
+    color: #5c584c;
+  }
+</style>
+</head>
+<body>
+
+  <div class="badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8 15.5a6 6 0 0 1 8 0"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
+    You just tapped a TipTap card
+  </div>
+
+  <div class="phone-mock">
+    <div class="phone-status"></div>
+    <div class="review-card">
+      <div class="biz-name">Your Business Name</div>
+      <div class="poster">
+        <div class="avatar"></div>
+        <div>
+          <div class="name">A happy customer</div>
+          <div class="sub">Posting publicly across Google</div>
+        </div>
+      </div>
+      <div class="stars-row" id="starsRow">
+        <svg class="filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6z"/></svg>
+        <svg class="filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6z"/></svg>
+        <svg class="filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6z"/></svg>
+        <svg class="filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6z"/></svg>
+        <svg class="filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6z"/></svg>
+      </div>
+      <div class="review-box">Share details of your own experience at this place...</div>
+      <button class="post-btn">Post</button>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h1 class="serif">This is what your customers see — every time.</h1>
+    <p>No app to download, no business to search for. One tap or scan on your TipTap card brings them straight to this screen, stars already open, ready to write.</p>
+  </div>
+
+  <div class="cta-row">
+    <a href="/#pricing" class="btn-primary">Get TipTap for your business</a>
+    <a href="/#faq" class="btn-ghost">Have questions?</a>
+  </div>
+
+  <footer>tiptapreviews.com — one tap, more reviews.</footer>
+
+</body>
+</html>
