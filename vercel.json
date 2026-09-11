@@ -1,9 +1,8 @@
 {
+  "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/:code",
-      "destination": "/api/redirect?code=:code"
-    }
+    { "source": "/:code", "destination": "/api/redirect?code=:code" }
   ]
 }
+
 
