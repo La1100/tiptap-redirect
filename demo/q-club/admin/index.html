@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Uprava · Q Club</title>
+<title>Voditelj · Q Club</title>
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0c0a10">
 <meta name="color-scheme" content="dark">
@@ -288,6 +288,7 @@ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 .song{font-size:18px;font-weight:800}.song small{display:block;font-size:14px;color:var(--muted);font-weight:600}
 .ded{margin-top:6px;font-size:14px;background:rgba(0,0,0,.25);border-radius:10px;padding:6px 10px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:8px 0 12px}
+@media (max-width:560px){.kpis{grid-template-columns:1fr 1fr}}
 /* glazba: prikaz za bend */
 body.kiosk .side,body.kiosk .tabs,body.kiosk .hdr,body.kiosk .mbar{display:none!important}
 body.kiosk .app{display:block}
@@ -357,19 +358,19 @@ body.kiosk .content{max-width:1000px}
 <body>
 <div id="login" class="login" hidden>
   <svg viewBox="44.2 6.0 131.7 148.0" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M137.3 130.7 136.4 130.2 135.3 130.3 134.8 130.9 133.9 132.5 133.7 133.4 133.7 140.4 133.3 142.6 132.8 144.4 132.0 145.3 129.6 147.0 128.2 147.4 121.2 147.3 119.9 146.7 118.1 145.1 117.2 143.8 116.5 141.4 116.3 132.5 115.8 131.5 115.0 131.0 114.4 130.9 113.4 131.3 112.7 132.0 112.5 132.8 112.5 143.6 112.8 144.9 114.7 147.9 117.1 150.1 120.1 151.6 122.3 152.0 129.1 152.0 130.2 151.7 131.8 150.7 133.4 150.2 134.2 149.7 135.9 148.0 137.3 145.7 137.7 144.6 138.0 140.9 138.0 134.5 137.8 132.2ZM141.6 130.6 141.4 131.4 141.4 139.8 141.8 141.1 142.8 142.1 144.2 142.5 159.2 142.5 160.0 142.7 160.6 143.1 161.3 143.9 161.5 144.6 161.4 145.3 160.9 146.1 160.0 147.0 159.0 147.4 143.4 147.5 142.6 148.2 142.2 149.3 142.4 150.1 143.1 151.0 144.2 151.4 159.2 151.3 162.5 150.2 164.3 148.4 164.7 147.6 165.3 144.2 165.1 142.5 164.4 140.1 164.7 138.2 164.7 134.2 164.2 133.0 162.0 130.6 160.9 130.1 159.8 129.9 143.1 129.9 142.2 130.2ZM144.1 136.0 144.3 135.2 144.8 134.4 145.5 133.9 146.3 133.7 157.4 133.6 158.5 133.8 159.5 134.3 160.0 135.0 160.3 136.1 160.1 136.9 159.5 137.6 158.8 137.9 157.6 138.2 147.2 138.2 145.7 138.0 144.9 137.6 144.3 136.9ZM86.0 130.7 85.7 131.4 85.4 132.8 85.5 146.3 85.9 147.9 87.3 149.4 88.5 150.2 89.7 150.4 107.5 150.4 108.3 150.3 108.9 149.9 109.2 149.0 109.1 148.1 108.5 147.5 107.4 147.2 93.4 147.2 92.0 146.9 91.0 146.4 90.1 145.3 89.8 143.8 89.6 132.0 88.9 130.7 88.1 130.2 87.0 130.1ZM60.7 134.2 58.7 138.0 58.4 139.8 58.5 142.2 58.7 143.1 59.8 144.7 60.5 146.5 62.4 148.6 64.9 150.1 66.1 150.4 80.7 150.4 81.3 150.3 81.8 149.9 82.1 149.3 82.0 148.4 81.6 147.8 81.0 147.5 68.6 147.4 67.3 147.2 64.7 145.0 63.4 143.1 63.0 141.5 63.0 139.0 63.3 138.0 64.3 136.6 66.1 135.0 69.6 133.6 79.2 133.6 80.8 133.3 81.7 132.8 82.1 132.0 82.0 131.0 81.5 130.3 80.0 129.9 67.2 130.0 66.1 130.3 63.0 132.0ZM57.3 28.9 53.8 33.8 51.4 38.3 49.3 43.4 47.6 49.2 46.2 58.9 47.4 74.3 49.6 82.6 54.1 92.0 58.9 98.2 65.4 104.4 73.4 109.6 82.1 113.4 94.3 116.7 104.8 118.4 127.2 119.6 136.4 119.6 163.3 118.5 166.9 118.1 168.4 117.4 168.3 116.4 166.4 115.3 132.9 103.2 126.0 102.9 113.4 103.2 102.1 102.8 93.5 100.9 84.2 97.4 80.2 95.1 75.5 91.5 72.9 88.8 69.5 84.3 66.9 79.6 65.3 75.1 63.4 65.4 63.1 60.8 63.4 57.3 65.1 49.7 67.5 44.1 69.9 40.2 73.1 36.4 76.9 33.1 81.2 30.4 88.1 27.2 94.8 25.3 105.5 24.1 119.4 24.0 134.5 25.0 137.2 25.5 142.8 27.9 145.4 30.2 147.3 32.7 149.9 37.6 154.6 48.8 156.2 56.5 156.2 61.6 154.7 70.7 150.5 81.3 144.5 91.2 144.0 92.8 144.2 94.1 145.7 95.8 148.5 96.5 154.1 96.7 159.3 96.3 161.1 95.9 163.0 94.4 164.9 91.5 170.6 79.1 172.5 71.9 173.7 62.9 173.8 59.1 172.3 47.6 168.7 37.3 165.7 32.1 162.2 27.2 159.5 24.0 156.3 21.1 151.1 17.3 146.6 14.7 142.8 12.9 137.4 11.1 129.0 9.3 115.5 8.0 107.8 8.0 94.0 9.5 86.6 11.2 79.4 13.6 72.3 16.9 65.7 21.0 61.8 24.2Z"/></svg>
-  <h1 class="title" style="font-size:32px">Uprava</h1>
-  <p class="small">Upišite PIN osoblja</p>
+  <h1 class="title" style="font-size:32px">Voditelj</h1>
+  <p class="small">Upišite PIN voditelja lokala</p>
   <form id="loginForm"><input type="password" id="pin" inputmode="numeric" autocomplete="current-password" maxlength="20" aria-label="PIN"><div class="err" id="loginErr"></div><button class="btn gold block" style="margin-top:10px">Prijava</button></form>
 </div>
 
 <div id="app" class="app" hidden>
   <aside class="side">
-    <div class="sb"><svg viewBox="44.2 6.0 131.7 148.0" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M137.3 130.7 136.4 130.2 135.3 130.3 134.8 130.9 133.9 132.5 133.7 133.4 133.7 140.4 133.3 142.6 132.8 144.4 132.0 145.3 129.6 147.0 128.2 147.4 121.2 147.3 119.9 146.7 118.1 145.1 117.2 143.8 116.5 141.4 116.3 132.5 115.8 131.5 115.0 131.0 114.4 130.9 113.4 131.3 112.7 132.0 112.5 132.8 112.5 143.6 112.8 144.9 114.7 147.9 117.1 150.1 120.1 151.6 122.3 152.0 129.1 152.0 130.2 151.7 131.8 150.7 133.4 150.2 134.2 149.7 135.9 148.0 137.3 145.7 137.7 144.6 138.0 140.9 138.0 134.5 137.8 132.2ZM141.6 130.6 141.4 131.4 141.4 139.8 141.8 141.1 142.8 142.1 144.2 142.5 159.2 142.5 160.0 142.7 160.6 143.1 161.3 143.9 161.5 144.6 161.4 145.3 160.9 146.1 160.0 147.0 159.0 147.4 143.4 147.5 142.6 148.2 142.2 149.3 142.4 150.1 143.1 151.0 144.2 151.4 159.2 151.3 162.5 150.2 164.3 148.4 164.7 147.6 165.3 144.2 165.1 142.5 164.4 140.1 164.7 138.2 164.7 134.2 164.2 133.0 162.0 130.6 160.9 130.1 159.8 129.9 143.1 129.9 142.2 130.2ZM144.1 136.0 144.3 135.2 144.8 134.4 145.5 133.9 146.3 133.7 157.4 133.6 158.5 133.8 159.5 134.3 160.0 135.0 160.3 136.1 160.1 136.9 159.5 137.6 158.8 137.9 157.6 138.2 147.2 138.2 145.7 138.0 144.9 137.6 144.3 136.9ZM86.0 130.7 85.7 131.4 85.4 132.8 85.5 146.3 85.9 147.9 87.3 149.4 88.5 150.2 89.7 150.4 107.5 150.4 108.3 150.3 108.9 149.9 109.2 149.0 109.1 148.1 108.5 147.5 107.4 147.2 93.4 147.2 92.0 146.9 91.0 146.4 90.1 145.3 89.8 143.8 89.6 132.0 88.9 130.7 88.1 130.2 87.0 130.1ZM60.7 134.2 58.7 138.0 58.4 139.8 58.5 142.2 58.7 143.1 59.8 144.7 60.5 146.5 62.4 148.6 64.9 150.1 66.1 150.4 80.7 150.4 81.3 150.3 81.8 149.9 82.1 149.3 82.0 148.4 81.6 147.8 81.0 147.5 68.6 147.4 67.3 147.2 64.7 145.0 63.4 143.1 63.0 141.5 63.0 139.0 63.3 138.0 64.3 136.6 66.1 135.0 69.6 133.6 79.2 133.6 80.8 133.3 81.7 132.8 82.1 132.0 82.0 131.0 81.5 130.3 80.0 129.9 67.2 130.0 66.1 130.3 63.0 132.0ZM57.3 28.9 53.8 33.8 51.4 38.3 49.3 43.4 47.6 49.2 46.2 58.9 47.4 74.3 49.6 82.6 54.1 92.0 58.9 98.2 65.4 104.4 73.4 109.6 82.1 113.4 94.3 116.7 104.8 118.4 127.2 119.6 136.4 119.6 163.3 118.5 166.9 118.1 168.4 117.4 168.3 116.4 166.4 115.3 132.9 103.2 126.0 102.9 113.4 103.2 102.1 102.8 93.5 100.9 84.2 97.4 80.2 95.1 75.5 91.5 72.9 88.8 69.5 84.3 66.9 79.6 65.3 75.1 63.4 65.4 63.1 60.8 63.4 57.3 65.1 49.7 67.5 44.1 69.9 40.2 73.1 36.4 76.9 33.1 81.2 30.4 88.1 27.2 94.8 25.3 105.5 24.1 119.4 24.0 134.5 25.0 137.2 25.5 142.8 27.9 145.4 30.2 147.3 32.7 149.9 37.6 154.6 48.8 156.2 56.5 156.2 61.6 154.7 70.7 150.5 81.3 144.5 91.2 144.0 92.8 144.2 94.1 145.7 95.8 148.5 96.5 154.1 96.7 159.3 96.3 161.1 95.9 163.0 94.4 164.9 91.5 170.6 79.1 172.5 71.9 173.7 62.9 173.8 59.1 172.3 47.6 168.7 37.3 165.7 32.1 162.2 27.2 159.5 24.0 156.3 21.1 151.1 17.3 146.6 14.7 142.8 12.9 137.4 11.1 129.0 9.3 115.5 8.0 107.8 8.0 94.0 9.5 86.6 11.2 79.4 13.6 72.3 16.9 65.7 21.0 61.8 24.2Z"/></svg><div><b>Q Club</b><small>Uprava</small></div></div>
+    <div class="sb"><svg viewBox="44.2 6.0 131.7 148.0" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M137.3 130.7 136.4 130.2 135.3 130.3 134.8 130.9 133.9 132.5 133.7 133.4 133.7 140.4 133.3 142.6 132.8 144.4 132.0 145.3 129.6 147.0 128.2 147.4 121.2 147.3 119.9 146.7 118.1 145.1 117.2 143.8 116.5 141.4 116.3 132.5 115.8 131.5 115.0 131.0 114.4 130.9 113.4 131.3 112.7 132.0 112.5 132.8 112.5 143.6 112.8 144.9 114.7 147.9 117.1 150.1 120.1 151.6 122.3 152.0 129.1 152.0 130.2 151.7 131.8 150.7 133.4 150.2 134.2 149.7 135.9 148.0 137.3 145.7 137.7 144.6 138.0 140.9 138.0 134.5 137.8 132.2ZM141.6 130.6 141.4 131.4 141.4 139.8 141.8 141.1 142.8 142.1 144.2 142.5 159.2 142.5 160.0 142.7 160.6 143.1 161.3 143.9 161.5 144.6 161.4 145.3 160.9 146.1 160.0 147.0 159.0 147.4 143.4 147.5 142.6 148.2 142.2 149.3 142.4 150.1 143.1 151.0 144.2 151.4 159.2 151.3 162.5 150.2 164.3 148.4 164.7 147.6 165.3 144.2 165.1 142.5 164.4 140.1 164.7 138.2 164.7 134.2 164.2 133.0 162.0 130.6 160.9 130.1 159.8 129.9 143.1 129.9 142.2 130.2ZM144.1 136.0 144.3 135.2 144.8 134.4 145.5 133.9 146.3 133.7 157.4 133.6 158.5 133.8 159.5 134.3 160.0 135.0 160.3 136.1 160.1 136.9 159.5 137.6 158.8 137.9 157.6 138.2 147.2 138.2 145.7 138.0 144.9 137.6 144.3 136.9ZM86.0 130.7 85.7 131.4 85.4 132.8 85.5 146.3 85.9 147.9 87.3 149.4 88.5 150.2 89.7 150.4 107.5 150.4 108.3 150.3 108.9 149.9 109.2 149.0 109.1 148.1 108.5 147.5 107.4 147.2 93.4 147.2 92.0 146.9 91.0 146.4 90.1 145.3 89.8 143.8 89.6 132.0 88.9 130.7 88.1 130.2 87.0 130.1ZM60.7 134.2 58.7 138.0 58.4 139.8 58.5 142.2 58.7 143.1 59.8 144.7 60.5 146.5 62.4 148.6 64.9 150.1 66.1 150.4 80.7 150.4 81.3 150.3 81.8 149.9 82.1 149.3 82.0 148.4 81.6 147.8 81.0 147.5 68.6 147.4 67.3 147.2 64.7 145.0 63.4 143.1 63.0 141.5 63.0 139.0 63.3 138.0 64.3 136.6 66.1 135.0 69.6 133.6 79.2 133.6 80.8 133.3 81.7 132.8 82.1 132.0 82.0 131.0 81.5 130.3 80.0 129.9 67.2 130.0 66.1 130.3 63.0 132.0ZM57.3 28.9 53.8 33.8 51.4 38.3 49.3 43.4 47.6 49.2 46.2 58.9 47.4 74.3 49.6 82.6 54.1 92.0 58.9 98.2 65.4 104.4 73.4 109.6 82.1 113.4 94.3 116.7 104.8 118.4 127.2 119.6 136.4 119.6 163.3 118.5 166.9 118.1 168.4 117.4 168.3 116.4 166.4 115.3 132.9 103.2 126.0 102.9 113.4 103.2 102.1 102.8 93.5 100.9 84.2 97.4 80.2 95.1 75.5 91.5 72.9 88.8 69.5 84.3 66.9 79.6 65.3 75.1 63.4 65.4 63.1 60.8 63.4 57.3 65.1 49.7 67.5 44.1 69.9 40.2 73.1 36.4 76.9 33.1 81.2 30.4 88.1 27.2 94.8 25.3 105.5 24.1 119.4 24.0 134.5 25.0 137.2 25.5 142.8 27.9 145.4 30.2 147.3 32.7 149.9 37.6 154.6 48.8 156.2 56.5 156.2 61.6 154.7 70.7 150.5 81.3 144.5 91.2 144.0 92.8 144.2 94.1 145.7 95.8 148.5 96.5 154.1 96.7 159.3 96.3 161.1 95.9 163.0 94.4 164.9 91.5 170.6 79.1 172.5 71.9 173.7 62.9 173.8 59.1 172.3 47.6 168.7 37.3 165.7 32.1 162.2 27.2 159.5 24.0 156.3 21.1 151.1 17.3 146.6 14.7 142.8 12.9 137.4 11.1 129.0 9.3 115.5 8.0 107.8 8.0 94.0 9.5 86.6 11.2 79.4 13.6 72.3 16.9 65.7 21.0 61.8 24.2Z"/></svg><div><b>Q Club</b><small>Voditelj</small></div></div>
     <nav id="snav"></nav>
     <div class="sf"><span class="livedot"><i></i><span class="livetx">Uživo</span></span><span class="demoTag" hidden><span class="demo-badge">Demo</span></span><button data-logout>⎋ Odjava</button></div>
   </aside>
   <div class="main">
-    <div class="mbar"><div class="sb"><svg viewBox="44.2 6.0 131.7 148.0" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M137.3 130.7 136.4 130.2 135.3 130.3 134.8 130.9 133.9 132.5 133.7 133.4 133.7 140.4 133.3 142.6 132.8 144.4 132.0 145.3 129.6 147.0 128.2 147.4 121.2 147.3 119.9 146.7 118.1 145.1 117.2 143.8 116.5 141.4 116.3 132.5 115.8 131.5 115.0 131.0 114.4 130.9 113.4 131.3 112.7 132.0 112.5 132.8 112.5 143.6 112.8 144.9 114.7 147.9 117.1 150.1 120.1 151.6 122.3 152.0 129.1 152.0 130.2 151.7 131.8 150.7 133.4 150.2 134.2 149.7 135.9 148.0 137.3 145.7 137.7 144.6 138.0 140.9 138.0 134.5 137.8 132.2ZM141.6 130.6 141.4 131.4 141.4 139.8 141.8 141.1 142.8 142.1 144.2 142.5 159.2 142.5 160.0 142.7 160.6 143.1 161.3 143.9 161.5 144.6 161.4 145.3 160.9 146.1 160.0 147.0 159.0 147.4 143.4 147.5 142.6 148.2 142.2 149.3 142.4 150.1 143.1 151.0 144.2 151.4 159.2 151.3 162.5 150.2 164.3 148.4 164.7 147.6 165.3 144.2 165.1 142.5 164.4 140.1 164.7 138.2 164.7 134.2 164.2 133.0 162.0 130.6 160.9 130.1 159.8 129.9 143.1 129.9 142.2 130.2ZM144.1 136.0 144.3 135.2 144.8 134.4 145.5 133.9 146.3 133.7 157.4 133.6 158.5 133.8 159.5 134.3 160.0 135.0 160.3 136.1 160.1 136.9 159.5 137.6 158.8 137.9 157.6 138.2 147.2 138.2 145.7 138.0 144.9 137.6 144.3 136.9ZM86.0 130.7 85.7 131.4 85.4 132.8 85.5 146.3 85.9 147.9 87.3 149.4 88.5 150.2 89.7 150.4 107.5 150.4 108.3 150.3 108.9 149.9 109.2 149.0 109.1 148.1 108.5 147.5 107.4 147.2 93.4 147.2 92.0 146.9 91.0 146.4 90.1 145.3 89.8 143.8 89.6 132.0 88.9 130.7 88.1 130.2 87.0 130.1ZM60.7 134.2 58.7 138.0 58.4 139.8 58.5 142.2 58.7 143.1 59.8 144.7 60.5 146.5 62.4 148.6 64.9 150.1 66.1 150.4 80.7 150.4 81.3 150.3 81.8 149.9 82.1 149.3 82.0 148.4 81.6 147.8 81.0 147.5 68.6 147.4 67.3 147.2 64.7 145.0 63.4 143.1 63.0 141.5 63.0 139.0 63.3 138.0 64.3 136.6 66.1 135.0 69.6 133.6 79.2 133.6 80.8 133.3 81.7 132.8 82.1 132.0 82.0 131.0 81.5 130.3 80.0 129.9 67.2 130.0 66.1 130.3 63.0 132.0ZM57.3 28.9 53.8 33.8 51.4 38.3 49.3 43.4 47.6 49.2 46.2 58.9 47.4 74.3 49.6 82.6 54.1 92.0 58.9 98.2 65.4 104.4 73.4 109.6 82.1 113.4 94.3 116.7 104.8 118.4 127.2 119.6 136.4 119.6 163.3 118.5 166.9 118.1 168.4 117.4 168.3 116.4 166.4 115.3 132.9 103.2 126.0 102.9 113.4 103.2 102.1 102.8 93.5 100.9 84.2 97.4 80.2 95.1 75.5 91.5 72.9 88.8 69.5 84.3 66.9 79.6 65.3 75.1 63.4 65.4 63.1 60.8 63.4 57.3 65.1 49.7 67.5 44.1 69.9 40.2 73.1 36.4 76.9 33.1 81.2 30.4 88.1 27.2 94.8 25.3 105.5 24.1 119.4 24.0 134.5 25.0 137.2 25.5 142.8 27.9 145.4 30.2 147.3 32.7 149.9 37.6 154.6 48.8 156.2 56.5 156.2 61.6 154.7 70.7 150.5 81.3 144.5 91.2 144.0 92.8 144.2 94.1 145.7 95.8 148.5 96.5 154.1 96.7 159.3 96.3 161.1 95.9 163.0 94.4 164.9 91.5 170.6 79.1 172.5 71.9 173.7 62.9 173.8 59.1 172.3 47.6 168.7 37.3 165.7 32.1 162.2 27.2 159.5 24.0 156.3 21.1 151.1 17.3 146.6 14.7 142.8 12.9 137.4 11.1 129.0 9.3 115.5 8.0 107.8 8.0 94.0 9.5 86.6 11.2 79.4 13.6 72.3 16.9 65.7 21.0 61.8 24.2Z"/></svg><div><b>Q Club</b><small>Uprava</small></div></div><span class="demoTag" hidden><span class="demo-badge">Demo</span></span><span class="livedot"><i></i><span class="livetx">Uživo</span></span></div>
+    <div class="mbar"><div class="sb"><svg viewBox="44.2 6.0 131.7 148.0" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M137.3 130.7 136.4 130.2 135.3 130.3 134.8 130.9 133.9 132.5 133.7 133.4 133.7 140.4 133.3 142.6 132.8 144.4 132.0 145.3 129.6 147.0 128.2 147.4 121.2 147.3 119.9 146.7 118.1 145.1 117.2 143.8 116.5 141.4 116.3 132.5 115.8 131.5 115.0 131.0 114.4 130.9 113.4 131.3 112.7 132.0 112.5 132.8 112.5 143.6 112.8 144.9 114.7 147.9 117.1 150.1 120.1 151.6 122.3 152.0 129.1 152.0 130.2 151.7 131.8 150.7 133.4 150.2 134.2 149.7 135.9 148.0 137.3 145.7 137.7 144.6 138.0 140.9 138.0 134.5 137.8 132.2ZM141.6 130.6 141.4 131.4 141.4 139.8 141.8 141.1 142.8 142.1 144.2 142.5 159.2 142.5 160.0 142.7 160.6 143.1 161.3 143.9 161.5 144.6 161.4 145.3 160.9 146.1 160.0 147.0 159.0 147.4 143.4 147.5 142.6 148.2 142.2 149.3 142.4 150.1 143.1 151.0 144.2 151.4 159.2 151.3 162.5 150.2 164.3 148.4 164.7 147.6 165.3 144.2 165.1 142.5 164.4 140.1 164.7 138.2 164.7 134.2 164.2 133.0 162.0 130.6 160.9 130.1 159.8 129.9 143.1 129.9 142.2 130.2ZM144.1 136.0 144.3 135.2 144.8 134.4 145.5 133.9 146.3 133.7 157.4 133.6 158.5 133.8 159.5 134.3 160.0 135.0 160.3 136.1 160.1 136.9 159.5 137.6 158.8 137.9 157.6 138.2 147.2 138.2 145.7 138.0 144.9 137.6 144.3 136.9ZM86.0 130.7 85.7 131.4 85.4 132.8 85.5 146.3 85.9 147.9 87.3 149.4 88.5 150.2 89.7 150.4 107.5 150.4 108.3 150.3 108.9 149.9 109.2 149.0 109.1 148.1 108.5 147.5 107.4 147.2 93.4 147.2 92.0 146.9 91.0 146.4 90.1 145.3 89.8 143.8 89.6 132.0 88.9 130.7 88.1 130.2 87.0 130.1ZM60.7 134.2 58.7 138.0 58.4 139.8 58.5 142.2 58.7 143.1 59.8 144.7 60.5 146.5 62.4 148.6 64.9 150.1 66.1 150.4 80.7 150.4 81.3 150.3 81.8 149.9 82.1 149.3 82.0 148.4 81.6 147.8 81.0 147.5 68.6 147.4 67.3 147.2 64.7 145.0 63.4 143.1 63.0 141.5 63.0 139.0 63.3 138.0 64.3 136.6 66.1 135.0 69.6 133.6 79.2 133.6 80.8 133.3 81.7 132.8 82.1 132.0 82.0 131.0 81.5 130.3 80.0 129.9 67.2 130.0 66.1 130.3 63.0 132.0ZM57.3 28.9 53.8 33.8 51.4 38.3 49.3 43.4 47.6 49.2 46.2 58.9 47.4 74.3 49.6 82.6 54.1 92.0 58.9 98.2 65.4 104.4 73.4 109.6 82.1 113.4 94.3 116.7 104.8 118.4 127.2 119.6 136.4 119.6 163.3 118.5 166.9 118.1 168.4 117.4 168.3 116.4 166.4 115.3 132.9 103.2 126.0 102.9 113.4 103.2 102.1 102.8 93.5 100.9 84.2 97.4 80.2 95.1 75.5 91.5 72.9 88.8 69.5 84.3 66.9 79.6 65.3 75.1 63.4 65.4 63.1 60.8 63.4 57.3 65.1 49.7 67.5 44.1 69.9 40.2 73.1 36.4 76.9 33.1 81.2 30.4 88.1 27.2 94.8 25.3 105.5 24.1 119.4 24.0 134.5 25.0 137.2 25.5 142.8 27.9 145.4 30.2 147.3 32.7 149.9 37.6 154.6 48.8 156.2 56.5 156.2 61.6 154.7 70.7 150.5 81.3 144.5 91.2 144.0 92.8 144.2 94.1 145.7 95.8 148.5 96.5 154.1 96.7 159.3 96.3 161.1 95.9 163.0 94.4 164.9 91.5 170.6 79.1 172.5 71.9 173.7 62.9 173.8 59.1 172.3 47.6 168.7 37.3 165.7 32.1 162.2 27.2 159.5 24.0 156.3 21.1 151.1 17.3 146.6 14.7 142.8 12.9 137.4 11.1 129.0 9.3 115.5 8.0 107.8 8.0 94.0 9.5 86.6 11.2 79.4 13.6 72.3 16.9 65.7 21.0 61.8 24.2Z"/></svg><div><b>Q Club</b><small>Voditelj</small></div></div><span class="demoTag" hidden><span class="demo-badge">Demo</span></span><span class="livedot"><i></i><span class="livetx">Uživo</span></span></div>
     <div class="hdr" id="hdr"><div class="in">
       <div class="dnav"><button class="arrow" id="prev" aria-label="Prethodni dan">‹</button><button class="dl" id="todayBtn"><b id="dlabel">—</b><small id="dsub"></small></button><button class="arrow" id="next" aria-label="Sljedeći dan">›</button></div>
       <div class="strip" id="strip"></div>
@@ -398,7 +399,7 @@ body.kiosk .content{max-width:1000px}
 <div class="nban" id="nban" role="alert"></div>
 
 <script>
-window.TT_CFG={"mode": "demo", "venue": "qclub", "slug": "q-club", "name": "Q Club", "address": "Franje Kuhača 17, 31000 Osijek", "phone": "+385 95 391 7530", "features": {"preorder": true, "sparkler": true, "tableMode": true, "songs": false, "preorderZones": ["vip", "separe"]}, "page": "admin"};
+window.TT_CFG={"mode": "demo", "venue": "qclub", "slug": "q-club", "name": "Q Club", "address": "Franje Kuhača 17, 31000 Osijek", "phone": "+385 95 391 7530", "features": {"reservations": true, "preorder": true, "sparkler": true, "tableMode": true, "bill": false, "orders": false, "songs": false, "preorderZones": ["vip", "separe"]}, "page": "admin"};
 (function () {
 "use strict";
 const __m = {};
@@ -464,7 +465,7 @@ const QCLUB = {
     hr: 'VIP lounge i separei rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu.',
     en: 'VIP lounge and booths are booked with a bottle order — you can choose it right now and pay at the club.'
   },
-  features: { preorder: true, sparkler: true, tableMode: true, songs: false, preorderZones: ['vip', 'separe'] }
+  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'separe'] }
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -517,7 +518,7 @@ const KAFANICA = {
     hr: 'Petkom i subotom svira živa glazba — stolovi uz binu najbrže se popune.',
     en: 'Live music on Fridays and Saturdays — tables by the stage fill up first.'
   },
-  features: { preorder: false, tableMode: true, songs: true }
+  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: true }
 };
 
 /* ---------- BROOKLYN (caffe bar, šetalište uz Dravu) ---------- */
@@ -573,7 +574,7 @@ const BROOKLYN = {
     hr: 'Terasa uz Dravu radi dok vrijeme dopušta — ako pada kiša, smjestit ćemo vas unutra.',
     en: 'The riverside terrace is open weather permitting — if it rains, we will seat you inside.'
   },
-  features: { preorder: false, tableMode: true, songs: false }
+  features: { reservations: false, preorder: false, tableMode: true, bill: true, orders: false, songs: false }
 };
 
 /* ---------- BURE BAR (pivnica) — isti tlocrt kao u postojećem sustavu ---------- */
@@ -627,7 +628,7 @@ const BURE = {
     hr: 'Za separee petkom i subotom moguća je minimalna potrošnja — osoblje će vas obavijestiti pri potvrdi.',
     en: 'Booths on Fridays and Saturdays may have a minimum spend — staff will let you know when confirming.'
   },
-  features: { preorder: false, tableMode: true, songs: false }
+  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false }
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -773,6 +774,7 @@ async function availability(store, date) {
 }
 async function createReservation(store, body, { admin = false } = {}) {
   const cfg = await getConfig(store);
+  if (!admin && cfg.features?.reservations === false) return { error: 'off', status: 403 };
   if (body.hp) return { error: 'spam', status: 400 };
   const date = str(body.date, 10);
   if (!isDate(date)) return { error: 'date', status: 400 };
@@ -950,6 +952,8 @@ async function liveCreate(store, body) {
   const kind = str(body.kind, 10);
   if (!LIVE_KINDS.includes(kind)) return { error: 'kind', status: 400 };
   if (kind === 'song' && !cfg.features?.songs) return { error: 'kind', status: 400 };
+  if (kind === 'order' && cfg.features?.orders === false) return { error: 'kind', status: 400 };
+  if (kind === 'bill' && cfg.features?.bill === false) return { error: 'kind', status: 400 };
   if (!cfg.features?.tableMode) return { error: 'off', status: 403 };
   const table = str(body.table, 8).replace(/[^\w-]/g, '');
   if (!table && kind !== 'song') return { error: 'table', status: 400 };
@@ -1139,10 +1143,10 @@ async function venueSummary(store) {
   const fb = await adminFeedback(store, 2);
   const st = await adminStats(store, 7);
   return {
-    id: store.venue, name: cfg.venue, day,
+    id: store.venue, name: cfg.venue, day, features: cfg.features || {},
     tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), tables: cfg.tables.length },
     week,
-    live: { open: live.filter(x => OPEN.has(x.status) && x.kind !== 'song').length, songQueue: live.filter(x => x.kind === 'song' && x.status === 'new').length, today: live.length, orders: live.filter(x => x.kind === 'order').length, orderEur: live.filter(x => x.kind === 'order' && x.status !== 'skip').reduce((a, x) => a + (x.total || 0), 0), songs: live.filter(x => x.kind === 'song').length, avgAck: acked.length ? Math.round(acked.reduce((a, s) => a + s, 0) / acked.length) : null, recent: live.slice(-6).reverse() },
+    live: { open: live.filter(x => OPEN.has(x.status) && x.kind !== 'song').length, songQueue: live.filter(x => x.kind === 'song' && x.status === 'new').length, today: live.length, orders: live.filter(x => x.kind === 'order').length, orderEur: live.filter(x => x.kind === 'order' && x.status !== 'skip').reduce((a, x) => a + (x.total || 0), 0), songs: live.filter(x => x.kind === 'song').length, calls: live.filter(x => x.kind === 'call').length, bills: live.filter(x => x.kind === 'bill').length, avgAck: acked.length ? Math.round(acked.reduce((a, s) => a + s, 0) / acked.length) : null, slowAck: acked.length ? Math.round(Math.max(...acked)) : null, recent: live.slice(-6).reverse() },
     feedback: { unread: fb.unread, total: fb.list.length, recent: fb.list.slice(0, 3) },
     stats: { ...st.total, top: st.top.slice(0, 5), days: st.days }
   };
@@ -1421,7 +1425,7 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   };
 
   /* ---------- PIN (admin) ---------- */
-  TT.pin = v => TT.mode === 'demo' ? '1234' : (ls.get('tt_pin_' + (v || 'group'), '') || '');
+  TT.pin = v => ls.get('tt_pin_' + (v || 'group'), '') || '';   // i u demu: voditelj/direktor se prijavljuje PIN-om
   TT.setPin = (v, p) => { if (p) ls.set('tt_pin_' + (v || 'group'), p); else try { localStorage.removeItem('tt_pin_' + (v || 'group')); } catch (e) { } };
 
   /* ---------- demo backend (u pregledniku) ---------- */
@@ -1434,7 +1438,8 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     async setJSON(k, v, c) { const t = rd(k); if (c === 'new' && t != null) return false; if (c && c !== 'new' && (t == null || hash(t) !== c)) return false; wr(k, JSON.stringify(v)); return true; }
   };
   TT.store = STORE;
-  const ENV = { ADMIN_PIN: '1234', OWNER_PIN: '1234', DEMO: true, SITE_URL: TT.root.replace(/\/$/, '') };
+  /** Demo PIN-ovi (u pravom sustavu postavljaju se na serveru): svaki voditelj ima PIN svog lokala, direktori BHT-a svoj PIN za sve. */
+  const ENV = { ADMIN_PIN_QCLUB: '1111', ADMIN_PIN_KAFANICA: '2222', ADMIN_PIN_BURE: '3333', ADMIN_PIN_BROOKLYN: '4444', OWNER_PIN: '2580', DEMO: true, SITE_URL: TT.root.replace(/\/$/, '') };
   let ready = null;
   function demoReady() {
     if (ready) return ready;
@@ -1445,7 +1450,7 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   }
   TT.demoReady = demoReady;
   TT.resetDemo = async () => {
-    if (TT.clearGuestLocal) TT.clearGuestLocal();
+    if (TT.clearGuestLocal) TT.clearGuestLocal(true);   // i odjava voditelja/direktora
     else try { const ks = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith(P) || k.startsWith('tt_my'))) ks.push(k); } ks.forEach(k => localStorage.removeItem(k)); } catch (e) { }
     mem.clear(); ready = null; await demoReady(); bcast({ venue: '*', path: '/reset' });
   };
@@ -1593,13 +1598,18 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     const FONT = 'system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
     const DCSS = `.ttd-pill{position:fixed;top:0;left:50%;z-index:950;transform:translate(-50%,-110%);transition:transform .45s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:5px;height:20px;padding:env(safe-area-inset-top,0px) 9px 0 10px;box-sizing:content-box;border:0;border-radius:0 0 10px 10px;background:linear-gradient(180deg,#ffd978,#f0b63a);color:#1a1205;font:800 9.5px/1 ${FONT};letter-spacing:.13em;box-shadow:0 6px 16px -4px rgba(0,0,0,.6);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .ttd-pill.on{transform:translate(-50%,0)}
+.ttd-pill.r{left:auto;right:14px;transform:translateY(-110%)}
+.ttd-pill.r.on{transform:none}
+body.ttd-pad{padding-top:14px}
 .ttd-pill i{width:6px;height:6px;border-radius:50%;background:#1a1205;animation:ttdp 1.6s infinite}
 @keyframes ttdp{0%,100%{opacity:.85}50%{opacity:.2}}
 .ttd-pill svg{width:10px;height:10px}
-.demoTag .demo-badge,#demo.demo-badge{cursor:pointer;background:linear-gradient(180deg,#ffd978,#f0b63a)!important;color:#1a1205!important;gap:5px}
-.demoTag .demo-badge::after,#demo.demo-badge::after{content:"";width:6px;height:6px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-1px,-2px)}
+.demoTag,#demo.demo-badge{display:none!important}
 .ttd-tip{position:fixed;top:calc(env(safe-area-inset-top,0px) + 30px);left:50%;z-index:949;transform:translate(-50%,-6px);opacity:0;transition:opacity .35s,transform .35s;width:max-content;max-width:min(86vw,300px);padding:9px 13px;border-radius:12px;background:#1b1a22;color:#fff;font:600 13px/1.35 ${FONT};text-align:center;box-shadow:0 12px 30px -8px rgba(0,0,0,.75);border:1px solid rgba(255,217,120,.45);pointer-events:none}
 .ttd-tip.on{opacity:1;transform:translate(-50%,0)}
+.ttd-tip.r{left:auto;right:8px;transform:translateY(-6px)}
+.ttd-tip.r.on{transform:none}
+.ttd-tip.r::before{left:auto;right:34px;transform:rotate(45deg)}
 .ttd-tip::before{content:"";position:absolute;top:-6px;left:50%;width:10px;height:10px;background:#1b1a22;border-left:1px solid rgba(255,217,120,.45);border-top:1px solid rgba(255,217,120,.45);transform:translateX(-50%) rotate(45deg)}
 .ttd-ov{position:fixed;inset:0;z-index:960;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .3s}
 .ttd-ov.on{opacity:1;pointer-events:auto}
@@ -1639,23 +1649,25 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     const addCss = () => { if (css) return; css = true; const s = document.createElement('style'); s.textContent = DCSS; document.head.appendChild(s); };
     const onBody = fn => { if (document.body) fn(); else addEventListener('DOMContentLoaded', fn); };
     const here = () => ({ menu: 'menu', rez: 'rez', admin: 'admin', grupa: 'owner' }[CFG.page] || 'menu');
+    const NOREZ = { brooklyn: true };   // Brooklyn radi bez rezervacija
     const VIEWS = v => [
-      ['menu', '🍸', 'Gost za stolom', v === 'kafanica' ? 'Cjenik, konobar, račun, narudžba i pjesma po želji' : 'Cjenik, konobar, račun i narudžba sa stola'],
-      ['rez', '📅', 'Rezervacija stola', v === 'qclub' ? 'Gost bira stol na tlocrtu i bocu uz stol' : 'Gost bira stol na tlocrtu i dobiva potvrdu'],
-      ['admin', '🧑‍💼', 'Uprava lokala', v === 'kafanica' ? 'Rezervacije, stol uživo, glazba, cjenik' : 'Rezervacije, stol uživo, cjenik, statistika'],
-      ['owner', '👑', 'Vlasnik', 'Sva 4 lokala na jednom ekranu']];
+      ['menu', '🍸', 'Gost za stolom', v === 'kafanica' ? 'Cjenik, poziv konobara i pjesma po želji' : v === 'brooklyn' ? 'Cjenik, poziv konobara i račun' : 'Cjenik i poziv konobara jednim dodirom'],
+      ...(NOREZ[v] ? [] : [['rez', '📅', 'Rezervacija stola', v === 'qclub' ? 'Gost bira stol na tlocrtu i bocu uz stol' : 'Gost bira stol na tlocrtu i dobiva potvrdu']]),
+      ['admin', '🔐', 'Voditelj lokala', (v === 'kafanica' ? 'Rezervacije, pozivi, glazba, cjenik' : NOREZ[v] ? 'Pozivi sa stolova, cjenik, poruke' : 'Rezervacije, pozivi, cjenik, statistika') + ' · PIN voditelja'],
+      ['owner', '👑', 'Direktor · BHT', 'Sva 4 lokala na jednom ekranu · PIN direktora']];
+    const viewFor = (x, k) => k === 'rez' && NOREZ[x] ? 'menu' : k;
     function sheetHTML() {
       const v = TT.venue, cur = here();
-      let h = `<div class="ttd-grab"></div><div class="ttd-hd"><div><small>TipTap demo</small><b>${v ? TT.esc(VNAME[v] || CFG.name || '') : 'Sva 4 lokala'}</b></div><button type="button" class="ttd-x" data-ttd-close aria-label="Zatvori">×</button></div>
-<p class="ttd-lead">Sve radi na ovom mobitelu. Isprobajte kao gost, a zatim pogledajte kako isto vide osoblje i vlasnik.</p>`;
+      let h = `<div class="ttd-grab"></div><div class="ttd-hd"><div><small>TipTap demo</small><b>${v ? TT.esc(VNAME[v] || CFG.name || '') : 'BHT · 4 lokala'}</b></div><button type="button" class="ttd-x" data-ttd-close aria-label="Zatvori">×</button></div>
+<p class="ttd-lead">Sve radi na ovom mobitelu. Isprobajte kao gost, a zatim pogledajte kako isto vide voditelj i direktor.</p>`;
       if (v) {
         h += VIEWS(v).map(([k, ic, t, s]) => k === cur
           ? `<a class="ttd-it on" href="#" data-ttd-close><span class="ic">${ic}</span><span class="t"><b>${t}</b><small>${s}</small></span><em>Ovdje ste</em></a>`
           : `<a class="ttd-it" href="${TT.esc(TT.demoHref(v, k))}"><span class="ic">${ic}</span><span class="t"><b>${t}</b><small>${s}</small></span><span class="go">›</span></a>`).join('');
-        h += `<div class="ttd-sub">Ostali lokali</div><div class="ttd-vs">${VORD.filter(x => x !== v).map(x => `<a href="${TT.esc(TT.demoHref(x, cur))}">${VNAME[x]}</a>`).join('')}</div>`;
+        h += `<div class="ttd-sub">Ostali lokali</div><div class="ttd-vs">${VORD.filter(x => x !== v).map(x => `<a href="${TT.esc(TT.demoHref(x, viewFor(x, cur)))}">${VNAME[x]}</a>`).join('')}</div>`;
       } else {
-        h += `<a class="ttd-it on" href="#" data-ttd-close><span class="ic">👑</span><span class="t"><b>Vlasnik</b><small>Sva 4 lokala na jednom ekranu</small></span><em>Ovdje ste</em></a><div class="ttd-sub">Lokali</div>`;
-        h += VORD.map(x => `<div class="ttd-vrow"><b>${VNAME[x]}</b><span><a href="${TT.esc(TT.demoHref(x, 'menu'))}">Gost</a><a href="${TT.esc(TT.demoHref(x, 'rez'))}">Rezervacija</a><a href="${TT.esc(TT.demoHref(x, 'admin'))}">Uprava</a></span></div>`).join('');
+        h += `<a class="ttd-it on" href="#" data-ttd-close><span class="ic">👑</span><span class="t"><b>Direktor · BHT</b><small>Sva 4 lokala na jednom ekranu</small></span><em>Ovdje ste</em></a><div class="ttd-sub">Lokali</div>`;
+        h += VORD.map(x => `<div class="ttd-vrow"><b>${VNAME[x]}</b><span><a href="${TT.esc(TT.demoHref(x, 'menu'))}">Gost</a>${NOREZ[x] ? '' : `<a href="${TT.esc(TT.demoHref(x, 'rez'))}">Rezervacija</a>`}<a href="${TT.esc(TT.demoHref(x, 'admin'))}">Voditelj</a></span></div>`).join('');
       }
       return h + `<button type="button" class="ttd-reset" data-ttd-reset>↺ Vrati demo na početak</button>`;
     }
@@ -1683,13 +1695,12 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     TT.demoSheet = openSheet;
     addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
     addEventListener('pageshow', e => { if (e.persisted) closeSheet(); });
-    document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.demoTag .demo-badge,#demo.demo-badge')) openSheet(e); }, true);
     function maybeTip(anchorBottom) {
       let seen = null; try { seen = sessionStorage.getItem('ttd_tip'); } catch (e) { }
       if (seen) return; try { sessionStorage.setItem('ttd_tip', '1'); } catch (e) { }
       setTimeout(() => {
         if (sh && sh.classList.contains('on')) return;
-        tipEl = document.createElement('div'); tipEl.className = 'ttd-tip'; tipEl.textContent = 'Dodirnite DEMO: pogled uprave i vlasnika';
+        tipEl = document.createElement('div'); tipEl.className = 'ttd-tip' + (['admin', 'grupa'].includes(CFG.page) ? ' r' : ''); tipEl.textContent = 'Dodirnite DEMO: voditelj, direktor i ostali lokali';
         if (anchorBottom) tipEl.style.top = anchorBottom + 10 + 'px';
         document.body.appendChild(tipEl); requestAnimationFrame(() => requestAnimationFrame(() => tipEl && tipEl.classList.add('on')));
         setTimeout(hideTip, 6500);
@@ -1697,13 +1708,13 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     }
     onBody(() => {
       addCss();
-      if (['menu', 'rez'].includes(CFG.page)) {
-        const b = document.createElement('button'); b.type = 'button'; b.className = 'ttd-pill'; b.setAttribute('aria-label', 'Demo: gost, uprava, vlasnik');
+      {
+        const side = ['admin', 'grupa'].includes(CFG.page);   // voditelj/direktor: gore desno (lijevo su logo i naziv)
+        if (CFG.page === 'menu') document.body.classList.add('ttd-pad');
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'ttd-pill' + (side ? ' r' : ''); b.setAttribute('aria-label', 'Demo: gost, voditelj, direktor');
         b.innerHTML = '<i></i>DEMO<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5 6 7.5 9 4.5"/></svg>';
         b.addEventListener('click', openSheet); document.body.appendChild(b);
         let n = 0; const iv = setInterval(() => { n++; if (!document.getElementById('intro') || n > 40) { clearInterval(iv); b.classList.add('on'); maybeTip(); } }, 250);
-      } else {
-        setTimeout(() => { const el = [...document.querySelectorAll('.demoTag .demo-badge,#demo.demo-badge')].find(x => x.offsetParent); if (el) { const r = el.getBoundingClientRect(); const tipLeft = r.left + r.width / 2; maybeTip(r.bottom); if (tipEl) tipEl.style.left = tipLeft + 'px'; setTimeout(() => { if (tipEl) tipEl.style.left = Math.min(Math.max(tipLeft, 150), innerWidth - 150) + 'px'; }, 950); } }, 1200);
       }
     });
     let nEl = null, nT = null;
@@ -1721,14 +1732,13 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
         if (path === '/live') {
           const T = b.table || dTab(v), k = b.kind;
           n = k === 'song' ? { text: '🎵 Bend je upravo dobio Vašu želju — s posvetom.', cta: 'Pogledajte kao bend', href: TT.demoHref(v, 'admin', { hash: 'songs' }) }
-            : k === 'order' ? { text: `🛒 Narudžba sa stola ${T} stigla je na šank, s iznosom.`, cta: 'Pogledajte kao šank', href: TT.demoHref(v, 'admin', { hash: 'live' }) }
-            : k === 'bill' ? { text: `🧾 Konobar zna da stol ${T} traži račun i kako plaća.`, cta: 'Pogledajte kao konobar', href: TT.demoHref(v, 'admin', { hash: 'live' }) }
-            : { text: `🔔 Konobar je upravo dobio poziv sa stola ${T}.`, cta: 'Pogledajte kao konobar', href: TT.demoHref(v, 'admin', { hash: 'live' }) };
+            : k === 'bill' ? { text: `🧾 Osoblje zna da stol ${T} traži račun i kako plaća.`, cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: 'live' }) }
+            : { text: `🔔 Osoblje je upravo dobilo poziv sa stola ${T}.`, cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: 'live' }) };
         } else if (path === '/reserve' && res && (res.reservation || res).id) {
           const rr = res.reservation || res;
-          n = { text: '📅 Uprava je upravo dobila Vašu rezervaciju.', cta: 'Potvrdite kao uprava', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 16000 };
+          n = { text: '📅 Lokal je upravo dobio Vašu rezervaciju.', cta: 'Potvrdite kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 16000 };
         } else if (path === '/feedback') {
-          n = { text: '✉️ Poruka je stigla upravi — potpuno anonimno.', cta: 'Pogledajte kao uprava', href: TT.demoHref(v, 'admin', { hash: 'msgs' }) };
+          n = { text: '✉️ Poruka je stigla voditelju i direktorima — potpuno anonimno.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: 'msgs' }) };
         }
       } else if (page === 'admin') {
         if (path === '/admin/live/update' && res && res.item) {
@@ -1759,7 +1769,7 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
 (function () {
   'use strict';
   const TT = window.TT; if (!TT) return;
-  const VERSION = 'v11';
+  const VERSION = 'v12';
   /** Stolovi za priču prezentacije: na demo dan i dan poslije ostaju slobodni za rezervaciju uživo. */
   const STORY = { qclub: ['V2'], kafanica: ['S2', 'K2'], bure: ['B1'], brooklyn: ['L3'] };
   /** Stolovi koje prezentacija koristi kao "gostov stol" (cjenik za stolom). */
@@ -1811,7 +1821,7 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     const person = () => `${pick(R, R() < .5 ? F : M)} ${pick(R, SUR)}`;
 
     /* --- rezervacije: od prekjučer do +12 dana --- */
-    const dates = new Set(); for (let i = -2; i <= 12; i++) dates.add(TT.addDays(real.date, i)); dates.add(demoDate);
+    const dates = new Set(); if (!(cfg.features && cfg.features.reservations === false)) { for (let i = -2; i <= 12; i++) dates.add(TT.addDays(real.date, i)); dates.add(demoDate); }
     for (const date of [...dates].sort()) {
       const slots = C.slotsFor(cfg, date); if (!slots.length) continue;
       const w = TT.wd(date), weekend = w === 5 || w === 6;
@@ -1859,17 +1869,13 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
       return it;
     };
     const top = (items && items.top) || [];
-    const cheap = top.filter(x => (x.eur || 0) <= 15);   // narudžbe sa stola: pića na čašu, ne boce od 500 €
-    const orderItems = () => {
-      const n = 1 + Math.floor(R() * 3), by = {};
-      for (let i = 0; i < n; i++) { const x = pick(R, cheap.length ? cheap : [{ id: 'x', name: 'Coca-Cola', vol: '0,25 l', eur: 3.2 }]); const q = 1 + Math.floor(R() * 3); if (by[x.id]) by[x.id].q += q; else by[x.id] = { id: x.id, n: x.name, v: x.vol || '', q, e: x.eur || 3 }; }
-      return Object.values(by);
-    };
+    const BILL = !!(cfg.features && cfg.features.bill);   // račun na zahtjev samo gdje se plaća na kraju (Brooklyn)
+    const REASONS = ['Želimo naručiti', 'Još jednu rundu', '', 'Imamo pitanje', 'Želimo naručiti', 'Čaše / led / pepeljara', 'Još jednu rundu'];
     const liveList = [];
     [92, 77, 63, 50, 37, 26, 16].forEach((m, i) => {
-      const kind = ['call', 'order', 'bill', 'order', 'call', 'order', 'bill'][(i + vi) % 7];
-      const ex = kind === 'order' ? { items: orderItems() } : kind === 'bill' ? { pay: R() < .6 ? 'card' : 'cash' } : {};
-      if (ex.items) ex.total = Math.round(ex.items.reduce((a, x) => a + x.q * x.e, 0) * 100) / 100;
+      const kind = BILL && (i + vi) % 3 === 1 ? 'bill' : 'call';
+      const ex = kind === 'bill' ? { pay: R() < .6 ? 'card' : 'cash' } : { note: REASONS[(i + vi) % REASONS.length] };
+      if (!ex.note) delete ex.note;
       liveList.push(mk(kind, m, 'done', ex));
     });
     if (cfg.features && cfg.features.songs) SONGS.forEach(([title, artist, ded], i) => liveList.push(mk('song', [66, 38, 6, 1][i], ['done', 'done', 'ack', 'new'][i], { song: { title, artist, ded } })));
@@ -1892,14 +1898,14 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
       if (date === demoDate) open = Math.round(open * .6);
       const view = {}, names = {};
       top.forEach((x, i) => { const n = Math.round(open * (1.1 / (i + 1.6)) * (.7 + R() * .6)); if (n > 0) { view[x.id] = n; names[x.id] = x.name; } });
-      await S.setJSON(`st/${date}/0`, { open, review: Math.round(open * (.03 + R() * .03)), book: Math.round(open * (.02 + R() * .04)), table: Math.round(open * (.15 + R() * .1)), view, names }, null);
+      await S.setJSON(`st/${date}/0`, { open, review: Math.round(open * (.03 + R() * .03)), book: cfg.features && cfg.features.reservations === false ? 0 : Math.round(open * (.02 + R() * .04)), table: Math.round(open * (.15 + R() * .1)), view, names }, null);
     }
   }
 
   /** Lokalni podaci "gosta" na ovom uređaju (moja lista, upamćeno ime…) — brišu se uz demo podatke. */
-  TT.clearGuestLocal = () => {
+  TT.clearGuestLocal = (pins) => {
     try {
-      const ks = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith('ttd1:') || k.startsWith('tt_my') || k === 'tt_guest' || /^(qclub|kafanica|brooklyn|bure)_favs$/.test(k))) ks.push(k); }
+      const ks = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith('ttd1:') || k.startsWith('tt_my') || (pins && k.startsWith('tt_pin_')) || k === 'tt_guest' || /^(qclub|kafanica|brooklyn|bure)_favs$/.test(k))) ks.push(k); }
       ks.forEach(k => localStorage.removeItem(k));
     } catch (e) { }
   };
@@ -2233,7 +2239,9 @@ const S={tab:'list',date:null,list:[],cfg:null,slots:[],planTime:null,upcoming:[
   live:[],liveDate:null,lf:'all',fb:[],fbUnread:0,menu:null,stats:null,
   seenPending:null,seenLive:null,seenFb:null,flash:null};
 const FEAT=()=>(S.cfg&&S.cfg.features)||{};
-function NAV(){return [['list','Večer'],['plan','Tlocrt'],['live','Uživo'],...(FEAT().songs?[['songs','Glazba']]:[]),['menu','Cjenik'],['msgs','Poruke'],['stats','Statistika'],['set','Postavke']]}
+const REZ=(V.features||{}).reservations!==false,BILL=!!(V.features||{}).bill;   // Brooklyn: bez rezervacija; račun na zahtjev samo gdje se plaća na kraju
+function MOB(){return REZ?[['list','Večer'],['plan','Tlocrt'],['+',''],['live','Uživo'],['more','Više']]:[['live','Uživo'],['menu','Cjenik'],['msgs','Poruke'],['more','Više']]}
+function NAV(){return [...(REZ?[['list','Večer'],['plan','Tlocrt']]:[]),['live','Uživo'],...(FEAT().songs?[['songs','Glazba']]:[]),['menu','Cjenik'],['msgs','Poruke'],['stats','Statistika'],['set','Postavke']]}
 
 const ERR={taken:'Stol je zauzet u to vrijeme.',table:'Nepostojeći stol.',time:'Neispravno vrijeme.',name:'Upišite ime.',party:'Neispravan broj osoba.',full:'Nema slobodnog stola za to — odaberite stol ručno.',notfound:'Nije pronađeno.',server:'Greška na serveru.',busy:'Server zauzet, pokušajte ponovno.',tableid:'Oznake stolova moraju biti jedinstvene.',tables:'Mora postojati barem jedan stol.',net:'Nema veze sa serverom.'};
 const errMsg=e=>ERR[e&&e.error]||('Greška: '+(e&&e.error||'mreža'));
@@ -2252,10 +2260,10 @@ $('#loginForm').onsubmit=async e=>{e.preventDefault();const p=$('#pin').value.tr
 /* ---------- navigacija ---------- */
 function renderNav(){
   const badge=k=>k==='live'?openLive().filter(x=>x.kind!=='song').length:k==='songs'?S.live.filter(x=>x.kind==='song'&&x.status==='new').length:k==='msgs'?S.fbUnread:k==='list'?S.list.filter(r=>r.status==='pending').length:0;
-  $('#snav').innerHTML=`<button class="newb" data-new>＋ Nova rezervacija</button>`+NAV().map(([k,l])=>`<button data-tab="${k}" aria-pressed="${S.tab===k}">${IC[k]}<span>${l}</span><span class="nb">${badge(k)||''}</span></button>`).join('');
-  const mob=[['list','Večer'],['plan','Tlocrt'],['+',''],['live','Uživo'],['more','Više']];
-  $('#tabs').innerHTML=mob.map(([k,l])=>k==='+'?`<button class="plus" data-new aria-label="Nova rezervacija"><span class="o">+</span></button>`:`<button data-tab="${k}" aria-pressed="${k==='more'?!['list','plan','live'].includes(S.tab):S.tab===k}">${IC[k]}${l}<span class="nb">${k==='more'?(S.fbUnread+(FEAT().songs?badge('songs'):0))||'':badge(k)||''}</span></button>`).join('');
-  const p=S.list.filter(r=>r.status==='pending').length+openLive().length;document.title=(p?`(${p}) `:'')+'Uprava · '+V.name;
+  $('#snav').innerHTML=(REZ?`<button class="newb" data-new>＋ Nova rezervacija</button>`:'')+NAV().map(([k,l])=>`<button data-tab="${k}" aria-pressed="${S.tab===k}">${IC[k]}<span>${l}</span><span class="nb">${badge(k)||''}</span></button>`).join('');
+  const mob=MOB();
+  $('#tabs').innerHTML=mob.map(([k,l])=>k==='+'?`<button class="plus" data-new aria-label="Nova rezervacija"><span class="o">+</span></button>`:`<button data-tab="${k}" aria-pressed="${k==='more'?!mob.some(([x])=>x===S.tab):S.tab===k}">${IC[k]}${l}<span class="nb">${k==='more'?(S.fbUnread+(FEAT().songs?badge('songs'):0))||'':badge(k)||''}</span></button>`).join('');
+  const p=S.list.filter(r=>r.status==='pending').length+openLive().length;document.title=(p?`(${p}) `:'')+'Voditelj · '+V.name;
 }
 function setTab(k){
   if(k==='more'){moreSheet();return}
@@ -2264,7 +2272,7 @@ function setTab(k){
   if(k==='list'||k==='plan')render();if(k==='live')renderLive();if(k==='songs')renderSongs();if(k==='menu')renderMenu();if(k==='msgs')renderMsgs();if(k==='stats')renderStats();if(k==='set')renderSettings();
   try{history.replaceState(null,'',TT.keepClock('#'+k+(S.date&&['list','plan'].includes(k)?'/'+S.date:'')))}catch(e){}
 }
-function moreSheet(){openSheet(shHead('Više')+`<div style="display:grid;gap:8px">${NAV().filter(([k])=>!['list','plan','live'].includes(k)).map(([k,l])=>`<button class="btn block" data-tab="${k}" style="justify-content:flex-start">${IC[k].replace('<svg','<svg width="22" height="22"')} ${l}${k==='msgs'&&S.fbUnread?` <span class="pill st-new" style="margin-left:auto">${S.fbUnread} ${pl(S.fbUnread,'nova','nove','novih')}</span>`:''}${k==='songs'&&S.live.some(x=>x.kind==='song'&&x.status==='new')?` <span class="pill st-new" style="margin-left:auto">nova pjesma</span>`:''}</button>`).join('')}<button class="btn block" data-logout style="justify-content:flex-start">⎋ Odjava</button></div>`)}
+function moreSheet(){openSheet(shHead('Više')+`<div style="display:grid;gap:8px">${NAV().filter(([k])=>!MOB().some(([x])=>x===k)).map(([k,l])=>`<button class="btn block" data-tab="${k}" style="justify-content:flex-start">${IC[k].replace('<svg','<svg width="22" height="22"')} ${l}${k==='msgs'&&S.fbUnread?` <span class="pill st-new" style="margin-left:auto">${S.fbUnread} ${pl(S.fbUnread,'nova','nove','novih')}</span>`:''}${k==='songs'&&S.live.some(x=>x.kind==='song'&&x.status==='new')?` <span class="pill st-new" style="margin-left:auto">nova pjesma</span>`:''}</button>`).join('')}<button class="btn block" data-logout style="justify-content:flex-start">⎋ Odjava</button></div>`)}
 
 /* ---------- podaci ---------- */
 async function loadDay(silent){
@@ -2427,19 +2435,20 @@ function liveCard(x){
   return `<div class="lv ${x.status}" data-lid="${x.id}"><div class="ki">${k[0]}</div><div class="bd"><div class="t1">${x.table?`<span class="tbl">${esc(x.table)}</span>`:''}<b>${k[1]}</b><span class="pill st-${x.status}" style="height:22px">${LST[x.status]}</span><span class="el" data-since="${x.status==='new'&&x.kind!=='song'?x.createdAt:''}">${x.status==='new'&&x.kind!=='song'?ago(x.createdAt):agoTxt(x.createdAt)}</span></div>${body}${acts?`<div class="acts">${acts}</div>`:''}</div></div>`;
 }
 function kpis(){
-  const L=S.live,acked=L.filter(x=>x.ackAt).map(x=>(Date.parse(x.ackAt)-Date.parse(x.createdAt))/1000).filter(s=>s>=0&&s<7200);
-  const avg=acked.length?Math.round(acked.reduce((a,s)=>a+s,0)/acked.length):null;const orders=L.filter(x=>x.kind==='order'&&x.status!=='skip');
-  return `<div class="kpis"><div class="stat${openLive().length?' hot':''}"><b>${openLive().filter(x=>x.kind!=='song').length}</b><span>otvoreno sada</span></div><div class="stat"><b>${avg==null?'—':Math.floor(avg/60)+':'+String(avg%60).padStart(2,'0')}</b><span>prosječna reakcija</span></div><div class="stat"><b>${orders.length}</b><span>${pl(orders.length,'narudžba','narudžbe','narudžbi')} s mobitela</span></div><div class="stat"><b>${Math.round(orders.reduce((a,x)=>a+(x.total||0),0))} €</b><span>vrijednost narudžbi</span></div></div>`;
+  const L=S.live.filter(x=>x.kind!=='song'),acked=L.filter(x=>x.ackAt).map(x=>(Date.parse(x.ackAt)-Date.parse(x.createdAt))/1000).filter(s=>s>=0&&s<7200);
+  const avg=acked.length?Math.round(acked.reduce((a,s)=>a+s,0)/acked.length):null,slow=acked.length?Math.round(Math.max(...acked)):null;
+  const ms=v=>v==null?'—':Math.floor(v/60)+':'+String(v%60).padStart(2,'0'),openN=openLive().filter(x=>x.kind!=='song').length;
+  return `<div class="kpis"><div class="stat${openN?' hot':''}"><b>${openN}</b><span>otvoreno sada</span></div><div class="stat"><b>${ms(avg)}</b><span>prosječna reakcija</span></div><div class="stat"><b>${L.length}</b><span>${BILL?pl(L.length,'zahtjev','zahtjeva','zahtjeva'):pl(L.length,'poziv','poziva','poziva')} večeras</span></div><div class="stat"><b>${ms(slow)}</b><span>najduže čekanje</span></div></div>`;
 }
 function renderLive(){
   const box=$('#tab-live');if(!S.cfg){box.innerHTML='<div class="empty"><span class="spin"></span></div>';return}
-  const F=[['all','Sve'],['call','🔔 Konobar'],['bill','🧾 Račun'],['order','🛒 Narudžbe']];
+  const F=[['all','Sve'],['call','🔔 Konobar'],['bill','🧾 Račun']];
   const L=S.live.filter(x=>x.kind!=='song'&&(S.lf==='all'||x.kind===S.lf));
   const open=L.filter(x=>x.status==='new'||x.status==='ack').sort((a,b)=>(a.status===b.status?(a.createdAt<b.createdAt?-1:1):a.status==='new'?-1:1));
   const done=L.filter(x=>x.status==='done'||x.status==='skip').reverse().slice(0,25);
-  box.innerHTML=`<div class="two"><div><h2 class="ptitle">Stol uživo</h2><p class="psub">Gosti zovu konobara, traže račun i naručuju izravno s mobitela (NFC naljepnica / QR na stolu). Sve stiže ovdje u sekundi.</p>${kpis()}
-    <div class="row" style="margin-bottom:8px">${F.map(([k,l])=>`<button class="chip sm" data-lf="${k}" aria-pressed="${S.lf===k}">${l}</button>`).join('')}</div>
-    ${open.length?open.map(liveCard).join(''):`<div class="empty"><b>Sve je mirno</b>Kad gost dodirne "Pozovi konobara", "Račun" ili pošalje narudžbu — pojavit će se ovdje, uz zvučni signal.</div>`}
+  box.innerHTML=`<div class="two"><div><h2 class="ptitle">Stol uživo</h2><p class="psub">Gosti zovu konobara${BILL?' i traže račun':''} izravno s mobitela (NFC naljepnica / QR na stolu). Sve stiže ovdje u sekundi, a vidi se i koliko brzo osoblje reagira.</p>${kpis()}
+    <div class="row" style="margin-bottom:8px"${BILL?'':' hidden'}>${F.map(([k,l])=>`<button class="chip sm" data-lf="${k}" aria-pressed="${S.lf===k}">${l}</button>`).join('')}</div>
+    ${open.length?open.map(liveCard).join(''):`<div class="empty"><b>Sve je mirno</b>Kad gost dodirne „Pozovite konobara”${BILL?' ili „Račun”':''} — pojavit će se ovdje, uz zvučni signal.</div>`}
     ${done.length?`<details><summary class="sec" style="cursor:pointer"><span>Riješeno večeras</span><span>${done.length} ▾</span></summary>${done.map(liveCard).join('')}</details>`:''}</div>
     <div class="stick"><div class="sec"><span>Tlocrt · gdje zovu</span><span class="livedot"><i></i>uživo</span></div><div class="planbox inline"><svg id="lvplan"></svg></div><div class="legend"><span><i class="lg-alert"></i>Zove osoblje</span><span><i class="lg-seated"></i>Sjede</span><span><i class="lg-confirmed"></i>Rezervirano</span></div></div></div>`;
   if(innerWidth>=780&&S.cfg){const nb=TT.biz(),tm=nb.date===S.liveDate?nb.min:defaultPlanTime();const L=S.liveRes||[];const at=t=>L.find(r=>r.tableId===t.id&&ACTIVE.includes(r.status)&&tm>=r.start&&tm<r.end);TTPlan.render($('#lvplan'),S.cfg,{state:t=>{const a=liveAlertToday(t);const r=at(t);return (r?r.status:'free')+(a?' alert':'')},alert:liveAlertToday,sub:t=>{const a=openLive().filter(x=>x.table===t.id&&x.kind!=='song');if(a.length)return ago(a[0].createdAt);const r=at(t);return r?`${r.name.split(' ')[0].slice(0,10)} · ${r.party}`:`${t.min}–${t.max}`},onTap:t=>{const o=openLive().filter(x=>x.table===t.id);if(o.length){const el=$(`[data-lid="${o[0].id}"]`);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}}});}
@@ -2519,8 +2528,8 @@ async function renderStats(){
   let d;try{d=await api('/admin/stats?days=14')}catch(e){box.innerHTML=`<div class="empty">${errMsg(e)}</div>`;return}
   let res=[];try{res=(await api('/admin/upcoming')).days.slice(0,7)}catch(e){}
   const T=d.total,mx=Math.max(1,...d.top.map(x=>x.n));
-  box.innerHTML=`<h2 class="ptitle">Statistika</h2><p class="psub">Zadnjih 14 dana · što gosti gledaju u cjeniku i koliko ih ostavi recenziju ili rezervira stol.</p>
-   <div class="kpis"><div class="stat"><b>${T.open}</b><span>${pl(T.open,'otvaranje','otvaranja','otvaranja')} cjenika</span></div><div class="stat"><b>${T.table}</b><span>${pl(T.table,'dodir','dodira','dodira')} NFC/QR na stolu</span></div><div class="stat"><b>${T.review}</b><span>${pl(T.review,'klik','klika','klikova')} na Google recenziju</span></div><div class="stat"><b>${T.book}</b><span>${pl(T.book,'klik','klika','klikova')} na rezervaciju</span></div></div>
+  box.innerHTML=`<h2 class="ptitle">Statistika</h2><p class="psub">Zadnjih 14 dana · što gosti gledaju u cjeniku i koliko ih ostavi recenziju${REZ?' ili rezervira stol':''}.</p>
+   <div class="kpis"><div class="stat"><b>${T.open}</b><span>${pl(T.open,'otvaranje','otvaranja','otvaranja')} cjenika</span></div><div class="stat"><b>${T.table}</b><span>${pl(T.table,'dodir','dodira','dodira')} NFC/QR na stolu</span></div><div class="stat"><b>${T.review}</b><span>${pl(T.review,'klik','klika','klikova')} na Google recenziju</span></div>${REZ?`<div class="stat"><b>${T.book}</b><span>${pl(T.book,'klik','klika','klikova')} na rezervaciju</span></div>`:''}</div>
    <div class="card"><h2 style="font-size:18px">Otvaranja cjenika po danu</h2>${barsSVG(d.days,'open','var(--gold2)')}</div>
    <div class="card"><h2 style="font-size:18px">Najgledanija pića</h2><div class="bars">${d.top.map(x=>`<div class="b"><div><span>${esc(x.name)}</span><i style="width:${Math.round(x.n/mx*100)}%"></i></div><b>${x.n}</b></div>`).join('')||'<p class="small">Još nema podataka.</p>'}</div></div>
    ${res.length?`<div class="card"><h2 style="font-size:18px">Rezervacije — idućih 7 dana</h2>${barsSVG(res.map(x=>({date:x.date,g:x.guests})),'g','var(--amber)')}<p class="small" style="margin:6px 0 0">Broj gostiju po danu (potvrđeno + čeka potvrdu).</p></div>`:''}`;
@@ -2537,9 +2546,10 @@ async function renderSettings(){
   const tableUrl=id=>TT.url(V.venue,'')+'?stol='+encodeURIComponent(id);
   box.innerHTML=`<h2 class="ptitle">Postavke</h2>
   ${DEMO?`<div class="card"><h2>Demo</h2><p class="small">Ovo je demonstracija: podaci su izmišljeni i spremaju se samo u ovom pregledniku. Na pravom sustavu sve se sprema na server i vidi na svim uređajima osoblja.</p><button class="btn block" id="resetDemo">↺ Vrati demo podatke na početak</button></div>`:''}
-  <div class="card"><h2>Obavijesti osoblju</h2>${DEMO?`<p class="small">Svaka nova rezervacija stiže osoblju na WhatsApp i e-mail (bez imena i broja gosta u WhatsApp obavijesti). Brojevi i adrese osoblja upisuju se pri postavljanju sustava.</p>`:`<div class="envs"><span class="pill ${env.whatsapp?'st-confirmed':'st-cancelled'}">WhatsApp ${env.whatsapp?'✓':'nije postavljen'}</span><span class="pill ${env.email?'st-confirmed':'st-cancelled'}">E-mail ${env.email?'✓':'nije postavljen'}</span></div>
+  <div class="card"><h2>Obavijesti osoblju</h2>${DEMO?`<p class="small">${REZ?'Svaka nova rezervacija stiže voditelju na WhatsApp i e-mail (bez imena i broja gosta u WhatsApp obavijesti). ':''}Pozivi sa stolova stižu osoblju uz zvučni signal. Brojevi i adrese osoblja upisuju se pri postavljanju sustava.</p>`:`<div class="envs"><span class="pill ${env.whatsapp?'st-confirmed':'st-cancelled'}">WhatsApp ${env.whatsapp?'✓':'nije postavljen'}</span><span class="pill ${env.email?'st-confirmed':'st-cancelled'}">E-mail ${env.email?'✓':'nije postavljen'}</span></div>
    <p class="small">Nova rezervacija stiže osoblju na WhatsApp i e-mail. Postavlja se na serveru (upute u README).</p><button class="btn block" id="testN">Pošalji testnu obavijest</button>`}</div>
-  <div class="card"><h2>Stolovi: NFC i QR</h2><p class="small">Svaki stol dobije naljepnicu (NFC + QR). Gost prisloni mobitel i otvara se cjenik s brojem stola — iz njega zove konobara, traži račun ili naručuje.</p>
+  <div class="card"><h2>Stolovi: NFC i QR</h2><p class="small">Svaki stol dobije naljepnicu (NFC + QR). Gost prisloni mobitel i otvara se cjenik s brojem stola — iz njega jednim dodirom zove konobara${BILL?' ili traži račun':''}.</p>
+   <div class="setrow"><span>Stol uživo<br><span class="small">Gumbi u cjeniku kad gost dodirne naljepnicu na stolu</span></span><input type="checkbox" class="tog" id="fTable" ${EC.features&&EC.features.tableMode?'checked':''}></div>
    <div class="row" style="margin:8px 0">${EC.tables.map(t=>`<a class="chip sm" href="${esc(TT.keepClock(tableUrl(t.id)))}" target="_blank" rel="noopener">${esc(t.id)} ↗</a>`).join('')}</div>
    <button class="btn block" id="qrBtn">🖨 Ispiši QR naljepnice za sve stolove</button><div id="qrprint" hidden></div></div>
   <div class="card"><h2>Tlocrt</h2><p class="small">Povucite stolove prstom ili mišem. Dodirnite stol za uređivanje. Ovo je okvirni raspored — uskladite ga sa stvarnim lokalom.</p>
@@ -2547,17 +2557,16 @@ async function renderSettings(){
    <div class="grid2" style="margin-top:10px"><button class="btn" id="addT">+ Stol</button><button class="btn" id="addW">+ Element (šank, DJ…)</button></div>
    <div id="edpanel"></div></div>
   <div class="card"><h2>Zone</h2><div id="zones"></div><button class="btn sm" id="addZ" style="margin-top:8px">+ Zona</button></div>
-  <div class="card"><h2>Termini za online rezervacije</h2><p class="small">Od – do = prvi i zadnji termin dolaska. Isključeno = taj dan se ne prima online.</p>${[1,2,3,4,5,6,0].map(hrow).join('')}
+  <div class="card"${REZ?'':' hidden'}><h2>Termini za online rezervacije</h2><p class="small">Od – do = prvi i zadnji termin dolaska. Isključeno = taj dan se ne prima online.</p>${[1,2,3,4,5,6,0].map(hrow).join('')}
    <label class="lbl">Neradni datumi (odvojeni zarezom)</label><input type="text" id="closed" value="${(EC.closedDates||[]).join(', ')}" placeholder="2026-12-24, 2026-12-31"></div>
-  <div class="card"><h2>Pravila</h2>
+  <div class="card"${REZ?'':' hidden'}><h2>Pravila</h2>
    ${num('slotMinutes','Korak termina','min')}${num('durationMinutes','Trajanje rezervacije (stol zauzet)','min')}${num('leadMinutes','Najkasnije online prije dolaska','min')}${num('daysAhead','Koliko dana unaprijed','dana')}${num('maxParty','Najviše osoba online','os.')}${num('holdMinutes','Stol držimo','min')}
    <div class="setrow"><span>Automatski potvrdi<br><span class="small">Bez ručne potvrde osoblja</span></span><input type="checkbox" class="tog" id="autoC" ${EC.autoConfirm?'checked':''}></div>
-   <div class="setrow"><span>Stol uživo (konobar, račun, narudžba)<br><span class="small">Gumbi u cjeniku kad gost skenira stol</span></span><input type="checkbox" class="tog" id="fTable" ${EC.features&&EC.features.tableMode?'checked':''}></div>
    <label class="lbl">Napomena gostima (HR)</label><textarea id="rulesHr">${esc(EC.rules&&EC.rules.hr||'')}</textarea>
    <label class="lbl">Napomena gostima (EN)</label><textarea id="rulesEn">${esc(EC.rules&&EC.rules.en||'')}</textarea></div>
   <div class="savebar" style="position:sticky;bottom:84px;z-index:5;padding:8px 0"><button class="btn gold block" id="saveCfg">💾 Spremi postavke i tlocrt</button></div>`;
   drawEditor();renderZones();
-  const rd=$('#resetDemo');if(rd)rd.onclick=async()=>{if(!arm(rd,'Dodirnite ponovno — briše sve demo izmjene'))return;await TT.resetDemo();toast('↺ Demo podaci vraćeni');S.upSnap=S.seenLive=S.seenFb=null;S.date=null;await Promise.all([loadDay(),loadUpcoming(),loadLive(),loadFb(),loadMenu()]);renderSettings()};
+  const rd=$('#resetDemo');if(rd)rd.onclick=async()=>{if(!arm(rd,'Dodirnite ponovno — briše sve demo izmjene'))return;await TT.resetDemo();location.reload()};   // reset odjavljuje i voditelja (traži PIN)
   $$('[data-ho]').forEach(c=>c.onchange=()=>{const i=c.dataset.ho;$(`[data-hf="${i}"]`).disabled=!c.checked;$(`[data-ht="${i}"]`).disabled=!c.checked});
   const tn=$('#testN');if(tn)tn.onclick=async()=>{try{const r=await api('/admin/test-notify',{});toast(`WhatsApp: ${r.whatsapp?'poslano ✓':'nije poslano'} · E-mail: ${r.email?'poslano ✓':'nije poslano'}`)}catch(e){toast(errMsg(e))}};
   $('#qrBtn').onclick=()=>{const box=$('#qrprint');box.hidden=false;box.innerHTML=`<div class="qrs" style="margin-top:12px">${EC.tables.map(t=>`<div class="qrc">${qrSVG(tableUrl(t.id))}<b>STOL ${esc(t.id)}</b><small>${esc(V.name)} · skenirajte ili prislonite mobitel</small></div>`).join('')}</div>`;setTimeout(()=>{try{print()}catch(e){}},200)};
@@ -2628,9 +2637,9 @@ addEventListener('resize',()=>{clearTimeout(window._rz);window._rz=setTimeout(()
 let rq=null;
 function refreshAll(){clearTimeout(rq);rq=setTimeout(()=>{if(document.body.classList.contains('editing'))return;loadDay(true);loadUpcoming();loadLive();loadFb();if(S.tab==='menu'){loadMenu().then(()=>{if(!document.activeElement||!document.activeElement.closest('#tab-menu input'))renderMenu()})}},120)}
 async function start(){$('#login').hidden=true;$('#app').hidden=false;$$('.demoTag').forEach(e=>e.hidden=!DEMO);
-  const h=location.hash.slice(1).split('/');const tab=h[0]||'list';if(/^\d{4}-\d{2}-\d{2}$/.test(h[1]||''))S.date=h[1];if(h[2])S.flash=decodeURIComponent(h[2]);
+  const h=location.hash.slice(1).split('/');const tab=h[0]||(REZ?'list':'live');if(/^\d{4}-\d{2}-\d{2}$/.test(h[1]||''))S.date=h[1];if(h[2])S.flash=decodeURIComponent(h[2]);
   await loadDay();renderHeader();loadUpcoming();loadLive();loadFb();loadMenu();
-  setTab(NAV().some(([k])=>k===tab)?tab:'list');
+  setTab(NAV().some(([k])=>k===tab)?tab:(REZ?'list':'live'));
   if(TT.mode==='live'){
     setInterval(()=>{if(document.visibilityState==='visible'&&!$('#sheet').classList.contains('on')){loadLive();if(S.tab!=='set'&&S.tab!=='menu'){loadDay(true);loadUpcoming()}}},6000);
     setInterval(()=>{if(document.visibilityState==='visible')loadFb()},30000);
@@ -2639,7 +2648,7 @@ async function start(){$('#login').hidden=true;$('#app').hidden=false;$$('.demoT
   addEventListener('hashchange',()=>{const h=location.hash.slice(1).split('/');if(h[2])S.flash=decodeURIComponent(h[2]);if(/^\d{4}-\d{2}-\d{2}$/.test(h[1]||'')&&h[1]!==S.date){S.tab=NAV().some(([k])=>k===h[0])?h[0]:S.tab;setDate(h[1]);}if(NAV().some(([k])=>k===h[0])&&h[0]!==S.tab)setTab(h[0]);else if(S.tab==='list')renderList();});
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshAll()});
 }
-if(DEMO||TT.pin(V.venue)){TT.api('/admin/login',{admin:true}).then(start).catch(()=>logout())}else logout();
+if(TT.pin(V.venue)){TT.api('/admin/login',{admin:true}).then(start).catch(()=>logout())}else logout();
 })();
 </script>
 </body>
