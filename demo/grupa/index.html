@@ -907,9 +907,9 @@ async function adminSaveMenu(store, body) {
     if (p.off) out.promo = { off: true };
     else if (Array.isArray(p.days) && okT(p.from) && okT(p.to)) out.promo = { days: p.days.map(Number).filter(x => x >= 0 && x <= 6).slice(0, 7), from: p.from, to: p.to };
   }
-  if (m.tonight && typeof m.tonight === 'object') {   // "Večeras nastupa" (bend, pjevačica, DJ) / Bure: "Utvrđivanje petkom" (tema + piće dobrodošlice) — gost vidi u cjeniku
-    const txt = str(m.tonight.txt, 90).trim(), from = /^\d{2}:\d{2}$/.test(m.tonight.from || '') ? m.tonight.from : '', welcome = str(m.tonight.welcome, 60).trim();
-    if (txt || welcome || (from && m.tonight.fort)) out.tonight = Object.assign({ txt, from }, welcome ? { welcome } : {}, m.tonight.fort ? { fort: 1 } : {});
+  if (m.tonight && typeof m.tonight === 'object') {   // "Večeras nastupa" (bend, pjevačica, DJ) / Bure: "uTvrđiranje petkom" (tema, piće dobrodošlice, DJ) — gost vidi u cjeniku
+    const txt = str(m.tonight.txt, 90).trim(), from = /^\d{2}:\d{2}$/.test(m.tonight.from || '') ? m.tonight.from : '', welcome = str(m.tonight.welcome, 60).trim(), dj = str(m.tonight.dj, 70).trim();
+    if (txt || welcome || dj || (from && m.tonight.fort)) out.tonight = Object.assign({ txt, from }, welcome ? { welcome } : {}, dj ? { dj } : {}, m.tonight.fort ? { fort: 1 } : {});
   }
   await store.setJSON('menu', out, null);
   return { ok: true, menu: out };

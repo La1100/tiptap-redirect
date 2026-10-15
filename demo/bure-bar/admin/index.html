@@ -399,7 +399,7 @@ body.kiosk .content{max-width:1000px}
 <div class="nban" id="nban" role="alert"></div>
 
 <script>
-window.TT_CFG={"mode": "demo", "venue": "bure", "slug": "bure-bar", "name": "Bure Bar", "address": "Franje Kuhača 1, 31000 Osijek", "phone": "+385 91 605 2339", "features": {"reservations": true, "preorder": false, "tableMode": true, "bill": false, "orders": false, "songs": false}, "page": "admin", "ev": {"hr": "DJ večer · dance, pop & hitovi", "en": "DJ night · dance, pop & hits", "from": "22:00"}, "fort": {"name": "Utvrđivanje petkom", "from": "22:00", "theme": {"hr": "Povratak u 2000-e", "en": "Back to the 2000s"}, "welcome": {"hr": "Woo Woo shot", "en": "Woo Woo shot"}, "dj": {"hr": "DJ · dance, pop i hitovi do 02:00", "en": "DJ · dance, pop & hits until 2 am"}}};
+window.TT_CFG={"mode": "demo", "venue": "bure", "slug": "bure-bar", "name": "Bure Bar", "address": "Franje Kuhača 1, 31000 Osijek", "phone": "+385 91 605 2339", "features": {"reservations": true, "preorder": false, "tableMode": true, "bill": false, "orders": false, "songs": false}, "page": "admin", "ev": {"hr": "DJ večer · dance, pop & hitovi", "en": "DJ night · dance, pop & hits", "from": "22:00"}, "fort": {"name": "uTvrđiranje petkom", "from": "22:00", "ig": "https://www.instagram.com/utvrdjiranje_petkom/", "tag": {"hr": "Svakog petka nova priča", "en": "A new story every Friday"}, "where": "Bure Bar · Kafanica · Q Club", "theme": {"hr": "Road Trip to Bure Bar", "en": "Road Trip to Bure Bar"}, "welcome": {"hr": "Woo Woo shot", "en": "Woo Woo shot"}, "dj": {"hr": "DJ Pedja · dance, pop i hitovi", "en": "DJ Pedja · dance, pop & hits"}}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}, "hot": {"cats": ["hot"], "group": "topli", "days": [5, 6], "until": "21:00"}};
 (function () {
 "use strict";
 const __m = {};
@@ -1081,9 +1081,9 @@ async function adminSaveMenu(store, body) {
     if (p.off) out.promo = { off: true };
     else if (Array.isArray(p.days) && okT(p.from) && okT(p.to)) out.promo = { days: p.days.map(Number).filter(x => x >= 0 && x <= 6).slice(0, 7), from: p.from, to: p.to };
   }
-  if (m.tonight && typeof m.tonight === 'object') {   // "Večeras nastupa" (bend, pjevačica, DJ) / Bure: "Utvrđivanje petkom" (tema + piće dobrodošlice) — gost vidi u cjeniku
-    const txt = str(m.tonight.txt, 90).trim(), from = /^\d{2}:\d{2}$/.test(m.tonight.from || '') ? m.tonight.from : '', welcome = str(m.tonight.welcome, 60).trim();
-    if (txt || welcome || (from && m.tonight.fort)) out.tonight = Object.assign({ txt, from }, welcome ? { welcome } : {}, m.tonight.fort ? { fort: 1 } : {});
+  if (m.tonight && typeof m.tonight === 'object') {   // "Večeras nastupa" (bend, pjevačica, DJ) / Bure: "uTvrđiranje petkom" (tema, piće dobrodošlice, DJ) — gost vidi u cjeniku
+    const txt = str(m.tonight.txt, 90).trim(), from = /^\d{2}:\d{2}$/.test(m.tonight.from || '') ? m.tonight.from : '', welcome = str(m.tonight.welcome, 60).trim(), dj = str(m.tonight.dj, 70).trim();
+    if (txt || welcome || dj || (from && m.tonight.fort)) out.tonight = Object.assign({ txt, from }, welcome ? { welcome } : {}, dj ? { dj } : {}, m.tonight.fort ? { fort: 1 } : {});
   }
   await store.setJSON('menu', out, null);
   return { ok: true, menu: out };
@@ -2491,10 +2491,11 @@ function renderMenu(){
   const soN=Object.keys(m.soldOut).length,chN=Object.keys(m.price).length;
   let h=`<h2 class="ptitle">Cjenik</h2><p class="psub">Promjene se odmah vide u digitalnom cjeniku gostiju — bez zvanja dobavljača i bez čekanja. <span class="saved" id="msaved">✓ spremljeno</span></p>`;
   {const evd=V.ev||{},evo=m.tonight||{},F=V.fort;
-   if(F)   // Bure Bar: "Utvrđivanje petkom" — tema večeri i piće dobrodošlice
-   h+=`<div class="card ev-ed"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:28px;line-height:1">🏰</span><div style="flex:1;min-width:0"><b style="font-size:17px">${esc(F.name)}</b><div class="small">Tema večeri i piće dobrodošlice — petkom gosti to vide na vrhu cjenika, a od ponedjeljka kao najavu za petak.</div></div></div>
+   if(F)   // Bure Bar: "uTvrđiranje petkom" — tema večeri, piće dobrodošlice i DJ
+   h+=`<div class="card ev-ed"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:28px;line-height:1">🏰</span><div style="flex:1;min-width:0"><b style="font-size:17px">${esc(F.name)}</b><div class="small">Tema večeri, piće dobrodošlice i DJ — petkom gosti to vide na vrhu cjenika, a od ponedjeljka kao najavu za petak.</div></div></div>
      <span class="lbl" style="margin-top:12px">Tema večeri</span><input type="text" id="evTxt" maxlength="90" autocomplete="off" value="${esc(evo.txt||'')}" placeholder="${esc(F.theme.hr)}">
      <span class="lbl" style="margin-top:8px">Piće dobrodošlice</span><input type="text" id="evWel" maxlength="60" autocomplete="off" value="${esc(evo.welcome||'')}" placeholder="${esc(F.welcome.hr)}">
+     <span class="lbl" style="margin-top:8px">DJ / glazba</span><input type="text" id="evDj" maxlength="70" autocomplete="off" value="${esc(evo.dj||'')}" placeholder="${esc(F.dj.hr)}">
      <div style="display:flex;align-items:center;gap:10px;margin-top:8px"><span class="lbl" style="margin:0">Od</span><select id="evFrom" style="max-width:120px">${tOpts(evo.from||F.from)}</select><span class="small" style="flex:1">Prazno polje = primjer iz demo cjenika.</span></div></div>`;
    else   // Večeras nastupa (bend, pjevač/ica, DJ)
    h+=`<div class="card ev-ed"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:28px;line-height:1">🎤</span><div style="flex:1;min-width:0"><b style="font-size:17px">Večeras nastupa</b><div class="small">Bend, pjevači ili DJ — gosti to vide na vrhu cjenika.</div></div></div>
@@ -2511,9 +2512,9 @@ function renderMenu(){
       return `<div class="mi${so?' so':''}"><div class="nm"><b>${esc(it.name)}</b><div class="ps">${it.prices.map((pr,i)=>{const ch=pv[i]!=null;return `<button class="pc${ch?' ch':''}" data-mp="${esc(it.id)}" data-i="${i}" title="Dodirnite za izmjenu"><small>${esc(pr.l||'cijena')}</small>${money(ch?pv[i]:pr.eur)}${ch?` <small style="margin:0 0 0 4px;text-decoration:line-through">${money(pr.eur)}</small>`:''}</button>`}).join('')}</div></div>
        <div class="so-l">${so?'<span style="color:var(--bad)">Nema</span>':'Ima'}<br><input type="checkbox" class="tog red" data-so="${esc(it.id)}" ${so?'checked':''} aria-label="Rasprodano" style="margin-top:4px"></div></div>`}).join('');}
   box.innerHTML=h;
-  {const et=$('#evTxt'),ef=$('#evFrom'),ew=$('#evWel'),F=V.fort;if(et){const upd=()=>{const mm=mdoc(),txt=et.value.trim(),welcome=ew?ew.value.trim():'';
-    if(F){if(txt||welcome||ef.value!==F.from)mm.tonight={txt,from:ef.value,welcome,fort:1};else delete mm.tonight;}
-    else if(txt)mm.tonight={txt,from:ef.value};else delete mm.tonight;saveMenu()};et.oninput=upd;ef.onchange=upd;if(ew)ew.oninput=upd;}}
+  {const et=$('#evTxt'),ef=$('#evFrom'),ew=$('#evWel'),ed=$('#evDj'),F=V.fort;if(et){const upd=()=>{const mm=mdoc(),txt=et.value.trim(),welcome=ew?ew.value.trim():'',dj=ed?ed.value.trim():'';
+    if(F){if(txt||welcome||dj||ef.value!==F.from)mm.tonight={txt,from:ef.value,welcome,dj,fort:1};else delete mm.tonight;}
+    else if(txt)mm.tonight={txt,from:ef.value};else delete mm.tonight;saveMenu()};et.oninput=upd;ef.onchange=upd;if(ew)ew.oninput=upd;if(ed)ed.oninput=upd;}}
   const mq=$('#mq');mq.oninput=()=>{menuQ=mq.value;const pos=mq.selectionStart;renderMenu();const n=$('#mq');n.focus();try{n.setSelectionRange(pos,pos)}catch(e){}};
   if(base){
     $('#pOn').onchange=e=>{const on=e.target.checked;m.promo=on?{days:base.days.slice(),from:base.from,to:base.to}:{off:true};saveMenu();renderMenu()};
