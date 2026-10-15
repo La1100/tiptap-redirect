@@ -1,0 +1,97 @@
+TIPTAP × BHT DEMO — kartice za sastanak (Q Club, Kafanica, Bure Bar, Brooklyn)
+=============================================================================
+
+UPLOAD NA GITHUB (tiptapreviews.com)
+1. Raspakiraj ovaj zip — dobit ćeš mapu "demo".
+2. GitHub → repozitorij tiptapreviews.com → Add file → Upload files
+   → povuci CIJELU mapu "demo" → Commit changes.
+   (Mapa "demo" ima 41 datoteku — ispod GitHubova ograničenja od 100.
+    Postojeće datoteke u mapi "demo" zamijenit će se novima.
+    Ostale mape — q-club, kafanica, brooklyn, bure-bar — se NE diraju.
+    Stare adrese demo/prezentacija i demo/brooklyn/rezervacije same
+    preusmjeravaju na novi demo.)
+3. Za 1–2 minute na mobitelu otvori:  https://tiptapreviews.com/demo/
+
+LINKOVI ZA NFC KARTICE
+• Q Club     https://tiptapreviews.com/demo/q-club/?stol=V1&t=pet-23:05
+• Kafanica   https://tiptapreviews.com/demo/kafanica/?stol=K3&t=pet-20:40
+• Bure Bar   https://tiptapreviews.com/demo/bure-bar/?stol=B2&t=pet-21:10
+• Brooklyn   https://tiptapreviews.com/demo/brooklyn/?stol=T3&t=pet-18:20
+• Direktori  https://tiptapreviews.com/demo/grupa/?t=pet-22:30
+
+PIN-OVI ZA DEMO (ne piši ih na karticu — reci ih uživo)
+• Voditelj Q Club ........ 1111
+• Voditelj Kafanica ...... 2222
+• Voditelj Bure Bar ...... 3333
+• Voditelj Brooklyn ...... 4444
+• Direktori BHT .......... 2580  (otvara pregled svih lokala i svaki lokal)
+Voditelj s PIN-om svog lokala ne može ući u drugi lokal ni u pregled direktora.
+
+ŠTO JE U DEMU
+• Gost za stolom: cjenik, "Pozovite konobara" i "Moja lista" (popis koji
+  gost pokaže konobaru). Narudžbu i dalje prima konobar.
+• Račun na zahtjev samo u Brooklynu (u Q Clubu, Kafanici i Bure Baru
+  piće se plaća odmah pri posluživanju).
+• Kafanica: pjesma po želji (bend je vidi na tabletu) i "pozornica" na vrhu
+  cjenika — ŽIVA GLAZBA + tko nastupa (zadano: "Naš večerašnji bend ·
+  pjevači i svirači · pjesme po želji"). Voditelj to upisuje u Cjeniku
+  ("Večeras nastupa", npr. "Tamburaški sastav Šokci · gošća Ivana") i gost
+  vidi odmah. Isto polje imaju Q Club i Brooklyn (npr. ime DJ-a).
+• uTvrđiranje petkom (zajednički petak Bure Bara, Kafanice i Q Cluba):
+  u Bure Baru petkom neonska kartica na vrhu cjenika — tema večeri, piće
+  dobrodošlice (dodir otvara piće u cjeniku), DJ i link na Instagram
+  @utvrdjiranje_petkom; od ponedjeljka do četvrtka najava za petak.
+  U demu je primjer: "Road Trip to Bure Bar", Woo Woo shot, DJ Pedja.
+  Voditelj Bure Bara mijenja temu, piće, DJ-a i sat u Cjeniku
+  ("uTvrđiranje petkom"). Kafanica i Q Club petkom imaju neonsku oznaku
+  "uTvrđiranje petkom" uz svoj program.
+• Bure Bar: topli napitci petkom i subotom samo do 21:00 — iza toga su u
+  cjeniku zasivljeni ("do 21:00"), a u skupini Topli napitci piše napomena.
+• Cjenici: Svarog je zamijenjen votkom Finlandia (iste cijene i fotografija
+  boce, sva 4 lokala). Melange: espresso s toplim mlijekom i šlagom.
+  Bure Bar ima iste opise pića kao ostali lokali (+ postotak alkohola i
+  alergeni). Fotografija u otvorenom piću učitava se u punoj oštrini
+  (mapa demo/hi).
+• Ponuda za stol (Q Club, Kafanica, Bure Bar) — odmah ispod "Kako vam je…",
+  dvije kartice (povucite lijevo za drugu):
+  1) Kombo za stol — animirana kibla s pićem u stilu lokala:
+     Q Club    Silver Goose    2× Grey Goose + 9 Red Bulla (3+3+3) ..... 249 €
+     Kafanica  Gospodski stol  2× Gentleman Jack + 4 Cole + 4 Zero ...... 189 €
+     Bure Bar  Double Pilot    Old Pilot's gin + votka, 6 tonika,
+                               2 mineralne 0,75 l, štrukani limun ....... 185 €
+  2) 1AM Special — šampanjac po posebnoj cijeni, naručuje se kad god gost
+     želi ("1AM" je samo ime). Čim se kartica pojavi, puca čep — pjena,
+     konfeti, čaše se pune:
+     Q Club    Moët & Chandon Brut Impérial + prskalice ..... 99 € (inače 135 €)
+     Kafanica  Dom Pérignon ................................ 549 € (inače 700 €)
+     Bure Bar  Moët Ice Impérial na ledu .................... 139 € (inače 185 €)
+  Cijene su prijedlog i uvijek su niže od pojedinačnih (i za vrijeme akcije
+  na boce). Gost dodirne ponudu → "Pozovite konobara…" → voditelj vidi poziv
+  s razlogom "Kombo: …" ili "1AM Special: …". Cijenu i "nema" voditelj
+  mijenja u Cjeniku (prva skupina "Kombo i 1AM Special") — gost vidi odmah.
+• Rezervacije s tlocrtom: Q Club (+ boca uz stol), Kafanica, Bure Bar.
+  Brooklyn radi bez rezervacija.
+• Voditelj (PIN lokala): rezervacije, pozivi sa stolova i brzina reakcije,
+  cjenik (rasprodano, cijene, akcije), anonimne poruke, statistika.
+• Direktori BHT (PIN direktora): sva 4 lokala na jednom ekranu.
+
+KAKO RADI NA SASTANKU
+• Dodir kartice otvara lokal kao gost za stolom, u petak navečer
+  (zato je akcija na boce u Q Clubu aktivna, a lokali otvoreni).
+• Gumb DEMO na vrhu ekrana: Gost za stolom · Rezervacija · Voditelj ·
+  Direktor · ostali lokali.
+• Ponuda za stol: neka voditelj sam skrola do nje — kibla se puni kad se
+  pojavi na ekranu. Zatim povucite lijevo na 1AM Special — čep pukne.
+  Dodir na karticu otvara detalje i ponovi animaciju.
+• Nakon radnje gosta (konobar, račun, pjesma, rezervacija, anonimna
+  poruka) pojavi se savjet "Pogledajte kao voditelj ›" → upiše se PIN
+  → vidi se zahtjev. Nakon "Preuzimam" ili potvrde rezervacije savjet vodi
+  natrag do gosta — gost vidi obavijest na mobitelu.
+• Sve radi na jednom mobitelu, bez aplikacije i bez servera.
+  Podaci su izmišljeni i spremaju se samo na mobitelu koji ih otvori.
+• "↺ Vrati demo na početak" (u izborniku DEMO ili na tiptapreviews.com/demo/)
+  vraća podatke na početak i odjavljuje voditelja/direktora.
+
+PRIJE SASTANKA
+• Isprobaj svaku karticu na svom mobitelu.
+• Ako si već nešto isprobavao, stisni "Vrati demo na početak".
