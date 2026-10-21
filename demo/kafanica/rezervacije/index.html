@@ -134,6 +134,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 @keyframes halo{50%{opacity:.55}}
 .plan .pl-t.busy,.plan .pl-t.nofit{cursor:not-allowed}
 .plan .pl-t.busy .pl-top{fill:#2a2522}.plan .pl-t.busy .pl-ring{stroke:#5a3030;stroke-dasharray:6 6}
+.plan .pl-t.nores .pl-top{fill:#232120}.plan .pl-t.nores .pl-ring{stroke:#77706a;stroke-dasharray:3 5}.plan .pl-t.nores .pl-label{fill:#9d958b}
 .plan .pl-t.busy .pl-label,.plan .pl-t.nofit .pl-label{fill:#7b7268}
 .plan .pl-t.busy .pl-chair{opacity:.5}
 .plan .pl-t.nofit{opacity:.42}
@@ -153,6 +154,28 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .lg-pending{border-color:var(--amber);background:#5a3d16}.lg-confirmed{border-color:var(--ok);background:#24452d}.lg-seated{border-color:var(--blue);background:#223452}.lg-alert{border-color:#ff6a5e;background:#ff5a4e}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .armed{outline:2px solid var(--bad)!important;outline-offset:2px}
+
+/* ---- tlocrt: kategorije stolova (Bure Bar: Classic / Silver / VIP), okretanje na mobitelu, zum ---- */
+.planbox svg.rot{min-width:0}
+.plan.rot .pl-label{font-size:34px;stroke-width:6px}
+.plan.rot .pl-sub{display:none}
+.plan.rot.zoomed .pl-label{font-size:24px}
+.plan.rot .pl-wlabel{font-size:30px;letter-spacing:.24em}
+.plan .pl-t.cat-silver.free:not(.sel) .pl-ring{stroke:#dfe6ee}
+.plan .pl-t.cat-silver.free:not(.sel) .pl-top{fill:#3b4048}
+.plan .pl-t.cat-silver.free:not(.sel) .pl-chair{stroke:rgba(223,230,238,.55)}
+.plan .pl-t.cat-silver .pl-halo{fill:rgba(200,215,235,.35)}
+.plan .pl-t.cat-vip.free:not(.sel) .pl-ring{stroke:#ffd978;stroke-width:4}
+.plan .pl-t.cat-vip.free:not(.sel) .pl-top{fill:#5b4318}
+.plan .pl-t.cat-vip.free:not(.sel) .pl-halo{opacity:.85;animation:halo 2.4s ease-in-out infinite}
+.plan .pl-t{transition:opacity .35s}
+.plan[data-cat=classic] .pl-t:not(.cat-classic),.plan[data-cat=silver] .pl-t:not(.cat-silver),.plan[data-cat=vip] .pl-t:not(.cat-vip){opacity:.16}
+.planbox .pz{position:absolute;top:10px;right:26px;z-index:3;display:none;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:999px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:13px;font-weight:800}
+.planbox.zoomed .pz{display:inline-flex}
+/* etaže tlocrta (prizemlje / kat) */
+.flbar{display:flex;gap:6px;margin:0 0 8px}
+.flbar button{flex:1;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-weight:800;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+.flbar button[aria-pressed=true]{background:rgba(var(--gold2-rgb),.16);border-color:rgba(var(--gold2-rgb),.55);color:var(--text)}
 
 :root{--bg:#120b0c;--card:#221518;--card2:#2d1c20;--gold:#d9ad5b;--gold2:#f2d08c;--amber:#d8344f;--text:#f8f0ea;--muted:#c2ada4;--dim:#93807a;--ink:#1a0f05;--gold-rgb:217,173,91;--gold2-rgb:242,208,140;--amber-rgb:216,52,79;--bg-rgb:18,11,12;--pl-floor:#1a1012;--pl-grid:#21151a;--pl-edge:#3a2228;--pl-wood:#3a1f17;--pl-wood2:#4a2a1e;--pl-trim:#d9ad5b;--pl-table:#3a2420;--pl-chair:#2a1a1a;--pl-chair-edge:#4e3434;--pl-sofa:#7a1c2a;--pl-sofa2:#b03445;--pl-glow:#ffb070;--pl-label:#e2c48e;--pl-area:rgba(217,173,91,.04);--pl-area-edge:rgba(217,173,91,.4);--pl-stage:#4a1d22;--pl-free-top:#4a2e22;--pl-dance:#d8344f;--pl-dance2:#f2d08c;--pl-dj:#2b1a1d}
 .zone{font-size:13px;color:var(--muted)}
@@ -199,6 +222,81 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .status-live{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:4px}
 .status-live i{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:bl 1.4s infinite}
 @keyframes bl{50%{opacity:.3}}
+/* kategorije stolova (Classic / Silver / VIP) */
+.cats{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px 14px;padding:4px 16px 6px}
+.cats::-webkit-scrollbar{display:none}
+.catc{flex:0 0 76%;max-width:300px;scroll-snap-align:start;position:relative;text-align:left;border-radius:20px;overflow:hidden;background:var(--card2);border:1px solid rgba(255,255,255,.07);padding:0;color:var(--text);transition:transform .25s var(--ease),box-shadow .3s,border-color .3s}
+@media (min-width:700px){.catc{flex:1 1 0}}
+.catc:active{transform:scale(.98)}
+.catc .ph{display:block;aspect-ratio:16/9;background-size:cover;background-position:center;position:relative}
+.catc .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55))}
+.catc .tg{position:absolute;left:12px;top:12px;z-index:1;font:800 11px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding:7px 10px;border-radius:999px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff}
+.catc.c-silver .tg{background:linear-gradient(180deg,#f4f7fa,#b9c2cc);color:#15191e}
+.catc.c-vip .tg{background:linear-gradient(180deg,#ffe49a,#d9a63a);color:#2a1a02}
+.catc .tx{display:block;padding:11px 13px 13px}
+.catc .tx b{display:block;font-family:var(--f-display);font-weight:800;font-size:21px;letter-spacing:.04em;text-transform:uppercase;line-height:1.05}
+.catc .tx small{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.catc .tx em{display:inline-block;font-style:normal;font-weight:800;font-size:12.5px;margin-top:7px;color:var(--ok)}
+.catc .tx em.none{color:var(--bad)}
+.catc.on{border-color:var(--gold2);box-shadow:0 0 0 2px var(--gold2),0 18px 40px -18px rgba(var(--gold2-rgb),.7)}
+.catc .ok{position:absolute;right:10px;top:10px;z-index:1;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--gold2);color:var(--ink);font-weight:900;opacity:0;transform:scale(.4);transition:.3s var(--ease)}
+.catc.on .ok{opacity:1;transform:none}
+.selinfo .th{width:54px;height:54px;border-radius:12px;background-size:cover;background-position:center;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+.selinfo .cp{display:inline-block;font:800 10.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.08);margin-left:4px;vertical-align:2px}
+.selinfo .cp.silver{background:linear-gradient(180deg,#f4f7fa,#b9c2cc);color:#15191e}.selinfo .cp.vip{background:linear-gradient(180deg,#ffe49a,#d9a63a);color:#2a1a02}
+.selinfo{animation:selin .35s var(--ease)}
+@keyframes selin{from{opacity:.4;transform:translateY(6px)}}
+.policy{margin-top:16px;border-radius:16px;padding:14px 14px 6px;background:rgba(0,0,0,.24);border:1px solid rgba(var(--gold2-rgb),.22)}
+.policy h3{margin:0 0 8px;font-family:var(--f-display);font-weight:800;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2)}
+.policy .pi{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;padding:7px 0;border-top:1px solid rgba(255,255,255,.06)}
+.policy .pi:first-of-type{border-top:0}
+.policy .pi i{font-style:normal;flex:none;width:22px;text-align:center}
+.policy .pi b{color:var(--text)}
+.policy .pi small{display:block;color:var(--muted);font-size:12.5px}
+/* ulaznica (potvrda rezervacije) */
+.ticket{position:relative;margin:6px auto 0;max-width:430px;border-radius:26px;background:linear-gradient(165deg,var(--card2),var(--card) 62%);border:1px solid rgba(var(--gold2-rgb),.32);box-shadow:0 34px 70px -34px rgba(0,0,0,.95);overflow:hidden;text-align:left;animation:tkin .8s var(--ease) both}
+@keyframes tkin{from{transform:translateY(28px) scale(.95);opacity:0}}
+.ticket::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.14) 50%,transparent 65%);transform:translateX(-120%);animation:tkshine 2.2s .7s var(--ease) forwards;pointer-events:none}
+@keyframes tkshine{to{transform:translateX(120%)}}
+.ticket .tph{height:132px;background-size:cover;background-position:center;position:relative}
+.ticket .tph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),var(--card2) 96%)}
+.ticket .thd{display:flex;align-items:center;gap:12px;padding:16px 20px 4px;position:relative}
+.ticket .tph+.thd{margin-top:-52px}
+.ticket .thd svg{height:40px;width:auto;max-width:110px;color:var(--gold2);filter:drop-shadow(0 2px 10px rgba(0,0,0,.6))}
+.ticket .thd .pill{margin-left:auto}
+.ticket .tm{display:grid;grid-template-columns:1.2fr 1fr;gap:14px 12px;padding:14px 20px 16px}
+.ticket .tm small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+.ticket .tm b{display:block;font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1;letter-spacing:.02em}
+.ticket .tm .sm b{font-size:20px;line-height:1.15}
+.ticket .tm .wide{grid-column:1/-1}
+.ticket .cut{position:relative;border-top:2px dashed rgba(255,255,255,.13);margin:0 20px}
+.ticket .cut::before,.ticket .cut::after{content:"";position:absolute;top:-14px;width:28px;height:28px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 1px rgba(var(--gold2-rgb),.32)}
+.ticket .cut::before{left:-35px}.ticket .cut::after{right:-35px}
+.ticket .tf{display:flex;align-items:center;gap:16px;padding:16px 20px 20px}
+.ticket .qr{width:96px;height:96px;background:#fff;border-radius:12px;padding:6px;flex:none}
+.ticket .qr svg{width:100%;height:100%;display:block}
+.ticket .tf .code{font-size:32px;margin:2px 0 0;text-align:left}
+.ticket .tf small{color:var(--muted);font-size:12.5px;line-height:1.35;display:block}
+.dl-note{font-size:13px;color:var(--muted);text-align:center;margin:10px 0 0}
+.dl-note b{color:var(--text)}
+.ticket .qr{cursor:zoom-in}
+.qrbig{position:fixed;inset:0;z-index:90;background:#fff;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;animation:qbIn .25s ease}
+.qrbig svg{width:min(82vw,420px);height:auto}
+.qrbig b{font-family:var(--f-display);font-size:44px;letter-spacing:.18em}
+.qrbig p{margin:0;font:600 15px var(--f-body);color:#444;max-width:320px}
+.qrbig small{font:600 13px var(--f-body);color:#888}
+@keyframes qbIn{from{opacity:0}to{opacity:1}}
+#times.nudge{animation:tnudge .6s ease 2}@keyframes tnudge{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){#times.nudge{animation:none}}
+.arr{margin:14px 0 0;padding:16px;border-radius:20px;border:1px solid rgba(var(--gold2-rgb),.4);background:linear-gradient(160deg,rgba(var(--gold2-rgb),.14),rgba(var(--gold2-rgb),.03));text-align:left}
+.arr>b{display:block;font-family:var(--f-display);font-size:22px;letter-spacing:.04em;text-transform:uppercase;line-height:1.05}
+.arr p{margin:6px 0 12px;color:var(--muted);font-size:14.5px}.arr p b{color:var(--text)}
+.arr.hi{animation:arrHi 1.6s ease-in-out 3}
+@keyframes arrHi{0%,100%{box-shadow:0 0 0 0 rgba(var(--gold2-rgb),0)}50%{box-shadow:0 0 0 6px rgba(var(--gold2-rgb),.22)}}
+.arr.yes{display:flex;align-items:center;gap:12px;border-color:rgba(80,200,130,.45);background:linear-gradient(160deg,rgba(80,200,130,.16),rgba(80,200,130,.04));font-weight:700}
+.arr.yes i{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:900;color:#08210f;background:#5fd08c;box-shadow:0 0 18px rgba(95,208,140,.55);animation:arrOk .7s cubic-bezier(.2,1.5,.4,1)}
+@keyframes arrOk{0%{transform:scale(.3)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.arr.hi,.arr.yes i{animation:none}}
 </style>
 </head>
 <body>
@@ -228,8 +326,9 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 
     <section class="card" id="stepTable">
       <h2><span class="n">2</span><span data-t="s2">Odaberite stol</span></h2>
-      <p class="small" style="margin:-4px 0 10px" data-t="planHint">Dodirnite slobodan stol. Tlocrt se može pomicati lijevo-desno.</p>
-      <div class="planbox"><svg id="plan" role="group" aria-label="Tlocrt"></svg></div>
+      <div class="cats" id="cats" hidden></div>
+      <p class="small" style="margin:-4px 0 10px" data-t="planHint" id="planHint">Dodirnite slobodan stol. Tlocrt se može pomicati lijevo-desno.</p>
+      <div class="planbox" id="planbox"><svg id="plan" role="group" aria-label="Tlocrt"></svg><button type="button" class="pz" id="pz">⤢ <span data-t="whole">Cijeli tlocrt</span></button></div>
       <div class="legend"><span><i class="lg-free"></i><span data-t="lgFree">Slobodno</span></span><span><i class="lg-sel"></i><span data-t="lgSel">Vaš izbor</span></span><span><i class="lg-busy"></i><span data-t="lgBusy">Zauzeto</span></span><span><i class="lg-nofit"></i><span data-t="lgNofit">Ne odgovara broju osoba</span></span></div>
       <div class="selinfo" id="selinfo"></div>
       <div class="tlist" id="tlist" aria-label="Slobodni stolovi"></div>
@@ -258,8 +357,9 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
         <label class="lbl" for="fnote" data-t="note">Napomena (neobavezno)</label>
         <textarea id="fnote" maxlength="400"></textarea>
         <input type="text" id="hp" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-        <label class="check"><input type="checkbox" id="consent"><span id="consentT"></span></label>
         <div class="rules" id="rules"></div>
+        <label class="check"><input type="checkbox" id="consent"><span id="consentT"></span></label>
+        <label class="check" id="termsRow" hidden><input type="checkbox" id="terms"><span id="termsT"></span></label>
         <div class="err" id="err" role="alert"></div>
         <div class="summary"><div class="sum" id="sum"></div><button type="submit" class="btn gold block" id="submit" data-t="send">Pošaljite rezervaciju</button></div>
       </form>
@@ -273,7 +373,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-window.TT_CFG={"mode": "demo", "venue": "kafanica", "slug": "kafanica", "name": "Kafanica", "address": "Franje Kuhača 1, 31000 Osijek", "phone": "+385 91 605 2339", "features": {"reservations": true, "preorder": false, "tableMode": true, "bill": false, "orders": false, "songs": true}, "page": "rez", "ev": {"hr": "Naš večerašnji bend · pjevači i svirači · pjesme po želji", "en": "Our band tonight · singers & musicians · song requests", "from": "21:00"}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}};
+window.TT_CFG={"mode": "demo", "venue": "kafanica", "slug": "kafanica", "name": "Kafanica", "address": "Franje Kuhača 1, 31000 Osijek", "phone": "+385 91 605 2339", "features": {"reservations": true, "preorder": false, "tableMode": true, "bill": false, "orders": false, "songs": true, "hostess": ["rez", "coat"]}, "page": "rez", "ev": {"hr": "Naš večerašnji bend · pjevači i svirači · pjesme po želji", "en": "Our band tonight · singers & musicians · song requests", "from": "21:00"}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}};
 (function () {
 "use strict";
 const __m = {};
@@ -292,39 +392,51 @@ const QCLUB = {
   venue: 'Q Club',
   forms: { loc: 'u Q Clubu', gen: 'iz Q Cluba' },
   phone: '+385 95 391 7530',
+  /* pravi raspored (slike iz sustava rezervacija, 20. 10.): PRIZEMLJE (stolovi 1–29) i KAT (31–50, VIP);
+     na katu pušiona sa stolovima 12 i 37 — ne rezervira se. Etaže su trake jednog tlocrta (prebacuju se gumbom). */
   plan: {
-    w: 1000, h: 640,
+    w: 1440, h: 1540, rotateMobile: true,
+    floors: [{ id: 'p', name: 'Prizemlje', en: 'Ground floor', y: 0, h: 660 }, { id: 'k', name: 'Kat', en: 'Upstairs', y: 690, h: 850 }],
     walls: [
-      { type: 'area', x: 24, y: 24, w: 238, h: 420, label: 'VIP LOUNGE', labelPos: 'bottom' },
-      { type: 'dj', x: 400, y: 26, w: 200, h: 66, label: 'DJ' },
-      { type: 'dance', x: 340, y: 118, w: 320, h: 246, label: 'PLESNI PODIJ' },
-      { type: 'bar', x: 884, y: 96, w: 84, h: 380, label: 'ŠANK' },
-      { type: 'wardrobe', x: 30, y: 474, w: 128, h: 92, label: 'GARDEROBA' },
-      { type: 'door', x: 176, y: 610, w: 140, h: 26, label: 'ULAZ' },
-      { type: 'wc', x: 884, y: 528, w: 84, h: 84, label: 'WC' }
+      // prizemlje
+      { type: 'door', x: 40, y: 98, w: 100, h: 56, label: 'ULAZ' },
+      { type: 'dj', x: 396, y: 36, w: 160, h: 80, label: 'DJ' },
+      { type: 'bar', x: 556, y: 36, w: 530, h: 80, label: 'VELIKI ŠANK', stools: 0 },
+      { type: 'bar', x: 28, y: 516, w: 130, h: 114, label: 'MALI ŠANK', stools: 0 },
+      { type: 'wall', x: 574, y: 274, w: 100, h: 336, label: 'STUBE' },
+      // kat
+      { type: 'bar', x: 20, y: 746, w: 80, h: 760, label: 'ŠANK', stools: 0 },
+      { type: 'wall', x: 736, y: 746, w: 534, h: 122, label: 'GALERIJA' },
+      { type: 'wall', x: 1270, y: 868, w: 114, h: 638, label: 'GALERIJA' },
+      { type: 'area', x: 1270, y: 734, w: 162, h: 134, label: 'VIP', labelPos: 'bottom' },
+      { type: 'wall', x: 636, y: 1302, w: 100, h: 176, label: '' },
+      { type: 'wall', x: 736, y: 1176, w: 100, h: 302, label: 'STUBE' },
+      { type: 'area', x: 852, y: 1282, w: 404, h: 222, label: 'PUŠIONA', labelPos: 'bottom' }
     ]
   },
   zones: [
-    { id: 'vip', name: { hr: 'VIP lounge', en: 'VIP lounge' } },
-    { id: 'separe', name: { hr: 'Separei', en: 'Booths' } },
-    { id: 'podij', name: { hr: 'Uz plesni podij', en: 'By the dance floor' } },
-    { id: 'sank', name: { hr: 'Uz šank', en: 'By the bar' } }
+    { id: 'prizemlje', name: { hr: 'Prizemlje', en: 'Ground floor' }, short: 'Prizemlje' },
+    { id: 'kat', name: { hr: 'Kat', en: 'Upstairs' }, short: 'Kat' },
+    { id: 'vip', name: { hr: 'VIP', en: 'VIP' }, short: 'VIP' },
+    { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
-    { id: 'V1', zone: 'vip', shape: 'lounge', x: 142, y: 136, w: 176, h: 112, rot: 270, min: 6, max: 12, vip: true },
-    { id: 'V2', zone: 'vip', shape: 'lounge', x: 142, y: 326, w: 176, h: 112, rot: 270, min: 6, max: 12, vip: true },
-    { id: 'S1', zone: 'separe', shape: 'booth', x: 420, y: 548, w: 144, h: 100, rot: 180, min: 4, max: 8 },
-    { id: 'S2', zone: 'separe', shape: 'booth', x: 580, y: 548, w: 144, h: 100, rot: 180, min: 4, max: 8 },
-    { id: 'S3', zone: 'separe', shape: 'booth', x: 740, y: 548, w: 144, h: 100, rot: 180, min: 4, max: 8 },
-    { id: 'H1', zone: 'podij', shape: 'high', x: 296, y: 170, r: 22, min: 2, max: 4 },
-    { id: 'H2', zone: 'podij', shape: 'high', x: 296, y: 310, r: 22, min: 2, max: 4 },
-    { id: 'H3', zone: 'podij', shape: 'high', x: 708, y: 170, r: 22, min: 2, max: 4 },
-    { id: 'H4', zone: 'podij', shape: 'high', x: 708, y: 310, r: 22, min: 2, max: 4 },
-    { id: 'H5', zone: 'podij', shape: 'high', x: 420, y: 424, r: 22, min: 2, max: 4 },
-    { id: 'H6', zone: 'podij', shape: 'high', x: 580, y: 424, r: 22, min: 2, max: 4 },
-    { id: 'B1', zone: 'sank', shape: 'high', x: 816, y: 150, r: 20, min: 2, max: 4 },
-    { id: 'B2', zone: 'sank', shape: 'high', x: 816, y: 286, r: 20, min: 2, max: 4 },
-    { id: 'B3', zone: 'sank', shape: 'high', x: 816, y: 422, r: 20, min: 2, max: 4 }
+    // prizemlje
+    ...[['27', 296, 116], ['25', 454, 154], ['24', 532, 154], ['1', 118, 352], ['9', 254, 590], ['17', 1068, 570]].map(([id, x, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x, y, w: 42, h: 42, seats: [1, 1, 1, 1], min: 1, max: 4 })),
+    { id: '26', floor: 'p', zone: 'prizemlje', shape: 'rect', x: 354, y: 66, w: 44, h: 60, seats: [0, 0, 2, 2], min: 2, max: 4 },
+    ...[['23', 114], ['22', 212], ['21', 312], ['20', 412]].map(([id, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x: 1276, y, w: 60, h: 40, seats: [2, 2, 0, 0], min: 2, max: 4 })),
+    ...[['2', 256, 362], ['3', 316, 362], ['10', 732, 362], ['11', 832, 362], ['7', 396, 580], ['6', 474, 580], ['14', 732, 580], ['15', 832, 580], ['16', 930, 580], ['18', 1186, 580], ['19', 1286, 580]]
+      .map(([id, x, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x, y, w: 40, h: 60, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    ...[['29', 968, 362], ['13', 1108, 342]].map(([id, x, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x, y, w: 40, h: 54, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    ...[['4', 504, 412], ['5', 504, 490], ['8', 326, 530]].map(([id, x, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x, y, w: 60, h: 38, seats: [2, 2, 0, 0], min: 2, max: 4 })),
+    // kat
+    ...[['47', 254], ['48', 382], ['49', 508], ['50', 636]].map(([id, x]) => ({ id, floor: 'k', zone: 'kat', shape: 'rect', x, y: 778, w: 48, h: 70, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    ...[['44', 254, 920], ['45', 382, 920], ['46', 508, 920], ['46B', 636, 920], ['35', 584, 1070], ['34', 736, 1070], ['36', 508, 1172], ['33', 940, 1146]]
+      .map(([id, x, y]) => ({ id, floor: 'k', zone: 'kat', shape: 'rect', x, y, w: 44, h: 44, seats: [1, 1, 1, 1], min: 1, max: 4 })),
+    ...[['38', 266, 1070], ['39', 242, 1274], ['32', 522, 1274]].map(([id, x, y]) => ({ id, floor: 'k', zone: 'kat', shape: 'rect', x, y, w: 72, h: 42, seats: [2, 2, 0, 0], min: 2, max: 4 })),
+    ...[['31', 430, 1056], ['43', 230, 1438], ['42', 330, 1438], ['41', 430, 1438], ['40', 532, 1438]].map(([id, x, y]) => ({ id, floor: 'k', zone: 'kat', shape: 'rect', x, y, w: 44, h: 68, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    { id: 'VIP', floor: 'k', zone: 'vip', shape: 'lounge', x: 1352, y: 800, w: 150, h: 92, min: 6, max: 14, vip: true },
+    ...[['37', 914, 1400], ['12', 1144, 1400]].map(([id, x, y]) => ({ id, floor: 'k', zone: 'pusiona', shape: 'rect', x, y, w: 44, h: 44, seats: [1, 1, 1, 1], min: 1, max: 4, noRes: true }))
   ],
   hours: { 0: null, 1: null, 2: null, 3: null, 4: H('22:00', '01:00'), 5: H('22:00', '01:00'), 6: H('22:00', '01:00') },
   slotMinutes: 30,
@@ -336,10 +448,10 @@ const QCLUB = {
   closedDates: [],
   autoConfirm: false,
   rules: {
-    hr: 'VIP lounge i separei rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu.',
-    en: 'VIP lounge and booths are booked with a bottle order — you can choose it right now and pay at the club.'
+    hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
+    en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
-  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'separe'] }
+  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['coat'] }
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -347,37 +459,36 @@ const KAFANICA = {
   venue: 'Kafanica',
   forms: { loc: 'u Kafanici', gen: 'iz Kafanice' },
   phone: '+385 91 605 2339',
+  /* pravi raspored (slika iz sustava rezervacija, 20. 10.): stolovi 1–35, šank u sredini;
+     pušiona (19, 27, 28) — ne rezervira se */
   plan: {
-    w: 1000, h: 640,
+    w: 1340, h: 1150,
     walls: [
-      { type: 'stage', x: 360, y: 24, w: 280, h: 92, label: 'BINA' },
-      { type: 'bar', x: 30, y: 140, w: 84, h: 330, label: 'ŠANK' },
-      { type: 'wc', x: 30, y: 520, w: 110, h: 90, label: 'WC' },
-      { type: 'door', x: 640, y: 610, w: 140, h: 26, label: 'ULAZ' }
+      { type: 'bar', x: 440, y: 434, w: 470, h: 186, label: 'ŠANK', stools: 0 },
+      { type: 'area', x: 566, y: 996, w: 360, h: 132, label: 'PUŠIONA', labelPos: 'bottom' },
+      { type: 'area', x: 1006, y: 496, w: 124, h: 124, label: 'PUŠIONA', labelPos: 'bottom' }
     ]
   },
   zones: [
-    { id: 'bina', name: { hr: 'Uz binu', en: 'By the stage' } },
-    { id: 'sala', name: { hr: 'Sala', en: 'Main room' } },
-    { id: 'separe', name: { hr: 'Separei', en: 'Booths' } },
-    { id: 'sank', name: { hr: 'Uz šank', en: 'By the bar' } }
+    { id: 'sala', name: { hr: 'Sala', en: 'Main room' }, short: 'Sala' },
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP' },
+    { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
-    { id: 'K1', zone: 'bina', shape: 'round', x: 262, y: 96, r: 30, min: 4, max: 6 },
-    { id: 'K2', zone: 'bina', shape: 'round', x: 738, y: 96, r: 30, min: 4, max: 6 },
-    { id: 'K3', zone: 'bina', shape: 'round', x: 340, y: 232, r: 30, min: 4, max: 6 },
-    { id: 'K4', zone: 'bina', shape: 'round', x: 500, y: 232, r: 30, min: 4, max: 6 },
-    { id: 'K5', zone: 'bina', shape: 'round', x: 660, y: 232, r: 30, min: 4, max: 6 },
-    { id: 'D1', zone: 'sala', shape: 'long', x: 360, y: 384, w: 220, h: 60, min: 6, max: 12 },
-    { id: 'D2', zone: 'sala', shape: 'long', x: 640, y: 384, w: 220, h: 60, min: 6, max: 12 },
-    { id: 'K6', zone: 'sala', shape: 'round', x: 330, y: 528, r: 30, min: 2, max: 6 },
-    { id: 'K7', zone: 'sala', shape: 'round', x: 490, y: 528, r: 30, min: 2, max: 6 },
-    { id: 'S1', zone: 'separe', shape: 'booth', x: 904, y: 184, w: 140, h: 96, rot: 90, min: 4, max: 8 },
-    { id: 'S2', zone: 'separe', shape: 'booth', x: 904, y: 354, w: 140, h: 96, rot: 90, min: 4, max: 8, vip: true },
-    { id: 'S3', zone: 'separe', shape: 'booth', x: 904, y: 524, w: 140, h: 96, rot: 90, min: 4, max: 8 },
-    { id: 'B1', zone: 'sank', shape: 'high', x: 176, y: 190, r: 20, min: 1, max: 3 },
-    { id: 'B2', zone: 'sank', shape: 'high', x: 176, y: 306, r: 20, min: 1, max: 3 },
-    { id: 'B3', zone: 'sank', shape: 'high', x: 176, y: 422, r: 20, min: 1, max: 3 }
+    ...[['11', 154, 84]].map(([id, x, y]) => ({ id, zone: 'sala', shape: 'round', x, y, r: 28, cross: true, min: 2, max: 4 })),
+    ...[['1', 328], ['2', 518], ['3', 706], ['4', 894], ['5', 1082]].map(([id, x]) => ({ id, zone: 'sala', shape: 'rect', x, y: 84, w: 92, h: 60, seats: [2, 2, 0, 0], min: 2, max: 4 })),
+    ...[['6', 196], ['7', 352], ['8', 508], ['9', 664], ['10', 822]].map(([id, y]) => ({ id, zone: 'sala', shape: 'rect', x: 1256, y, w: 60, h: 92, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    ...[['12', 282], ['13', 440], ['14', 596], ['15', 754], ['16', 912], ['17', 1068]].map(([id, x]) => ({ id, zone: 'sala', shape: 'round', x, y: 242, r: 28, cross: true, min: 2, max: 4 })),
+    ...[['18', 400], ['20', 712]].map(([id, y]) => ({ id, zone: 'sala', shape: 'round', x: 1068, y, r: 28, cross: true, min: 2, max: 4 })),
+    { id: '19', zone: 'pusiona', shape: 'round', x: 1068, y: 556, r: 28, cross: true, min: 1, max: 4, noRes: true },
+    { id: '33', zone: 'sala', shape: 'rect', x: 94, y: 336, w: 60, h: 124, seats: [0, 0, 3, 3], min: 2, max: 6 },
+    { id: '34', zone: 'sala', shape: 'long', x: 282, y: 446, w: 60, h: 216, seats: [0, 0, 4, 4], min: 4, max: 8 },
+    { id: '26', zone: 'sala', shape: 'rect', x: 282, y: 666, w: 60, h: 92, seats: [0, 0, 2, 2], min: 2, max: 4 },
+    ...[['25', 282], ['24', 472], ['23', 628], ['22', 784], ['21', 942]].map(([id, x]) => ({ id, zone: 'sala', shape: 'round', x, y: 806, r: 28, cross: true, min: 2, max: 4 })),
+    ...[['32', 190], ['31', 314], ['30', 440]].map(([id, x]) => ({ id, zone: 'sala', shape: 'rect', x, y: 932, w: 60, h: 60, seats: [1, 1, 0, 0], min: 1, max: 2 })),
+    { id: '29', zone: 'sala', shape: 'round', x: 754, y: 932, r: 28, cross: true, min: 2, max: 4 },
+    { id: '35', zone: 'vip', shape: 'long', x: 1068, y: 964, w: 252, h: 64, seats: [5, 5, 1, 1], min: 6, max: 12, vip: true },
+    ...[['28', 644], ['27', 832]].map(([id, x]) => ({ id, zone: 'pusiona', shape: 'rect', x, y: 1058, w: 92, h: 60, seats: [2, 2, 0, 0], min: 1, max: 4, noRes: true }))
   ],
   hours: { 0: null, 1: null, 2: null, 3: null, 4: null, 5: H('19:00', '23:00'), 6: H('19:00', '23:00') },
   slotMinutes: 30,
@@ -389,10 +500,10 @@ const KAFANICA = {
   closedDates: [],
   autoConfirm: false,
   rules: {
-    hr: 'Petkom i subotom svira živa glazba — stolovi uz binu najbrže se popune.',
-    en: 'Live music on Fridays and Saturdays — tables by the stage fill up first.'
+    hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
+    en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
-  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: true }
+  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: true, hostess: ['rez', 'coat'] }
 };
 
 /* ---------- BROOKLYN (caffe bar, šetalište uz Dravu) ---------- */
@@ -451,58 +562,65 @@ const BROOKLYN = {
   features: { reservations: false, preorder: false, tableMode: true, bill: true, orders: false, songs: false }
 };
 
-/* ---------- BURE BAR (pivnica) — isti tlocrt kao u postojećem sustavu ---------- */
+/* ---------- BURE BAR (pivnica) — pravi raspored stolova lokala (papir od voditelja, 20. 10. 2026.) ----------
+   Kategorije kao u dosadašnjem sustavu (Eventlin): Classic 1–23, Silver 24–30, VIP 31.
+   Minimalna potrošnja po stolu, naknada za nedolazak po osobi, otkazivanje do 10:00 na dan rezervacije. */
+const sq = (id, x, y) => ({ id, zone: 'classic', shape: 'rect', x, y, w: 50, h: 50, seats: [1, 1, 1, 1], min: 1, max: 4 });
+const rd = (id, x, y) => ({ id, zone: 'classic', shape: 'round', x, y, r: 24, cross: true, min: 1, max: 4 });
+const six = (id, x, y, w = 72) => ({ id, zone: 'silver', shape: 'rect', x, y, w, h: 54, seats: [2, 2, 1, 1], min: 1, max: 6 });
 const BURE = {
   venue: 'Bure Bar',
   forms: { loc: 'u Bure Baru', gen: 'iz Bure Bara' },
   phone: '+385 91 605 2339',
   plan: {
-    w: 1000, h: 640,
+    w: 1300, h: 850, rotateMobile: true,
     walls: [
-      { type: 'bar', x: 40, y: 40, w: 90, h: 400, label: 'ŠANK' },
-      { type: 'dj', x: 420, y: 30, w: 160, h: 60, label: 'DJ' },
-      { type: 'door', x: 440, y: 610, w: 120, h: 26, label: 'ULAZ' },
-      { type: 'wc', x: 880, y: 556, w: 100, h: 64, label: 'WC' }
+      { type: 'door', x: 15, y: 398, w: 146, h: 138, label: 'ULAZ' },
+      { type: 'bar', x: 362, y: 372, w: 656, h: 188, label: 'ŠANK', stools: 0 },
+      { type: 'dj', x: 1150, y: 80, w: 76, h: 132, label: 'DJ' }
     ]
   },
   zones: [
-    { id: 'sank', name: { hr: 'Uz šank', en: 'By the bar' } },
-    { id: 'bacve', name: { hr: 'Bačve', en: 'Barrel tables' } },
-    { id: 'sala', name: { hr: 'Sala', en: 'Main room' } },
-    { id: 'separe', name: { hr: 'Separei', en: 'Booths' } }
+    { id: 'classic', name: { hr: 'Classic stolovi', en: 'Classic tables' }, short: 'Classic', minSpend: 60, noShow: 8, img: 'classic',
+      desc: { hr: 'Stolovi za 4 osobe uz zidove i šank — od 1 do 23.', en: 'Tables for 4 along the walls and the bar — 1 to 23.' } },
+    { id: 'silver', name: { hr: 'Silver stolovi', en: 'Silver tables' }, short: 'Silver', minSpend: 100, noShow: 8, img: 'silver',
+      desc: { hr: 'Stolovi za 6 osoba, bačve i veliki okrugli stol — od 24 do 30.', en: 'Tables for 6, barrels and the big round table — 24 to 30.' } },
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', minSpend: 200, noShow: 12, img: 'vip',
+      desc: { hr: 'Dugi stol za do 16 osoba, odmah uz DJ-a — stol 31.', en: 'The long table for up to 16 guests, right by the DJ — table 31.' } }
   ],
   tables: [
-    { id: 'S1', zone: 'sank', shape: 'high', x: 180, y: 80, r: 22, min: 1, max: 2 },
-    { id: 'S2', zone: 'sank', shape: 'high', x: 180, y: 170, r: 22, min: 1, max: 2 },
-    { id: 'S3', zone: 'sank', shape: 'high', x: 180, y: 260, r: 22, min: 1, max: 2 },
-    { id: 'S4', zone: 'sank', shape: 'high', x: 180, y: 350, r: 22, min: 1, max: 2 },
-    { id: 'B1', zone: 'bacve', shape: 'barrel', x: 310, y: 160, r: 32, min: 2, max: 4 },
-    { id: 'B2', zone: 'bacve', shape: 'barrel', x: 310, y: 290, r: 32, min: 2, max: 4 },
-    { id: 'B3', zone: 'bacve', shape: 'barrel', x: 310, y: 420, r: 32, min: 2, max: 4 },
-    { id: 'B4', zone: 'bacve', shape: 'barrel', x: 330, y: 540, r: 32, min: 2, max: 4 },
-    { id: 'T1', zone: 'sala', shape: 'rect', x: 460, y: 170, w: 100, h: 60, min: 2, max: 4 },
-    { id: 'T2', zone: 'sala', shape: 'rect', x: 620, y: 170, w: 100, h: 60, min: 2, max: 4 },
-    { id: 'T3', zone: 'sala', shape: 'rect', x: 460, y: 300, w: 100, h: 60, min: 2, max: 4 },
-    { id: 'T4', zone: 'sala', shape: 'rect', x: 620, y: 300, w: 100, h: 60, min: 2, max: 4 },
-    { id: 'T5', zone: 'sala', shape: 'long', x: 540, y: 440, w: 200, h: 64, min: 4, max: 8 },
-    { id: 'V1', zone: 'separe', shape: 'booth', x: 862, y: 120, w: 170, h: 100, rot: 90, min: 4, max: 8, vip: true },
-    { id: 'V2', zone: 'separe', shape: 'booth', x: 862, y: 300, w: 170, h: 100, rot: 90, min: 4, max: 8, vip: true },
-    { id: 'V3', zone: 'separe', shape: 'booth', x: 862, y: 470, w: 150, h: 100, rot: 90, min: 6, max: 12, vip: true }
+    rd('1', 208, 618), rd('2', 205, 757),
+    sq('3', 357, 752), sq('4', 432, 752), sq('5', 557, 752), sq('6', 630, 752), sq('7', 755, 752),
+    sq('8', 826, 752), sq('9', 950, 752), sq('10', 1025, 752), sq('11', 1147, 752), sq('12', 1220, 752),
+    rd('13', 1093, 559), rd('14', 868, 104), rd('15', 748, 104), rd('16', 628, 104), rd('17', 436, 104),
+    rd('18', 238, 262), rd('19', 188, 345),
+    sq('20', 165, 75), sq('21', 165, 155), sq('22', 68, 75), sq('23', 68, 155),
+    six('24', 78, 290, 74),
+    { id: '25', zone: 'silver', shape: 'round', x: 472, y: 225, r: 36, min: 1, max: 6 },
+    six('26', 651, 213, 96),
+    six('27', 1200, 505), six('28', 1203, 613), six('29', 70, 620), six('30', 68, 758),
+    { id: '31', zone: 'vip', shape: 'long', x: 880, y: 212, w: 218, h: 52, seats: [7, 7, 1, 1], min: 1, max: 16, vip: true }
   ],
-  hours: { 0: null, 1: H('18:00', '22:00'), 2: H('18:00', '22:00'), 3: H('18:00', '22:00'), 4: H('18:00', '23:00'), 5: H('18:00', '23:30'), 6: H('18:00', '23:30') },
-  slotMinutes: 30,
-  durationMinutes: 150,
-  leadMinutes: 60,
+  hours: { 0: null, 1: H('20:00', '22:00'), 2: H('20:00', '22:00'), 3: H('20:00', '22:00'), 4: H('20:00', '22:00'), 5: H('20:00', '22:00'), 6: H('20:00', '22:00') },
+  slotMinutes: 15,
+  durationMinutes: 300,          // stol je gostov cijelu večer (dolazak 20:00–22:00)
+  leadMinutes: 30,
   daysAhead: 30,
   maxParty: 16,
   holdMinutes: 15,
   closedDates: [],
   autoConfirm: false,
-  rules: {
-    hr: 'Za separee petkom i subotom moguća je minimalna potrošnja — osoblje će vas obavijestiti pri potvrdi.',
-    en: 'Booths on Fridays and Saturdays may have a minimum spend — staff will let you know when confirming.'
+  policy: {
+    age: 21,
+    dress: { hr: 'Elegant', en: 'Elegant' },
+    cancelUntil: '10:00',        // otkazivanje najkasnije 12 sati prije početka — do 10:00 na dan rezervacije
+    terms: true
   },
-  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false }
+  rules: {
+    hr: 'Minimalna potrošnja vrijedi po stolu. Ako ne dođete, a niste otkazali do 10:00 na dan rezervacije, naplaćuje se naknada za nedolazak po osobi.',
+    en: 'The minimum spend applies per table. If you do not come and have not cancelled by 10:00 on the day, a no-show fee per person is charged.'
+  },
+  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez'] }
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -588,8 +706,20 @@ async function getConfig(store) {
   return r?.data ? { ...structuredClone(def), ...r.data, forms: def.forms, features: { ...def.features, ...(r.data.features || {}) } } : structuredClone(def);
 }
 function publicConfig(cfg) {
-  const { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features } = cfg;
-  return { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features };
+  const { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features, policy } = cfg;
+  return { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features, policy: policy || null };
+}
+/** Kategorija stola (zona s minimalnom potrošnjom i naknadom za nedolazak — npr. Bure Bar: Classic / Silver / VIP). */
+function catOf(cfg, tableId) {
+  const t = (cfg.tables || []).find(x => x.id === tableId); if (!t) return null;
+  const z = (cfg.zones || []).find(x => x.id === t.zone); if (!z) return null;
+  return { id: z.id, name: z.name, short: z.short || '', minSpend: +z.minSpend || 0, noShow: +z.noShow || 0 };
+}
+/** Do kada gost smije sam otkazati (npr. "10:00" na dan rezervacije); null = uvijek. */
+function cancelDeadline(cfg, date) { const u = cfg.policy && cfg.policy.cancelUntil; return u && /^\d{2}:\d{2}$/.test(u) ? { date, min: toMin(u) } : null; }
+function pastDeadline(cfg, date) {
+  const d = cancelDeadline(cfg, date); if (!d) return false;
+  const n = zagrebNow(); return n.date > d.date || (n.date === d.date && n.min >= d.min);
 }
 
 /* =====================================================================
@@ -612,8 +742,8 @@ function tableFree(cfg, list, tableId, start, ignoreId) {
   return !list.some(r => r.tableId === tableId && ACTIVE.has(r.status) && r.id !== ignoreId && overlaps(start, end, r.start, r.end));
 }
 const fits = (t, party) => party >= (t.min || 1) && party <= t.max;
-function bestTable(cfg, list, party, start) {
-  return cfg.tables.filter(t => fits(t, party) && tableFree(cfg, list, t.id, start))
+function bestTable(cfg, list, party, start, zone) {
+  return cfg.tables.filter(t => !t.noRes && (!zone || t.zone === zone) && fits(t, party) && tableFree(cfg, list, t.id, start))
     .sort((a, b) => (a.max - b.max) || ((a.vip ? 1 : 0) - (b.vip ? 1 : 0)))[0] || null;
 }
 function cleanPhone(p) {
@@ -665,6 +795,7 @@ async function createReservation(store, body, { admin = false } = {}) {
   if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { error: 'email', status: 400 };
   if (!admin) {
     if (!body.consent) return { error: 'consent', status: 400 };
+    if (cfg.policy && cfg.policy.terms && !body.terms) return { error: 'terms', status: 400 };
     const last = addDays(now.date, cfg.daysAhead);
     if (date < now.date || date > last) return { error: 'date', status: 400 };
     if (!slotsFor(cfg, date).includes(start)) return { error: 'time', status: 400 };
@@ -677,20 +808,26 @@ async function createReservation(store, body, { admin = false } = {}) {
     if (body.tableId && body.tableId !== 'any') {
       table = cfg.tables.find(t => t.id === body.tableId);
       if (!table) return { error: 'table', status: 400 };
+      if (!admin && table.noRes) return { error: 'nores', status: 409 };   // npr. pušiona — samo bez rezervacije
       if (!admin && !fits(table, party)) return { error: 'fit', status: 409 };
       if (!tableFree(cfg, list, table.id, start)) return { error: 'taken', status: 409 };
     } else {
-      table = bestTable(cfg, list, party, start);
+      const zone = str(body.zone, 20); 
+      table = bestTable(cfg, list, party, start, (cfg.zones || []).some(z => z.id === zone) ? zone : null);
       if (!table) return { error: 'full', status: 409 };
     }
     const at = isoNow();
+    const cat = catOf(cfg, table.id);
     const r = {
       id: token(8), code: shortCode(), key: token(16),
       date, start, end: start + cfg.durationMinutes, party, tableId: table.id,
       name, phone: phone || phoneRaw, email, note: str(body.note, 400), occasion: str(body.occasion, 30),
       preorder, sparkler: !!(preorder.length && body.sparkler),
+      ...(cat && (cat.minSpend || cat.noShow) ? { cat: cat.id, minSpend: cat.minSpend, noShowFee: cat.noShow } : {}),
       lang: body.lang === 'en' ? 'en' : 'hr',
       status: admin ? (['pending', 'confirmed', 'seated', 'done', 'noshow'].includes(body.status) ? body.status : 'confirmed') : (cfg.autoConfirm ? 'confirmed' : 'pending'),
+      ...(admin && body._arrive ? { arrive: str(body._arrive, 30) } : {}),
+      ...(admin && body._lateMin != null && body.status === 'seated' ? { lateMin: Math.round(Number(body._lateMin)) || 0, checkedBy: 'hostesa' } : {}),
       source: admin ? str(body.source || 'staff', 20) : 'web',
       createdAt: body._at && admin ? str(body._at, 30) : at, updatedAt: at, history: []
     };
@@ -700,7 +837,7 @@ async function createReservation(store, body, { admin = false } = {}) {
   if (res.ok) await setIndex(store, res.reservation.id, date);
   return res;
 }
-const guestView = r => ({ id: r.id, code: r.code, date: r.date, start: r.start, end: r.end, party: r.party, tableId: r.tableId, name: r.name, status: r.status, note: r.note, occasion: r.occasion, lang: r.lang, preorder: r.preorder || [], sparkler: !!r.sparkler });
+const guestView = r => ({ id: r.id, code: r.code, date: r.date, start: r.start, end: r.end, party: r.party, tableId: r.tableId, name: r.name, status: r.status, note: r.note, occasion: r.occasion, lang: r.lang, preorder: r.preorder || [], sparkler: !!r.sparkler, cat: r.cat || null, minSpend: r.minSpend || 0, noShowFee: r.noShowFee || 0, arrive: !!r.arrive, reminded: !!r.remindedAt });
 async function getReservation(store, id, key, site = '') {
   const date = await findDate(store, str(id, 40));
   if (!date) return { error: 'notfound', status: 404 };
@@ -714,13 +851,151 @@ async function getReservation(store, id, key, site = '') {
 async function cancelByGuest(store, id, key) {
   const date = await findDate(store, str(id, 40));
   if (!date) return { error: 'notfound', status: 404 };
+  const cfg = await getConfig(store);
   return mutateDay(store, date, list => {
     const r = list.find(x => x.id === id);
     if (!r || !safeEqual(r.key, key || '')) return { error: 'notfound', status: 404 };
     if (!['pending', 'confirmed'].includes(r.status)) return { error: 'state', status: 409 };
+    if (r.status === 'confirmed' && pastDeadline(cfg, r.date)) return { error: 'late', status: 409 };
     r.status = 'cancelled'; r.updatedAt = isoNow(); r.history.push({ at: r.updatedAt, by: 'guest', to: 'cancelled' });
     return { ok: true, reservation: r };
   });
+}
+
+/** Gost jednim dodirom potvrđuje dolazak (link iz podsjetnika). */
+async function confirmArrival(store, id, key) {
+  const date = await findDate(store, str(id, 40));
+  if (!date) return { error: 'notfound', status: 404 };
+  return mutateDay(store, date, list => {
+    const r = list.find(x => x.id === id);
+    if (!r || !safeEqual(r.key, key || '')) return { error: 'notfound', status: 404 };
+    if (r.status !== 'confirmed') return { error: 'state', status: 409 };
+    if (!r.arrive) { r.arrive = isoNow(); r.updatedAt = r.arrive; r.history.push({ at: r.arrive, by: 'guest', to: 'arrive' }); }
+    return { ok: true, reservation: r };
+  });
+}
+/** Osoblje šalje podsjetnik (WhatsApp) — bilježimo kad je poslan. */
+async function adminRemind(store, id) {
+  const date = await findDate(store, str(id, 40));
+  if (!date) return { error: 'notfound', status: 404 };
+  return mutateDay(store, date, list => {
+    const r = list.find(x => x.id === id);
+    if (!r) return { error: 'notfound', status: 404 };
+    if (r.status !== 'confirmed') return { error: 'state', status: 409 };
+    r.remindedAt = isoNow(); r.updatedAt = r.remindedAt; r.history.push({ at: r.remindedAt, by: 'staff', to: 'remind' });
+    return { ok: true, reservation: r };
+  });
+}
+
+/* ---------- ulaz (hostesa): pretraga i uvođenje gostiju ---------- */
+/** Koliko minuta je prošlo od dogovorenog dolaska (negativno = rano). */
+function lateBy(r, now = zagrebNow()) {
+  const P = d => { const [y, m, dd] = d.split('-').map(Number); return Date.UTC(y, m - 1, dd); };
+  return Math.round((P(now.date) - P(r.date)) / 864e5) * 1440 + now.min - r.start;
+}
+async function findRes(store, id) {
+  id = str(id, 40); const date = await findDate(store, id);
+  if (!date) return { error: 'notfound', status: 404 };
+  const { list } = await readDay(store, date);
+  const r = list.find(x => x.id === id);
+  return r ? { ok: true, reservation: r } : { error: 'notfound', status: 404 };
+}
+async function findCode(store, code) {
+  const c = str(code, 16).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (c.length < 4) return { error: 'code', status: 400 };
+  const b = bizNow();
+  for (const d of [b.date, addDays(b.date, 1), addDays(b.date, -1)]) {
+    const { list } = await readDay(store, d);
+    const r = list.find(x => String(x.code || '').toUpperCase() === c);
+    if (r) return { ok: true, reservation: r };
+  }
+  return { error: 'notfound', status: 404 };
+}
+async function checkIn(store, body, by = 'hostesa') {
+  const cfg = await getConfig(store);
+  const id = str(body.id, 40); const date = await findDate(store, id);
+  if (!date) return { error: 'notfound', status: 404 };
+  return mutateDay(store, date, list => {
+    const r = list.find(x => x.id === id);
+    if (!r) return { error: 'notfound', status: 404 };
+    if (!['confirmed', 'pending', 'noshow'].includes(r.status)) return { error: 'state', status: 409 };
+    if (body.tableId && body.tableId !== r.tableId) {
+      if (!cfg.tables.find(t => t.id === body.tableId)) return { error: 'table', status: 400 };
+      if (!tableFree(cfg, list, body.tableId, r.start, r.id)) return { error: 'taken', status: 409 };
+      r.tableId = str(body.tableId, 12);
+      const c = catOf(cfg, r.tableId);
+      if (c && (c.minSpend || c.noShow)) Object.assign(r, { cat: c.id, minSpend: c.minSpend, noShowFee: c.noShow }); else { delete r.cat; delete r.minSpend; delete r.noShowFee; }
+    }
+    if (body.party != null) { const p = Math.floor(Number(body.party)); if (p >= 1 && p <= 60) r.party = p; }
+    const before = r.status;
+    r.status = 'seated'; r.arrivedAt = isoNow(); r.lateMin = lateBy(r); r.checkedBy = str(by, 20); r.updatedAt = r.arrivedAt;
+    r.history.push({ at: r.arrivedAt, by: r.checkedBy, from: before, to: 'seated' });
+    return { ok: true, reservation: r };
+  });
+}
+
+/* =====================================================================
+   GARDEROBA (hostesa): broj na mobitelu gosta umjesto papirića
+   ===================================================================== */
+/* 'kaput' ostaje samo radi starijih zapisa — novi unos koristi "Jakna / kaput". */
+const COAT_KINDS = { jakna: ['Jakna / kaput', 'Jacket / coat', '🧥'], kaput: ['Kaput', 'Coat', '🧥'], torba: ['Torba', 'Bag', '👜'], ruksak: ['Ruksak', 'Backpack', '🎒'], vrecica: ['Vrećica', 'Shopping bag', '🛍️'], kisobran: ['Kišobran', 'Umbrella', '☂️'], kapa: ['Kapa / šal', 'Hat / scarf', '🧣'], kaciga: ['Kaciga', 'Helmet', '⛑️'], ostalo: ['Ostalo', 'Other', '📦'] };
+const COAT_MAX = 400;
+const coatKey = d => `coat/${d}`;
+const coatNow = () => { const b = bizNow(); return { date: b.date, min: b.min }; };
+const coatPublic = (x, cfg) => ({ id: x.id, no: x.no, items: x.items, desc: x.desc, name: x.name, status: x.status, atMin: x.atMin, outMin: x.outMin ?? null, ph: !!x.ph, venue: cfg ? cfg.venue : '' });
+const coatLite = x => { const { photo, ...rest } = x; return rest; };
+async function coatList(store) {
+  const n = coatNow(); const list = await read(store, coatKey(n.date), []);
+  const used = new Set(list.filter(x => x.status === 'in').map(x => x.no)); let next = null;
+  for (let i = 1; i <= COAT_MAX; i++) if (!used.has(i)) { next = i; break; }
+  return { ok: true, date: n.date, now: n, list: list.map(coatLite), next, max: COAT_MAX };
+}
+async function coatNew(store, body, by = 'hostesa') {
+  const items = (Array.isArray(body.items) ? body.items : []).map(x => ({ t: COAT_KINDS[x && x.t] ? x.t : 'ostalo', n: Math.max(1, Math.min(9, Math.floor(+(x && x.n) || 1))) })).slice(0, 8);
+  if (!items.length) return { error: 'items', status: 400 };
+  const photo = typeof body.photo === 'string' && /^data:image\/(jpeg|webp|png);base64,[A-Za-z0-9+/=]+$/.test(body.photo) && body.photo.length < 200000 ? body.photo : '';
+  const n = coatNow();
+  const res = await mutate(store, coatKey(n.date), [], list => {
+    const used = new Set(list.filter(x => x.status === 'in').map(x => x.no));
+    let no = Math.floor(+body.no) || 0;
+    if (no) { if (no < 1 || no > COAT_MAX) return { error: 'no', status: 400 }; if (used.has(no)) return { error: 'taken', status: 409 }; }
+    else { for (let i = 1; i <= COAT_MAX; i++) if (!used.has(i)) { no = i; break; } if (!no) return { error: 'full', status: 409 }; }
+    const it = { id: token(8), k: token(12), no, items, desc: str(body.desc, 80), name: str(body.name, 40), table: str(body.table, 12), ph: !!photo, status: 'in', at: isoNow(), atMin: Number.isFinite(+body._min) ? Math.round(+body._min) : n.min, by: str(by, 20) };
+    if (body._status === 'out') Object.assign(it, { status: 'out', outMin: Math.round(+body._outMin || n.min) });
+    list.push(it); return { ok: true, ticket: it };
+  });
+  if (res.ok && photo) await store.setJSON(`coatp/${res.ticket.id}`, { photo }, null);
+  return res;
+}
+async function coatFindRaw(store, pred) {
+  const n = coatNow();
+  for (const d of [n.date, addDays(n.date, -1)]) { const list = await read(store, coatKey(d), []); const x = list.filter(pred).sort((a, b) => (a.status === 'in' ? 0 : 1) - (b.status === 'in' ? 0 : 1))[0]; if (x) return { x, date: d }; }
+  return null;
+}
+async function coatFind(store, q) {
+  const no = Math.floor(+q.no) || 0, id = str(q.id, 40), k = str(q.k, 40);
+  const f = await coatFindRaw(store, x => (id ? x.id === id && (!k || safeEqual(x.k, k)) : x.no === no));
+  return f ? { ok: true, ticket: coatLite(f.x), date: f.date } : { error: 'notfound', status: 404 };
+}
+async function coatOut(store, body, by = 'hostesa') {
+  const id = str(body.id, 40); const n = coatNow();
+  for (const d of [n.date, addDays(n.date, -1)]) {
+    const r = await mutate(store, coatKey(d), [], list => {
+      const x = list.find(y => y.id === id); if (!x) return { noop: true, miss: true };
+      if (x.status !== 'in') return { error: 'state', status: 409 };
+      x.status = 'out'; x.outMin = n.min + (d < n.date ? 1440 : 0); x.outAt = isoNow(); x.outBy = str(by, 20);
+      return { ok: true, ticket: coatLite(x) };
+    });
+    if (!(r && r.miss)) return r;
+  }
+  return { error: 'notfound', status: 404 };
+}
+async function coatPhoto(store, id) { const r = await store.getJSON(`coatp/${str(id, 40)}`); return { ok: true, photo: (r && r.data && r.data.photo) || '' }; }
+async function coatGuest(store, id, k) {
+  const f = await coatFindRaw(store, x => x.id === str(id, 40) && safeEqual(x.k, str(k, 40)));
+  if (!f) return { error: 'notfound', status: 404 };
+  const cfg = await getConfig(store);
+  return { ok: true, ticket: coatPublic(f.x, cfg), date: f.date, kinds: COAT_KINDS };
 }
 
 /* ---------- admin: rezervacije ---------- */
@@ -756,6 +1031,8 @@ async function adminUpdate(store, body) {
       if (!cfg.tables.find(t => t.id === body.tableId)) return { error: 'table', status: 400 };
       if (ACTIVE.has(r.status) && !tableFree(cfg, list, body.tableId, r.start, r.id)) return { error: 'taken', status: 409 };
       r.tableId = body.tableId;
+      const c = catOf(cfg, r.tableId);
+      if (c && (c.minSpend || c.noShow)) Object.assign(r, { cat: c.id, minSpend: c.minSpend, noShowFee: c.noShow }); else { delete r.cat; delete r.minSpend; delete r.noShowFee; }
     }
     if (body.start != null && Number(body.start) !== r.start) {
       const s = Math.floor(Number(body.start)); if (!(s >= 0 && s < 2880)) return { error: 'time', status: 400 };
@@ -785,7 +1062,7 @@ async function adminUpdate(store, body) {
 async function adminSaveConfig(store, cfgIn) {
   const cur = await getConfig(store);
   const next = { ...cur };
-  const keys = ['venue', 'phone', 'plan', 'zones', 'tables', 'hours', 'slotMinutes', 'durationMinutes', 'leadMinutes', 'daysAhead', 'maxParty', 'holdMinutes', 'closedDates', 'autoConfirm', 'rules', 'features'];
+  const keys = ['venue', 'phone', 'plan', 'zones', 'tables', 'hours', 'slotMinutes', 'durationMinutes', 'leadMinutes', 'daysAhead', 'maxParty', 'holdMinutes', 'closedDates', 'autoConfirm', 'rules', 'features', 'policy'];
   for (const k of keys) if (cfgIn[k] !== undefined) next[k] = cfgIn[k];
   if (!Array.isArray(next.tables) || !next.tables.length) return { error: 'tables', status: 400 };
   const ids = new Set();
@@ -1026,7 +1303,7 @@ async function venueSummary(store) {
   const st = await adminStats(store, 7);
   return {
     id: store.venue, name: cfg.venue, day, features: cfg.features || {},
-    tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), tables: cfg.tables.length },
+    tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), tables: cfg.tables.length, booked: new Set(act.map(r => r.tableId)).size, minSpend: act.reduce((a, r) => a + (r.minSpend || 0), 0), arrived: act.filter(r => r.status === 'seated').length, late: day === b.date ? act.filter(r => r.status !== 'seated' && lateBy(r) > 5).length : 0 },
     week,
     live: { open: live.filter(x => OPEN.has(x.status) && x.kind !== 'song').length, songQueue: live.filter(x => x.kind === 'song' && x.status === 'new').length, today: live.length, orders: live.filter(x => x.kind === 'order').length, orderEur: live.filter(x => x.kind === 'order' && x.status !== 'skip').reduce((a, x) => a + (x.total || 0), 0), songs: live.filter(x => x.kind === 'song').length, calls: live.filter(x => x.kind === 'call').length, bills: live.filter(x => x.kind === 'bill').length, avgAck: acked.length ? Math.round(acked.reduce((a, s) => a + s, 0) / acked.length) : null, slowAck: acked.length ? Math.round(Math.max(...acked)) : null, recent: live.slice(-6).reverse() },
     feedback: { unread: fb.unread, total: fb.list.length, recent: fb.list.slice(0, 3) },
@@ -1046,7 +1323,7 @@ const DAYS = { hr: ['nedjelja', 'ponedjeljak', 'utorak', 'srijeda', 'četvrtak',
 const MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function humanDate(date, lang = 'hr') { const [, m, d] = date.split('-'); return lang === 'en' ? `${DAYS.en[weekday(date)]}, ${+d} ${MONTHS_EN[+m - 1]}` : `${DAYS.hr[weekday(date)]}, ${+d}.${+m}.`; }
 const formsOf = cfg => cfg.forms || { loc: 'u ' + cfg.venue, gen: 'iz ' + cfg.venue };
-const eur = (v, L) => new Intl.NumberFormat(L === 'en' ? 'en-IE' : 'hr-HR', { style: 'currency', currency: 'EUR' }).format(v);
+const eur = (v, L) => new Intl.NumberFormat(L === 'en' ? 'en-IE' : 'hr-HR', { style: 'currency', currency: 'EUR', minimumFractionDigits: Number.isInteger(+v) ? 0 : 2, maximumFractionDigits: 2 }).format(v);
 function guestMessage(r, cfg, site, kind) {
   const L = r.lang === 'en' ? 'en' : 'hr';
   const link = `${site}/rezervacije/?r=${r.id}&k=${r.key}`;
@@ -1055,9 +1332,25 @@ function guestMessage(r, cfg, site, kind) {
     ? `\n🍾 Uz stol: ${r.preorder.map(x => `${x.qty > 1 ? x.qty + '× ' : ''}${x.name}${x.vol ? ' ' + x.vol : ''}`).join(', ')}${r.sparkler ? ' ✨ s prskalicom' : ''}`
     : `\n🍾 At your table: ${r.preorder.map(x => `${x.qty > 1 ? x.qty + '× ' : ''}${x.name}${x.vol ? ' ' + x.vol : ''}`).join(', ')}${r.sparkler ? ' ✨ with a sparkler' : ''}`) : '';
   const F = formsOf(cfg);
+  const zn = r.cat ? ((cfg.zones || []).find(z => z.id === r.cat) || {}) : {};
+  const catTxt = r.minSpend ? (L === 'hr' ? ` (${zn.short || r.cat})\n💶 Minimalna potrošnja ${eur(r.minSpend, L)} po stolu` : ` (${zn.short || r.cat})\n💶 Minimum spend ${eur(r.minSpend, L)} per table`) : '';
+  const dl = cancelDeadline(cfg, r.date);
+  const rules = dl ? (L === 'hr' ? `\nOtkazivanje najkasnije do ${fmt(dl.min)} na dan rezervacije${r.noShowFee ? ` — inače naknada za nedolazak ${eur(r.noShowFee, L)} po osobi` : ''}.` : `\nCancel by ${fmt(dl.min)} on the day at the latest${r.noShowFee ? ` — otherwise a no-show fee of ${eur(r.noShowFee, L)} per person applies` : ''}.`) : '';
+  const pol = cfg.policy && (cfg.policy.age || cfg.policy.dress) ? (L === 'hr' ? `\n${cfg.policy.age ? `🔞 ${cfg.policy.age}+` : ''}${cfg.policy.age && cfg.policy.dress ? ' · ' : ''}${cfg.policy.dress ? `👔 Dress code: ${cfg.policy.dress.hr || cfg.policy.dress}` : ''}` : `\n${cfg.policy.age ? `🔞 ${cfg.policy.age}+` : ''}${cfg.policy.age && cfg.policy.dress ? ' · ' : ''}${cfg.policy.dress ? `👔 Dress code: ${cfg.policy.dress.en || cfg.policy.dress}` : ''}`) : '';
   if (kind === 'confirmed') return L === 'hr'
-    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${pre}\nStol držimo ${cfg.holdMinutes} min. Promjene ili otkaz: ${link}\nVidimo se!`
-    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${pre}\nWe hold the table for ${cfg.holdMinutes} min. Changes or cancellation: ${link}\nSee you!`;
+    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${pol}\nStol držimo ${cfg.holdMinutes} min.${rules}\n🎟️ Vaša ulaznica s QR kodom (pokažite je na ulazu), promjene i otkaz: ${link}\nVidimo se!`
+    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${pol}\nWe hold the table for ${cfg.holdMinutes} min.${rules}\n🎟️ Your ticket with a QR code (show it at the door), changes or cancellation: ${link}\nSee you!`;
+  if (kind === 'remind') {
+    const today = r.date === bizNow().date;
+    const whenR = today ? (L === 'hr' ? `večeras u ${fmt(r.start)}` : `tonight at ${fmt(r.start)}`) : (L === 'hr' ? `${humanDate(r.date, L)} u ${fmt(r.start)}` : `${humanDate(r.date, L)} at ${fmt(r.start)}`);
+    const catR = r.minSpend ? (L === 'hr' ? ` (${zn.short || r.cat}, min. potrošnja ${eur(r.minSpend, L)})` : ` (${zn.short || r.cat}, min. spend ${eur(r.minSpend, L)})`) : '';
+    const out = dl && !pastDeadline(cfg, r.date)
+      ? (L === 'hr' ? `Ne stižete? Otkažite na istom linku do ${fmt(dl.min)}${r.noShowFee ? ' — bez naknade' : ''}.` : `Can't make it? Cancel via the same link by ${fmt(dl.min)}${r.noShowFee ? ' — free of charge' : ''}.`)
+      : (L === 'hr' ? `Ne stižete? Javite nam na ${cfg.phone} da stol damo drugima.` : `Can't make it? Let us know at ${cfg.phone} so we can give the table to someone else.`);
+    return L === 'hr'
+      ? `Pozdrav ${F.gen}! 👋 Podsjetnik: ${whenR} čeka Vas stol ${r.tableId}${catR}.\n👥 ${r.party} os. · na ime ${r.name}\n👉 Potvrdite dolazak jednim dodirom: ${link}&a=1\n${out}`
+      : `Hi from ${cfg.venue}! 👋 Reminder: table ${r.tableId}${catR} is waiting for you ${whenR}.\n👥 ${r.party} guests · for ${r.name}\n👉 Confirm you're coming with one tap: ${link}&a=1\n${out}`;
+  }
   if (kind === 'declined') return L === 'hr'
     ? `Pozdrav ${F.gen}. Nažalost, za ${when} nemamo slobodan stol za ${r.party} os. (rezervacija na ime ${r.name}). Nazovite nas na ${cfg.phone} pa ćemo naći drugi termin.`
     : `Hi from ${cfg.venue}. Unfortunately we have no table for ${r.party} on ${when} (reservation for ${r.name}). Call us at ${cfg.phone} and we'll find another time.`;
@@ -1065,7 +1358,7 @@ function guestMessage(r, cfg, site, kind) {
 }
 function staffMessage(r, cfg, site, path = '') {
   const pre = (r.preorder || []).length ? `\n🍾 ${r.preorder.map(x => `${x.qty}× ${x.name} ${x.vol}`).join(', ')} (${eur(preorderTotal(r))})${r.sparkler ? ' ✨' : ''}` : '';
-  return `🆕 Nova rezervacija ${cfg.venue}\n📅 ${humanDate(r.date)} ${fmt(r.start)}\n👥 ${r.party} os. · stol ${r.tableId}\n👤 ${r.name} · ${r.phone}${r.occasion ? `\n🎉 ${r.occasion}` : ''}${r.note ? `\n📝 ${r.note}` : ''}${pre}\nKod: ${r.code}\nPotvrdi: ${site}${path}/admin/#${r.date}`;
+  return `🆕 Nova rezervacija ${cfg.venue}\n📅 ${humanDate(r.date)} ${fmt(r.start)}\n👥 ${r.party} os. · stol ${r.tableId}${r.minSpend ? ` · min. ${eur(r.minSpend)}` : ''}\n👤 ${r.name} · ${r.phone}${r.occasion ? `\n🎉 ${r.occasion}` : ''}${r.note ? `\n📝 ${r.note}` : ''}${pre}\nKod: ${r.code}\nPotvrdi: ${site}${path}/admin/#${r.date}`;
 }
 /** Kratka obavijest za WhatsApp (vanjski servis): bez imena, broja i napomene gosta. */
 function staffAlert(r, cfg, site, path = '') {
@@ -1073,7 +1366,7 @@ function staffAlert(r, cfg, site, path = '') {
 }
 const waLink = (phone, text) => `https://wa.me/${String(phone).replace(/\D/g, '')}?text=${encodeURIComponent(text)}`;
 
-return { VENUES, VENUE_IDS, isVenue, TZ, setClock, zagrebNow, bizNow, toMin, fmt, weekday, addDays, isDate, token, shortCode, safeEqual, scoped, getConfig, publicConfig, slotsFor, ACTIVE, overlaps, tableFree, fits, bestTable, cleanPhone, preorderTotal, availability, createReservation, guestView, getReservation, cancelByGuest, defaultDay, adminDay, adminUpdate, adminSaveConfig, adminSearch, adminUpcoming, liveCreate, liveStatus, adminLive, adminLiveUpdate, feedbackCreate, adminFeedback, adminFeedbackUpdate, adminFeedbackReadAll, getMenu, adminSaveMenu, statsHit, adminStats, venueSummary, groupSummary, humanDate, guestMessage, staffMessage, staffAlert, waLink };
+return { VENUES, VENUE_IDS, isVenue, TZ, setClock, zagrebNow, bizNow, toMin, fmt, weekday, addDays, isDate, token, shortCode, safeEqual, scoped, getConfig, publicConfig, catOf, cancelDeadline, pastDeadline, slotsFor, ACTIVE, overlaps, tableFree, fits, bestTable, cleanPhone, preorderTotal, availability, createReservation, guestView, getReservation, cancelByGuest, confirmArrival, adminRemind, lateBy, findRes, findCode, checkIn, COAT_KINDS, coatList, coatNew, coatFind, coatOut, coatPhoto, coatGuest, defaultDay, adminDay, adminUpdate, adminSaveConfig, adminSearch, adminUpcoming, liveCreate, liveStatus, adminLive, adminLiveUpdate, feedbackCreate, adminFeedback, adminFeedbackUpdate, adminFeedbackReadAll, getMenu, adminSaveMenu, statsHit, adminStats, venueSummary, groupSummary, humanDate, guestMessage, staffMessage, staffAlert, waLink };
 })();
 __m["router"] = (function () {
 /* =====================================================================
@@ -1084,6 +1377,8 @@ __m["router"] = (function () {
    ADMIN_PIN_QCLUB, ADMIN_PIN_KAFANICA, ADMIN_PIN_BURE, ADMIN_PIN_BROOKLYN
                       PIN osoblja po lokalu (ili zajednički ADMIN_PIN)
    OWNER_PIN          PIN vlasnika: pregled grupe + ulaz u admin svih lokala
+   HOSTESS_PIN_QCLUB, HOSTESS_PIN_KAFANICA, HOSTESS_PIN_BURE
+                      (neobavezno) šifra hostese na ulazu: samo dolasci, tlocrt i uvođenje gostiju
    SITE_URL           npr. https://tiptapreviews.com (za linkove u porukama)
    RESEND_API_KEY     (neobavezno) e-mail preko resend.com
    MAIL_FROM          npr. "TipTap <rezervacije@tvoja-domena.hr>"
@@ -1116,12 +1411,32 @@ async function sendWhatsAppStaff(env, v, text) {
   return (await Promise.all(jobs)).some(Boolean);
 }
 
-function pinOk(req, env, v) {
+/** Tko je prijavljen: vlasnik, voditelj lokala ili hostesa na ulazu (HOSTESS_PIN_<LOKAL>). */
+function pinRole(req, env, v) {
   const pin = req.headers.get('x-admin-pin') || '';
-  if (!pin) return false;
-  const own = env.OWNER_PIN, staff = v ? envFor(env, 'ADMIN_PIN', v) : '';
-  return (!!own && C.safeEqual(pin, own)) || (!!staff && C.safeEqual(pin, staff));
+  if (!pin) return null;
+  if (env.OWNER_PIN && C.safeEqual(pin, env.OWNER_PIN)) return 'owner';
+  const staff = v ? envFor(env, 'ADMIN_PIN', v) : '';
+  if (staff && C.safeEqual(pin, staff)) return 'admin';
+  const host = v ? envFor(env, 'HOSTESS_PIN', v) : '';
+  if (host && C.safeEqual(pin, host)) return 'host';
+  return null;
 }
+function pinOk(req, env, v) { const r = pinRole(req, env, v); return r === 'owner' || r === 'admin'; }
+/* Zaštita PIN-a (samo živi rad): 20 pogrešnih PIN-ova s iste adrese → 15 minuta stanke za tu adresu.
+   Pogađanje 4-znamenkastog PIN-a tako traje danima umjesto minuta. U demu (env.DEMO) se ne koristi. */
+const LOCK_N = 20, LOCK_MS = 15 * 60e3;
+const ipKey = req => 'sec/pin/' + (String(req.headers.get('x-nf-client-connection-ip') || (req.headers.get('x-forwarded-for') || '').split(',')[0] || '').trim().replace(/[^0-9a-fA-F.]/g, '_').slice(0, 45) || 'x');
+async function pinLocked(store, env, req) {
+  if (env.DEMO) return false;
+  try { const r = await store.getJSON(ipKey(req)); const d = r && r.data; return !!(d && d.n >= LOCK_N && Date.now() - d.t < LOCK_MS); } catch { return false; }
+}
+async function pinFailed(store, env, req) {
+  if (env.DEMO || !req.headers.get('x-admin-pin')) return;   // prazan PIN nije pokušaj pogađanja
+  try { const k = ipKey(req), r = await store.getJSON(k); let d = r && r.data; if (!d || Date.now() - d.t > LOCK_MS) d = { n: 0, t: 0 }; d.n++; d.t = Date.now(); await store.setJSON(k, d, null); } catch { }
+}
+/** Hostesa vidi samo ono što treba na ulazu. */
+const HOST_OK = new Set(['/login', '/day', '/res', '/code', '/checkin', '/coat', '/coat/new', '/coat/out', '/coat/find', '/coat/photo']);
 
 async function route(req, { store, env = {}, waitUntil } = {}) {
   const url = new URL(req.url);
@@ -1135,7 +1450,8 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     /* ----- vlasnik: pregled svih lokala ----- */
     if (parts[0] === 'group') {
       if (!env.OWNER_PIN) return json({ error: 'nopin' }, 500);
-      if (!pinOk(req, env, null)) { await new Promise(r => setTimeout(r, 500)); return json({ error: 'auth' }, 401); }
+      if (await pinLocked(store, env, req)) return json({ error: 'locked' }, 429);
+      if (!pinOk(req, env, null)) { await pinFailed(store, env, req); await new Promise(r => setTimeout(r, 500)); return json({ error: 'auth' }, 401); }
       if (parts[1] === 'login') return json({ ok: true });
       if (parts[1] === 'summary') return json(await C.groupSummary(store));
       return json({ error: 'notfound' }, 404);
@@ -1176,6 +1492,11 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
       await later(Promise.all([sendWhatsAppStaff(env, v, alert), sendEmail(env, envFor(env, 'NOTIFY_EMAIL', v), 'Otkazana rezervacija ' + x.code, alert + ` · ${x.name}`)]));
       return json({ ok: true, reservation: C.guestView(x) });
     }
+    if (path === '/coat' && req.method === 'GET') { const r = await C.coatGuest(S, q('g'), q('k')); return r.error ? fail(r) : json(r); }
+    if (path === '/arrive' && req.method === 'POST') {
+      const r = await C.confirmArrival(S, body.id, body.k);
+      return r.error ? fail(r) : json({ ok: true, reservation: C.guestView(r.reservation) });
+    }
     if (path === '/menu' && req.method === 'GET') return json(await C.getMenu(S));
     if (path === '/live' && req.method === 'POST') { const r = await C.liveCreate(S, body); return r.error ? fail(r) : json({ ok: true, id: r.id, k: r.k, dup: !!r.dup }); }
     if (path === '/live/status' && req.method === 'GET') { const r = await C.liveStatus(S, q('id'), q('k')); return r.error ? fail(r) : json(r); }
@@ -1191,9 +1512,20 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     /* ----- admin (osoblje lokala ili vlasnik) ----- */
     if (parts[1] === 'admin') {
       if (!envFor(env, 'ADMIN_PIN', v) && !env.OWNER_PIN) return json({ error: 'nopin' }, 500);
-      if (!pinOk(req, env, v)) { await new Promise(r => setTimeout(r, 500)); return json({ error: 'auth' }, 401); }
+      if (await pinLocked(store, env, req)) return json({ error: 'locked' }, 429);
+      const role = pinRole(req, env, v);
+      if (!role) { await pinFailed(store, env, req); await new Promise(r => setTimeout(r, 500)); return json({ error: 'auth' }, 401); }
       const a = '/' + parts.slice(2).join('/');
-      if (a === '/login') return json({ ok: true, owner: !!env.OWNER_PIN && C.safeEqual(req.headers.get('x-admin-pin'), env.OWNER_PIN) });
+      if (role === 'host' && !HOST_OK.has(a)) return json({ error: 'role' }, 403);
+      if (a === '/login') return json({ ok: true, owner: role === 'owner', role });
+      if (a === '/res' && req.method === 'GET') { const r = await C.findRes(S, q('id')); return r.error ? fail(r) : json({ ...r, now: C.zagrebNow(), biz: C.bizNow() }); }
+      if (a === '/code' && req.method === 'GET') { const r = await C.findCode(S, q('code')); return r.error ? fail(r) : json({ ...r, now: C.zagrebNow(), biz: C.bizNow() }); }
+      if (a === '/coat' && req.method === 'GET') return json(await C.coatList(S));
+      if (a === '/coat/new' && req.method === 'POST') { const r = await C.coatNew(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
+      if (a === '/coat/out' && req.method === 'POST') { const r = await C.coatOut(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
+      if (a === '/coat/find' && req.method === 'GET') { const r = await C.coatFind(S, { no: q('no'), id: q('id'), k: q('k') }); return r.error ? fail(r) : json(r); }
+      if (a === '/coat/photo' && req.method === 'GET') return json(await C.coatPhoto(S, q('id')));
+      if (a === '/checkin' && req.method === 'POST') { const r = await C.checkIn(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
       if (a === '/day') { const d = q('date') || await C.defaultDay(S); if (!C.isDate(d)) return json({ error: 'date' }, 400); return json(await C.adminDay(S, d)); }
       if (a === '/upcoming') return json(await C.adminUpcoming(S, C.bizNow().date, 14));
       if (a === '/search') return json(await C.adminSearch(S, q('q'), C.zagrebNow().date));
@@ -1209,6 +1541,13 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
           if (x.email && body.notify !== false) await later(sendEmail(env, x.email, `${cfg.venue} — ${x.status === 'confirmed' ? (x.lang === 'en' ? 'reservation confirmed' : 'rezervacija potvrđena') : (x.lang === 'en' ? 'reservation' : 'rezervacija')} ${x.code}`, msg));
         }
         return json({ ok: true, reservation: x, wa, msg });
+      }
+      if (a === '/remind' && req.method === 'POST') {
+        const r = await C.adminRemind(S, body.id);
+        if (r.error) return fail(r);
+        const cfg = await C.getConfig(S); const x = r.reservation;
+        const msg = C.guestMessage(x, cfg, site + vpath, 'remind');
+        return json({ ok: true, reservation: x, msg, wa: x.phone ? C.waLink(x.phone, msg) : null });
       }
       if (a === '/config' && req.method === 'GET') return json({ ok: true, config: await C.getConfig(S), env: { email: !!env.RESEND_API_KEY && !!envFor(env, 'NOTIFY_EMAIL', v), whatsapp: !!envFor(env, 'CALLMEBOT', v), demo: !!env.DEMO } });
       if (a === '/config' && req.method === 'POST') { const r = await C.adminSaveConfig(S, body.config || {}); return r.error ? fail(r) : json(r); }
@@ -1306,6 +1645,13 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     return href.includes('?') ? href.replace('?', '?' + t + '&') : href.replace(/(#.*)?$/, '?' + t + '$1');
   };
 
+  /** Broj telefona za prikaz: +385 92 000 0130 (spremljen je bez razmaka). */
+  TT.phoneFmt = p => {
+    const s = String(p || ''), m = s.match(/^\+385(\d{7,10})$/); if (!m) return s;
+    const d = m[1], a = d[0] === '1' ? 1 : 2, r = d.slice(a);
+    return `+385 ${d.slice(0, a)} ${r.length > 3 ? r.slice(0, 3) + ' ' + r.slice(3) : r}`;
+  };
+
   /* ---------- PIN (admin) ---------- */
   TT.pin = v => ls.get('tt_pin_' + (v || 'group'), '') || '';   // i u demu: voditelj/direktor se prijavljuje PIN-om
   TT.setPin = (v, p) => { if (p) ls.set('tt_pin_' + (v || 'group'), p); else try { localStorage.removeItem('tt_pin_' + (v || 'group')); } catch (e) { } };
@@ -1321,7 +1667,7 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   };
   TT.store = STORE;
   /** Demo PIN-ovi (u pravom sustavu postavljaju se na serveru): svaki voditelj ima PIN svog lokala, direktori BHT-a svoj PIN za sve. */
-  const ENV = { ADMIN_PIN_QCLUB: '1111', ADMIN_PIN_KAFANICA: '2222', ADMIN_PIN_BURE: '3333', ADMIN_PIN_BROOKLYN: '4444', OWNER_PIN: '2580', DEMO: true, SITE_URL: TT.root.replace(/\/$/, '') };
+  const ENV = { ADMIN_PIN_QCLUB: '1111', ADMIN_PIN_KAFANICA: '2222', ADMIN_PIN_BURE: '3333', ADMIN_PIN_BROOKLYN: '4444', OWNER_PIN: '2580', HOSTESS_PIN_QCLUB: '1000', HOSTESS_PIN_KAFANICA: '2000', HOSTESS_PIN_BURE: '3000', DEMO: true, SITE_URL: TT.root.replace(/\/$/, '') };
   let ready = null;
   function demoReady() {
     if (ready) return ready;
@@ -1331,6 +1677,49 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     return ready;
   }
   TT.demoReady = demoReady;
+  /* DEMO s dva mobitela: u demu svaki mobitel ima svoje podatke, pa QR ulaznice / broja s garderobe nosi i
+     sažetak (parametar d=). Mobitel koji ga skenira, a nema taj zapis, doda ga kod sebe. U pravom sustavu
+     podaci su na serveru i ovo se ne koristi. */
+  TT.demoPack = o => { try { return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); } catch (e) { return ''; } };
+  TT.demoUnpack = s => { try { s = String(s || '').replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch (e) { return null; } };
+  /** Sažetak rezervacije za QR (kratki ključevi, bez telefona). Prazno ako bi QR bio pregust. */
+  const STC = { pending: 'p', confirmed: 'c', seated: 's', cancelled: 'x', declined: 'd', done: 'o', noshow: 'n' };
+  TT.demoResPack = (r, max = 240) => {
+    const o = { c: r.code, d: r.date, s: r.start, p: r.party, t: r.tableId, n: String(r.name || '').slice(0, 40), st: STC[r.status] || 'c', o: r.occasion || undefined, a: r.arrive ? 1 : undefined, pr: (r.preorder || []).length ? r.preorder.slice(0, 3).map(x => [String(x.name).slice(0, 30), x.qty]) : undefined };
+    let s = TT.demoPack(o); if (s.length > max) { delete o.pr; delete o.o; s = TT.demoPack(o); }
+    return s.length > max ? '' : s;
+  };
+  TT.demoCoatPack = (x, max = 200) => {
+    const o = { d: x.date, n: x.no, it: (x.items || []).map(i => i.t + (i.n > 1 ? '*' + i.n : '')).join(','), ds: String(x.desc || '').slice(0, 50) || undefined, nm: String(x.name || '').slice(0, 20) || undefined, at: x.atMin, st: x.status === 'out' ? 'out' : undefined, o: x.outMin != null ? x.outMin : undefined };
+    const s = TT.demoPack(o); return s.length > max ? '' : s;
+  };
+  /** Uvoz zapisa sa skeniranog QR-a u lokalne demo podatke. kind: 'res' (id, k) ili 'coat' (id, k). */
+  TT.demoImport = async (venue, kind, id, k, packed) => {
+    const o = TT.mode === 'demo' ? TT.demoUnpack(packed) : null;
+    if (!o || !id || !/^\d{4}-\d{2}-\d{2}$/.test(o.d || '')) return false;
+    try {
+      await demoReady();
+      const C = TTCore.core, S = C.scoped(STORE, venue), now = new Date().toISOString();
+      const key = (kind === 'coat' ? 'coat/' : 'res/') + o.d;
+      const cur = await S.getJSON(key), list = (cur && cur.data) || [];
+      if (!list.some(x => x.id === id)) {
+        if (kind === 'coat') {
+          const items = String(o.it || '').split(',').filter(Boolean).map(s => { const [t, n] = s.split('*'); return { t, n: +n || 1 }; });
+          list.push(Object.assign({ id, k, no: +o.n || 0, items, desc: o.ds || '', name: o.nm || '', table: '', ph: false, status: o.st === 'out' ? 'out' : 'in', at: now, atMin: +o.at || 0, by: 'hostesa' }, o.st === 'out' ? { outMin: +o.o || 0 } : {}));
+        } else {
+          const cfg = await C.getConfig(S), tb = (cfg.tables || []).find(t => t.id === o.t), z = tb && (cfg.zones || []).find(x => x.id === tb.zone);
+          const st = Object.keys(STC).find(x => STC[x] === o.st) || 'confirmed';
+          list.push(Object.assign({ id, key: k, code: o.c || '', date: o.d, start: +o.s, end: +o.s + (cfg.durationMinutes || 180), party: +o.p || 2, tableId: String(o.t || ''), name: o.n || '', phone: '', email: '', note: '', occasion: o.o || '',
+            preorder: (o.pr || []).map(([name, qty]) => ({ id: '', name, qty: +qty || 1, vol: '', eur: 0 })), sparkler: false, lang: 'hr',
+            status: st, source: 'web', createdAt: now, updatedAt: now, history: [] },
+            o.a ? { arrive: now } : {}, z && (z.minSpend || z.noShow) ? { cat: z.id, minSpend: z.minSpend, noShowFee: z.noShow } : {}));
+          await S.setJSON('idx/' + id, { date: o.d }, null);
+        }
+        await S.setJSON(key, list, null);
+      }
+      return true;
+    } catch (e) { return false; }
+  };
   TT.resetDemo = async () => {
     if (TT.clearGuestLocal) TT.clearGuestLocal(true);   // i odjava voditelja/direktora
     else try { const ks = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith(P) || k.startsWith('tt_my'))) ks.push(k); } ks.forEach(k => localStorage.removeItem(k)); } catch (e) { }
@@ -1466,11 +1855,11 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   const VNAME = { qclub: 'Q Club', kafanica: 'Kafanica', bure: 'Bure Bar', brooklyn: 'Brooklyn' };
   const VORD = ['qclub', 'kafanica', 'bure', 'brooklyn'];
   const dT = v => (TT.DEMO_T || {})[v] || { qclub: 'pet-23:05', kafanica: 'pet-20:40', bure: 'pet-21:10', brooklyn: 'pet-18:20' }[v] || 'pet-21:00';
-  const dTab = v => (TT.DEMO_TABLE || {})[v] || { qclub: 'V1', kafanica: 'K3', bure: 'B2', brooklyn: 'T3' }[v] || '1';
+  const dTab = v => (TT.DEMO_TABLE || {})[v] || { qclub: '23', kafanica: '3', bure: '26', brooklyn: 'T3' }[v] || '1';
   /** Link unutar demoa. Isti lokal (ili vlasnik) → isti demo sat; drugi lokal → vrijeme njegove priče. */
   TT.demoHref = (v, view, o = {}) => {
     const tv = view === 'owner' ? null : v;
-    let u = view === 'owner' ? TT.root + 'grupa/' : view === 'rez' ? TT.url(tv, 'rezervacije/') : view === 'admin' ? TT.url(tv, 'admin/') : TT.url(tv, '') + '?stol=' + encodeURIComponent(o.table || dTab(tv));
+    let u = view === 'owner' ? TT.root + 'grupa/' : view === 'rez' ? TT.url(tv, 'rezervacije/') : view === 'admin' ? TT.url(tv, 'admin/') : view === 'host' ? TT.url(tv, 'hostesa/') : TT.url(tv, '') + '?stol=' + encodeURIComponent(o.table || dTab(tv));
     if (o.q) u += (u.includes('?') ? '&' : '?') + o.q;
     if (TT.clock && (tv === null || tv === TT.venue)) u = TT.keepClock(u);
     else if (tv) u += (u.includes('?') ? '&' : '?') + 't=' + dT(tv);
@@ -1483,6 +1872,10 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
 .ttd-pill.r{left:auto;right:14px;transform:translateY(-110%)}
 .ttd-pill.r.on{transform:none}
 body.ttd-pad{padding-top:14px}
+html.ttd-rez .top{padding-top:calc(max(14px,env(safe-area-inset-top,0px)) + 16px)}
+html.ttd-garderoba .gw{padding-top:calc(max(14px,env(safe-area-inset-top,0px)) + 20px)}
+html.ttd-hostesa .uh{padding-top:calc(max(10px,env(safe-area-inset-top,0px)) + 18px)}
+html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px)) + 20px)}
 .ttd-pill i{width:6px;height:6px;border-radius:50%;background:#1a1205;animation:ttdp 1.6s infinite}
 @keyframes ttdp{0%,100%{opacity:.85}50%{opacity:.2}}
 .ttd-pill svg{width:10px;height:10px}
@@ -1530,14 +1923,19 @@ body.ttd-pad{padding-top:14px}
     let css = false;
     const addCss = () => { if (css) return; css = true; const s = document.createElement('style'); s.textContent = DCSS; document.head.appendChild(s); };
     const onBody = fn => { if (document.body) fn(); else addEventListener('DOMContentLoaded', fn); };
-    const here = () => ({ menu: 'menu', rez: 'rez', admin: 'admin', grupa: 'owner' }[CFG.page] || 'menu');
+    const here = () => ({ menu: 'menu', rez: 'rez', admin: 'admin', grupa: 'owner', hostesa: 'host', garderoba: 'coatguest' }[CFG.page] || 'menu');
     const NOREZ = { brooklyn: true };   // Brooklyn radi bez rezervacija
+    const HOST = { bure: ['🚪', 'Hostesa na ulazu', 'Skenira ulaznicu gosta: stol, kašnjenje i uvjeti · šifra hostese'],
+                   kafanica: ['🚪', 'Hostesa · ulaz i garderoba', 'Ulaznice gostiju i garderoba s brojem na mobitelu · šifra hostese'],
+                   qclub: ['🧥', 'Garderoba · hostesa', 'Broj na mobitelu gosta, točno što je ostavio · šifra hostese'] };
     const VIEWS = v => [
       ['menu', '🍸', 'Gost za stolom', v === 'kafanica' ? 'Cjenik, poziv konobara i pjesma po želji' : v === 'brooklyn' ? 'Cjenik, poziv konobara i račun' : 'Cjenik i poziv konobara jednim dodirom'],
-      ...(NOREZ[v] ? [] : [['rez', '📅', 'Rezervacija stola', v === 'qclub' ? 'Gost bira stol na tlocrtu i bocu uz stol' : 'Gost bira stol na tlocrtu i dobiva potvrdu']]),
+      ...(NOREZ[v] ? [] : [['rez', '📅', 'Rezervacija stola', v === 'qclub' ? 'Gost bira stol na tlocrtu i bocu uz stol' : 'Gost bira stol na tlocrtu i dobiva ulaznicu s QR kodom'],
+      ]),
+      ...(HOST[v] ? [['host', HOST[v][0], HOST[v][1], HOST[v][2]]] : []),
       ['admin', '🔐', 'Voditelj lokala', (v === 'kafanica' ? 'Rezervacije, pozivi, glazba, cjenik' : NOREZ[v] ? 'Pozivi sa stolova, cjenik, poruke' : 'Rezervacije, pozivi, cjenik, statistika') + ' · PIN voditelja'],
       ['owner', '👑', 'Direktor · BHT', 'Sva 4 lokala na jednom ekranu · PIN direktora']];
-    const viewFor = (x, k) => k === 'rez' && NOREZ[x] ? 'menu' : k;
+    const viewFor = (x, k) => k === 'rez' && NOREZ[x] ? 'menu' : k === 'host' && !HOST[x] ? 'admin' : k;
     function sheetHTML() {
       const v = TT.venue, cur = here();
       let h = `<div class="ttd-grab"></div><div class="ttd-hd"><div><small>TipTap demo</small><b>${v ? TT.esc(VNAME[v] || CFG.name || '') : 'BHT · 4 lokala'}</b></div><button type="button" class="ttd-x" data-ttd-close aria-label="Zatvori">×</button></div>
@@ -1549,7 +1947,7 @@ body.ttd-pad{padding-top:14px}
         h += `<div class="ttd-sub">Ostali lokali</div><div class="ttd-vs">${VORD.filter(x => x !== v).map(x => `<a href="${TT.esc(TT.demoHref(x, viewFor(x, cur)))}">${VNAME[x]}</a>`).join('')}</div>`;
       } else {
         h += `<a class="ttd-it on" href="#" data-ttd-close><span class="ic">👑</span><span class="t"><b>Direktor · BHT</b><small>Sva 4 lokala na jednom ekranu</small></span><em>Ovdje ste</em></a><div class="ttd-sub">Lokali</div>`;
-        h += VORD.map(x => `<div class="ttd-vrow"><b>${VNAME[x]}</b><span><a href="${TT.esc(TT.demoHref(x, 'menu'))}">Gost</a>${NOREZ[x] ? '' : `<a href="${TT.esc(TT.demoHref(x, 'rez'))}">Rezervacija</a>`}<a href="${TT.esc(TT.demoHref(x, 'admin'))}">Voditelj</a></span></div>`).join('');
+        h += VORD.map(x => `<div class="ttd-vrow"><b>${VNAME[x]}</b><span><a href="${TT.esc(TT.demoHref(x, 'menu'))}">Gost</a>${NOREZ[x] ? '' : `<a href="${TT.esc(TT.demoHref(x, 'rez'))}">Rezervacija</a>`}${HOST[x] ? `<a href="${TT.esc(TT.demoHref(x, 'host'))}">${x === 'qclub' ? 'Garderoba' : 'Hostesa'}</a>` : ''}<a href="${TT.esc(TT.demoHref(x, 'admin'))}">Voditelj</a></span></div>`).join('');
       }
       return h + `<button type="button" class="ttd-reset" data-ttd-reset>↺ Vrati demo na početak</button>`;
     }
@@ -1593,6 +1991,7 @@ body.ttd-pad{padding-top:14px}
       {
         const side = ['admin', 'grupa'].includes(CFG.page);   // voditelj/direktor: gore desno (lijevo su logo i naziv)
         if (CFG.page === 'menu') document.body.classList.add('ttd-pad');
+        document.documentElement.classList.add('ttd-' + CFG.page);   // mjesto za gumb DEMO iznad zaglavlja (rezervacija, hostesa, garderoba)
         const b = document.createElement('button'); b.type = 'button'; b.className = 'ttd-pill' + (side ? ' r' : ''); b.setAttribute('aria-label', 'Demo: gost, voditelj, direktor');
         b.innerHTML = '<i></i>DEMO<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5 6 7.5 9 4.5"/></svg>';
         b.addEventListener('click', openSheet); document.body.appendChild(b);
@@ -1619,8 +2018,20 @@ body.ttd-pad{padding-top:14px}
         } else if (path === '/reserve' && res && (res.reservation || res).id) {
           const rr = res.reservation || res;
           n = { text: '📅 Lokal je upravo dobio Vašu rezervaciju.', cta: 'Potvrdite kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 16000 };
+        } else if (path === '/arrive' && res && res.reservation) {
+          const rr = res.reservation;
+          n = { text: '✅ Voditelj na popisu odmah vidi „dolazak potvrđen”.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }) };
         } else if (path === '/feedback') {
           n = { text: '✉️ Poruka je stigla voditelju i direktorima — potpuno anonimno.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: 'msgs' }) };
+        }
+      } else if (page === 'hostesa') {
+        if (path === '/admin/coat/out' && res && res.ticket) {
+          const x = res.ticket;
+          n = { text: `📱 Gost na mobitelu vidi „preuzeto” — broj ${x.no} je opet slobodan.`, cta: 'Pogledajte kao gost', href: TT.keepClock(TT.url(v, 'garderoba/') + '?g=' + encodeURIComponent(x.id) + '&k=' + encodeURIComponent(x.k || '')) };
+        }
+        if (path === '/admin/checkin' && res && res.reservation) {
+          const rr = res.reservation;
+          n = { text: `🚪 Uprava odmah vidi da su ${rr.name.split(' ').slice(-1)[0]} stigli${rr.lateMin > 5 ? ` (kasnili ${rr.lateMin} min)` : ''} i za kojim stolom sjede.`, cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 14000 };
         }
       } else if (page === 'admin') {
         if (path === '/admin/live/update' && res && res.item) {
@@ -1651,11 +2062,11 @@ body.ttd-pad{padding-top:14px}
 (function () {
   'use strict';
   const TT = window.TT; if (!TT) return;
-  const VERSION = 'v12';
+  const VERSION = 'v20';
   /** Stolovi za priču prezentacije: na demo dan i dan poslije ostaju slobodni za rezervaciju uživo. */
-  const STORY = { qclub: ['V2'], kafanica: ['S2', 'K2'], bure: ['B1'], brooklyn: ['L3'] };
+  const STORY = { qclub: ['VIP', '47'], kafanica: ['35', '15'], bure: ['31', '25'], brooklyn: ['L3'] };
   /** Stolovi koje prezentacija koristi kao "gostov stol" (cjenik za stolom). */
-  TT.DEMO_TABLE = { qclub: 'V1', kafanica: 'K3', bure: 'B2', brooklyn: 'T3' };
+  TT.DEMO_TABLE = { qclub: '23', kafanica: '3', bure: '26', brooklyn: 'T3' };
   /** Zadano vrijeme prezentacije po lokalu (dan + sat). */
   TT.DEMO_T = { qclub: 'pet-23:05', kafanica: 'pet-20:40', bure: 'pet-21:10', brooklyn: 'pet-18:20' };
 
@@ -1664,15 +2075,16 @@ body.ttd-pad{padding-top:14px}
   const M = ['Luka', 'Ivan', 'Marko', 'Josip', 'Filip', 'Matej', 'Karlo', 'Domagoj', 'Tomislav', 'Ante', 'Dario', 'Hrvoje', 'Nikola', 'David', 'Leon', 'Mateo', 'Bruno', 'Dino', 'Igor', 'Stjepan'];
   const SUR = ['Horvat', 'Kovačević', 'Babić', 'Marić', 'Jurić', 'Novak', 'Kovačić', 'Knežević', 'Vuković', 'Marković', 'Petrović', 'Matić', 'Tomić', 'Pavlović', 'Božić', 'Blažević', 'Grgić', 'Pavić', 'Radić', 'Perić', 'Šarić', 'Lovrić', 'Vidović', 'Perković', 'Nikolić', 'Bošnjak', 'Mandić', 'Klarić', 'Galić', 'Jakovljević'];
   /** Napomene: uz prigodu (da se ne kose) ili općenite. */
+  /** Napomene uz prigodu; funkcija dobiva broj osoba (da se napomena ne kosi s rezervacijom). */
   const OCC_NOTES = {
     rodjendan: ['Slavimo 25. rođendan 🎉', 'Torta u ponoć — donosimo je sami 🎂', 'Iznenađenje za slavljenicu, molimo diskretno 🤫'],
     proslava: ['Proslava godišnjice braka ❤️', 'Slavimo diplomu 🎓', 'Proslava novog posla 🥂'],
-    momacka: ['Momačka večer — dolazimo oko 23 h', 'Djevojačka, 8 cura 💃'],
+    momacka: ['Momačka večer 🎉', p => `Djevojačka, ${p} cura 💃`],
     posao: ['Poslovna večera — trebat će R1 račun', 'Dolazimo s poslovnim partnerima iz Zagreba'],
     utakmica: ['Gledamo utakmicu — stol s pogledom na TV ⚽', 'Dolazimo prije početka utakmice']
   };
   const NOTES = {
-    qclub: ['Dolazimo oko pola 12', 'Molimo stol bliže DJ-u', 'Prvi put kod vas 🙂'],
+    qclub: ['Možda kasnimo desetak minuta', 'Molimo stol bliže DJ-u', 'Prvi put kod vas 🙂'],
     kafanica: ['Što bliže bini, molim', 'Bit ćemo 10 minuta kasnije', 'Dolazi i baka, treba nam stolica s naslonom'],
     bure: ['Dolazimo nakon posla', 'Prvi put kod vas 🙂', 'Probali bismo sva craft piva 🍺'],
     brooklyn: ['Stol na terasi ako je lijepo vrijeme', 'Trebamo dječju stolicu', 'Kratki sastanak uz kavu', 'Dolazimo s psom 🐶']
@@ -1701,39 +2113,51 @@ body.ttd-pad{padding-top:14px}
     let ph = 100 + vi * 200;
     const phone = () => `+385 9${1 + Math.floor(R() * 8)} 000 ${String(++ph).padStart(4, '0')}`;
     const person = () => `${pick(R, R() < .5 ? F : M)} ${pick(R, SUR)}`;
+    const PRE_OK = t => !!(cfg.features && cfg.features.preorder && (cfg.features.preorderZones || []).includes(t.zone) && bottles.length);
+    const mkPre = (body, party) => {
+      const b1 = pick(R, bottles.slice(0, Math.min(8, bottles.length)));
+      body.preorder = [{ id: b1.id, name: b1.name, vol: b1.vol, eur: b1.eur, qty: party >= 8 && R() < .5 ? 2 : 1 }];
+      if (R() < .35) { const b2 = pick(R, bottles); if (b2.id !== b1.id) body.preorder.push({ id: b2.id, name: b2.name, vol: b2.vol, eur: b2.eur, qty: 1 }); }
+      body.sparkler = R() < .7;
+    };
 
     /* --- rezervacije: od prekjučer do +12 dana --- */
     const dates = new Set(); if (!(cfg.features && cfg.features.reservations === false)) { for (let i = -2; i <= 12; i++) dates.add(TT.addDays(real.date, i)); dates.add(demoDate); }
     for (const date of [...dates].sort()) {
       const slots = C.slotsFor(cfg, date); if (!slots.length) continue;
       const w = TT.wd(date), weekend = w === 5 || w === 6;
-      const dens = v === 'brooklyn' ? (weekend ? .4 : .22) : weekend ? (date === demoDate ? .74 : .6) : (w === 4 ? .38 : .2);
+      const dens = v === 'brooklyn' ? (weekend ? .4 : .22) : v === 'bure' ? (weekend ? (date === demoDate ? .48 : .42) : (w === 4 ? .3 : .16)) : weekend ? (date === demoDate ? .74 : .6) : (w === 4 ? .38 : .2);
       const isDemo = date === demoDate, isPast = date < real.date && !isDemo, isNext = date === TT.addDays(demoDate, 1);
-      const keep = t => !((isDemo || isNext) && (STORY[v] || []).includes(t.id)) && !(isDemo && t.id === TT.DEMO_TABLE[v]);
+      const keep = t => !t.noRes && !((isDemo || isNext) && (STORY[v] || []).includes(t.id)) && !(isDemo && t.id === TT.DEMO_TABLE[v]);
       const tables = cfg.tables.filter(keep).sort(() => R() - .5).slice(0, Math.round(cfg.tables.length * dens));
       if (isDemo) {   // gost za "demo stolom" (cjenik za stolom u prezentaciji) već sjedi
         const t = cfg.tables.find(x => x.id === TT.DEMO_TABLE[v]);
         const early = slots.filter(m => m <= demoMin - 15); const start = early.length ? early[early.length - 1] : slots[0];
-        if (t) await C.createReservation(S, { date, start, party: Math.max(t.min || 1, Math.min(t.max, 4)), tableId: t.id, name: person(), phone: phone(), status: 'seated', source: 'web', _at: iso(2 * 864e5) }, { admin: true });
+        if (t) { const party = Math.max(t.min || 1, Math.min(t.max, 4)); const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status: 'seated', source: 'web', _at: iso(2 * 864e5), _lateMin: 4 }; if (PRE_OK(t)) mkPre(body, party); await C.createReservation(S, body, { admin: true }); }
       }
-      let pend = 0;
+      let pend = 0, late = 0;
       for (const t of tables) {
-        const party = Math.max(t.min || 1, Math.min(t.max, Math.round((t.min || 1) + R() * (t.max - (t.min || 1)))));
+        const lo = Math.min(t.max, Math.max(2, t.min || 1));   // stol se rezervira barem za dvoje
+        const party = Math.round(lo + R() * (t.max - lo));
         const early = slots.slice(0, Math.max(2, Math.ceil(slots.length * .7)));
         const start = pick(R, R() < .7 ? early : slots);
         let status = 'confirmed';
         if (isPast) status = R() < .9 ? 'done' : 'noshow';
-        else if (isDemo) status = start + 20 <= demoMin ? 'seated' : (pend < 2 && R() < .35 ? (pend++, 'pending') : 'confirmed');
-        else if (date <= TT.addDays(real.date, 6) && R() < .25) status = 'pending';
-        const occasion = pick(R, OCC[v] || ['']);
-        const note = occasion ? (R() < .55 ? pick(R, OCC_NOTES[occasion] || ['']) : '') : (R() < .3 ? pick(R, NOTES[v] || ['']) : '');
-        const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status, source: status === 'pending' ? 'web' : pick(R, SRC), occasion, note, _at: iso((1 + R() * 9) * 864e5) };
-        if (cfg.features && cfg.features.preorder && (cfg.features.preorderZones || []).includes(t.zone) && bottles.length && R() < .8) {
-          const b1 = pick(R, bottles.slice(0, Math.min(8, bottles.length)));
-          body.preorder = [{ id: b1.id, name: b1.name, vol: b1.vol, eur: b1.eur, qty: party >= 8 && R() < .5 ? 2 : 1 }];
-          if (R() < .35) { const b2 = pick(R, bottles); if (b2.id !== b1.id) body.preorder.push({ id: b2.id, name: b2.name, vol: b2.vol, eur: b2.eur, qty: 1 }); }
-          body.sparkler = R() < .7;
+        else if (isDemo) {
+          const ago = demoMin - start;
+          if (ago >= 6 && late < 2 && (ago < 20 || R() < .3)) { status = 'confirmed'; late++; }   // kasne — hostesa ih još čeka na ulazu
+          else if (ago >= 6) status = 'seated';
+          else status = pend < 2 && R() < .35 ? (pend++, 'pending') : 'confirmed';
         }
+        else if (date <= TT.addDays(real.date, 6) && R() < .25) status = 'pending';
+        let occasion = pick(R, OCC[v] || ['']);
+        if (occasion === 'momacka' && party < 5) occasion = 'rodjendan';   // momačka / djevojačka tek za veće društvo
+        let note = occasion ? (R() < .55 ? pick(R, OCC_NOTES[occasion] || ['']) : '') : (R() < .3 ? pick(R, NOTES[v] || ['']) : '');
+        if (typeof note === 'function') note = note(party);
+        const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status, source: status === 'pending' ? 'web' : pick(R, SRC), occasion, note, _at: iso((1 + R() * 9) * 864e5) };
+        if (PRE_OK(t) && (isDemo || R() < .8)) mkPre(body, party);
+        if (isDemo && status === 'confirmed' && R() < .55) body._arrive = iso((1 + R() * 6) * 3600e3);   // potvrdili dolazak (podsjetnik u podne)
+        if (status === 'seated') body._lateMin = Math.round(-8 + R() * 22);   // hostesa ih je uvela: na vrijeme ili par minuta kasnije
         await C.createReservation(S, body, { admin: true });
       }
     }
@@ -1763,6 +2187,29 @@ body.ttd-pad{padding-top:14px}
     if (cfg.features && cfg.features.songs) SONGS.forEach(([title, artist, ded], i) => liveList.push(mk('song', [66, 38, 6, 1][i], ['done', 'done', 'ack', 'new'][i], { song: { title, artist, ded } })));
     liveList.sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
     for (const d of new Set([demoDate, TT.biz().date, (() => { const n = TT.realNow(); return n.min < 360 ? TT.addDays(n.date, -1) : n.date; })()])) await S.setJSON(`live/${d}`, liveList.map(x => Object.assign({}, x, { id: C.token(6) })), null);
+
+    /* --- garderoba (Q Club, Kafanica): jakne koje su gosti večeras već predali --- */
+    if (((cfg.features || {}).hostess || []).includes('coat')) {
+      /* opis uvijek odgovara prvoj stvari (jakna ↔ "crna kožna jakna", torba ↔ "crvena torbica"…) */
+      const DESC = {
+        jakna: ['crna kožna jakna', 'bež kaput', 'traper jakna', 'crni puhovac', 'zelena parka', 'siva jakna s krznom', 'tamnoplavi kaput', 'bijela jakna', 'smeđa kožna jakna', 'crni kaput', 'bordo kaput', '', '', ''],
+        torba: ['crvena torbica', 'crna torba s lancem', 'bež torba', ''],
+        ruksak: ['crni ruksak', 'sivi ruksak', '']
+      };
+      const ADD = { torba: 'torba', kapa: 'šal', kisobran: 'kišobran' };
+      const NAMES = ['Ana', 'Luka', 'Ivana', 'Marko', 'Petra', 'Dora', '', '', '', '', '', ''];
+      const from = demoMin - (v === 'qclub' ? 65 : 100), N = v === 'qclub' ? 46 : 28, list = [];
+      const ats = Array.from({ length: N }, (_, i) => Math.round(from + (demoMin - 8 - from) * (i / N) + R() * 3)).sort((a, b) => a - b);   // brojevi idu redom kako su gosti dolazili
+      for (let i = 0; i < N; i++) {
+        const r = R(); const items = [{ t: r < .8 ? 'jakna' : r < .9 ? 'torba' : 'ruksak', n: R() < .18 ? 2 : 1 }];
+        if (R() < .25) { const t2 = pick(R, ['torba', 'kapa', 'kisobran']); if (t2 !== items[0].t) items.push({ t: t2, n: 1 }); }
+        let desc = items[0].n === 1 ? pick(R, DESC[items[0].t] || ['']) : '';
+        if (desc && items[1] && R() < .6) desc += ' + ' + ADD[items[1].t];
+        const at = ats[i], out = i < 7 && R() < .7;
+        list.push(Object.assign({ id: C.token(8), k: C.token(12), no: i + 1, items, desc, name: pick(R, NAMES), table: '', ph: false, status: out ? 'out' : 'in', at: iso(0), atMin: at, by: 'hostesa' }, out ? { outMin: Math.min(demoMin - 3, at + 35 + Math.round(R() * 25)) } : {}));
+      }
+      await S.setJSON(`coat/${demoDate}`, list, null);
+    }
 
     /* --- anonimne poruke --- */
     const fbByMonth = {};
@@ -1858,7 +2305,7 @@ window.TT_BOTTLES=[];
       const r = t.r || 28, high = t.shape === 'high';
       el('circle', { cx: t.x, cy: t.y, r: r + 30, fill: `url(#${id}glow)`, class: 'pl-halo' }, grp);
       const n = Math.max(2, Math.min(t.max || 4, high ? 5 : 8)), cr = r + (high ? 12 : 13);
-      for (let i = 0; i < n; i++) { const a = (i / n) * Math.PI * 2 - Math.PI / 2 + (n === 2 ? 0 : Math.PI / n); chairC(grp, t.x + Math.cos(a) * cr, t.y + Math.sin(a) * cr, high ? 6.5 : 8, c); }
+      for (let i = 0; i < n; i++) { const a = (i / n) * Math.PI * 2 - Math.PI / 2 + (n === 2 || t.cross ? 0 : Math.PI / n); chairC(grp, t.x + Math.cos(a) * cr, t.y + Math.sin(a) * cr, high ? 6.5 : 8, c); }
       if (t.shape === 'barrel') {
         el('circle', { cx: t.x, cy: t.y, r, class: 'pl-top', fill: `url(#${id}barrel)` }, grp);
         el('circle', { cx: t.x, cy: t.y, r: r - 6, fill: 'none', stroke: '#2a1a0c', 'stroke-width': 3, opacity: .7, 'pointer-events': 'none' }, grp);
@@ -1886,6 +2333,16 @@ window.TT_BOTTLES=[];
         el('rect', { x: x + 26, y: y + 28, width: w - 52, height: h - 46, rx: 8, class: 'pl-ring', fill: 'none' }, sub);
       }
     } else {
+      if (Array.isArray(t.seats)) {   // točan raspored stolica [gore, dolje, lijevo, desno] — kao na tlocrtu lokala
+        const [tp, bt, lf, rt] = t.seats.map(v => +v || 0);
+        const row = (cnt, fn) => { for (let i = 0; i < cnt; i++) fn((i + .5) / cnt); };
+        row(tp, f => chairR(sub, x + w * f, y - 10, 18, 11, c)); row(bt, f => chairR(sub, x + w * f, y + h + 10, 18, 11, c));
+        row(lf, f => chairR(sub, x - 10, y + h * f, 11, 18, c)); row(rt, f => chairR(sub, x + w + 10, y + h * f, 11, 18, c));
+        el('rect', { x, y, width: w, height: h, rx: t.shape === 'long' ? 8 : 9, class: 'pl-top' }, sub);
+        el('rect', { x, y, width: w, height: h, rx: t.shape === 'long' ? 8 : 9, class: 'pl-ring', fill: 'none' }, sub);
+        el('rect', { x: x - 16, y: y - 16, width: w + 32, height: h + 32, rx: 18, ...hit }, sub);
+        return { cx: t.x, cy: t.y, rr: Math.min(w, h) / 2 };
+      }
       // stolice uz duže stranice (i na krajevima za dugi stol)
       const n = Math.max(2, Math.min(t.max || 4, 14)), long = w >= h;
       const ends = t.shape === 'long' && n >= 6 ? 2 : 0, side = Math.ceil((n - ends) / 2), side2 = n - ends - side;
@@ -1946,7 +2403,7 @@ window.TT_BOTTLES=[];
       case 'bar': {
         el('rect', { x: w.x, y: w.y, width: w.w, height: w.h, rx: 10, fill: `url(#${id}wood)`, stroke: c.trim, 'stroke-width': 2 }, gg);
         // barske stolice prema sredini prostora
-        const n = Math.max(2, Math.floor((vert ? w.h : w.w) / 46));
+        const n = w.stools != null ? +w.stools : Math.max(2, Math.floor((vert ? w.h : w.w) / 46));
         for (let i = 0; i < n; i++) {
           const p = (i + .5) / n;
           if (vert) { const sx = cx < P.w / 2 ? w.x + w.w + 14 : w.x - 14; chairC(gg, sx, w.y + w.h * p, 6.5, c); }
@@ -1976,16 +2433,69 @@ window.TT_BOTTLES=[];
    * opts.sub(t) → mali tekst ispod oznake · opts.alert(t) → '🔔' itd. (pulsira)
    * opts.onTap(t) · opts.editable · opts.onMove(obj,isWall) · opts.onSelectObj(obj,isWall)
    */
-  function render(svg, cfg, opts = {}) {
+  /** Tlocrt okrenut za 90° (ulaz dolje) — za uske ekrane mobitela; vraća kopiju s istim oznakama stolova. */
+  function rot90(cfg) {
+    const P = cfg.plan, W = P.w;
+    const walls = (P.walls || []).map(w => Object.assign({}, w, { x: w.y, y: W - w.x - w.w, w: w.h, h: w.w }));
+    const tables = cfg.tables.map(t => {
+      const n = Object.assign({}, t, { x: t.y, y: W - t.x });
+      if (t.shape === 'booth' || t.shape === 'lounge') n.rot = ((+t.rot || 0) + 270) % 360;
+      else if (t.w != null) { n.w = t.h; n.h = t.w; }
+      if (Array.isArray(t.seats)) { const [tp, bt, lf, rt] = t.seats; n.seats = [rt, lf, tp, bt]; }
+      return n;
+    });
+    return Object.assign({}, cfg, { plan: Object.assign({}, P, { w: P.h, h: P.w, walls }), tables });
+  }
+  const wantRot = (cfg, opts) => opts.rotate != null ? !!opts.rotate : !!(cfg.plan && cfg.plan.rotateMobile && !opts.editable && innerWidth < 700);
+
+  /* ---------- etaže (npr. Q Club: prizemlje i kat) — vodoravne trake jednog tlocrta ---------- */
+  const floorsOf = cfg => (cfg && cfg.plan && Array.isArray(cfg.plan.floors) && cfg.plan.floors.length) ? cfg.plan.floors : null;
+  function floorOf(cfg, tableId) {
+    const F = floorsOf(cfg); if (!F) return null;
+    const t = (cfg.tables || []).find(x => x.id === tableId); if (!t) return null;
+    if (t.floor) return t.floor;
+    const f = F.find(f => t.y >= f.y && t.y < f.y + f.h); return f ? f.id : F[0].id;
+  }
+  function floorBar(svg, F, fid, lang) {
+    const box = svg.closest('.planbox') || svg.parentNode; if (!box || !box.parentNode) return;
+    let bar = box.previousElementSibling;
+    if (!bar || !bar.classList.contains('flbar')) { bar = document.createElement('div'); bar.className = 'flbar'; bar.setAttribute('role', 'tablist'); box.parentNode.insertBefore(bar, box); }
+    bar.innerHTML = F.map(f => `<button type="button" role="tab" data-floor="${f.id}" aria-pressed="${f.id === fid}">${(lang === 'en' && f.en) || f.name}</button>`).join('');
+    bar.onclick = e => { const b = e.target.closest('[data-floor]'); if (!b || b.dataset.floor === svg.__floor) return; svg.__floor = b.dataset.floor; const [c0, o] = svg.__last || []; if (c0) render(svg, c0, Object.assign({}, o, { floor: b.dataset.floor })); svg.dispatchEvent(new CustomEvent('floor', { detail: b.dataset.floor })); };
+  }
+
+  function render(svg, cfg0, opts = {}) {
+    const rotated = wantRot(cfg0, opts);
+    const cfg = rotated ? rot90(cfg0) : cfg0;
     const P = cfg.plan || { w: 1000, h: 640, walls: [] };
     const id = 'pl' + (++uid) + '-';
     svg.innerHTML = '';
-    svg.setAttribute('viewBox', `0 0 ${P.w} ${P.h}`);
-    svg.classList.add('plan');
+    const F = floorsOf(cfg0); let fl = null;
+    if (F) {
+      const want = opts.focus ? floorOf(cfg0, opts.focus) : null;
+      const fid = opts.floor === 'all' ? null : (want || opts.floor || svg.__floor || F[0].id);
+      fl = fid ? (F.find(f => f.id === fid) || F[0]) : null;
+      svg.__floor = fl ? fl.id : null; svg.__last = [cfg0, Object.assign({}, opts, { floor: undefined, focus: undefined })];
+      if (opts.floorBar !== false && fl) floorBar(svg, F, fl.id, opts.lang);
+    }
+    const B = fl ? (rotated ? { x: fl.y, y: 0, w: fl.h, h: P.h } : { x: 0, y: fl.y, w: P.w, h: fl.h }) : { x: 0, y: 0, w: P.w, h: P.h };
+    const baseStr = `${B.x} ${B.y} ${B.w} ${B.h}`;
+    const keep = svg.__vb && svg.__vb.base === baseStr ? svg.__vb.cur : null;   // zum ostaje kad se tlocrt osvježi
+    svg.__vb = { base: baseStr, cur: keep || baseStr, W: P.w, H: P.h, bx: B.x, by: B.y, bw: B.w, bh: B.h, rot: rotated, pos: Object.fromEntries(cfg.tables.map(t => [t.id, [t.x, t.y]])) };
+    svg.setAttribute('viewBox', svg.__vb.cur);
+    svg.classList.add('plan'); svg.classList.toggle('rot', rotated); svg.classList.toggle('zoomed', !!keep && keep !== svg.__vb.base);
     const c = pal(svg);
     defs(svg, c, id);
-    el('rect', { x: 0, y: 0, width: P.w, height: P.h, rx: 24, fill: `url(#${id}floor)` }, svg);
-    el('rect', { x: 5, y: 5, width: P.w - 10, height: P.h - 10, rx: 20, fill: 'none', stroke: c.edge, 'stroke-width': 6 }, svg);
+    if (F) {   // svaka etaža svoja podloga i oznaka
+      F.forEach(f => {
+        const R = rotated ? { x: f.y, y: 0, w: f.h, h: P.h } : { x: 0, y: f.y, w: P.w, h: f.h };
+        el('rect', { x: R.x, y: R.y, width: R.w, height: R.h, rx: 24, fill: `url(#${id}floor)` }, svg);
+        el('rect', { x: R.x + 5, y: R.y + 5, width: R.w - 10, height: R.h - 10, rx: 20, fill: 'none', stroke: c.edge, 'stroke-width': 6 }, svg);
+      });
+    } else {
+      el('rect', { x: 0, y: 0, width: P.w, height: P.h, rx: 24, fill: `url(#${id}floor)` }, svg);
+      el('rect', { x: 5, y: 5, width: P.w - 10, height: P.h - 10, rx: 20, fill: 'none', stroke: c.edge, 'stroke-width': 6 }, svg);
+    }
     // podloge (zone, terasa, rijeka) ispod svega
     const walls = (P.walls || []).map((w, i) => [w, i]);
     const under = walls.filter(([w]) => ['area', 'deck', 'river', 'dance'].includes(w.type)), over = walls.filter(([w]) => !['area', 'deck', 'river', 'dance'].includes(w.type));
@@ -1997,7 +2507,7 @@ window.TT_BOTTLES=[];
     const byId = {};
     cfg.tables.forEach(t => {
       const cls = (opts.state ? opts.state(t) : 'free') || '';
-      const gg = el('g', { class: 'pl-t ' + cls + (t.vip ? ' vip' : ''), 'data-id': t.id, tabindex: opts.onTap ? 0 : -1, role: opts.onTap ? 'button' : 'img', 'aria-label': `${t.id} ${t.min}-${t.max}` }, svg);
+      const gg = el('g', { class: 'pl-t ' + cls + (t.vip ? ' vip' : '') + (t.zone ? ' cat-' + t.zone : ''), 'data-id': t.id, tabindex: opts.onTap ? 0 : -1, role: opts.onTap ? 'button' : 'img', 'aria-label': `${t.id} ${t.min}-${t.max}` }, svg);
       const s = tableShape(t, gg, c, id);
       const al = opts.alert ? opts.alert(t) : '';
       if (al) {
@@ -2042,8 +2552,81 @@ window.TT_BOTTLES=[];
     gg.addEventListener('pointerup', end); gg.addEventListener('pointercancel', end);
   }
 
-  g.TTPlan = { render };
+  /* ---------- zum (glatko, kao u aplikacijama) ---------- */
+  const ease = k => 1 - Math.pow(1 - k, 3);
+  function animVB(svg, to, ms = 520) {
+    const st = svg.__vb; if (!st) return;
+    const from = (svg.getAttribute('viewBox') || st.base).split(/[\s,]+/).map(Number), T = to.split(/[\s,]+/).map(Number);
+    cancelAnimationFrame(svg.__raf); const t0 = performance.now();
+    const red = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const step = now => { const k = red ? 1 : Math.min(1, (now - t0) / ms), e = ease(k); const v = from.map((a, i) => a + (T[i] - a) * e); svg.setAttribute('viewBox', v.map(x => x.toFixed(1)).join(' ')); if (k < 1) svg.__raf = requestAnimationFrame(step); };
+    svg.__raf = requestAnimationFrame(step); st.cur = to; svg.classList.toggle('zoomed', to !== st.base);
+  }
+  /** Približi stol (oznaka) — z = koliko puta, okvir ostaje unutar tlocrta. */
+  function zoomTo(svg, tableId, z = 2.2, ms) {
+    let st = svg.__vb; if (!st || !st.pos[tableId]) return;
+    if (svg.__last && svg.__floor) {   // stol na drugoj etaži → prvo prebaci etažu
+      const f = floorOf(svg.__last[0], tableId);
+      if (f && f !== svg.__floor) { render(svg, svg.__last[0], Object.assign({}, svg.__last[1], { floor: f })); st = svg.__vb; }
+    }
+    const [cx, cy] = st.pos[tableId]; const bx = st.bx || 0, by = st.by || 0, bw = st.bw || st.W, bh = st.bh || st.H;
+    const w = bw / z, h = bh / z;
+    const x = Math.max(bx, Math.min(bx + bw - w, cx - w / 2)), y = Math.max(by, Math.min(by + bh - h, cy - h / 2));
+    animVB(svg, `${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`, ms);
+  }
+  function zoomReset(svg, ms) { const st = svg.__vb; if (st) animVB(svg, st.base, ms); }
+
+  g.TTPlan = { render, zoomTo, zoomReset, rot90, floorsOf, floorOf };
 })(window);
+/* Minimal QR encoder (byte mode, ECC M, versions 1–15). Returns boolean matrix [y][x]. */
+function qrMatrix(text){
+  const ECC=[-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24];
+  const BLK=[-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10];
+  const bytes=Array.from(new TextEncoder().encode(text));
+  const raw=v=>{let r=(16*v+128)*v+64;if(v>=2){const n=Math.floor(v/7)+2;r-=(25*n-10)*n-55;if(v>=7)r-=36;}return r;};
+  const dataCw=v=>Math.floor(raw(v)/8)-ECC[v]*BLK[v];
+  let ver=1;
+  for(;ver<=15;ver++){const cc=ver<10?8:16;if(4+cc+bytes.length*8<=dataCw(ver)*8)break;}
+  if(ver>15)throw new Error('URL too long');
+  const bits=[];const put=(val,n)=>{for(let i=n-1;i>=0;i--)bits.push((val>>>i)&1);};
+  put(4,4);put(bytes.length,ver<10?8:16);bytes.forEach(b=>put(b,8));
+  const cap=dataCw(ver)*8;put(0,Math.min(4,cap-bits.length));put(0,(8-bits.length%8)%8);
+  for(let p=0xEC;bits.length<cap;p^=0xEC^0x11)put(p,8);
+  const data=[];for(let i=0;i<bits.length;i+=8){let b=0;for(let j=0;j<8;j++)b=(b<<1)|bits[i+j];data.push(b);}
+  // GF(256) Reed–Solomon
+  const mul=(x,y)=>{let z=0;for(let i=7;i>=0;i--){z=(z<<1)^((z>>>7)*0x11D);z^=((y>>>i)&1)*x;}return z&255;};
+  const divisor=d=>{const r=new Array(d).fill(0);r[d-1]=1;let root=1;for(let i=0;i<d;i++){for(let j=0;j<d;j++){r[j]=mul(r[j],root);if(j+1<d)r[j]^=r[j+1];}root=mul(root,2);}return r;};
+  const rem=(dat,div)=>{const r=div.map(()=>0);for(const b of dat){const f=b^r.shift();r.push(0);div.forEach((c,i)=>r[i]^=mul(c,f));}return r;};
+  const nb=BLK[ver],ec=ECC[ver],rawCw=Math.floor(raw(ver)/8),nShort=nb-rawCw%nb,shortLen=Math.floor(rawCw/nb);
+  const div=divisor(ec),blocks=[];
+  for(let i=0,k=0;i<nb;i++){const dat=data.slice(k,k+shortLen-ec+(i<nShort?0:1));k+=dat.length;const e=rem(dat,div);if(i<nShort)dat.push(0);blocks.push(dat.concat(e));}
+  const cw=[];for(let i=0;i<blocks[0].length;i++)blocks.forEach((b,j)=>{if(i!==shortLen-ec||j>=nShort)cw.push(b[i]);});
+  // Matrix
+  const size=ver*4+17,M=[],F=[];for(let y=0;y<size;y++){M.push(new Array(size).fill(false));F.push(new Array(size).fill(false));}
+  const set=(x,y,d)=>{M[y][x]=d;F[y][x]=true;};
+  for(let i=0;i<size;i++){set(6,i,i%2===0);set(i,6,i%2===0);}
+  const finder=(cx,cy)=>{for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++){const d=Math.max(Math.abs(dx),Math.abs(dy)),x=cx+dx,y=cy+dy;if(x>=0&&x<size&&y>=0&&y<size)set(x,y,d!==2&&d!==4);}};
+  finder(3,3);finder(size-4,3);finder(3,size-4);
+  if(ver>1){const n=Math.floor(ver/7)+2,step=Math.ceil((ver*4+4)/(n*2-2))*2,pos=[6];for(let p=size-7;pos.length<n;p-=step)pos.splice(1,0,p);
+    pos.forEach((a,i)=>pos.forEach((b,j)=>{if((i===0&&j===0)||(i===0&&j===n-1)||(i===n-1&&j===0))return;for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)set(a+dx,b+dy,Math.max(Math.abs(dx),Math.abs(dy))!==1);}));}
+  const drawFormat=mask=>{const d=(0<<3)|mask;let r=d;for(let i=0;i<10;i++)r=(r<<1)^((r>>>9)*0x537);const b=((d<<10)|r)^0x5412,g=i=>((b>>>i)&1)===1;
+    for(let i=0;i<=5;i++)set(8,i,g(i));set(8,7,g(6));set(8,8,g(7));set(7,8,g(8));for(let i=9;i<15;i++)set(14-i,8,g(i));
+    for(let i=0;i<8;i++)set(size-1-i,8,g(i));for(let i=8;i<15;i++)set(8,size-15+i,g(i));set(8,size-8,true);};
+  drawFormat(0);
+  if(ver>=7){let r=ver;for(let i=0;i<12;i++)r=(r<<1)^((r>>>11)*0x1F25);const b=(ver<<12)|r;for(let i=0;i<18;i++){const d=((b>>>i)&1)===1,a=size-11+i%3,c=Math.floor(i/3);set(a,c,d);set(c,a,d);}}
+  let i=0;for(let right=size-1;right>=1;right-=2){if(right===6)right=5;for(let v=0;v<size;v++)for(let j=0;j<2;j++){const x=right-j,up=((right+1)&2)===0,y=up?size-1-v:v;if(!F[y][x]&&i<cw.length*8){M[y][x]=((cw[i>>>3]>>>(7-(i&7)))&1)===1;i++;}}}
+  const MF=[(x,y)=>(x+y)%2===0,(x,y)=>y%2===0,(x,y)=>x%3===0,(x,y)=>(x+y)%3===0,(x,y)=>(Math.floor(x/3)+Math.floor(y/2))%2===0,(x,y)=>x*y%2+x*y%3===0,(x,y)=>(x*y%2+x*y%3)%2===0,(x,y)=>((x+y)%2+x*y%3)%2===0];
+  const applyMask=m=>{for(let y=0;y<size;y++)for(let x=0;x<size;x++)if(!F[y][x]&&MF[m](x,y))M[y][x]=!M[y][x];};
+  const penalty=()=>{let p=0,dark=0;const line=get=>{let run=1;for(let k=1;k<size;k++){if(get(k)===get(k-1)){run++;if(run===5)p+=3;else if(run>5)p++;}else run=1;}
+      const s=Array.from({length:size},(_,k)=>get(k)?1:0).join('');let idx=-1;while((idx=s.indexOf('1011101',idx+1))!==-1){const a=s.slice(Math.max(0,idx-4),idx),b=s.slice(idx+7,idx+11);if((idx<4||a==='0000')||(idx+11>size||b==='0000'))p+=40;}};
+    for(let y=0;y<size;y++)line(x=>M[y][x]);for(let x=0;x<size;x++)line(y=>M[y][x]);
+    for(let y=0;y<size-1;y++)for(let x=0;x<size-1;x++){const c=M[y][x];if(c===M[y][x+1]&&c===M[y+1][x]&&c===M[y+1][x+1])p+=3;}
+    M.forEach(r=>r.forEach(c=>{if(c)dark++;}));const t=size*size;p+=Math.max(0,Math.ceil(Math.abs(dark*20-t*10)/t)-1)*10;return p;};
+  let best=0,bestP=Infinity;for(let m=0;m<8;m++){applyMask(m);drawFormat(m);const p=penalty();if(p<bestP){bestP=p;best=m;}applyMask(m);}
+  applyMask(best);drawFormat(best);
+  return M;
+}
+if(typeof module!=='undefined')module.exports=qrMatrix;
 
 </script>
 <script>
@@ -2061,11 +2644,17 @@ const T={hr:{back:'← Cjenik',title:'Rezervirajte stol',lead:'Odaberite dan, vr
   days:['Ned','Pon','Uto','Sri','Čet','Pet','Sub'],daysL:['nedjelja','ponedjeljak','utorak','srijeda','četvrtak','petak','subota'],today:'Danas',tomorrow:'Sutra',closed:'Zatvoreno',noTimes:'Za ovaj dan više nema online termina. Nazovite nas — možda nađemo mjesto.',
   anyT:'Svejedno mi je — dodijelite najbolji stol',anyInfo:'Dodijelit ćemo najbolji slobodan stol',fitAdj:(tb,n)=>`Stol ${tb.id} je za ${tb.min}–${tb.max} os. — broj osoba je postavljen na ${n}.`,fitMax:tb=>`Stol ${tb.id} je za najviše ${tb.max} os. — odaberite veći stol.`,tbl:'Stol',seats:(a,b)=>a===b?`${b} os.`:`${a}–${b} os.`,pickTime:'Prvo odaberite vrijeme.',noTable:'Nema slobodnog stola za toliko osoba u to vrijeme — probajte drugo vrijeme.',vip:'VIP',
   occ:[['rodjendan','🎂 Rođendan'],['proslava','🥂 Proslava'],['momacka','🎉 Momačka / djevojačka'],['posao','💼 Poslovno']],
-  e:{name:'Upišite ime.',phone:'Upišite ispravan broj mobitela.',email:'E-mail nije ispravan.',consent:'Označite kvačicu da razumijete kako koristimo vaše podatke.',taken:'Netko je upravo rezervirao taj stol. Odaberite drugi.',full:'Upravo je sve popunjeno za to vrijeme. Odaberite drugo vrijeme.',time:'To vrijeme više nije dostupno.',party:'Za toliko osoba nazovite nas.',date:'Taj datum nije dostupan.',net:'Nema veze s internetom. Pokušajte ponovno.',server:'Greška na serveru. Pokušajte ponovno ili nas nazovite.',fit:'Stol ne odgovara broju osoba.',notfound:'Rezervacija nije pronađena.'},
+  e:{nores:'Taj stol se ne rezervira (pušiona) — odaberite drugi.',name:'Upišite ime.',phone:'Upišite ispravan broj mobitela.',email:'E-mail nije ispravan.',consent:'Označite kvačicu da razumijete kako koristimo vaše podatke.',terms:'Označite da prihvaćate uvjete rezervacije.',late:'Rok za otkazivanje je prošao — nazovite nas.',taken:'Netko je upravo rezervirao taj stol. Odaberite drugi.',full:'Upravo je sve popunjeno za to vrijeme. Odaberite drugo vrijeme.',time:'To vrijeme više nije dostupno.',party:'Za toliko osoba nazovite nas.',date:'Taj datum nije dostupan.',net:'Nema veze s internetom. Pokušajte ponovno.',server:'Greška na serveru. Pokušajte ponovno ili nas nazovite.',fit:'Stol ne odgovara broju osoba.',notfound:'Rezervacija nije pronađena.'},
   sent:'Zahtjev je poslan!',sentConf:'Rezervacija je potvrđena!',pendingTxt:'Osoblje će potvrditi rezervaciju i javiti vam se na WhatsApp u najkraćem roku.',waiting:'Čekamo potvrdu osoblja…',code:'Kod rezervacije',
   when:'Kada',party:'Osoba',table:'Stol',status:'Status',bottle:'Boca uz stol',st:{pending:'Čeka potvrdu',confirmed:'Potvrđeno',declined:'Odbijeno',cancelled:'Otkazano',seated:'Stigli ste',done:'Završeno',noshow:'Niste došli'},
   ics:'📅 Dodajte u kalendar',share:'🔗 Spremite link rezervacije',copied:'Link je kopiran',cancel:'Otkažite rezervaciju',cancelQ:'Dodirnite ponovno za otkaz',cancelled:'Rezervacija je otkazana.',menu:'← Natrag na cjenik',newRes:'Nova rezervacija',mine:'Vaša rezervacija',
-  sumTxt:(d,t,p,tb)=>`<b>${d}</b> · <b>${t}</b> · <b>${p}</b>${tb?` · ${tb}`:''}`,hold:m=>`Stol držimo ${m} min od dogovorenog vremena.`,spark:'s prskalicom'},
+  sumTxt:(d,t,p,tb)=>`<b>${d}</b> · <b>${t}</b> · <b>${p}</b>${tb?` · ${tb}`:''}`,hold:m=>`Stol držimo ${m} min od dogovorenog vremena.`,spark:'s prskalicom',
+  whole:'Cijeli tlocrt',planHintRot:'Dodirnite slobodan stol — ulaz je dolje.',minSp:'min.',seatsUp:n=>`do ${n} ${n===1||(n%10>=2&&n%10<=4&&(n%100<12||n%100>14))?'osobe':'osoba'}`,freeN:n=>`${n} ${n===1?'slobodan':'slobodnih'} u to vrijeme`,noneFree:'U to vrijeme sve je zauzeto',freeAll:n=>`${n} ${n===1?'stol':(n%10>=2&&n%10<=4&&(n%100<12||n%100>14))?'stola':'stolova'}`,
+  anyCat:z=>`Bilo koji slobodan ${z} stol`,anyCatInfo:z=>`Dodijelit ćemo najbolji slobodan ${z} stol`,pickCat:'Odaberite kategoriju ili stol na tlocrtu.',
+  polT:'Uvjeti rezervacije',ageL:a=>`Dobna granica <b>${a}+</b>`,dressL:d=>`Dress code: <b>${d}</b>`,minL:(z,v)=>`Minimalna potrošnja <b>${v}</b> po stolu${z?` (${z})`:''}`,minAllL:'Minimalna potrošnja po stolu',
+  cancelL:u=>`Otkazivanje najkasnije do <b>${u}</b> na dan rezervacije`,noShowL:(f,n,tot)=>`Naknada za nedolazak <b>${f}</b> po osobi${n>1?` — za ${n} ${n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?'osobe':'osoba'}: <b>${tot}</b>`:''}`,noShowS:'Naplaćuje se samo ako ne dođete, a niste otkazali na vrijeme.',
+  terms:'Prihvaćam uvjete rezervacije — minimalnu potrošnju, rok za otkazivanje i naknadu za nedolazak.',
+  tkDay:'Dan',tkTime:'Dolazak',tkTable:'Stol',tkPeople:'Osoba',tkMin:'Min. potrošnja',tkShow:'Pokažite kod ili QR na ulazu — osoblje vas odmah vodi do stola.',freeCancel:(u,d)=>`Besplatno otkazivanje do <b>${u}</b>, ${d}.`,lateCancel:p=>`Rok za otkazivanje je prošao. Za promjene nazovite <b>${p}</b>.`,arrQ:d=>d?'Stižete večeras?':'Stižete?',arrTxt:(tb,tm)=>`Stol <b>${tb}</b> čeka Vas u <b>${tm}</b>. Potvrdite dolazak jednim dodirom — osoblje to odmah vidi.`,arrBtn:'✓ Potvrđujem dolazak',arrOk:tm=>`Dolazak potvrđen — vidimo se u ${tm}!`,arrToast:'✓ Hvala! Osoblje zna da stižete.'},
 en:{back:'← Menu',title:'Book a table',lead:'Pick a day, time and your table. We confirm on WhatsApp.',s1:'When and how many?',day:'Day',people:'Guests',ppl:n=>n===1?'guest':'guests',time:'Arrival time',
   s2:'Pick your table',planHint:'Tap a free table. Swipe the floor plan sideways.',lgFree:'Free',lgSel:'Your pick',lgBusy:'Taken',lgNofit:'Doesn’t fit your group',
   so:'sold out',s3b:'Bottle at your table',btIntro:'Pick a bottle and it will be waiting at your table. You pay at the club — nothing is charged in advance.',sparkT:'✨ Served with a sparkler',sparkS:'Free — for birthdays and special moments.',btTotal:'Bottles with your booking',btNone:'No bottle — we’ll order there',btRec:'Recommended for VIP and booths',deal:'deal',
@@ -2073,17 +2662,32 @@ en:{back:'← Menu',title:'Book a table',lead:'Pick a day, time and your table. 
   days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],daysL:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],today:'Today',tomorrow:'Tomorrow',closed:'Closed',noTimes:'No more online times for this day. Give us a call — we might still find a spot.',
   anyT:'Any table — give me the best one',anyInfo:'We’ll assign the best free table',fitAdj:(tb,n)=>`Table ${tb.id} seats ${tb.min}–${tb.max} — guests set to ${n}.`,fitMax:tb=>`Table ${tb.id} seats up to ${tb.max} — please pick a bigger table.`,tbl:'Table',seats:(a,b)=>a===b?`${b} ppl`:`${a}–${b} ppl`,pickTime:'Pick a time first.',noTable:'No free table for your group at that time — try another time.',vip:'VIP',
   occ:[['rodjendan','🎂 Birthday'],['proslava','🥂 Celebration'],['momacka','🎉 Stag / hen party'],['posao','💼 Business']],
-  e:{name:'Please enter your name.',phone:'Please enter a valid mobile number.',email:'Email looks wrong.',consent:'Please tick the box to confirm you understand how we use your details.',taken:'Someone just booked that table. Please pick another.',full:'Fully booked at that time. Please pick another time.',time:'That time is no longer available.',party:'For a group this size please call us.',date:'That date is not available.',net:'No connection. Please try again.',server:'Server error. Try again or call us.',fit:'That table doesn’t fit your group.',notfound:'Reservation not found.'},
+  e:{nores:'That table can’t be booked (smoking room) — please pick another.',name:'Please enter your name.',phone:'Please enter a valid mobile number.',email:'Email looks wrong.',consent:'Please tick the box to confirm you understand how we use your details.',terms:'Please accept the booking terms.',late:'The cancellation deadline has passed — please call us.',taken:'Someone just booked that table. Please pick another.',full:'Fully booked at that time. Please pick another time.',time:'That time is no longer available.',party:'For a group this size please call us.',date:'That date is not available.',net:'No connection. Please try again.',server:'Server error. Try again or call us.',fit:'That table doesn’t fit your group.',notfound:'Reservation not found.'},
   sent:'Request sent!',sentConf:'Reservation confirmed!',pendingTxt:'Our staff will confirm your booking and message you on WhatsApp shortly.',waiting:'Waiting for staff confirmation…',code:'Booking code',
   when:'When',party:'Guests',table:'Table',status:'Status',bottle:'Bottle at your table',st:{pending:'Awaiting confirmation',confirmed:'Confirmed',declined:'Declined',cancelled:'Cancelled',seated:'Checked in',done:'Completed',noshow:'No-show'},
   ics:'📅 Add to calendar',share:'🔗 Save booking link',copied:'Link copied',cancel:'Cancel reservation',cancelQ:'Tap again to cancel',cancelled:'Your reservation was cancelled.',menu:'← Back to the menu',newRes:'New reservation',mine:'Your reservation',
-  sumTxt:(d,t,p,tb)=>`<b>${d}</b> · <b>${t}</b> · <b>${p}</b>${tb?` · ${tb}`:''}`,hold:m=>`We hold the table for ${m} minutes.`,spark:'with a sparkler'}};
+  sumTxt:(d,t,p,tb)=>`<b>${d}</b> · <b>${t}</b> · <b>${p}</b>${tb?` · ${tb}`:''}`,hold:m=>`We hold the table for ${m} minutes.`,spark:'with a sparkler',
+  whole:'Whole floor plan',planHintRot:'Tap a free table — the entrance is at the bottom.',minSp:'min.',seatsUp:n=>`up to ${n} ${n===1?'guest':'guests'}`,freeN:n=>`${n} free at that time`,noneFree:'Fully booked at that time',freeAll:n=>`${n} ${n===1?'table':'tables'}`,
+  anyCat:z=>`Any free ${z} table`,anyCatInfo:z=>`We’ll assign the best free ${z} table`,pickCat:'Pick a category or a table on the floor plan.',
+  polT:'Booking terms',ageL:a=>`Age limit <b>${a}+</b>`,dressL:d=>`Dress code: <b>${d}</b>`,minL:(z,v)=>`Minimum spend <b>${v}</b> per table${z?` (${z})`:''}`,minAllL:'Minimum spend per table',
+  cancelL:u=>`Cancel by <b>${u}</b> on the day at the latest`,noShowL:(f,n,tot)=>`No-show fee <b>${f}</b> per person${n>1?` — for ${n} guests: <b>${tot}</b>`:''}`,noShowS:'Charged only if you don’t come and haven’t cancelled in time.',
+  terms:'I accept the booking terms — minimum spend, cancellation deadline and no-show fee.',
+  tkDay:'Day',tkTime:'Arrival',tkTable:'Table',tkPeople:'Guests',tkMin:'Min. spend',tkShow:'Show the code or QR at the door — staff will take you straight to your table.',freeCancel:(u,d)=>`Free cancellation until <b>${u}</b>, ${d}.`,lateCancel:p=>`The cancellation deadline has passed. For changes call <b>${p}</b>.`,arrQ:d=>d?'Coming tonight?':'Coming?',arrTxt:(tb,tm)=>`Table <b>${tb}</b> is waiting for you at <b>${tm}</b>. Confirm with one tap — the staff will see it right away.`,arrBtn:'✓ Yes, we\'re coming',arrOk:tm=>`Arrival confirmed — see you at ${tm}!`,arrToast:'✓ Thank you! The staff knows you\'re coming.'}};
 const LK=V.slug+'_lang';
 let lang=ls.get(LK,null)||((navigator.languages||[navigator.language||'en']).some(l=>/^(hr|bs|sr|sh)/i.test(l))?'hr':'en');
 const t=k=>T[lang][k];
 const money=v=>TT.money(v,lang);
+const money0=v=>new Intl.NumberFormat(lang==='en'?'en-IE':'hr-HR',{style:'currency',currency:'EUR',minimumFractionDigits:Number.isInteger(+v)?0:2,maximumFractionDigits:2}).format(+v||0);
 
-const S={cfg:null,today:null,date:null,party:2,time:null,table:'any',occ:'',avail:{},bottles:{},bcat:null};
+const S={cfg:null,today:null,date:null,party:2,time:null,table:'any',occ:'',avail:{},bottles:{},bcat:null,cat:null};
+/* kategorije stolova (zone s minimalnom potrošnjom — Bure Bar: Classic / Silver / VIP) */
+const CATS=()=>((S.cfg&&S.cfg.zones)||[]).filter(z=>z.minSpend||z.noShow);
+const zoneObj=id=>((S.cfg&&S.cfg.zones)||[]).find(z=>z.id===id)||null;
+const zShort=z=>z?(z.short||z.name[lang]||z.name.hr):'';
+const catImg=z=>z&&z.img?`../kat/${z.img}.jpg`:'';
+const ROT=()=>{const v=$('#plan');return !!(v&&v.classList.contains('rot'))};
+function selZone(){if(S.table!=='any'){const tb=S.cfg.tables.find(x=>x.id===S.table);return tb?zoneObj(tb.zone):null}return S.cat?zoneObj(S.cat):null}
+function syncZoom(){const v=$('#plan');setTimeout(()=>$('#planbox').classList.toggle('zoomed',v.classList.contains('zoomed')),30)}
 let tt;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2200)}
 const zoneName=id=>{const z=(S.cfg.zones||[]).find(z=>z.id===id);return z?(z.name[lang]||z.name.hr):''};
 function dateLabel(d,long){const [y,m,dd]=d.split('-');return long?`${t('daysL')[wd(d)]}, ${+dd}.${+m}.`:`${+dd}.${+m}.`}
@@ -2091,18 +2695,20 @@ const PRE=()=>!!(S.cfg&&S.cfg.features&&S.cfg.features.preorder&&BOTTLES.length)
 
 /* ---------- dostupnost ---------- */
 function busyFor(date){return (S.avail[date]&&S.avail[date].busy)||[]}
-function free(tb,start,date){const e=start+S.cfg.durationMinutes;return !busyFor(date).some(b=>b.t===tb.id&&start<b.e&&b.s<e)}
+function free(tb,start,date){if(tb.noRes)return false;const e=start+S.cfg.durationMinutes;return !busyFor(date).some(b=>b.t===tb.id&&start<b.e&&b.s<e)}
 const fits=(tb,p)=>p>=(tb.min||1)&&p<=tb.max;
 function freeTables(start){return S.cfg.tables.filter(tb=>fits(tb,S.party)&&free(tb,start,S.date))}
 
 /* ---------- prikaz ---------- */
-function i18n(){document.documentElement.lang=lang;$$('[data-t]').forEach(e=>{const v=T[lang][e.dataset.t];if(typeof v==='string')e.textContent=v});$$('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));$('#consentT').textContent=T[lang].consent(V.name);}
+function i18n(){document.documentElement.lang=lang;$$('[data-t]').forEach(e=>{const v=T[lang][e.dataset.t];if(typeof v==='string')e.textContent=v});$$('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));$('#consentT').textContent=T[lang].consent(V.name);
+  const TR=!!(S.cfg&&S.cfg.policy&&S.cfg.policy.terms);$('#termsRow').hidden=!TR;$('#consent').closest('label').hidden=TR;
+  $('#termsT').textContent=TR?`${t('terms')} ${T[lang].consent(V.name)}`:t('terms');}
 function renderDays(){
   const box=$('#days');const n=S.cfg.daysAhead;let h='';
   for(let i=0;i<=n;i++){const d=addDays(S.today,i);const h0=S.cfg.hours[wd(d)];const closed=!h0||(S.cfg.closedDates||[]).includes(d);
     const top=i===0?t('today'):i===1?t('tomorrow'):t('days')[wd(d)];
     h+=`<button class="chip day" data-d="${d}" aria-pressed="${d===S.date}" ${closed?'disabled':''}><span>${top}</span><small>${closed?t('closed'):dateLabel(d)}</small></button>`;}
-  box.innerHTML=h;const cur=box.querySelector('[aria-pressed=true]');if(cur)box.scrollLeft=Math.max(0,cur.offsetLeft-box.clientWidth/2+cur.clientWidth/2);
+  box.innerHTML=h;const cur=box.querySelector('[aria-pressed=true]');if(cur){const bl=box.getBoundingClientRect().left,cl=cur.getBoundingClientRect().left-bl+box.scrollLeft;box.scrollLeft=Math.max(0,cl-box.clientWidth/2+cur.clientWidth/2)}
 }
 function renderParty(){$('#party').innerHTML=`${S.party}<small>${T[lang].ppl(S.party)}</small>`;$('#pm').disabled=S.party<=1;$('#pp').disabled=S.party>=S.cfg.maxParty;}
 function renderTimes(){
@@ -2114,6 +2720,7 @@ function renderTimes(){
   if(S.time!=null&&!freeTables(S.time).length)S.time=null;
 }
 function tableState(tb){
+  if(tb.noRes)return 'busy nores';
   if(S.time==null)return fits(tb,S.party)?'':'nofit';
   if(!free(tb,S.time,S.date))return 'busy';
   if(!fits(tb,S.party))return 'nofit';
@@ -2122,17 +2729,33 @@ function tableState(tb){
 function centerPlan(id){const pb=$('#stepTable .planbox');if(!pb||pb.scrollWidth<=pb.clientWidth+4)return;const P=S.cfg.plan||{w:1000};const tb=id&&id!=='free'&&S.cfg.tables.find(x=>x.id===id);
   let fx=tb?tb.x/P.w:.5;if(id==='free'&&S.time!=null){const ft=freeTables(S.time);if(ft.length){const xs=ft.map(t=>t.x).sort((a,b)=>a-b);fx=xs[Math.floor(xs.length/2)]/P.w;}}const left=Math.max(0,Math.min(pb.scrollWidth-pb.clientWidth,fx*pb.scrollWidth-pb.clientWidth/2));pb.scrollTo({left,behavior:id?'smooth':'auto'});}
 let planCentered=false;
+function renderCats(){
+  const box=$('#cats');const C=CATS();if(!C.length){box.hidden=true;return}box.hidden=false;
+  box.innerHTML=C.map(z=>{const tabs=S.cfg.tables.filter(x=>x.zone===z.id),mx=Math.max(...tabs.map(x=>x.max));
+    const fr=S.time!=null?tabs.filter(x=>fits(x,S.party)&&free(x,S.time,S.date)).length:null;
+    return `<button type="button" class="catc c-${esc(z.id)}${S.cat===z.id?' on':''}" data-cat="${esc(z.id)}" aria-pressed="${S.cat===z.id}"><span class="ph" style="background-image:url('${catImg(z)}')"><span class="tg">${esc(zShort(z))}</span></span><span class="ok">✓</span><span class="tx"><b>${esc(z.name[lang]||z.name.hr)}</b><small>${z.minSpend?`${t('minSp')} ${money0(z.minSpend)} ${lang==='hr'?'po stolu':'per table'} · `:''}${T[lang].seatsUp(mx)}</small>${fr!=null?`<em class="${fr?'':'none'}">${fr?T[lang].freeN(fr):t('noneFree')}</em>`:`<em style="color:var(--muted)">${T[lang].freeAll(tabs.length)}</em>`}</span></button>`;}).join('');
+}
 function renderPlan(){
-  TTPlan.render($('#plan'),S.cfg,{state:tableState,sub:tb=>T[lang].seats(tb.min,tb.max),onTap:pickTable,lang});
+  renderCats();
+  const svg=$('#plan');
+  TTPlan.render(svg,S.cfg,{state:tableState,sub:tb=>tb.noRes?(lang==='en'?'walk-in':'bez rez.'):T[lang].seats(tb.min,tb.max),onTap:pickTable,lang});
+  if(S.cat)svg.dataset.cat=S.cat;else delete svg.dataset.cat;
+  $('#planbox').classList.toggle('zoomed',svg.classList.contains('zoomed'));
+  $('#planHint').textContent=ROT()?t('planHintRot'):t('planHint');
   if(!planCentered){planCentered=true;requestAnimationFrame(()=>centerPlan(null));}
-  const info=$('#selinfo'),list=$('#tlist');
+  const info=$('#selinfo'),list=$('#tlist');const CAT=CATS().length>0;
   if(S.time==null){info.innerHTML=`<span class="small">${t('pickTime')}</span>`;list.innerHTML='';return}
   const ft=freeTables(S.time);
   if(S.table!=='any'&&!ft.some(x=>x.id===S.table))S.table='any';
   if(!ft.length){info.innerHTML=`<span class="small">${t('noTable')}</span>`;list.innerHTML='';return}
-  if(S.table==='any')info.innerHTML=`<span style="font-size:26px">✨</span><div class="grow"><b>${t('anyInfo')}</b></div>`;
-  else{const tb=S.cfg.tables.find(x=>x.id===S.table);info.innerHTML=`<span style="font-size:26px">${tb.vip?'★':'🪑'}</span><div class="grow"><b>${t('tbl')} ${esc(tb.id)}</b> · ${esc(zoneName(tb.zone))}<div class="small">${T[lang].seats(tb.min,tb.max)}${tb.vip?' · '+t('vip'):''}</div></div><button class="btn sm" data-any>✕</button>`;}
-  list.innerHTML=`<button class="chip" data-tb="any" aria-pressed="${S.table==='any'}">✨ ${t('anyT')}</button>`+ft.map(tb=>`<button class="chip" data-tb="${esc(tb.id)}" aria-pressed="${tb.id===S.table}">${tb.vip?'★ ':''}${esc(tb.id)} <small>${esc(zoneName(tb.zone))} · ${T[lang].seats(tb.min,tb.max)}</small></button>`).join('');
+  const zc=S.cat?zoneObj(S.cat):null,fc=ft.filter(x=>!zc||x.zone===zc.id);
+  if(S.table==='any'){
+    if(CAT&&!zc)info.innerHTML=`<span style="font-size:26px">👆</span><div class="grow"><b>${t('pickCat')}</b></div>`;
+    else info.innerHTML=`${zc&&zc.img?`<span class="th" style="background-image:url('${catImg(zc)}')"></span>`:'<span style="font-size:26px">✨</span>'}<div class="grow"><b>${zc?T[lang].anyCatInfo(zShort(zc)):t('anyInfo')}</b>${zc&&zc.minSpend?`<div class="small">${t('minSp')} ${money0(zc.minSpend)} ${lang==='hr'?'po stolu':'per table'}</div>`:''}</div>`;
+  }else{const tb=S.cfg.tables.find(x=>x.id===S.table);const z=zoneObj(tb.zone),cat=!!(z&&(z.minSpend||z.noShow));
+    info.innerHTML=`${cat&&z.img?`<span class="th" style="background-image:url('${catImg(z)}')"></span>`:`<span style="font-size:26px">${tb.vip?'★':'🪑'}</span>`}<div class="grow"><b>${t('tbl')} ${esc(tb.id)}</b>${cat?`<span class="cp ${esc(z.id)}">${esc(zShort(z))}</span>`:` · ${esc(zoneName(tb.zone))}`}<div class="small">${cat?T[lang].seatsUp(tb.max):T[lang].seats(tb.min,tb.max)}${cat&&z.minSpend?` · ${t('minSp')} ${money0(z.minSpend)}`:''}${tb.vip&&!cat?' · '+t('vip'):''}</div></div><button class="btn sm" data-any aria-label="✕">✕</button>`;}
+  if(CAT&&!zc){list.innerHTML='';return}
+  list.innerHTML=`<button class="chip" data-tb="any" aria-pressed="${S.table==='any'}">✨ ${zc?T[lang].anyCat(zShort(zc)):t('anyT')}</button>`+fc.map(tb=>`<button class="chip" data-tb="${esc(tb.id)}" aria-pressed="${tb.id===S.table}">${tb.vip?'★ ':''}${esc(tb.id)} <small>${CAT?T[lang].seatsUp(tb.max):`${esc(zoneName(tb.zone))} · ${T[lang].seats(tb.min,tb.max)}`}</small></button>`).join('');
 }
 /* ---------- boca uz stol ---------- */
 /* cijene i "rasprodano" iz uprave (Cjenik) vrijede i ovdje */
@@ -2159,16 +2782,34 @@ function preList(){return Object.entries(S.bottles).filter(([,q])=>q>0).map(([id
 function preTotal(){return preList().reduce((a,x)=>a+x.eur*x.qty,0)}
 function renderSummary(){
   const ok=S.time!=null&&freeTables(S.time).length>0;const pre=PRE()?preTotal():0;
-  $('#sum').innerHTML=ok?T[lang].sumTxt(dateLabel(S.date,true),fmt(S.time),`${S.party} ${T[lang].ppl(S.party)}`,(S.table==='any'?'':`${t('tbl')} ${esc(S.table)}`)+(pre?` · 🍾 ${money(pre)}`:'')):`<span>${t('pickTime')}</span>`;
+  const zs=selZone();
+  $('#sum').innerHTML=ok?T[lang].sumTxt(dateLabel(S.date,true),fmt(S.time),`${S.party} ${T[lang].ppl(S.party)}`,(S.table==='any'?(zs?esc(zShort(zs)):''):`${t('tbl')} ${esc(S.table)}`)+(zs&&zs.minSpend?` · ${t('minSp')} ${money0(zs.minSpend)}`:'')+(pre?` · 🍾 ${money(pre)}`:'')):`<span>${t('pickTime')}</span>`;
   $('#submit').disabled=!ok;
 }
 function renderOcc(){$('#occ').innerHTML=t('occ').map(([v,l])=>`<button type="button" class="chip" data-occ="${v}" aria-pressed="${S.occ===v}">${l}</button>`).join('')}
-function renderRules(){const r=S.cfg.rules?(S.cfg.rules[lang]||S.cfg.rules.hr):'';$('#rules').innerHTML=`⏱ ${esc(T[lang].hold(S.cfg.holdMinutes))}${r?'<br>'+esc(r):''}`;}
+function renderRules(){const r=S.cfg.rules?(S.cfg.rules[lang]||S.cfg.rules.hr):'';const P=S.cfg.policy;
+  if(!P){$('#rules').className='rules';$('#rules').innerHTML=`⏱ ${esc(T[lang].hold(S.cfg.holdMinutes))}${r?'<br>'+esc(r):''}`;return}
+  const z=selZone(),C=CATS(),it=[];
+  if(P.age||P.dress)it.push(['🔞',[P.age?T[lang].ageL(P.age):'',P.dress?T[lang].dressL(esc(P.dress[lang]||P.dress.hr||P.dress)):''].filter(Boolean).join(' · ')]);
+  if(z&&z.minSpend)it.push(['💶',T[lang].minL(esc(zShort(z)),money0(z.minSpend))]);
+  else if(C.some(c=>c.minSpend))it.push(['💶',`${t('minAllL')}: ${C.filter(c=>c.minSpend).map(c=>`${esc(zShort(c))} <b>${money0(c.minSpend)}</b>`).join(' · ')}`]);
+  if(P.cancelUntil)it.push(['↩︎',T[lang].cancelL(esc(P.cancelUntil))]);
+  const ns=z?z.noShow:0;if(ns)it.push(['⚠️',T[lang].noShowL(money0(ns),S.party,money0(ns*S.party))+`<small>${t('noShowS')}</small>`]);
+  else if(C.some(c=>c.noShow))it.push(['⚠️',`${lang==='hr'?'Naknada za nedolazak po osobi':'No-show fee per person'}: ${C.filter(c=>c.noShow).map(c=>`${esc(zShort(c))} <b>${money0(c.noShow)}</b>`).join(' · ')}<small>${t('noShowS')}</small>`]);
+  it.push(['⏱',esc(T[lang].hold(S.cfg.holdMinutes))]);
+  $('#rules').className='policy';$('#rules').innerHTML=`<h3>${t('polT')}</h3>`+it.map(([i,h])=>`<div class="pi"><i>${i}</i><span>${h}</span></div>`).join('');}
 function renderAll(){i18n();renderDays();renderParty();renderTimes();renderPlan();renderBottles();renderSummary();renderOcc();renderRules();renderMine();}
+function afterPick(){renderPlan();renderBottles();renderSummary();renderRules();}
 
-function pickTable(tb){let st=tableState(tb);
+function pickTable(tb){
+  if(tb.noRes){buzz(10);toast(lang==='en'?`Table ${tb.id} is in the smoking room — it can’t be booked, it’s kept for walk-in guests.`:`Stol ${tb.id} je u pušioni — ne rezervira se, slobodan je za goste bez rezervacije.`);return}
+  if(S.time==null){S.want=tb.id;buzz(10);toast(t('pickTime'));const tm=$('#times');if(tm){tm.scrollIntoView({behavior:'smooth',block:'center'});tm.classList.remove('nudge');void tm.offsetWidth;tm.classList.add('nudge');}return}
+  let st=tableState(tb);
   if(st==='nofit'&&S.time!=null&&free(tb,S.time,S.date)){if(S.party<(tb.min||1)&&(tb.min||1)<=S.cfg.maxParty){S.party=tb.min||1;renderParty();renderTimes();toast(T[lang].fitAdj(tb,S.party));st=tableState(tb);}else if(S.party>tb.max){toast(T[lang].fitMax(tb));return}}
-  if(!st.startsWith('free'))return;S.table=tb.id===S.table?'any':tb.id;buzz(8);renderPlan();renderBottles();renderSummary();
+  if(!st.startsWith('free'))return;S.table=tb.id===S.table?'any':tb.id;buzz(8);
+  if(S.table!=='any'&&CATS().length&&tb.zone&&S.cat!==tb.zone)S.cat=tb.zone;
+  afterPick();
+  if(ROT()){const v=$('#plan');if(S.table!=='any')TTPlan.zoomTo(v,tb.id,2.1);else TTPlan.zoomReset(v);syncZoom();}
   if(S.table!=='any'&&PRE()&&(S.cfg.features.preorderZones||[]).includes(tb.zone)&&!preList().length)setTimeout(()=>$('#stepBottle').scrollIntoView({behavior:'smooth',block:'start'}),250);}
 
 async function loadDate(d,force){
@@ -2183,12 +2824,15 @@ function renderMine(){const box=$('#mine');const L=TT.myRes().filter(r=>r.v===V.
 
 /* ---------- slanje ---------- */
 $('#form').addEventListener('submit',async e=>{e.preventDefault();const err=$('#err');err.textContent='';
-  const body={date:S.date,start:S.time,party:S.party,tableId:S.table,name:$('#fname').value.trim(),phone:$('#fphone').value.trim(),email:$('#femail').value.trim(),note:$('#fnote').value.trim(),occasion:S.occ,consent:$('#consent').checked,lang,hp:$('#hp').value};
+  const TR=!!(S.cfg.policy&&S.cfg.policy.terms);
+  const body={date:S.date,start:S.time,party:S.party,tableId:S.table,name:$('#fname').value.trim(),phone:$('#fphone').value.trim(),email:$('#femail').value.trim(),note:$('#fnote').value.trim(),occasion:S.occ,consent:TR?$('#terms').checked:$('#consent').checked,terms:$('#terms').checked,lang,hp:$('#hp').value};
+  if(S.table==='any'&&S.cat)body.zone=S.cat;
   if(PRE()){body.preorder=preList();body.sparkler=!!body.preorder.length&&$('#sparkler').checked;}
   if(body.name.length<2){err.textContent=t('e').name;$('#fname').focus();return}
   if(body.phone.replace(/\D/g,'').length<8){err.textContent=t('e').phone;$('#fphone').focus();return}
   if(body.email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(body.email)){err.textContent=t('e').email;$('#femail').focus();return}
-  if(!body.consent){err.textContent=t('e').consent;return}
+  if(!TR&&!body.consent){err.textContent=t('e').consent;return}
+  if(TR&&!body.terms){err.textContent=t('e').terms;$('#termsRow').scrollIntoView({behavior:'smooth',block:'center'});return}
   const b=$('#submit');b.disabled=true;b.innerHTML=`<span class="spin"></span> ${t('sending')}`;
   try{const r=await TT.api('/reserve',{body});const res=r.reservation;
     TT.addMyRes({v:V.venue,id:res.id,k:res.key,date:res.date,start:res.start,code:res.code,status:res.status});
@@ -2205,30 +2849,47 @@ $('#form').addEventListener('submit',async e=>{e.preventDefault();const err=$('#
 function icsFile(r){const dt=m=>{const d=addDays(r.date,Math.floor(m/1440)).replace(/-/g,'');return d+'T'+fmt(m).replace(':','')+'00'};
   const txt=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//TipTap//Rezervacije//HR','BEGIN:VEVENT',`UID:${r.id}@tiptap`,`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').slice(0,15)}Z`,`DTSTART;TZID=Europe/Zagreb:${dt(r.start)}`,`DTEND;TZID=Europe/Zagreb:${dt(r.end)}`,`SUMMARY:${V.name} — ${r.party} ${T[lang].ppl(r.party)} (${r.code})`,`LOCATION:${V.name}\\, ${String(V.address||'').replace(/,/g,'\\,')}`,`DESCRIPTION:${location.href.split('?')[0]}?r=${r.id}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
   return URL.createObjectURL(new Blob([txt],{type:'text/calendar'}));}
+/** demo: QR nosi i sažetak rezervacije (d=), da ga može skenirati i drugi mobitel */
+const qrText=(url,r)=>{const pk=TT.mode==='demo'&&TT.demoResPack?TT.demoResPack(r):'';return pk?url+'&d='+pk:url};
+function qrSVG(text){if(typeof qrMatrix!=='function')return '';let m;try{m=qrMatrix(text)}catch(e){return ''}const n=m.length,qz=2,sz=n+qz*2;let d='';m.forEach((r,y)=>r.forEach((c,x)=>{if(c)d+=`M${x+qz} ${y+qz}h1v1h-1z`;}));return `<svg viewBox="0 0 ${sz} ${sz}" shape-rendering="crispEdges" aria-hidden="true"><rect width="${sz}" height="${sz}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;}
+function deadlineInfo(r,cfg){const u=cfg.policy&&cfg.policy.cancelUntil;if(!u)return null;const n=TT.now(),m=TT.toMin(u);return {u,past:n.date>r.date||(n.date===r.date&&n.min>=m)};}
 let CUR=null;
 function showReservation(d,key,fresh){
   const r=d.reservation,cfg=d.config||S.cfg;S.cfg=S.cfg||cfg;CUR={id:r.id,key};
   $('#book').hidden=true;const v=$('#view');v.hidden=false;
   const tb=d.table||(cfg.tables||[]).find(x=>x.id===r.tableId);
+  const z=tb?((cfg.zones||[]).find(x=>x.id===tb.zone)||null):null,cat=!!(r.cat||(z&&(z.minSpend||z.noShow)));
   const title=fresh?(r.status==='confirmed'?t('sentConf'):t('sent')):(r.status==='confirmed'?t('sentConf'):t('mine'));
-  const pre=r.preorder||[];
-  v.innerHTML=`<div class="done">${fresh||r.status==='confirmed'?'<div class="ok">'+(r.status==='confirmed'?'✓':'✓')+'</div>':''}<h1 class="title" style="margin-top:0">${title}</h1>
-   ${r.status==='pending'?`<p class="lead">${t('pendingTxt')}</p><div class="status-live"><i></i>${t('waiting')}</div>`:''}
-   <div class="small" style="margin-top:10px">${t('code')}</div><div class="code">${esc(r.code)}</div>
-   <dl class="kv card"><dt>${t('status')}</dt><dd><span class="pill st-${r.status}">${t('st')[r.status]||r.status}</span></dd>
-     <dt>${t('when')}</dt><dd>${dateLabel(r.date,true)} · ${fmt(r.start)}</dd>
-     <dt>${t('party')}</dt><dd>${r.party}</dd>
-     <dt>${t('table')}</dt><dd>${esc(r.tableId)}${tb?` · ${esc(zoneName(tb.zone))}`:''}</dd>
-     ${pre.length?`<dt>🍾</dt><dd>${pre.map(x=>`${x.qty>1?x.qty+'× ':''}${esc(x.name)} ${esc(x.vol)}`).join('<br>')}${r.sparkler?`<br><span class="small">✨ ${t('spark')}</span>`:''}</dd>`:''}
-     ${r.name?`<dt>👤</dt><dd>${esc(r.name)}</dd>`:''}</dl>
+  const pre=r.preorder||[];const live=['pending','confirmed'].includes(r.status);
+  const url=location.href.split('?')[0]+`?r=${encodeURIComponent(r.id)}&k=${encodeURIComponent(key||'')}`;
+  const dl=live?deadlineInfo(r,cfg):null;const canCancel=live&&!(r.status==='confirmed'&&dl&&dl.past);
+  const minS=r.minSpend||(z&&z.minSpend)||0;
+  const arrOn=r.status==='confirmed'&&(r.arrive||(r.date>=TT.biz().date&&r.date<=addDays(TT.biz().date,1)));
+  v.innerHTML=`<div class="done"><h1 class="title" style="margin:0 0 6px">${title}</h1>
+   ${r.status==='pending'?`<p class="lead" style="margin-bottom:6px">${t('pendingTxt')}</p><div class="status-live"><i></i>${t('waiting')}</div>`:''}
+   <article class="ticket" aria-label="${esc(t('code'))} ${esc(r.code)}">
+     ${cat&&z&&z.img?`<div class="tph" style="background-image:url('${catImg(z)}')"></div>`:''}
+     <div class="thd"><svg viewBox="${esc(document.querySelector('.brand svg').getAttribute('viewBox'))}" aria-hidden="true">${document.querySelector('.brand svg').innerHTML}</svg><span class="pill st-${r.status}">${t('st')[r.status]||r.status}</span></div>
+     <div class="tm"><div><small>${t('tkDay')}</small><b>${esc(dateLabel(r.date,true))}</b></div><div><small>${t('tkTime')}</small><b>${fmt(r.start)}</b></div>
+       <div><small>${t('tkTable')}</small><b>${esc(r.tableId)}${cat&&z?` <span class="cp ${esc(z.id)}" style="font-family:var(--f-body);font-size:11px;letter-spacing:.14em;padding:5px 8px;border-radius:999px;vertical-align:6px;background:${z.id==='vip'?'linear-gradient(180deg,#ffe49a,#d9a63a);color:#2a1a02':z.id==='silver'?'linear-gradient(180deg,#f4f7fa,#b9c2cc);color:#15191e':'rgba(255,255,255,.1)'}">${esc(zShort(z))}</span>`:''}</b></div><div><small>${t('tkPeople')}</small><b>${r.party}</b></div>
+       ${minS?`<div class="sm"><small>${t('tkMin')}</small><b>${money0(minS)}</b></div>`:''}${r.name?`<div class="sm"><small>👤</small><b>${esc(r.name)}</b></div>`:''}
+       ${pre.length?`<div class="sm wide"><small>🍾 ${t('bottle')}</small><b>${pre.map(x=>`${x.qty>1?x.qty+'× ':''}${esc(x.name)} ${esc(x.vol)}`).join(', ')}${r.sparkler?` ✨`:''}</b></div>`:''}</div>
+     <div class="cut"></div>
+     <div class="tf"><div class="qr">${qrSVG(qrText(url,r))}</div><div><small>${t('code')}</small><div class="code">${esc(r.code)}</div><small>${t('tkShow')}</small></div></div>
+   </article>
+   ${arrOn?(r.arrive?`<div class="arr yes"><i>✓</i><span>${T[lang].arrOk(fmt(r.start))}</span></div>`:`<div class="arr${S.arrHi?' hi':''}" id="arrBox"><b>${T[lang].arrQ(r.date===TT.biz().date)}</b><p>${T[lang].arrTxt(esc(r.tableId),fmt(r.start))}</p><button class="btn gold block" id="arrBtn">${T[lang].arrBtn}</button></div>`):''}
+   ${dl?`<p class="dl-note">${dl.past?T[lang].lateCancel(esc(cfg.phone||V.phone||'')):T[lang].freeCancel(esc(dl.u),esc(dateLabel(r.date,true)))}</p>`:''}
    <div class="btns">
-     ${['pending','confirmed'].includes(r.status)?`<a class="btn gold" download="${V.slug}-${r.code}.ics" href="${icsFile(r)}">${t('ics')}</a><button class="btn" id="shareBtn">${t('share')}</button>`:''}
-     ${['pending','confirmed'].includes(r.status)?`<button class="btn bad" id="cancelBtn">${t('cancel')}</button>`:''}
+     ${live?`<a class="btn gold" download="${V.slug}-${r.code}.ics" href="${icsFile(r)}">${t('ics')}</a><button class="btn" id="shareBtn">${t('share')}</button>`:''}
+     ${canCancel?`<button class="btn bad" id="cancelBtn">${t('cancel')}</button>`:''}
      <a class="btn" href="${TT.keepClock('./')}">${t('newRes')}</a><a class="btn" href="${TT.keepClock('../')}">${t('menu')}</a></div></div>`;
   const sb=$('#shareBtn');if(sb)sb.onclick=async()=>{const url=location.href.replace(/[?&]t0?=[^&]*/g,'');try{if(navigator.share){await navigator.share({title:V.name,text:`${t('code')}: ${r.code}`,url});}else{await navigator.clipboard.writeText(url);toast(t('copied'))}}catch(e){}};
   const cb=$('#cancelBtn');if(cb)cb.onclick=async()=>{if(!arm(cb,t('cancelQ')))return;cb.disabled=true;try{const x=await TT.api('/cancel',{body:{id:r.id,k:key}});toast(t('cancelled'));buzz(20);const L=TT.myRes();L.forEach(m=>{if(m.id===r.id)m.status='cancelled'});ls.set('tt_myres',L);showReservation({reservation:x.reservation,config:cfg},key,false);}catch(e){toast(t('e')[e.error]||t('e').server);cb.disabled=false}};
-  scrollTo({top:0,behavior:'smooth'});
+  const ab=$('#arrBtn');if(ab)ab.onclick=async()=>{ab.disabled=true;try{const x=await TT.api('/arrive',{body:{id:r.id,k:key}});buzz([12,40,18]);toast(t('arrToast'));S.arrHi=false;showReservation({reservation:x.reservation,config:cfg},key,false);celebrate('confetti');}catch(e){toast(t('e')[e.error]||t('e').server);ab.disabled=false}};
+  if(S.arrHi&&$('#arrBox'))setTimeout(()=>$('#arrBox').scrollIntoView({behavior:'smooth',block:'center'}),350);else scrollTo({top:0,behavior:'smooth'});
 }
+// ulaznica preko cijelog ekrana — hostesa lakše skenira
+document.addEventListener('click',e=>{const q=e.target.closest('.ticket .qr');if(q){const t=q.closest('.ticket'),code=t&&t.querySelector('.code');const o=document.createElement('div');o.className='qrbig';o.setAttribute('role','dialog');o.innerHTML=q.innerHTML+`<b>${code?esc(code.textContent):''}</b><p>${lang==='en'?'Show this code to the host at the entrance.':'Pokažite ovaj kod hostesi na ulazu.'}</p><small>${lang==='en'?'Tap to close':'Dodirnite za zatvaranje'}</small>`;o.onclick=()=>o.remove();document.body.appendChild(o);buzz(8);return}});
 // osoblje je potvrdilo dok je gost na stranici
 document.addEventListener('tt:res',e=>{const d=e.detail;if(CUR&&d.id===CUR.id){showReservation(d.data,CUR.key,false);if(d.data.reservation.status==='confirmed')celebrate(d.data.reservation.preorder&&d.data.reservation.preorder.length?'spark':'confetti');}else renderMine();});
 
@@ -2250,16 +2911,23 @@ function celebrate(kind){if(matchMedia('(prefers-reduced-motion: reduce)').match
 /* ---------- događaji ---------- */
 document.addEventListener('click',e=>{const x=e.target;
   const d=x.closest('#days [data-d]');if(d&&!d.disabled){buzz(6);$$('#days .chip').forEach(c=>c.setAttribute('aria-pressed',c===d));loadDate(d.dataset.d);return}
-  const m=x.closest('[data-m]');if(m&&!m.disabled){buzz(6);S.time=+m.dataset.m;renderTimes();renderPlan();renderBottles();renderSummary();if(S.table==='any')setTimeout(()=>centerPlan('free'),60);if(!sessionStorage.getItem('tt_scrolled')){try{sessionStorage.setItem('tt_scrolled',1)}catch(e){};$('#stepTable').scrollIntoView({behavior:'smooth',block:'start'})}return}
-  const tbb=x.closest('[data-tb]');if(tbb){buzz(6);S.table=tbb.dataset.tb;renderPlan();renderBottles();renderSummary();if(S.table!=='any')centerPlan(S.table);return}
-  if(x.closest('[data-any]')){S.table='any';renderPlan();renderBottles();renderSummary();return}
+  const m=x.closest('[data-m]');if(m&&!m.disabled){buzz(6);S.time=+m.dataset.m;renderTimes();renderPlan();renderBottles();renderSummary();
+    const want=S.want&&S.cfg.tables.find(q=>q.id===S.want);S.want=null;
+    if(want&&tableState(want).startsWith('free')){pickTable(want);setTimeout(()=>$('#planbox').scrollIntoView({behavior:'smooth',block:'center'}),120);return}
+    if(S.table==='any')setTimeout(()=>centerPlan('free'),60);if(!sessionStorage.getItem('tt_scrolled')){try{sessionStorage.setItem('tt_scrolled',1)}catch(e){};$('#stepTable').scrollIntoView({behavior:'smooth',block:'start'})}return}
+  const cc=x.closest('#cats [data-cat]');if(cc){const id=cc.dataset.cat;S.cat=S.cat===id?null:id;if(S.table!=='any'){const tb=S.cfg.tables.find(q=>q.id===S.table);if(!tb||tb.zone!==S.cat)S.table='any'}buzz(8);afterPick();
+    const v=$('#plan');if(ROT()){const ids=S.cat?S.cfg.tables.filter(q=>q.zone===S.cat).map(q=>q.id):[];if(ids.length===1)TTPlan.zoomTo(v,ids[0],2.1);else TTPlan.zoomReset(v);syncZoom();}
+    if(S.cat)setTimeout(()=>$('#planbox').scrollIntoView({behavior:'smooth',block:'center'}),120);return}
+  if(x.closest('#pz')){TTPlan.zoomReset($('#plan'));syncZoom();return}
+  const tbb=x.closest('[data-tb]');if(tbb){buzz(6);S.table=tbb.dataset.tb;if(S.table!=='any'&&TTPlan.floorsOf(S.cfg)){const f=TTPlan.floorOf(S.cfg,S.table),sv=$('#plan');if(f&&sv.__floor!==f)sv.__floor=f;}afterPick();if(S.table!=='any'){centerPlan(S.table);if(ROT()){TTPlan.zoomTo($('#plan'),S.table,2.1);syncZoom()}}else if(ROT()){TTPlan.zoomReset($('#plan'));syncZoom()}return}
+  if(x.closest('[data-any]')){S.table='any';afterPick();if(ROT()){TTPlan.zoomReset($('#plan'));syncZoom()}return}
   const bc=x.closest('[data-bcat]');if(bc){S.bcat=bc.dataset.bcat;renderBottles();return}
   const bq=x.closest('[data-bq]');if(bq){const id=bq.dataset.bq,q=Math.max(0,Math.min(5,(S.bottles[id]||0)+(+bq.dataset.n)));if(q)S.bottles[id]=q;else delete S.bottles[id];buzz(8);renderBottles();renderSummary();return}
   const o=x.closest('[data-occ]');if(o){S.occ=S.occ===o.dataset.occ?'':o.dataset.occ;renderOcc();return}
   const l=x.closest('.lang button');if(l){lang=l.dataset.l;ls.set(LK,lang);if($('#book').hidden){init()}else renderAll();return}
 });
-$('#pm').onclick=()=>{if(S.party>1){S.party--;buzz(6);renderParty();renderTimes();renderPlan();renderSummary()}};
-$('#pp').onclick=()=>{if(S.party<S.cfg.maxParty){S.party++;buzz(6);renderParty();renderTimes();renderPlan();renderSummary()}};
+$('#pm').onclick=()=>{if(S.party>1){S.party--;buzz(6);renderParty();renderTimes();renderPlan();renderSummary();renderRules()}};
+$('#pp').onclick=()=>{if(S.party<S.cfg.maxParty){S.party++;buzz(6);renderParty();renderTimes();renderPlan();renderSummary();renderRules()}};
 addEventListener('popstate',()=>init());
 // netko drugi je upravo rezervirao (demo: druga kartica / admin) → osvježi zauzetost
 TT.onChange(m=>{if(m.self||(m.venue!==V.venue&&m.venue!=='*'))return;if(!$('#book').hidden&&S.date&&S.cfg)loadDate(S.date,true);if(/\/admin\/menu/.test(m.path||'')||m.path==='?'||m.venue==='*')loadBottleOv();});
@@ -2269,13 +2937,15 @@ if(TT.mode==='live')setInterval(()=>{if(document.visibilityState==='visible'&&!$
 async function init(){
   i18n();
   const q=new URLSearchParams(location.search);
-  if(q.get('r')){try{const d=await TT.api(`/reservation?id=${encodeURIComponent(q.get('r'))}&k=${encodeURIComponent(q.get('k')||'')}`);S.cfg=d.config;showReservation(d,q.get('k'),false);}catch(e){$('#book').hidden=true;$('#view').hidden=false;$('#view').innerHTML=`<div class="done"><h1 class="title">${t('e').notfound}</h1><div class="btns"><a class="btn gold" href="${TT.keepClock('./')}">${t('newRes')}</a></div></div>`;}return}
+  if(q.get('r')){S.arrHi=q.get('a')==='1';const getR=()=>TT.api(`/reservation?id=${encodeURIComponent(q.get('r'))}&k=${encodeURIComponent(q.get('k')||'')}`);
+    try{let d;try{d=await getR();}catch(e0){if(!(e0&&e0.status===404&&q.get('d')&&TT.demoImport&&await TT.demoImport(V.venue,'res',q.get('r'),q.get('k')||'',q.get('d'))))throw e0;d=await getR();}   // demo: ulaznica s drugog mobitela
+      S.cfg=d.config;showReservation(d,q.get('k'),false);}catch(e){$('#book').hidden=true;$('#view').hidden=false;$('#view').innerHTML=`<div class="done"><h1 class="title">${t('e').notfound}</h1><div class="btns"><a class="btn gold" href="${TT.keepClock('./')}">${t('newRes')}</a></div></div>`;}return}
   $('#view').hidden=true;$('#book').hidden=false;CUR=null;
   try{
     const first=await TT.api('/availability');S.cfg=first.config;S.today=first.today;S.avail[first.date]=first;
     if(+q.get('n')>0)S.party=Math.min(S.cfg.maxParty,+q.get('n'));
     let d=first.today;
-    for(let i=0;i<=S.cfg.daysAhead;i++){const x=addDays(S.today,i);if(S.cfg.hours[wd(x)]&&!(S.cfg.closedDates||[]).includes(x)){if(i===0&&!first.slots.length)continue;d=x;break}}
+    for(let i=0;i<=S.cfg.daysAhead;i++){const x=addDays(S.today,i);if(S.cfg.hours[wd(x)]&&!(S.cfg.closedDates||[]).includes(x)){if(i===0&&first.slots.length<3)continue;d=x;break}}
     S.date=d;const g=ls.get('tt_guest',null);if(g){$('#fname').value=g.name||'';$('#fphone').value=g.phone||'';$('#femail').value=g.email||''}
     $('#call').href='tel:'+S.cfg.phone.replace(/\s/g,'');$('#call').textContent=S.cfg.phone;
     renderAll();if(!S.avail[d])loadDate(d);

@@ -131,6 +131,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 @keyframes halo{50%{opacity:.55}}
 .plan .pl-t.busy,.plan .pl-t.nofit{cursor:not-allowed}
 .plan .pl-t.busy .pl-top{fill:#2a2522}.plan .pl-t.busy .pl-ring{stroke:#5a3030;stroke-dasharray:6 6}
+.plan .pl-t.nores .pl-top{fill:#232120}.plan .pl-t.nores .pl-ring{stroke:#77706a;stroke-dasharray:3 5}.plan .pl-t.nores .pl-label{fill:#9d958b}
 .plan .pl-t.busy .pl-label,.plan .pl-t.nofit .pl-label{fill:#7b7268}
 .plan .pl-t.busy .pl-chair{opacity:.5}
 .plan .pl-t.nofit{opacity:.42}
@@ -150,6 +151,28 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .lg-pending{border-color:var(--amber);background:#5a3d16}.lg-confirmed{border-color:var(--ok);background:#24452d}.lg-seated{border-color:var(--blue);background:#223452}.lg-alert{border-color:#ff6a5e;background:#ff5a4e}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .armed{outline:2px solid var(--bad)!important;outline-offset:2px}
+
+/* ---- tlocrt: kategorije stolova (Bure Bar: Classic / Silver / VIP), okretanje na mobitelu, zum ---- */
+.planbox svg.rot{min-width:0}
+.plan.rot .pl-label{font-size:34px;stroke-width:6px}
+.plan.rot .pl-sub{display:none}
+.plan.rot.zoomed .pl-label{font-size:24px}
+.plan.rot .pl-wlabel{font-size:30px;letter-spacing:.24em}
+.plan .pl-t.cat-silver.free:not(.sel) .pl-ring{stroke:#dfe6ee}
+.plan .pl-t.cat-silver.free:not(.sel) .pl-top{fill:#3b4048}
+.plan .pl-t.cat-silver.free:not(.sel) .pl-chair{stroke:rgba(223,230,238,.55)}
+.plan .pl-t.cat-silver .pl-halo{fill:rgba(200,215,235,.35)}
+.plan .pl-t.cat-vip.free:not(.sel) .pl-ring{stroke:#ffd978;stroke-width:4}
+.plan .pl-t.cat-vip.free:not(.sel) .pl-top{fill:#5b4318}
+.plan .pl-t.cat-vip.free:not(.sel) .pl-halo{opacity:.85;animation:halo 2.4s ease-in-out infinite}
+.plan .pl-t{transition:opacity .35s}
+.plan[data-cat=classic] .pl-t:not(.cat-classic),.plan[data-cat=silver] .pl-t:not(.cat-silver),.plan[data-cat=vip] .pl-t:not(.cat-vip){opacity:.16}
+.planbox .pz{position:absolute;top:10px;right:26px;z-index:3;display:none;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:999px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:13px;font-weight:800}
+.planbox.zoomed .pz{display:inline-flex}
+/* etaže tlocrta (prizemlje / kat) */
+.flbar{display:flex;gap:6px;margin:0 0 8px}
+.flbar button{flex:1;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-weight:800;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+.flbar button[aria-pressed=true]{background:rgba(var(--gold2-rgb),.16);border-color:rgba(var(--gold2-rgb),.55);color:var(--text)}
 
 :root{--bg:#0c0a10;--card:#1b1724;--card2:#251f30;--gold:#b98aff;--gold2:#ddc4ff;--amber:#ff4fae;--text:#f6f2fb;--muted:#b5abc4;--dim:#8a8199;--ink:#160b24;--gold-rgb:185,138,255;--gold2-rgb:221,196,255;--amber-rgb:255,79,174;--bg-rgb:12,10,16;--pl-floor:#141019;--pl-grid:#1b1524;--pl-edge:#2e2440;--pl-wood:#2a1f36;--pl-wood2:#34284a;--pl-trim:#a874f0;--pl-table:#2d2540;--pl-chair:#221b30;--pl-chair-edge:#41355a;--pl-sofa:#4b1f5e;--pl-sofa2:#8a48a8;--pl-glow:#c77dff;--pl-label:#cdb8f0;--pl-area:rgba(185,138,255,.045);--pl-area-edge:rgba(185,138,255,.45);--pl-dance:#7b4dff;--pl-dance2:#ff4fae;--pl-dj:#241a33;--pl-free-top:#3b2b5c}
 body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
@@ -175,6 +198,7 @@ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 .strip::-webkit-scrollbar{display:none}
 .strip button{flex:none;width:52px;height:58px;border-radius:12px;background:var(--card);border:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:var(--muted);position:relative;line-height:1.2}
 .strip button b{font-size:16px;color:var(--text)}
+.strip button.closed{opacity:.45}.strip button.closed b{color:var(--muted)}
 .strip button[aria-pressed=true]{background:var(--gold);color:rgba(0,0,0,.65)}.strip button[aria-pressed=true] b{color:var(--ink)}
 .strip .bdg{position:absolute;top:-6px;right:-5px;min-width:20px;height:20px;border-radius:999px;background:var(--amber);color:#160a04;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 5px;box-shadow:0 0 10px rgba(var(--amber-rgb),.6)}
 .strip .cnt{font-size:10px;color:inherit;opacity:.8}
@@ -201,6 +225,9 @@ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
   .side nav button svg{width:20px;height:20px;flex:none}
   .side nav button:hover{background:rgba(255,255,255,.04);color:var(--text)}
   .side nav button[aria-pressed=true]{background:rgba(var(--gold2-rgb),.12);color:var(--gold2)}
+  .side nav .navx{display:flex;align-items:center;gap:11px;height:44px;padding:0 12px;margin-top:8px;border-radius:12px;font-weight:700;font-size:14.5px;color:var(--muted);text-decoration:none;border:1px dashed rgba(var(--gold2-rgb),.3)}
+  .side nav .navx:hover{color:var(--text);background:rgba(255,255,255,.04)}
+  .side nav .navx .nx{width:20px;text-align:center}
   .side nav .nb{position:static;margin-left:auto}
   .side nav .newb{margin:6px 0 10px;justify-content:center;background:linear-gradient(180deg,var(--gold2),var(--gold));color:var(--ink)}
   .side .sf{margin-top:auto;display:grid;gap:8px;padding:8px}
@@ -257,6 +284,7 @@ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 .tog::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#bbb;transition:.2s}
 .tog:checked{background:var(--gold)}.tog:checked::after{left:21px;background:var(--ink)}
 .tog.red:checked{background:#d9534f}.tog.red:checked::after{background:#fff}
+.tog.off{background:rgba(217,83,79,.28)}.tog.off::after{background:#e8a3a1}
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.06)}
 .setrow:first-child{border-top:0}
 .setrow input[type=number]{width:96px;min-height:44px;text-align:center}
@@ -288,7 +316,7 @@ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 .song{font-size:18px;font-weight:800}.song small{display:block;font-size:14px;color:var(--muted);font-weight:600}
 .ded{margin-top:6px;font-size:14px;background:rgba(0,0,0,.25);border-radius:10px;padding:6px 10px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:8px 0 12px}
-@media (max-width:560px){.kpis{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.kpis{grid-template-columns:1fr 1fr}.kpis .stat:last-child:nth-child(odd){grid-column:1/-1}}
 /* glazba: prikaz za bend */
 body.kiosk .side,body.kiosk .tabs,body.kiosk .hdr,body.kiosk .mbar{display:none!important}
 body.kiosk .app{display:block}
@@ -349,10 +377,30 @@ body.kiosk .content{max-width:1000px}
 .nban .tx{flex:1;min-width:0;font-size:14px;line-height:1.35}.nban .tx b{font-size:15.5px}
 .nban .btn{flex:none}
 .wa-prev{background:#0b141a;border-radius:18px;padding:14px;margin:10px 0}
-.wa-prev .bub{background:#005c4b;color:#e9edef;border-radius:12px 12px 4px 12px;padding:10px 12px;white-space:pre-line;font-size:14.5px;line-height:1.4;max-width:92%;margin-left:auto;font-family:-apple-system,system-ui,Roboto,sans-serif}
+.wa-prev .bub{background:#005c4b;color:#e9edef;border-radius:12px 12px 4px 12px;padding:10px 12px;white-space:pre-line;overflow-wrap:anywhere;font-size:14.5px;line-height:1.4;max-width:92%;margin-left:auto;font-family:-apple-system,system-ui,Roboto,sans-serif}
 .wa-prev .bub small{display:block;text-align:right;color:#8fb3a8;font-size:11px;margin-top:4px}
 .wa-prev .hd{display:flex;align-items:center;gap:10px;color:#e9edef;font-family:-apple-system,system-ui,Roboto,sans-serif;margin-bottom:12px}
 .wa-prev .hd i{width:34px;height:34px;border-radius:50%;background:#2a3942;display:grid;place-items:center;font-style:normal}
+/* kategorije stolova (Bure Bar: Classic / Silver / VIP) */
+.cp{display:inline-block;font:800 10.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.08);color:var(--text);vertical-align:1px}
+.cp.silver{background:linear-gradient(180deg,#f4f7fa,#b9c2cc);color:#15191e}.cp.vip{background:linear-gradient(180deg,#ffe49a,#d9a63a);color:#2a1a02}
+.res .min{color:var(--gold2);font-weight:800}
+.res .arr{display:inline-flex;align-items:center;gap:5px;margin:2px 0 0;font-size:12.5px;font-weight:800;color:#7ee2a8;background:rgba(80,200,130,.12);border:1px solid rgba(80,200,130,.35);border-radius:999px;padding:3px 9px}
+.res .arr.wait{color:var(--muted);background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);font-weight:700}
+.res .arr.new{animation:arrIn .9s cubic-bezier(.2,1.4,.4,1)}
+.res .arr.in{color:#9cc0ff;background:rgba(110,160,255,.12);border-color:rgba(110,160,255,.4)}
+.res .arr.late{color:#ffb44f;background:rgba(255,170,60,.12);border-color:rgba(255,170,60,.45)}
+@keyframes arrIn{0%{transform:scale(.6);opacity:0}100%{transform:none;opacity:1}}
+.remr{display:flex;align-items:center;gap:8px;width:100%;margin:10px 0 -2px;padding:9px 2px 0;border:0;border-top:1px dashed rgba(255,255,255,.1);background:none;color:var(--gold2);font:700 13px/1.3 var(--f-body);text-align:left;cursor:pointer}
+.remr span{font-size:15px}.remr.sent{color:var(--muted);font-weight:600}.remr.sent u{color:var(--gold2)}
+.res .ns{margin-top:8px;font-size:14px;border-radius:10px;padding:8px 10px;background:rgba(255,90,78,.1);border:1px solid rgba(255,90,78,.35)}
+.stat.gold{background:linear-gradient(160deg,rgba(var(--gold2-rgb),.2),rgba(var(--gold2-rgb),.05));border-color:rgba(var(--gold2-rgb),.35)}
+.stat.gold b{color:var(--gold2)}
+.stats .stat.gold{grid-column:span 2}
+.srow{display:flex;gap:8px;align-items:stretch}.srow input{flex:1;min-width:0}.srow .btn{flex:none;min-height:52px;padding:0 14px;border-radius:14px;font-size:15px}
+.stat.gold.ok{background:linear-gradient(160deg,rgba(80,200,130,.2),rgba(80,200,130,.05));border-color:rgba(80,200,130,.4)}.stat.gold.ok b{color:#7ee2a8}
+.tsh-ph{height:150px;border-radius:16px;background-size:cover;background-position:center;margin:0 0 12px;position:relative;overflow:hidden}
+.tsh-ph span{position:absolute;left:12px;bottom:10px}
 </style>
 </head>
 <body>
@@ -376,7 +424,7 @@ body.kiosk .content{max-width:1000px}
       <div class="strip" id="strip"></div>
     </div></div>
     <div class="content">
-      <section id="tab-list"><div class="two"><div><div class="stats" id="stats"></div><input type="search" id="search" placeholder="🔍 Traži ime, broj ili kod…" autocomplete="off"><div id="list"></div></div><div class="stick"><div class="sec"><span>Tlocrt · <span id="lpTime"></span></span><span class="livedot"><i></i>uživo</span></div><div class="planbox inline"><svg id="lplan"></svg></div></div></div></section>
+      <section id="tab-list"><div class="two"><div><div class="stats" id="stats"></div><div class="srow"><input type="search" id="search" placeholder="🔍 Traži ime, broj ili kod…" autocomplete="off"><button class="btn" id="printBtn" type="button" aria-label="Ispis rezervacija">🖨️ <span>Ispis</span></button></div><div id="list"></div></div><div class="stick"><div class="sec"><span>Tlocrt · <span id="lpTime"></span></span><span class="livedot"><i></i>uživo</span></div><div class="planbox inline"><svg id="lplan"></svg></div></div></div></section>
       <section id="tab-plan" hidden>
         <div class="sec" style="margin-top:14px"><span>Stanje stolova u</span><span class="livedot"><i></i>uživo</span></div>
         <div class="timebar" id="timebar"></div>
@@ -399,7 +447,7 @@ body.kiosk .content{max-width:1000px}
 <div class="nban" id="nban" role="alert"></div>
 
 <script>
-window.TT_CFG={"mode": "demo", "venue": "qclub", "slug": "q-club", "name": "Q Club", "address": "Franje Kuhača 17, 31000 Osijek", "phone": "+385 95 391 7530", "features": {"reservations": true, "preorder": true, "sparkler": true, "tableMode": true, "bill": false, "orders": false, "songs": false, "preorderZones": ["vip", "separe"]}, "page": "admin", "ev": {"hr": "DJ · turbo folk, trap i remixi", "en": "DJ · turbo folk, trap & remixes", "from": "22:00"}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}};
+window.TT_CFG={"mode": "demo", "venue": "qclub", "slug": "q-club", "name": "Q Club", "address": "Franje Kuhača 17, 31000 Osijek", "phone": "+385 95 391 7530", "features": {"reservations": true, "preorder": true, "sparkler": true, "tableMode": true, "bill": false, "orders": false, "songs": false, "preorderZones": ["vip", "kat"], "hostess": ["coat"]}, "page": "admin", "ev": {"hr": "DJ · turbo folk, trap i remixi", "en": "DJ · turbo folk, trap & remixes", "from": "22:00"}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}};
 (function () {
 "use strict";
 const __m = {};
@@ -418,39 +466,51 @@ const QCLUB = {
   venue: 'Q Club',
   forms: { loc: 'u Q Clubu', gen: 'iz Q Cluba' },
   phone: '+385 95 391 7530',
+  /* pravi raspored (slike iz sustava rezervacija, 20. 10.): PRIZEMLJE (stolovi 1–29) i KAT (31–50, VIP);
+     na katu pušiona sa stolovima 12 i 37 — ne rezervira se. Etaže su trake jednog tlocrta (prebacuju se gumbom). */
   plan: {
-    w: 1000, h: 640,
+    w: 1440, h: 1540, rotateMobile: true,
+    floors: [{ id: 'p', name: 'Prizemlje', en: 'Ground floor', y: 0, h: 660 }, { id: 'k', name: 'Kat', en: 'Upstairs', y: 690, h: 850 }],
     walls: [
-      { type: 'area', x: 24, y: 24, w: 238, h: 420, label: 'VIP LOUNGE', labelPos: 'bottom' },
-      { type: 'dj', x: 400, y: 26, w: 200, h: 66, label: 'DJ' },
-      { type: 'dance', x: 340, y: 118, w: 320, h: 246, label: 'PLESNI PODIJ' },
-      { type: 'bar', x: 884, y: 96, w: 84, h: 380, label: 'ŠANK' },
-      { type: 'wardrobe', x: 30, y: 474, w: 128, h: 92, label: 'GARDEROBA' },
-      { type: 'door', x: 176, y: 610, w: 140, h: 26, label: 'ULAZ' },
-      { type: 'wc', x: 884, y: 528, w: 84, h: 84, label: 'WC' }
+      // prizemlje
+      { type: 'door', x: 40, y: 98, w: 100, h: 56, label: 'ULAZ' },
+      { type: 'dj', x: 396, y: 36, w: 160, h: 80, label: 'DJ' },
+      { type: 'bar', x: 556, y: 36, w: 530, h: 80, label: 'VELIKI ŠANK', stools: 0 },
+      { type: 'bar', x: 28, y: 516, w: 130, h: 114, label: 'MALI ŠANK', stools: 0 },
+      { type: 'wall', x: 574, y: 274, w: 100, h: 336, label: 'STUBE' },
+      // kat
+      { type: 'bar', x: 20, y: 746, w: 80, h: 760, label: 'ŠANK', stools: 0 },
+      { type: 'wall', x: 736, y: 746, w: 534, h: 122, label: 'GALERIJA' },
+      { type: 'wall', x: 1270, y: 868, w: 114, h: 638, label: 'GALERIJA' },
+      { type: 'area', x: 1270, y: 734, w: 162, h: 134, label: 'VIP', labelPos: 'bottom' },
+      { type: 'wall', x: 636, y: 1302, w: 100, h: 176, label: '' },
+      { type: 'wall', x: 736, y: 1176, w: 100, h: 302, label: 'STUBE' },
+      { type: 'area', x: 852, y: 1282, w: 404, h: 222, label: 'PUŠIONA', labelPos: 'bottom' }
     ]
   },
   zones: [
-    { id: 'vip', name: { hr: 'VIP lounge', en: 'VIP lounge' } },
-    { id: 'separe', name: { hr: 'Separei', en: 'Booths' } },
-    { id: 'podij', name: { hr: 'Uz plesni podij', en: 'By the dance floor' } },
-    { id: 'sank', name: { hr: 'Uz šank', en: 'By the bar' } }
+    { id: 'prizemlje', name: { hr: 'Prizemlje', en: 'Ground floor' }, short: 'Prizemlje' },
+    { id: 'kat', name: { hr: 'Kat', en: 'Upstairs' }, short: 'Kat' },
+    { id: 'vip', name: { hr: 'VIP', en: 'VIP' }, short: 'VIP' },
+    { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
-    { id: 'V1', zone: 'vip', shape: 'lounge', x: 142, y: 136, w: 176, h: 112, rot: 270, min: 6, max: 12, vip: true },
-    { id: 'V2', zone: 'vip', shape: 'lounge', x: 142, y: 326, w: 176, h: 112, rot: 270, min: 6, max: 12, vip: true },
-    { id: 'S1', zone: 'separe', shape: 'booth', x: 420, y: 548, w: 144, h: 100, rot: 180, min: 4, max: 8 },
-    { id: 'S2', zone: 'separe', shape: 'booth', x: 580, y: 548, w: 144, h: 100, rot: 180, min: 4, max: 8 },
-    { id: 'S3', zone: 'separe', shape: 'booth', x: 740, y: 548, w: 144, h: 100, rot: 180, min: 4, max: 8 },
-    { id: 'H1', zone: 'podij', shape: 'high', x: 296, y: 170, r: 22, min: 2, max: 4 },
-    { id: 'H2', zone: 'podij', shape: 'high', x: 296, y: 310, r: 22, min: 2, max: 4 },
-    { id: 'H3', zone: 'podij', shape: 'high', x: 708, y: 170, r: 22, min: 2, max: 4 },
-    { id: 'H4', zone: 'podij', shape: 'high', x: 708, y: 310, r: 22, min: 2, max: 4 },
-    { id: 'H5', zone: 'podij', shape: 'high', x: 420, y: 424, r: 22, min: 2, max: 4 },
-    { id: 'H6', zone: 'podij', shape: 'high', x: 580, y: 424, r: 22, min: 2, max: 4 },
-    { id: 'B1', zone: 'sank', shape: 'high', x: 816, y: 150, r: 20, min: 2, max: 4 },
-    { id: 'B2', zone: 'sank', shape: 'high', x: 816, y: 286, r: 20, min: 2, max: 4 },
-    { id: 'B3', zone: 'sank', shape: 'high', x: 816, y: 422, r: 20, min: 2, max: 4 }
+    // prizemlje
+    ...[['27', 296, 116], ['25', 454, 154], ['24', 532, 154], ['1', 118, 352], ['9', 254, 590], ['17', 1068, 570]].map(([id, x, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x, y, w: 42, h: 42, seats: [1, 1, 1, 1], min: 1, max: 4 })),
+    { id: '26', floor: 'p', zone: 'prizemlje', shape: 'rect', x: 354, y: 66, w: 44, h: 60, seats: [0, 0, 2, 2], min: 2, max: 4 },
+    ...[['23', 114], ['22', 212], ['21', 312], ['20', 412]].map(([id, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x: 1276, y, w: 60, h: 40, seats: [2, 2, 0, 0], min: 2, max: 4 })),
+    ...[['2', 256, 362], ['3', 316, 362], ['10', 732, 362], ['11', 832, 362], ['7', 396, 580], ['6', 474, 580], ['14', 732, 580], ['15', 832, 580], ['16', 930, 580], ['18', 1186, 580], ['19', 1286, 580]]
+      .map(([id, x, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x, y, w: 40, h: 60, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    ...[['29', 968, 362], ['13', 1108, 342]].map(([id, x, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x, y, w: 40, h: 54, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    ...[['4', 504, 412], ['5', 504, 490], ['8', 326, 530]].map(([id, x, y]) => ({ id, floor: 'p', zone: 'prizemlje', shape: 'rect', x, y, w: 60, h: 38, seats: [2, 2, 0, 0], min: 2, max: 4 })),
+    // kat
+    ...[['47', 254], ['48', 382], ['49', 508], ['50', 636]].map(([id, x]) => ({ id, floor: 'k', zone: 'kat', shape: 'rect', x, y: 778, w: 48, h: 70, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    ...[['44', 254, 920], ['45', 382, 920], ['46', 508, 920], ['46B', 636, 920], ['35', 584, 1070], ['34', 736, 1070], ['36', 508, 1172], ['33', 940, 1146]]
+      .map(([id, x, y]) => ({ id, floor: 'k', zone: 'kat', shape: 'rect', x, y, w: 44, h: 44, seats: [1, 1, 1, 1], min: 1, max: 4 })),
+    ...[['38', 266, 1070], ['39', 242, 1274], ['32', 522, 1274]].map(([id, x, y]) => ({ id, floor: 'k', zone: 'kat', shape: 'rect', x, y, w: 72, h: 42, seats: [2, 2, 0, 0], min: 2, max: 4 })),
+    ...[['31', 430, 1056], ['43', 230, 1438], ['42', 330, 1438], ['41', 430, 1438], ['40', 532, 1438]].map(([id, x, y]) => ({ id, floor: 'k', zone: 'kat', shape: 'rect', x, y, w: 44, h: 68, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    { id: 'VIP', floor: 'k', zone: 'vip', shape: 'lounge', x: 1352, y: 800, w: 150, h: 92, min: 6, max: 14, vip: true },
+    ...[['37', 914, 1400], ['12', 1144, 1400]].map(([id, x, y]) => ({ id, floor: 'k', zone: 'pusiona', shape: 'rect', x, y, w: 44, h: 44, seats: [1, 1, 1, 1], min: 1, max: 4, noRes: true }))
   ],
   hours: { 0: null, 1: null, 2: null, 3: null, 4: H('22:00', '01:00'), 5: H('22:00', '01:00'), 6: H('22:00', '01:00') },
   slotMinutes: 30,
@@ -462,10 +522,10 @@ const QCLUB = {
   closedDates: [],
   autoConfirm: false,
   rules: {
-    hr: 'VIP lounge i separei rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu.',
-    en: 'VIP lounge and booths are booked with a bottle order — you can choose it right now and pay at the club.'
+    hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
+    en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
-  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'separe'] }
+  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['coat'] }
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -473,37 +533,36 @@ const KAFANICA = {
   venue: 'Kafanica',
   forms: { loc: 'u Kafanici', gen: 'iz Kafanice' },
   phone: '+385 91 605 2339',
+  /* pravi raspored (slika iz sustava rezervacija, 20. 10.): stolovi 1–35, šank u sredini;
+     pušiona (19, 27, 28) — ne rezervira se */
   plan: {
-    w: 1000, h: 640,
+    w: 1340, h: 1150,
     walls: [
-      { type: 'stage', x: 360, y: 24, w: 280, h: 92, label: 'BINA' },
-      { type: 'bar', x: 30, y: 140, w: 84, h: 330, label: 'ŠANK' },
-      { type: 'wc', x: 30, y: 520, w: 110, h: 90, label: 'WC' },
-      { type: 'door', x: 640, y: 610, w: 140, h: 26, label: 'ULAZ' }
+      { type: 'bar', x: 440, y: 434, w: 470, h: 186, label: 'ŠANK', stools: 0 },
+      { type: 'area', x: 566, y: 996, w: 360, h: 132, label: 'PUŠIONA', labelPos: 'bottom' },
+      { type: 'area', x: 1006, y: 496, w: 124, h: 124, label: 'PUŠIONA', labelPos: 'bottom' }
     ]
   },
   zones: [
-    { id: 'bina', name: { hr: 'Uz binu', en: 'By the stage' } },
-    { id: 'sala', name: { hr: 'Sala', en: 'Main room' } },
-    { id: 'separe', name: { hr: 'Separei', en: 'Booths' } },
-    { id: 'sank', name: { hr: 'Uz šank', en: 'By the bar' } }
+    { id: 'sala', name: { hr: 'Sala', en: 'Main room' }, short: 'Sala' },
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP' },
+    { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
-    { id: 'K1', zone: 'bina', shape: 'round', x: 262, y: 96, r: 30, min: 4, max: 6 },
-    { id: 'K2', zone: 'bina', shape: 'round', x: 738, y: 96, r: 30, min: 4, max: 6 },
-    { id: 'K3', zone: 'bina', shape: 'round', x: 340, y: 232, r: 30, min: 4, max: 6 },
-    { id: 'K4', zone: 'bina', shape: 'round', x: 500, y: 232, r: 30, min: 4, max: 6 },
-    { id: 'K5', zone: 'bina', shape: 'round', x: 660, y: 232, r: 30, min: 4, max: 6 },
-    { id: 'D1', zone: 'sala', shape: 'long', x: 360, y: 384, w: 220, h: 60, min: 6, max: 12 },
-    { id: 'D2', zone: 'sala', shape: 'long', x: 640, y: 384, w: 220, h: 60, min: 6, max: 12 },
-    { id: 'K6', zone: 'sala', shape: 'round', x: 330, y: 528, r: 30, min: 2, max: 6 },
-    { id: 'K7', zone: 'sala', shape: 'round', x: 490, y: 528, r: 30, min: 2, max: 6 },
-    { id: 'S1', zone: 'separe', shape: 'booth', x: 904, y: 184, w: 140, h: 96, rot: 90, min: 4, max: 8 },
-    { id: 'S2', zone: 'separe', shape: 'booth', x: 904, y: 354, w: 140, h: 96, rot: 90, min: 4, max: 8, vip: true },
-    { id: 'S3', zone: 'separe', shape: 'booth', x: 904, y: 524, w: 140, h: 96, rot: 90, min: 4, max: 8 },
-    { id: 'B1', zone: 'sank', shape: 'high', x: 176, y: 190, r: 20, min: 1, max: 3 },
-    { id: 'B2', zone: 'sank', shape: 'high', x: 176, y: 306, r: 20, min: 1, max: 3 },
-    { id: 'B3', zone: 'sank', shape: 'high', x: 176, y: 422, r: 20, min: 1, max: 3 }
+    ...[['11', 154, 84]].map(([id, x, y]) => ({ id, zone: 'sala', shape: 'round', x, y, r: 28, cross: true, min: 2, max: 4 })),
+    ...[['1', 328], ['2', 518], ['3', 706], ['4', 894], ['5', 1082]].map(([id, x]) => ({ id, zone: 'sala', shape: 'rect', x, y: 84, w: 92, h: 60, seats: [2, 2, 0, 0], min: 2, max: 4 })),
+    ...[['6', 196], ['7', 352], ['8', 508], ['9', 664], ['10', 822]].map(([id, y]) => ({ id, zone: 'sala', shape: 'rect', x: 1256, y, w: 60, h: 92, seats: [0, 0, 2, 2], min: 2, max: 4 })),
+    ...[['12', 282], ['13', 440], ['14', 596], ['15', 754], ['16', 912], ['17', 1068]].map(([id, x]) => ({ id, zone: 'sala', shape: 'round', x, y: 242, r: 28, cross: true, min: 2, max: 4 })),
+    ...[['18', 400], ['20', 712]].map(([id, y]) => ({ id, zone: 'sala', shape: 'round', x: 1068, y, r: 28, cross: true, min: 2, max: 4 })),
+    { id: '19', zone: 'pusiona', shape: 'round', x: 1068, y: 556, r: 28, cross: true, min: 1, max: 4, noRes: true },
+    { id: '33', zone: 'sala', shape: 'rect', x: 94, y: 336, w: 60, h: 124, seats: [0, 0, 3, 3], min: 2, max: 6 },
+    { id: '34', zone: 'sala', shape: 'long', x: 282, y: 446, w: 60, h: 216, seats: [0, 0, 4, 4], min: 4, max: 8 },
+    { id: '26', zone: 'sala', shape: 'rect', x: 282, y: 666, w: 60, h: 92, seats: [0, 0, 2, 2], min: 2, max: 4 },
+    ...[['25', 282], ['24', 472], ['23', 628], ['22', 784], ['21', 942]].map(([id, x]) => ({ id, zone: 'sala', shape: 'round', x, y: 806, r: 28, cross: true, min: 2, max: 4 })),
+    ...[['32', 190], ['31', 314], ['30', 440]].map(([id, x]) => ({ id, zone: 'sala', shape: 'rect', x, y: 932, w: 60, h: 60, seats: [1, 1, 0, 0], min: 1, max: 2 })),
+    { id: '29', zone: 'sala', shape: 'round', x: 754, y: 932, r: 28, cross: true, min: 2, max: 4 },
+    { id: '35', zone: 'vip', shape: 'long', x: 1068, y: 964, w: 252, h: 64, seats: [5, 5, 1, 1], min: 6, max: 12, vip: true },
+    ...[['28', 644], ['27', 832]].map(([id, x]) => ({ id, zone: 'pusiona', shape: 'rect', x, y: 1058, w: 92, h: 60, seats: [2, 2, 0, 0], min: 1, max: 4, noRes: true }))
   ],
   hours: { 0: null, 1: null, 2: null, 3: null, 4: null, 5: H('19:00', '23:00'), 6: H('19:00', '23:00') },
   slotMinutes: 30,
@@ -515,10 +574,10 @@ const KAFANICA = {
   closedDates: [],
   autoConfirm: false,
   rules: {
-    hr: 'Petkom i subotom svira živa glazba — stolovi uz binu najbrže se popune.',
-    en: 'Live music on Fridays and Saturdays — tables by the stage fill up first.'
+    hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
+    en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
-  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: true }
+  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: true, hostess: ['rez', 'coat'] }
 };
 
 /* ---------- BROOKLYN (caffe bar, šetalište uz Dravu) ---------- */
@@ -577,58 +636,65 @@ const BROOKLYN = {
   features: { reservations: false, preorder: false, tableMode: true, bill: true, orders: false, songs: false }
 };
 
-/* ---------- BURE BAR (pivnica) — isti tlocrt kao u postojećem sustavu ---------- */
+/* ---------- BURE BAR (pivnica) — pravi raspored stolova lokala (papir od voditelja, 20. 10. 2026.) ----------
+   Kategorije kao u dosadašnjem sustavu (Eventlin): Classic 1–23, Silver 24–30, VIP 31.
+   Minimalna potrošnja po stolu, naknada za nedolazak po osobi, otkazivanje do 10:00 na dan rezervacije. */
+const sq = (id, x, y) => ({ id, zone: 'classic', shape: 'rect', x, y, w: 50, h: 50, seats: [1, 1, 1, 1], min: 1, max: 4 });
+const rd = (id, x, y) => ({ id, zone: 'classic', shape: 'round', x, y, r: 24, cross: true, min: 1, max: 4 });
+const six = (id, x, y, w = 72) => ({ id, zone: 'silver', shape: 'rect', x, y, w, h: 54, seats: [2, 2, 1, 1], min: 1, max: 6 });
 const BURE = {
   venue: 'Bure Bar',
   forms: { loc: 'u Bure Baru', gen: 'iz Bure Bara' },
   phone: '+385 91 605 2339',
   plan: {
-    w: 1000, h: 640,
+    w: 1300, h: 850, rotateMobile: true,
     walls: [
-      { type: 'bar', x: 40, y: 40, w: 90, h: 400, label: 'ŠANK' },
-      { type: 'dj', x: 420, y: 30, w: 160, h: 60, label: 'DJ' },
-      { type: 'door', x: 440, y: 610, w: 120, h: 26, label: 'ULAZ' },
-      { type: 'wc', x: 880, y: 556, w: 100, h: 64, label: 'WC' }
+      { type: 'door', x: 15, y: 398, w: 146, h: 138, label: 'ULAZ' },
+      { type: 'bar', x: 362, y: 372, w: 656, h: 188, label: 'ŠANK', stools: 0 },
+      { type: 'dj', x: 1150, y: 80, w: 76, h: 132, label: 'DJ' }
     ]
   },
   zones: [
-    { id: 'sank', name: { hr: 'Uz šank', en: 'By the bar' } },
-    { id: 'bacve', name: { hr: 'Bačve', en: 'Barrel tables' } },
-    { id: 'sala', name: { hr: 'Sala', en: 'Main room' } },
-    { id: 'separe', name: { hr: 'Separei', en: 'Booths' } }
+    { id: 'classic', name: { hr: 'Classic stolovi', en: 'Classic tables' }, short: 'Classic', minSpend: 60, noShow: 8, img: 'classic',
+      desc: { hr: 'Stolovi za 4 osobe uz zidove i šank — od 1 do 23.', en: 'Tables for 4 along the walls and the bar — 1 to 23.' } },
+    { id: 'silver', name: { hr: 'Silver stolovi', en: 'Silver tables' }, short: 'Silver', minSpend: 100, noShow: 8, img: 'silver',
+      desc: { hr: 'Stolovi za 6 osoba, bačve i veliki okrugli stol — od 24 do 30.', en: 'Tables for 6, barrels and the big round table — 24 to 30.' } },
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', minSpend: 200, noShow: 12, img: 'vip',
+      desc: { hr: 'Dugi stol za do 16 osoba, odmah uz DJ-a — stol 31.', en: 'The long table for up to 16 guests, right by the DJ — table 31.' } }
   ],
   tables: [
-    { id: 'S1', zone: 'sank', shape: 'high', x: 180, y: 80, r: 22, min: 1, max: 2 },
-    { id: 'S2', zone: 'sank', shape: 'high', x: 180, y: 170, r: 22, min: 1, max: 2 },
-    { id: 'S3', zone: 'sank', shape: 'high', x: 180, y: 260, r: 22, min: 1, max: 2 },
-    { id: 'S4', zone: 'sank', shape: 'high', x: 180, y: 350, r: 22, min: 1, max: 2 },
-    { id: 'B1', zone: 'bacve', shape: 'barrel', x: 310, y: 160, r: 32, min: 2, max: 4 },
-    { id: 'B2', zone: 'bacve', shape: 'barrel', x: 310, y: 290, r: 32, min: 2, max: 4 },
-    { id: 'B3', zone: 'bacve', shape: 'barrel', x: 310, y: 420, r: 32, min: 2, max: 4 },
-    { id: 'B4', zone: 'bacve', shape: 'barrel', x: 330, y: 540, r: 32, min: 2, max: 4 },
-    { id: 'T1', zone: 'sala', shape: 'rect', x: 460, y: 170, w: 100, h: 60, min: 2, max: 4 },
-    { id: 'T2', zone: 'sala', shape: 'rect', x: 620, y: 170, w: 100, h: 60, min: 2, max: 4 },
-    { id: 'T3', zone: 'sala', shape: 'rect', x: 460, y: 300, w: 100, h: 60, min: 2, max: 4 },
-    { id: 'T4', zone: 'sala', shape: 'rect', x: 620, y: 300, w: 100, h: 60, min: 2, max: 4 },
-    { id: 'T5', zone: 'sala', shape: 'long', x: 540, y: 440, w: 200, h: 64, min: 4, max: 8 },
-    { id: 'V1', zone: 'separe', shape: 'booth', x: 862, y: 120, w: 170, h: 100, rot: 90, min: 4, max: 8, vip: true },
-    { id: 'V2', zone: 'separe', shape: 'booth', x: 862, y: 300, w: 170, h: 100, rot: 90, min: 4, max: 8, vip: true },
-    { id: 'V3', zone: 'separe', shape: 'booth', x: 862, y: 470, w: 150, h: 100, rot: 90, min: 6, max: 12, vip: true }
+    rd('1', 208, 618), rd('2', 205, 757),
+    sq('3', 357, 752), sq('4', 432, 752), sq('5', 557, 752), sq('6', 630, 752), sq('7', 755, 752),
+    sq('8', 826, 752), sq('9', 950, 752), sq('10', 1025, 752), sq('11', 1147, 752), sq('12', 1220, 752),
+    rd('13', 1093, 559), rd('14', 868, 104), rd('15', 748, 104), rd('16', 628, 104), rd('17', 436, 104),
+    rd('18', 238, 262), rd('19', 188, 345),
+    sq('20', 165, 75), sq('21', 165, 155), sq('22', 68, 75), sq('23', 68, 155),
+    six('24', 78, 290, 74),
+    { id: '25', zone: 'silver', shape: 'round', x: 472, y: 225, r: 36, min: 1, max: 6 },
+    six('26', 651, 213, 96),
+    six('27', 1200, 505), six('28', 1203, 613), six('29', 70, 620), six('30', 68, 758),
+    { id: '31', zone: 'vip', shape: 'long', x: 880, y: 212, w: 218, h: 52, seats: [7, 7, 1, 1], min: 1, max: 16, vip: true }
   ],
-  hours: { 0: null, 1: H('18:00', '22:00'), 2: H('18:00', '22:00'), 3: H('18:00', '22:00'), 4: H('18:00', '23:00'), 5: H('18:00', '23:30'), 6: H('18:00', '23:30') },
-  slotMinutes: 30,
-  durationMinutes: 150,
-  leadMinutes: 60,
+  hours: { 0: null, 1: H('20:00', '22:00'), 2: H('20:00', '22:00'), 3: H('20:00', '22:00'), 4: H('20:00', '22:00'), 5: H('20:00', '22:00'), 6: H('20:00', '22:00') },
+  slotMinutes: 15,
+  durationMinutes: 300,          // stol je gostov cijelu večer (dolazak 20:00–22:00)
+  leadMinutes: 30,
   daysAhead: 30,
   maxParty: 16,
   holdMinutes: 15,
   closedDates: [],
   autoConfirm: false,
-  rules: {
-    hr: 'Za separee petkom i subotom moguća je minimalna potrošnja — osoblje će vas obavijestiti pri potvrdi.',
-    en: 'Booths on Fridays and Saturdays may have a minimum spend — staff will let you know when confirming.'
+  policy: {
+    age: 21,
+    dress: { hr: 'Elegant', en: 'Elegant' },
+    cancelUntil: '10:00',        // otkazivanje najkasnije 12 sati prije početka — do 10:00 na dan rezervacije
+    terms: true
   },
-  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false }
+  rules: {
+    hr: 'Minimalna potrošnja vrijedi po stolu. Ako ne dođete, a niste otkazali do 10:00 na dan rezervacije, naplaćuje se naknada za nedolazak po osobi.',
+    en: 'The minimum spend applies per table. If you do not come and have not cancelled by 10:00 on the day, a no-show fee per person is charged.'
+  },
+  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez'] }
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -714,8 +780,20 @@ async function getConfig(store) {
   return r?.data ? { ...structuredClone(def), ...r.data, forms: def.forms, features: { ...def.features, ...(r.data.features || {}) } } : structuredClone(def);
 }
 function publicConfig(cfg) {
-  const { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features } = cfg;
-  return { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features };
+  const { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features, policy } = cfg;
+  return { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features, policy: policy || null };
+}
+/** Kategorija stola (zona s minimalnom potrošnjom i naknadom za nedolazak — npr. Bure Bar: Classic / Silver / VIP). */
+function catOf(cfg, tableId) {
+  const t = (cfg.tables || []).find(x => x.id === tableId); if (!t) return null;
+  const z = (cfg.zones || []).find(x => x.id === t.zone); if (!z) return null;
+  return { id: z.id, name: z.name, short: z.short || '', minSpend: +z.minSpend || 0, noShow: +z.noShow || 0 };
+}
+/** Do kada gost smije sam otkazati (npr. "10:00" na dan rezervacije); null = uvijek. */
+function cancelDeadline(cfg, date) { const u = cfg.policy && cfg.policy.cancelUntil; return u && /^\d{2}:\d{2}$/.test(u) ? { date, min: toMin(u) } : null; }
+function pastDeadline(cfg, date) {
+  const d = cancelDeadline(cfg, date); if (!d) return false;
+  const n = zagrebNow(); return n.date > d.date || (n.date === d.date && n.min >= d.min);
 }
 
 /* =====================================================================
@@ -738,8 +816,8 @@ function tableFree(cfg, list, tableId, start, ignoreId) {
   return !list.some(r => r.tableId === tableId && ACTIVE.has(r.status) && r.id !== ignoreId && overlaps(start, end, r.start, r.end));
 }
 const fits = (t, party) => party >= (t.min || 1) && party <= t.max;
-function bestTable(cfg, list, party, start) {
-  return cfg.tables.filter(t => fits(t, party) && tableFree(cfg, list, t.id, start))
+function bestTable(cfg, list, party, start, zone) {
+  return cfg.tables.filter(t => !t.noRes && (!zone || t.zone === zone) && fits(t, party) && tableFree(cfg, list, t.id, start))
     .sort((a, b) => (a.max - b.max) || ((a.vip ? 1 : 0) - (b.vip ? 1 : 0)))[0] || null;
 }
 function cleanPhone(p) {
@@ -791,6 +869,7 @@ async function createReservation(store, body, { admin = false } = {}) {
   if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { error: 'email', status: 400 };
   if (!admin) {
     if (!body.consent) return { error: 'consent', status: 400 };
+    if (cfg.policy && cfg.policy.terms && !body.terms) return { error: 'terms', status: 400 };
     const last = addDays(now.date, cfg.daysAhead);
     if (date < now.date || date > last) return { error: 'date', status: 400 };
     if (!slotsFor(cfg, date).includes(start)) return { error: 'time', status: 400 };
@@ -803,20 +882,26 @@ async function createReservation(store, body, { admin = false } = {}) {
     if (body.tableId && body.tableId !== 'any') {
       table = cfg.tables.find(t => t.id === body.tableId);
       if (!table) return { error: 'table', status: 400 };
+      if (!admin && table.noRes) return { error: 'nores', status: 409 };   // npr. pušiona — samo bez rezervacije
       if (!admin && !fits(table, party)) return { error: 'fit', status: 409 };
       if (!tableFree(cfg, list, table.id, start)) return { error: 'taken', status: 409 };
     } else {
-      table = bestTable(cfg, list, party, start);
+      const zone = str(body.zone, 20); 
+      table = bestTable(cfg, list, party, start, (cfg.zones || []).some(z => z.id === zone) ? zone : null);
       if (!table) return { error: 'full', status: 409 };
     }
     const at = isoNow();
+    const cat = catOf(cfg, table.id);
     const r = {
       id: token(8), code: shortCode(), key: token(16),
       date, start, end: start + cfg.durationMinutes, party, tableId: table.id,
       name, phone: phone || phoneRaw, email, note: str(body.note, 400), occasion: str(body.occasion, 30),
       preorder, sparkler: !!(preorder.length && body.sparkler),
+      ...(cat && (cat.minSpend || cat.noShow) ? { cat: cat.id, minSpend: cat.minSpend, noShowFee: cat.noShow } : {}),
       lang: body.lang === 'en' ? 'en' : 'hr',
       status: admin ? (['pending', 'confirmed', 'seated', 'done', 'noshow'].includes(body.status) ? body.status : 'confirmed') : (cfg.autoConfirm ? 'confirmed' : 'pending'),
+      ...(admin && body._arrive ? { arrive: str(body._arrive, 30) } : {}),
+      ...(admin && body._lateMin != null && body.status === 'seated' ? { lateMin: Math.round(Number(body._lateMin)) || 0, checkedBy: 'hostesa' } : {}),
       source: admin ? str(body.source || 'staff', 20) : 'web',
       createdAt: body._at && admin ? str(body._at, 30) : at, updatedAt: at, history: []
     };
@@ -826,7 +911,7 @@ async function createReservation(store, body, { admin = false } = {}) {
   if (res.ok) await setIndex(store, res.reservation.id, date);
   return res;
 }
-const guestView = r => ({ id: r.id, code: r.code, date: r.date, start: r.start, end: r.end, party: r.party, tableId: r.tableId, name: r.name, status: r.status, note: r.note, occasion: r.occasion, lang: r.lang, preorder: r.preorder || [], sparkler: !!r.sparkler });
+const guestView = r => ({ id: r.id, code: r.code, date: r.date, start: r.start, end: r.end, party: r.party, tableId: r.tableId, name: r.name, status: r.status, note: r.note, occasion: r.occasion, lang: r.lang, preorder: r.preorder || [], sparkler: !!r.sparkler, cat: r.cat || null, minSpend: r.minSpend || 0, noShowFee: r.noShowFee || 0, arrive: !!r.arrive, reminded: !!r.remindedAt });
 async function getReservation(store, id, key, site = '') {
   const date = await findDate(store, str(id, 40));
   if (!date) return { error: 'notfound', status: 404 };
@@ -840,13 +925,151 @@ async function getReservation(store, id, key, site = '') {
 async function cancelByGuest(store, id, key) {
   const date = await findDate(store, str(id, 40));
   if (!date) return { error: 'notfound', status: 404 };
+  const cfg = await getConfig(store);
   return mutateDay(store, date, list => {
     const r = list.find(x => x.id === id);
     if (!r || !safeEqual(r.key, key || '')) return { error: 'notfound', status: 404 };
     if (!['pending', 'confirmed'].includes(r.status)) return { error: 'state', status: 409 };
+    if (r.status === 'confirmed' && pastDeadline(cfg, r.date)) return { error: 'late', status: 409 };
     r.status = 'cancelled'; r.updatedAt = isoNow(); r.history.push({ at: r.updatedAt, by: 'guest', to: 'cancelled' });
     return { ok: true, reservation: r };
   });
+}
+
+/** Gost jednim dodirom potvrđuje dolazak (link iz podsjetnika). */
+async function confirmArrival(store, id, key) {
+  const date = await findDate(store, str(id, 40));
+  if (!date) return { error: 'notfound', status: 404 };
+  return mutateDay(store, date, list => {
+    const r = list.find(x => x.id === id);
+    if (!r || !safeEqual(r.key, key || '')) return { error: 'notfound', status: 404 };
+    if (r.status !== 'confirmed') return { error: 'state', status: 409 };
+    if (!r.arrive) { r.arrive = isoNow(); r.updatedAt = r.arrive; r.history.push({ at: r.arrive, by: 'guest', to: 'arrive' }); }
+    return { ok: true, reservation: r };
+  });
+}
+/** Osoblje šalje podsjetnik (WhatsApp) — bilježimo kad je poslan. */
+async function adminRemind(store, id) {
+  const date = await findDate(store, str(id, 40));
+  if (!date) return { error: 'notfound', status: 404 };
+  return mutateDay(store, date, list => {
+    const r = list.find(x => x.id === id);
+    if (!r) return { error: 'notfound', status: 404 };
+    if (r.status !== 'confirmed') return { error: 'state', status: 409 };
+    r.remindedAt = isoNow(); r.updatedAt = r.remindedAt; r.history.push({ at: r.remindedAt, by: 'staff', to: 'remind' });
+    return { ok: true, reservation: r };
+  });
+}
+
+/* ---------- ulaz (hostesa): pretraga i uvođenje gostiju ---------- */
+/** Koliko minuta je prošlo od dogovorenog dolaska (negativno = rano). */
+function lateBy(r, now = zagrebNow()) {
+  const P = d => { const [y, m, dd] = d.split('-').map(Number); return Date.UTC(y, m - 1, dd); };
+  return Math.round((P(now.date) - P(r.date)) / 864e5) * 1440 + now.min - r.start;
+}
+async function findRes(store, id) {
+  id = str(id, 40); const date = await findDate(store, id);
+  if (!date) return { error: 'notfound', status: 404 };
+  const { list } = await readDay(store, date);
+  const r = list.find(x => x.id === id);
+  return r ? { ok: true, reservation: r } : { error: 'notfound', status: 404 };
+}
+async function findCode(store, code) {
+  const c = str(code, 16).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (c.length < 4) return { error: 'code', status: 400 };
+  const b = bizNow();
+  for (const d of [b.date, addDays(b.date, 1), addDays(b.date, -1)]) {
+    const { list } = await readDay(store, d);
+    const r = list.find(x => String(x.code || '').toUpperCase() === c);
+    if (r) return { ok: true, reservation: r };
+  }
+  return { error: 'notfound', status: 404 };
+}
+async function checkIn(store, body, by = 'hostesa') {
+  const cfg = await getConfig(store);
+  const id = str(body.id, 40); const date = await findDate(store, id);
+  if (!date) return { error: 'notfound', status: 404 };
+  return mutateDay(store, date, list => {
+    const r = list.find(x => x.id === id);
+    if (!r) return { error: 'notfound', status: 404 };
+    if (!['confirmed', 'pending', 'noshow'].includes(r.status)) return { error: 'state', status: 409 };
+    if (body.tableId && body.tableId !== r.tableId) {
+      if (!cfg.tables.find(t => t.id === body.tableId)) return { error: 'table', status: 400 };
+      if (!tableFree(cfg, list, body.tableId, r.start, r.id)) return { error: 'taken', status: 409 };
+      r.tableId = str(body.tableId, 12);
+      const c = catOf(cfg, r.tableId);
+      if (c && (c.minSpend || c.noShow)) Object.assign(r, { cat: c.id, minSpend: c.minSpend, noShowFee: c.noShow }); else { delete r.cat; delete r.minSpend; delete r.noShowFee; }
+    }
+    if (body.party != null) { const p = Math.floor(Number(body.party)); if (p >= 1 && p <= 60) r.party = p; }
+    const before = r.status;
+    r.status = 'seated'; r.arrivedAt = isoNow(); r.lateMin = lateBy(r); r.checkedBy = str(by, 20); r.updatedAt = r.arrivedAt;
+    r.history.push({ at: r.arrivedAt, by: r.checkedBy, from: before, to: 'seated' });
+    return { ok: true, reservation: r };
+  });
+}
+
+/* =====================================================================
+   GARDEROBA (hostesa): broj na mobitelu gosta umjesto papirića
+   ===================================================================== */
+/* 'kaput' ostaje samo radi starijih zapisa — novi unos koristi "Jakna / kaput". */
+const COAT_KINDS = { jakna: ['Jakna / kaput', 'Jacket / coat', '🧥'], kaput: ['Kaput', 'Coat', '🧥'], torba: ['Torba', 'Bag', '👜'], ruksak: ['Ruksak', 'Backpack', '🎒'], vrecica: ['Vrećica', 'Shopping bag', '🛍️'], kisobran: ['Kišobran', 'Umbrella', '☂️'], kapa: ['Kapa / šal', 'Hat / scarf', '🧣'], kaciga: ['Kaciga', 'Helmet', '⛑️'], ostalo: ['Ostalo', 'Other', '📦'] };
+const COAT_MAX = 400;
+const coatKey = d => `coat/${d}`;
+const coatNow = () => { const b = bizNow(); return { date: b.date, min: b.min }; };
+const coatPublic = (x, cfg) => ({ id: x.id, no: x.no, items: x.items, desc: x.desc, name: x.name, status: x.status, atMin: x.atMin, outMin: x.outMin ?? null, ph: !!x.ph, venue: cfg ? cfg.venue : '' });
+const coatLite = x => { const { photo, ...rest } = x; return rest; };
+async function coatList(store) {
+  const n = coatNow(); const list = await read(store, coatKey(n.date), []);
+  const used = new Set(list.filter(x => x.status === 'in').map(x => x.no)); let next = null;
+  for (let i = 1; i <= COAT_MAX; i++) if (!used.has(i)) { next = i; break; }
+  return { ok: true, date: n.date, now: n, list: list.map(coatLite), next, max: COAT_MAX };
+}
+async function coatNew(store, body, by = 'hostesa') {
+  const items = (Array.isArray(body.items) ? body.items : []).map(x => ({ t: COAT_KINDS[x && x.t] ? x.t : 'ostalo', n: Math.max(1, Math.min(9, Math.floor(+(x && x.n) || 1))) })).slice(0, 8);
+  if (!items.length) return { error: 'items', status: 400 };
+  const photo = typeof body.photo === 'string' && /^data:image\/(jpeg|webp|png);base64,[A-Za-z0-9+/=]+$/.test(body.photo) && body.photo.length < 200000 ? body.photo : '';
+  const n = coatNow();
+  const res = await mutate(store, coatKey(n.date), [], list => {
+    const used = new Set(list.filter(x => x.status === 'in').map(x => x.no));
+    let no = Math.floor(+body.no) || 0;
+    if (no) { if (no < 1 || no > COAT_MAX) return { error: 'no', status: 400 }; if (used.has(no)) return { error: 'taken', status: 409 }; }
+    else { for (let i = 1; i <= COAT_MAX; i++) if (!used.has(i)) { no = i; break; } if (!no) return { error: 'full', status: 409 }; }
+    const it = { id: token(8), k: token(12), no, items, desc: str(body.desc, 80), name: str(body.name, 40), table: str(body.table, 12), ph: !!photo, status: 'in', at: isoNow(), atMin: Number.isFinite(+body._min) ? Math.round(+body._min) : n.min, by: str(by, 20) };
+    if (body._status === 'out') Object.assign(it, { status: 'out', outMin: Math.round(+body._outMin || n.min) });
+    list.push(it); return { ok: true, ticket: it };
+  });
+  if (res.ok && photo) await store.setJSON(`coatp/${res.ticket.id}`, { photo }, null);
+  return res;
+}
+async function coatFindRaw(store, pred) {
+  const n = coatNow();
+  for (const d of [n.date, addDays(n.date, -1)]) { const list = await read(store, coatKey(d), []); const x = list.filter(pred).sort((a, b) => (a.status === 'in' ? 0 : 1) - (b.status === 'in' ? 0 : 1))[0]; if (x) return { x, date: d }; }
+  return null;
+}
+async function coatFind(store, q) {
+  const no = Math.floor(+q.no) || 0, id = str(q.id, 40), k = str(q.k, 40);
+  const f = await coatFindRaw(store, x => (id ? x.id === id && (!k || safeEqual(x.k, k)) : x.no === no));
+  return f ? { ok: true, ticket: coatLite(f.x), date: f.date } : { error: 'notfound', status: 404 };
+}
+async function coatOut(store, body, by = 'hostesa') {
+  const id = str(body.id, 40); const n = coatNow();
+  for (const d of [n.date, addDays(n.date, -1)]) {
+    const r = await mutate(store, coatKey(d), [], list => {
+      const x = list.find(y => y.id === id); if (!x) return { noop: true, miss: true };
+      if (x.status !== 'in') return { error: 'state', status: 409 };
+      x.status = 'out'; x.outMin = n.min + (d < n.date ? 1440 : 0); x.outAt = isoNow(); x.outBy = str(by, 20);
+      return { ok: true, ticket: coatLite(x) };
+    });
+    if (!(r && r.miss)) return r;
+  }
+  return { error: 'notfound', status: 404 };
+}
+async function coatPhoto(store, id) { const r = await store.getJSON(`coatp/${str(id, 40)}`); return { ok: true, photo: (r && r.data && r.data.photo) || '' }; }
+async function coatGuest(store, id, k) {
+  const f = await coatFindRaw(store, x => x.id === str(id, 40) && safeEqual(x.k, str(k, 40)));
+  if (!f) return { error: 'notfound', status: 404 };
+  const cfg = await getConfig(store);
+  return { ok: true, ticket: coatPublic(f.x, cfg), date: f.date, kinds: COAT_KINDS };
 }
 
 /* ---------- admin: rezervacije ---------- */
@@ -882,6 +1105,8 @@ async function adminUpdate(store, body) {
       if (!cfg.tables.find(t => t.id === body.tableId)) return { error: 'table', status: 400 };
       if (ACTIVE.has(r.status) && !tableFree(cfg, list, body.tableId, r.start, r.id)) return { error: 'taken', status: 409 };
       r.tableId = body.tableId;
+      const c = catOf(cfg, r.tableId);
+      if (c && (c.minSpend || c.noShow)) Object.assign(r, { cat: c.id, minSpend: c.minSpend, noShowFee: c.noShow }); else { delete r.cat; delete r.minSpend; delete r.noShowFee; }
     }
     if (body.start != null && Number(body.start) !== r.start) {
       const s = Math.floor(Number(body.start)); if (!(s >= 0 && s < 2880)) return { error: 'time', status: 400 };
@@ -911,7 +1136,7 @@ async function adminUpdate(store, body) {
 async function adminSaveConfig(store, cfgIn) {
   const cur = await getConfig(store);
   const next = { ...cur };
-  const keys = ['venue', 'phone', 'plan', 'zones', 'tables', 'hours', 'slotMinutes', 'durationMinutes', 'leadMinutes', 'daysAhead', 'maxParty', 'holdMinutes', 'closedDates', 'autoConfirm', 'rules', 'features'];
+  const keys = ['venue', 'phone', 'plan', 'zones', 'tables', 'hours', 'slotMinutes', 'durationMinutes', 'leadMinutes', 'daysAhead', 'maxParty', 'holdMinutes', 'closedDates', 'autoConfirm', 'rules', 'features', 'policy'];
   for (const k of keys) if (cfgIn[k] !== undefined) next[k] = cfgIn[k];
   if (!Array.isArray(next.tables) || !next.tables.length) return { error: 'tables', status: 400 };
   const ids = new Set();
@@ -1152,7 +1377,7 @@ async function venueSummary(store) {
   const st = await adminStats(store, 7);
   return {
     id: store.venue, name: cfg.venue, day, features: cfg.features || {},
-    tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), tables: cfg.tables.length },
+    tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), tables: cfg.tables.length, booked: new Set(act.map(r => r.tableId)).size, minSpend: act.reduce((a, r) => a + (r.minSpend || 0), 0), arrived: act.filter(r => r.status === 'seated').length, late: day === b.date ? act.filter(r => r.status !== 'seated' && lateBy(r) > 5).length : 0 },
     week,
     live: { open: live.filter(x => OPEN.has(x.status) && x.kind !== 'song').length, songQueue: live.filter(x => x.kind === 'song' && x.status === 'new').length, today: live.length, orders: live.filter(x => x.kind === 'order').length, orderEur: live.filter(x => x.kind === 'order' && x.status !== 'skip').reduce((a, x) => a + (x.total || 0), 0), songs: live.filter(x => x.kind === 'song').length, calls: live.filter(x => x.kind === 'call').length, bills: live.filter(x => x.kind === 'bill').length, avgAck: acked.length ? Math.round(acked.reduce((a, s) => a + s, 0) / acked.length) : null, slowAck: acked.length ? Math.round(Math.max(...acked)) : null, recent: live.slice(-6).reverse() },
     feedback: { unread: fb.unread, total: fb.list.length, recent: fb.list.slice(0, 3) },
@@ -1172,7 +1397,7 @@ const DAYS = { hr: ['nedjelja', 'ponedjeljak', 'utorak', 'srijeda', 'četvrtak',
 const MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function humanDate(date, lang = 'hr') { const [, m, d] = date.split('-'); return lang === 'en' ? `${DAYS.en[weekday(date)]}, ${+d} ${MONTHS_EN[+m - 1]}` : `${DAYS.hr[weekday(date)]}, ${+d}.${+m}.`; }
 const formsOf = cfg => cfg.forms || { loc: 'u ' + cfg.venue, gen: 'iz ' + cfg.venue };
-const eur = (v, L) => new Intl.NumberFormat(L === 'en' ? 'en-IE' : 'hr-HR', { style: 'currency', currency: 'EUR' }).format(v);
+const eur = (v, L) => new Intl.NumberFormat(L === 'en' ? 'en-IE' : 'hr-HR', { style: 'currency', currency: 'EUR', minimumFractionDigits: Number.isInteger(+v) ? 0 : 2, maximumFractionDigits: 2 }).format(v);
 function guestMessage(r, cfg, site, kind) {
   const L = r.lang === 'en' ? 'en' : 'hr';
   const link = `${site}/rezervacije/?r=${r.id}&k=${r.key}`;
@@ -1181,9 +1406,25 @@ function guestMessage(r, cfg, site, kind) {
     ? `\n🍾 Uz stol: ${r.preorder.map(x => `${x.qty > 1 ? x.qty + '× ' : ''}${x.name}${x.vol ? ' ' + x.vol : ''}`).join(', ')}${r.sparkler ? ' ✨ s prskalicom' : ''}`
     : `\n🍾 At your table: ${r.preorder.map(x => `${x.qty > 1 ? x.qty + '× ' : ''}${x.name}${x.vol ? ' ' + x.vol : ''}`).join(', ')}${r.sparkler ? ' ✨ with a sparkler' : ''}`) : '';
   const F = formsOf(cfg);
+  const zn = r.cat ? ((cfg.zones || []).find(z => z.id === r.cat) || {}) : {};
+  const catTxt = r.minSpend ? (L === 'hr' ? ` (${zn.short || r.cat})\n💶 Minimalna potrošnja ${eur(r.minSpend, L)} po stolu` : ` (${zn.short || r.cat})\n💶 Minimum spend ${eur(r.minSpend, L)} per table`) : '';
+  const dl = cancelDeadline(cfg, r.date);
+  const rules = dl ? (L === 'hr' ? `\nOtkazivanje najkasnije do ${fmt(dl.min)} na dan rezervacije${r.noShowFee ? ` — inače naknada za nedolazak ${eur(r.noShowFee, L)} po osobi` : ''}.` : `\nCancel by ${fmt(dl.min)} on the day at the latest${r.noShowFee ? ` — otherwise a no-show fee of ${eur(r.noShowFee, L)} per person applies` : ''}.`) : '';
+  const pol = cfg.policy && (cfg.policy.age || cfg.policy.dress) ? (L === 'hr' ? `\n${cfg.policy.age ? `🔞 ${cfg.policy.age}+` : ''}${cfg.policy.age && cfg.policy.dress ? ' · ' : ''}${cfg.policy.dress ? `👔 Dress code: ${cfg.policy.dress.hr || cfg.policy.dress}` : ''}` : `\n${cfg.policy.age ? `🔞 ${cfg.policy.age}+` : ''}${cfg.policy.age && cfg.policy.dress ? ' · ' : ''}${cfg.policy.dress ? `👔 Dress code: ${cfg.policy.dress.en || cfg.policy.dress}` : ''}`) : '';
   if (kind === 'confirmed') return L === 'hr'
-    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${pre}\nStol držimo ${cfg.holdMinutes} min. Promjene ili otkaz: ${link}\nVidimo se!`
-    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${pre}\nWe hold the table for ${cfg.holdMinutes} min. Changes or cancellation: ${link}\nSee you!`;
+    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${pol}\nStol držimo ${cfg.holdMinutes} min.${rules}\n🎟️ Vaša ulaznica s QR kodom (pokažite je na ulazu), promjene i otkaz: ${link}\nVidimo se!`
+    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${pol}\nWe hold the table for ${cfg.holdMinutes} min.${rules}\n🎟️ Your ticket with a QR code (show it at the door), changes or cancellation: ${link}\nSee you!`;
+  if (kind === 'remind') {
+    const today = r.date === bizNow().date;
+    const whenR = today ? (L === 'hr' ? `večeras u ${fmt(r.start)}` : `tonight at ${fmt(r.start)}`) : (L === 'hr' ? `${humanDate(r.date, L)} u ${fmt(r.start)}` : `${humanDate(r.date, L)} at ${fmt(r.start)}`);
+    const catR = r.minSpend ? (L === 'hr' ? ` (${zn.short || r.cat}, min. potrošnja ${eur(r.minSpend, L)})` : ` (${zn.short || r.cat}, min. spend ${eur(r.minSpend, L)})`) : '';
+    const out = dl && !pastDeadline(cfg, r.date)
+      ? (L === 'hr' ? `Ne stižete? Otkažite na istom linku do ${fmt(dl.min)}${r.noShowFee ? ' — bez naknade' : ''}.` : `Can't make it? Cancel via the same link by ${fmt(dl.min)}${r.noShowFee ? ' — free of charge' : ''}.`)
+      : (L === 'hr' ? `Ne stižete? Javite nam na ${cfg.phone} da stol damo drugima.` : `Can't make it? Let us know at ${cfg.phone} so we can give the table to someone else.`);
+    return L === 'hr'
+      ? `Pozdrav ${F.gen}! 👋 Podsjetnik: ${whenR} čeka Vas stol ${r.tableId}${catR}.\n👥 ${r.party} os. · na ime ${r.name}\n👉 Potvrdite dolazak jednim dodirom: ${link}&a=1\n${out}`
+      : `Hi from ${cfg.venue}! 👋 Reminder: table ${r.tableId}${catR} is waiting for you ${whenR}.\n👥 ${r.party} guests · for ${r.name}\n👉 Confirm you're coming with one tap: ${link}&a=1\n${out}`;
+  }
   if (kind === 'declined') return L === 'hr'
     ? `Pozdrav ${F.gen}. Nažalost, za ${when} nemamo slobodan stol za ${r.party} os. (rezervacija na ime ${r.name}). Nazovite nas na ${cfg.phone} pa ćemo naći drugi termin.`
     : `Hi from ${cfg.venue}. Unfortunately we have no table for ${r.party} on ${when} (reservation for ${r.name}). Call us at ${cfg.phone} and we'll find another time.`;
@@ -1191,7 +1432,7 @@ function guestMessage(r, cfg, site, kind) {
 }
 function staffMessage(r, cfg, site, path = '') {
   const pre = (r.preorder || []).length ? `\n🍾 ${r.preorder.map(x => `${x.qty}× ${x.name} ${x.vol}`).join(', ')} (${eur(preorderTotal(r))})${r.sparkler ? ' ✨' : ''}` : '';
-  return `🆕 Nova rezervacija ${cfg.venue}\n📅 ${humanDate(r.date)} ${fmt(r.start)}\n👥 ${r.party} os. · stol ${r.tableId}\n👤 ${r.name} · ${r.phone}${r.occasion ? `\n🎉 ${r.occasion}` : ''}${r.note ? `\n📝 ${r.note}` : ''}${pre}\nKod: ${r.code}\nPotvrdi: ${site}${path}/admin/#${r.date}`;
+  return `🆕 Nova rezervacija ${cfg.venue}\n📅 ${humanDate(r.date)} ${fmt(r.start)}\n👥 ${r.party} os. · stol ${r.tableId}${r.minSpend ? ` · min. ${eur(r.minSpend)}` : ''}\n👤 ${r.name} · ${r.phone}${r.occasion ? `\n🎉 ${r.occasion}` : ''}${r.note ? `\n📝 ${r.note}` : ''}${pre}\nKod: ${r.code}\nPotvrdi: ${site}${path}/admin/#${r.date}`;
 }
 /** Kratka obavijest za WhatsApp (vanjski servis): bez imena, broja i napomene gosta. */
 function staffAlert(r, cfg, site, path = '') {
@@ -1199,7 +1440,7 @@ function staffAlert(r, cfg, site, path = '') {
 }
 const waLink = (phone, text) => `https://wa.me/${String(phone).replace(/\D/g, '')}?text=${encodeURIComponent(text)}`;
 
-return { VENUES, VENUE_IDS, isVenue, TZ, setClock, zagrebNow, bizNow, toMin, fmt, weekday, addDays, isDate, token, shortCode, safeEqual, scoped, getConfig, publicConfig, slotsFor, ACTIVE, overlaps, tableFree, fits, bestTable, cleanPhone, preorderTotal, availability, createReservation, guestView, getReservation, cancelByGuest, defaultDay, adminDay, adminUpdate, adminSaveConfig, adminSearch, adminUpcoming, liveCreate, liveStatus, adminLive, adminLiveUpdate, feedbackCreate, adminFeedback, adminFeedbackUpdate, adminFeedbackReadAll, getMenu, adminSaveMenu, statsHit, adminStats, venueSummary, groupSummary, humanDate, guestMessage, staffMessage, staffAlert, waLink };
+return { VENUES, VENUE_IDS, isVenue, TZ, setClock, zagrebNow, bizNow, toMin, fmt, weekday, addDays, isDate, token, shortCode, safeEqual, scoped, getConfig, publicConfig, catOf, cancelDeadline, pastDeadline, slotsFor, ACTIVE, overlaps, tableFree, fits, bestTable, cleanPhone, preorderTotal, availability, createReservation, guestView, getReservation, cancelByGuest, confirmArrival, adminRemind, lateBy, findRes, findCode, checkIn, COAT_KINDS, coatList, coatNew, coatFind, coatOut, coatPhoto, coatGuest, defaultDay, adminDay, adminUpdate, adminSaveConfig, adminSearch, adminUpcoming, liveCreate, liveStatus, adminLive, adminLiveUpdate, feedbackCreate, adminFeedback, adminFeedbackUpdate, adminFeedbackReadAll, getMenu, adminSaveMenu, statsHit, adminStats, venueSummary, groupSummary, humanDate, guestMessage, staffMessage, staffAlert, waLink };
 })();
 __m["router"] = (function () {
 /* =====================================================================
@@ -1210,6 +1451,8 @@ __m["router"] = (function () {
    ADMIN_PIN_QCLUB, ADMIN_PIN_KAFANICA, ADMIN_PIN_BURE, ADMIN_PIN_BROOKLYN
                       PIN osoblja po lokalu (ili zajednički ADMIN_PIN)
    OWNER_PIN          PIN vlasnika: pregled grupe + ulaz u admin svih lokala
+   HOSTESS_PIN_QCLUB, HOSTESS_PIN_KAFANICA, HOSTESS_PIN_BURE
+                      (neobavezno) šifra hostese na ulazu: samo dolasci, tlocrt i uvođenje gostiju
    SITE_URL           npr. https://tiptapreviews.com (za linkove u porukama)
    RESEND_API_KEY     (neobavezno) e-mail preko resend.com
    MAIL_FROM          npr. "TipTap <rezervacije@tvoja-domena.hr>"
@@ -1242,12 +1485,32 @@ async function sendWhatsAppStaff(env, v, text) {
   return (await Promise.all(jobs)).some(Boolean);
 }
 
-function pinOk(req, env, v) {
+/** Tko je prijavljen: vlasnik, voditelj lokala ili hostesa na ulazu (HOSTESS_PIN_<LOKAL>). */
+function pinRole(req, env, v) {
   const pin = req.headers.get('x-admin-pin') || '';
-  if (!pin) return false;
-  const own = env.OWNER_PIN, staff = v ? envFor(env, 'ADMIN_PIN', v) : '';
-  return (!!own && C.safeEqual(pin, own)) || (!!staff && C.safeEqual(pin, staff));
+  if (!pin) return null;
+  if (env.OWNER_PIN && C.safeEqual(pin, env.OWNER_PIN)) return 'owner';
+  const staff = v ? envFor(env, 'ADMIN_PIN', v) : '';
+  if (staff && C.safeEqual(pin, staff)) return 'admin';
+  const host = v ? envFor(env, 'HOSTESS_PIN', v) : '';
+  if (host && C.safeEqual(pin, host)) return 'host';
+  return null;
 }
+function pinOk(req, env, v) { const r = pinRole(req, env, v); return r === 'owner' || r === 'admin'; }
+/* Zaštita PIN-a (samo živi rad): 20 pogrešnih PIN-ova s iste adrese → 15 minuta stanke za tu adresu.
+   Pogađanje 4-znamenkastog PIN-a tako traje danima umjesto minuta. U demu (env.DEMO) se ne koristi. */
+const LOCK_N = 20, LOCK_MS = 15 * 60e3;
+const ipKey = req => 'sec/pin/' + (String(req.headers.get('x-nf-client-connection-ip') || (req.headers.get('x-forwarded-for') || '').split(',')[0] || '').trim().replace(/[^0-9a-fA-F.]/g, '_').slice(0, 45) || 'x');
+async function pinLocked(store, env, req) {
+  if (env.DEMO) return false;
+  try { const r = await store.getJSON(ipKey(req)); const d = r && r.data; return !!(d && d.n >= LOCK_N && Date.now() - d.t < LOCK_MS); } catch { return false; }
+}
+async function pinFailed(store, env, req) {
+  if (env.DEMO || !req.headers.get('x-admin-pin')) return;   // prazan PIN nije pokušaj pogađanja
+  try { const k = ipKey(req), r = await store.getJSON(k); let d = r && r.data; if (!d || Date.now() - d.t > LOCK_MS) d = { n: 0, t: 0 }; d.n++; d.t = Date.now(); await store.setJSON(k, d, null); } catch { }
+}
+/** Hostesa vidi samo ono što treba na ulazu. */
+const HOST_OK = new Set(['/login', '/day', '/res', '/code', '/checkin', '/coat', '/coat/new', '/coat/out', '/coat/find', '/coat/photo']);
 
 async function route(req, { store, env = {}, waitUntil } = {}) {
   const url = new URL(req.url);
@@ -1261,7 +1524,8 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     /* ----- vlasnik: pregled svih lokala ----- */
     if (parts[0] === 'group') {
       if (!env.OWNER_PIN) return json({ error: 'nopin' }, 500);
-      if (!pinOk(req, env, null)) { await new Promise(r => setTimeout(r, 500)); return json({ error: 'auth' }, 401); }
+      if (await pinLocked(store, env, req)) return json({ error: 'locked' }, 429);
+      if (!pinOk(req, env, null)) { await pinFailed(store, env, req); await new Promise(r => setTimeout(r, 500)); return json({ error: 'auth' }, 401); }
       if (parts[1] === 'login') return json({ ok: true });
       if (parts[1] === 'summary') return json(await C.groupSummary(store));
       return json({ error: 'notfound' }, 404);
@@ -1302,6 +1566,11 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
       await later(Promise.all([sendWhatsAppStaff(env, v, alert), sendEmail(env, envFor(env, 'NOTIFY_EMAIL', v), 'Otkazana rezervacija ' + x.code, alert + ` · ${x.name}`)]));
       return json({ ok: true, reservation: C.guestView(x) });
     }
+    if (path === '/coat' && req.method === 'GET') { const r = await C.coatGuest(S, q('g'), q('k')); return r.error ? fail(r) : json(r); }
+    if (path === '/arrive' && req.method === 'POST') {
+      const r = await C.confirmArrival(S, body.id, body.k);
+      return r.error ? fail(r) : json({ ok: true, reservation: C.guestView(r.reservation) });
+    }
     if (path === '/menu' && req.method === 'GET') return json(await C.getMenu(S));
     if (path === '/live' && req.method === 'POST') { const r = await C.liveCreate(S, body); return r.error ? fail(r) : json({ ok: true, id: r.id, k: r.k, dup: !!r.dup }); }
     if (path === '/live/status' && req.method === 'GET') { const r = await C.liveStatus(S, q('id'), q('k')); return r.error ? fail(r) : json(r); }
@@ -1317,9 +1586,20 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     /* ----- admin (osoblje lokala ili vlasnik) ----- */
     if (parts[1] === 'admin') {
       if (!envFor(env, 'ADMIN_PIN', v) && !env.OWNER_PIN) return json({ error: 'nopin' }, 500);
-      if (!pinOk(req, env, v)) { await new Promise(r => setTimeout(r, 500)); return json({ error: 'auth' }, 401); }
+      if (await pinLocked(store, env, req)) return json({ error: 'locked' }, 429);
+      const role = pinRole(req, env, v);
+      if (!role) { await pinFailed(store, env, req); await new Promise(r => setTimeout(r, 500)); return json({ error: 'auth' }, 401); }
       const a = '/' + parts.slice(2).join('/');
-      if (a === '/login') return json({ ok: true, owner: !!env.OWNER_PIN && C.safeEqual(req.headers.get('x-admin-pin'), env.OWNER_PIN) });
+      if (role === 'host' && !HOST_OK.has(a)) return json({ error: 'role' }, 403);
+      if (a === '/login') return json({ ok: true, owner: role === 'owner', role });
+      if (a === '/res' && req.method === 'GET') { const r = await C.findRes(S, q('id')); return r.error ? fail(r) : json({ ...r, now: C.zagrebNow(), biz: C.bizNow() }); }
+      if (a === '/code' && req.method === 'GET') { const r = await C.findCode(S, q('code')); return r.error ? fail(r) : json({ ...r, now: C.zagrebNow(), biz: C.bizNow() }); }
+      if (a === '/coat' && req.method === 'GET') return json(await C.coatList(S));
+      if (a === '/coat/new' && req.method === 'POST') { const r = await C.coatNew(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
+      if (a === '/coat/out' && req.method === 'POST') { const r = await C.coatOut(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
+      if (a === '/coat/find' && req.method === 'GET') { const r = await C.coatFind(S, { no: q('no'), id: q('id'), k: q('k') }); return r.error ? fail(r) : json(r); }
+      if (a === '/coat/photo' && req.method === 'GET') return json(await C.coatPhoto(S, q('id')));
+      if (a === '/checkin' && req.method === 'POST') { const r = await C.checkIn(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
       if (a === '/day') { const d = q('date') || await C.defaultDay(S); if (!C.isDate(d)) return json({ error: 'date' }, 400); return json(await C.adminDay(S, d)); }
       if (a === '/upcoming') return json(await C.adminUpcoming(S, C.bizNow().date, 14));
       if (a === '/search') return json(await C.adminSearch(S, q('q'), C.zagrebNow().date));
@@ -1335,6 +1615,13 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
           if (x.email && body.notify !== false) await later(sendEmail(env, x.email, `${cfg.venue} — ${x.status === 'confirmed' ? (x.lang === 'en' ? 'reservation confirmed' : 'rezervacija potvrđena') : (x.lang === 'en' ? 'reservation' : 'rezervacija')} ${x.code}`, msg));
         }
         return json({ ok: true, reservation: x, wa, msg });
+      }
+      if (a === '/remind' && req.method === 'POST') {
+        const r = await C.adminRemind(S, body.id);
+        if (r.error) return fail(r);
+        const cfg = await C.getConfig(S); const x = r.reservation;
+        const msg = C.guestMessage(x, cfg, site + vpath, 'remind');
+        return json({ ok: true, reservation: x, msg, wa: x.phone ? C.waLink(x.phone, msg) : null });
       }
       if (a === '/config' && req.method === 'GET') return json({ ok: true, config: await C.getConfig(S), env: { email: !!env.RESEND_API_KEY && !!envFor(env, 'NOTIFY_EMAIL', v), whatsapp: !!envFor(env, 'CALLMEBOT', v), demo: !!env.DEMO } });
       if (a === '/config' && req.method === 'POST') { const r = await C.adminSaveConfig(S, body.config || {}); return r.error ? fail(r) : json(r); }
@@ -1432,6 +1719,13 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     return href.includes('?') ? href.replace('?', '?' + t + '&') : href.replace(/(#.*)?$/, '?' + t + '$1');
   };
 
+  /** Broj telefona za prikaz: +385 92 000 0130 (spremljen je bez razmaka). */
+  TT.phoneFmt = p => {
+    const s = String(p || ''), m = s.match(/^\+385(\d{7,10})$/); if (!m) return s;
+    const d = m[1], a = d[0] === '1' ? 1 : 2, r = d.slice(a);
+    return `+385 ${d.slice(0, a)} ${r.length > 3 ? r.slice(0, 3) + ' ' + r.slice(3) : r}`;
+  };
+
   /* ---------- PIN (admin) ---------- */
   TT.pin = v => ls.get('tt_pin_' + (v || 'group'), '') || '';   // i u demu: voditelj/direktor se prijavljuje PIN-om
   TT.setPin = (v, p) => { if (p) ls.set('tt_pin_' + (v || 'group'), p); else try { localStorage.removeItem('tt_pin_' + (v || 'group')); } catch (e) { } };
@@ -1447,7 +1741,7 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   };
   TT.store = STORE;
   /** Demo PIN-ovi (u pravom sustavu postavljaju se na serveru): svaki voditelj ima PIN svog lokala, direktori BHT-a svoj PIN za sve. */
-  const ENV = { ADMIN_PIN_QCLUB: '1111', ADMIN_PIN_KAFANICA: '2222', ADMIN_PIN_BURE: '3333', ADMIN_PIN_BROOKLYN: '4444', OWNER_PIN: '2580', DEMO: true, SITE_URL: TT.root.replace(/\/$/, '') };
+  const ENV = { ADMIN_PIN_QCLUB: '1111', ADMIN_PIN_KAFANICA: '2222', ADMIN_PIN_BURE: '3333', ADMIN_PIN_BROOKLYN: '4444', OWNER_PIN: '2580', HOSTESS_PIN_QCLUB: '1000', HOSTESS_PIN_KAFANICA: '2000', HOSTESS_PIN_BURE: '3000', DEMO: true, SITE_URL: TT.root.replace(/\/$/, '') };
   let ready = null;
   function demoReady() {
     if (ready) return ready;
@@ -1457,6 +1751,49 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     return ready;
   }
   TT.demoReady = demoReady;
+  /* DEMO s dva mobitela: u demu svaki mobitel ima svoje podatke, pa QR ulaznice / broja s garderobe nosi i
+     sažetak (parametar d=). Mobitel koji ga skenira, a nema taj zapis, doda ga kod sebe. U pravom sustavu
+     podaci su na serveru i ovo se ne koristi. */
+  TT.demoPack = o => { try { return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); } catch (e) { return ''; } };
+  TT.demoUnpack = s => { try { s = String(s || '').replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch (e) { return null; } };
+  /** Sažetak rezervacije za QR (kratki ključevi, bez telefona). Prazno ako bi QR bio pregust. */
+  const STC = { pending: 'p', confirmed: 'c', seated: 's', cancelled: 'x', declined: 'd', done: 'o', noshow: 'n' };
+  TT.demoResPack = (r, max = 240) => {
+    const o = { c: r.code, d: r.date, s: r.start, p: r.party, t: r.tableId, n: String(r.name || '').slice(0, 40), st: STC[r.status] || 'c', o: r.occasion || undefined, a: r.arrive ? 1 : undefined, pr: (r.preorder || []).length ? r.preorder.slice(0, 3).map(x => [String(x.name).slice(0, 30), x.qty]) : undefined };
+    let s = TT.demoPack(o); if (s.length > max) { delete o.pr; delete o.o; s = TT.demoPack(o); }
+    return s.length > max ? '' : s;
+  };
+  TT.demoCoatPack = (x, max = 200) => {
+    const o = { d: x.date, n: x.no, it: (x.items || []).map(i => i.t + (i.n > 1 ? '*' + i.n : '')).join(','), ds: String(x.desc || '').slice(0, 50) || undefined, nm: String(x.name || '').slice(0, 20) || undefined, at: x.atMin, st: x.status === 'out' ? 'out' : undefined, o: x.outMin != null ? x.outMin : undefined };
+    const s = TT.demoPack(o); return s.length > max ? '' : s;
+  };
+  /** Uvoz zapisa sa skeniranog QR-a u lokalne demo podatke. kind: 'res' (id, k) ili 'coat' (id, k). */
+  TT.demoImport = async (venue, kind, id, k, packed) => {
+    const o = TT.mode === 'demo' ? TT.demoUnpack(packed) : null;
+    if (!o || !id || !/^\d{4}-\d{2}-\d{2}$/.test(o.d || '')) return false;
+    try {
+      await demoReady();
+      const C = TTCore.core, S = C.scoped(STORE, venue), now = new Date().toISOString();
+      const key = (kind === 'coat' ? 'coat/' : 'res/') + o.d;
+      const cur = await S.getJSON(key), list = (cur && cur.data) || [];
+      if (!list.some(x => x.id === id)) {
+        if (kind === 'coat') {
+          const items = String(o.it || '').split(',').filter(Boolean).map(s => { const [t, n] = s.split('*'); return { t, n: +n || 1 }; });
+          list.push(Object.assign({ id, k, no: +o.n || 0, items, desc: o.ds || '', name: o.nm || '', table: '', ph: false, status: o.st === 'out' ? 'out' : 'in', at: now, atMin: +o.at || 0, by: 'hostesa' }, o.st === 'out' ? { outMin: +o.o || 0 } : {}));
+        } else {
+          const cfg = await C.getConfig(S), tb = (cfg.tables || []).find(t => t.id === o.t), z = tb && (cfg.zones || []).find(x => x.id === tb.zone);
+          const st = Object.keys(STC).find(x => STC[x] === o.st) || 'confirmed';
+          list.push(Object.assign({ id, key: k, code: o.c || '', date: o.d, start: +o.s, end: +o.s + (cfg.durationMinutes || 180), party: +o.p || 2, tableId: String(o.t || ''), name: o.n || '', phone: '', email: '', note: '', occasion: o.o || '',
+            preorder: (o.pr || []).map(([name, qty]) => ({ id: '', name, qty: +qty || 1, vol: '', eur: 0 })), sparkler: false, lang: 'hr',
+            status: st, source: 'web', createdAt: now, updatedAt: now, history: [] },
+            o.a ? { arrive: now } : {}, z && (z.minSpend || z.noShow) ? { cat: z.id, minSpend: z.minSpend, noShowFee: z.noShow } : {}));
+          await S.setJSON('idx/' + id, { date: o.d }, null);
+        }
+        await S.setJSON(key, list, null);
+      }
+      return true;
+    } catch (e) { return false; }
+  };
   TT.resetDemo = async () => {
     if (TT.clearGuestLocal) TT.clearGuestLocal(true);   // i odjava voditelja/direktora
     else try { const ks = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith(P) || k.startsWith('tt_my'))) ks.push(k); } ks.forEach(k => localStorage.removeItem(k)); } catch (e) { }
@@ -1592,11 +1929,11 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   const VNAME = { qclub: 'Q Club', kafanica: 'Kafanica', bure: 'Bure Bar', brooklyn: 'Brooklyn' };
   const VORD = ['qclub', 'kafanica', 'bure', 'brooklyn'];
   const dT = v => (TT.DEMO_T || {})[v] || { qclub: 'pet-23:05', kafanica: 'pet-20:40', bure: 'pet-21:10', brooklyn: 'pet-18:20' }[v] || 'pet-21:00';
-  const dTab = v => (TT.DEMO_TABLE || {})[v] || { qclub: 'V1', kafanica: 'K3', bure: 'B2', brooklyn: 'T3' }[v] || '1';
+  const dTab = v => (TT.DEMO_TABLE || {})[v] || { qclub: '23', kafanica: '3', bure: '26', brooklyn: 'T3' }[v] || '1';
   /** Link unutar demoa. Isti lokal (ili vlasnik) → isti demo sat; drugi lokal → vrijeme njegove priče. */
   TT.demoHref = (v, view, o = {}) => {
     const tv = view === 'owner' ? null : v;
-    let u = view === 'owner' ? TT.root + 'grupa/' : view === 'rez' ? TT.url(tv, 'rezervacije/') : view === 'admin' ? TT.url(tv, 'admin/') : TT.url(tv, '') + '?stol=' + encodeURIComponent(o.table || dTab(tv));
+    let u = view === 'owner' ? TT.root + 'grupa/' : view === 'rez' ? TT.url(tv, 'rezervacije/') : view === 'admin' ? TT.url(tv, 'admin/') : view === 'host' ? TT.url(tv, 'hostesa/') : TT.url(tv, '') + '?stol=' + encodeURIComponent(o.table || dTab(tv));
     if (o.q) u += (u.includes('?') ? '&' : '?') + o.q;
     if (TT.clock && (tv === null || tv === TT.venue)) u = TT.keepClock(u);
     else if (tv) u += (u.includes('?') ? '&' : '?') + 't=' + dT(tv);
@@ -1609,6 +1946,10 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
 .ttd-pill.r{left:auto;right:14px;transform:translateY(-110%)}
 .ttd-pill.r.on{transform:none}
 body.ttd-pad{padding-top:14px}
+html.ttd-rez .top{padding-top:calc(max(14px,env(safe-area-inset-top,0px)) + 16px)}
+html.ttd-garderoba .gw{padding-top:calc(max(14px,env(safe-area-inset-top,0px)) + 20px)}
+html.ttd-hostesa .uh{padding-top:calc(max(10px,env(safe-area-inset-top,0px)) + 18px)}
+html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px)) + 20px)}
 .ttd-pill i{width:6px;height:6px;border-radius:50%;background:#1a1205;animation:ttdp 1.6s infinite}
 @keyframes ttdp{0%,100%{opacity:.85}50%{opacity:.2}}
 .ttd-pill svg{width:10px;height:10px}
@@ -1656,14 +1997,19 @@ body.ttd-pad{padding-top:14px}
     let css = false;
     const addCss = () => { if (css) return; css = true; const s = document.createElement('style'); s.textContent = DCSS; document.head.appendChild(s); };
     const onBody = fn => { if (document.body) fn(); else addEventListener('DOMContentLoaded', fn); };
-    const here = () => ({ menu: 'menu', rez: 'rez', admin: 'admin', grupa: 'owner' }[CFG.page] || 'menu');
+    const here = () => ({ menu: 'menu', rez: 'rez', admin: 'admin', grupa: 'owner', hostesa: 'host', garderoba: 'coatguest' }[CFG.page] || 'menu');
     const NOREZ = { brooklyn: true };   // Brooklyn radi bez rezervacija
+    const HOST = { bure: ['🚪', 'Hostesa na ulazu', 'Skenira ulaznicu gosta: stol, kašnjenje i uvjeti · šifra hostese'],
+                   kafanica: ['🚪', 'Hostesa · ulaz i garderoba', 'Ulaznice gostiju i garderoba s brojem na mobitelu · šifra hostese'],
+                   qclub: ['🧥', 'Garderoba · hostesa', 'Broj na mobitelu gosta, točno što je ostavio · šifra hostese'] };
     const VIEWS = v => [
       ['menu', '🍸', 'Gost za stolom', v === 'kafanica' ? 'Cjenik, poziv konobara i pjesma po želji' : v === 'brooklyn' ? 'Cjenik, poziv konobara i račun' : 'Cjenik i poziv konobara jednim dodirom'],
-      ...(NOREZ[v] ? [] : [['rez', '📅', 'Rezervacija stola', v === 'qclub' ? 'Gost bira stol na tlocrtu i bocu uz stol' : 'Gost bira stol na tlocrtu i dobiva potvrdu']]),
+      ...(NOREZ[v] ? [] : [['rez', '📅', 'Rezervacija stola', v === 'qclub' ? 'Gost bira stol na tlocrtu i bocu uz stol' : 'Gost bira stol na tlocrtu i dobiva ulaznicu s QR kodom'],
+      ]),
+      ...(HOST[v] ? [['host', HOST[v][0], HOST[v][1], HOST[v][2]]] : []),
       ['admin', '🔐', 'Voditelj lokala', (v === 'kafanica' ? 'Rezervacije, pozivi, glazba, cjenik' : NOREZ[v] ? 'Pozivi sa stolova, cjenik, poruke' : 'Rezervacije, pozivi, cjenik, statistika') + ' · PIN voditelja'],
       ['owner', '👑', 'Direktor · BHT', 'Sva 4 lokala na jednom ekranu · PIN direktora']];
-    const viewFor = (x, k) => k === 'rez' && NOREZ[x] ? 'menu' : k;
+    const viewFor = (x, k) => k === 'rez' && NOREZ[x] ? 'menu' : k === 'host' && !HOST[x] ? 'admin' : k;
     function sheetHTML() {
       const v = TT.venue, cur = here();
       let h = `<div class="ttd-grab"></div><div class="ttd-hd"><div><small>TipTap demo</small><b>${v ? TT.esc(VNAME[v] || CFG.name || '') : 'BHT · 4 lokala'}</b></div><button type="button" class="ttd-x" data-ttd-close aria-label="Zatvori">×</button></div>
@@ -1675,7 +2021,7 @@ body.ttd-pad{padding-top:14px}
         h += `<div class="ttd-sub">Ostali lokali</div><div class="ttd-vs">${VORD.filter(x => x !== v).map(x => `<a href="${TT.esc(TT.demoHref(x, viewFor(x, cur)))}">${VNAME[x]}</a>`).join('')}</div>`;
       } else {
         h += `<a class="ttd-it on" href="#" data-ttd-close><span class="ic">👑</span><span class="t"><b>Direktor · BHT</b><small>Sva 4 lokala na jednom ekranu</small></span><em>Ovdje ste</em></a><div class="ttd-sub">Lokali</div>`;
-        h += VORD.map(x => `<div class="ttd-vrow"><b>${VNAME[x]}</b><span><a href="${TT.esc(TT.demoHref(x, 'menu'))}">Gost</a>${NOREZ[x] ? '' : `<a href="${TT.esc(TT.demoHref(x, 'rez'))}">Rezervacija</a>`}<a href="${TT.esc(TT.demoHref(x, 'admin'))}">Voditelj</a></span></div>`).join('');
+        h += VORD.map(x => `<div class="ttd-vrow"><b>${VNAME[x]}</b><span><a href="${TT.esc(TT.demoHref(x, 'menu'))}">Gost</a>${NOREZ[x] ? '' : `<a href="${TT.esc(TT.demoHref(x, 'rez'))}">Rezervacija</a>`}${HOST[x] ? `<a href="${TT.esc(TT.demoHref(x, 'host'))}">${x === 'qclub' ? 'Garderoba' : 'Hostesa'}</a>` : ''}<a href="${TT.esc(TT.demoHref(x, 'admin'))}">Voditelj</a></span></div>`).join('');
       }
       return h + `<button type="button" class="ttd-reset" data-ttd-reset>↺ Vrati demo na početak</button>`;
     }
@@ -1719,6 +2065,7 @@ body.ttd-pad{padding-top:14px}
       {
         const side = ['admin', 'grupa'].includes(CFG.page);   // voditelj/direktor: gore desno (lijevo su logo i naziv)
         if (CFG.page === 'menu') document.body.classList.add('ttd-pad');
+        document.documentElement.classList.add('ttd-' + CFG.page);   // mjesto za gumb DEMO iznad zaglavlja (rezervacija, hostesa, garderoba)
         const b = document.createElement('button'); b.type = 'button'; b.className = 'ttd-pill' + (side ? ' r' : ''); b.setAttribute('aria-label', 'Demo: gost, voditelj, direktor');
         b.innerHTML = '<i></i>DEMO<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5 6 7.5 9 4.5"/></svg>';
         b.addEventListener('click', openSheet); document.body.appendChild(b);
@@ -1745,8 +2092,20 @@ body.ttd-pad{padding-top:14px}
         } else if (path === '/reserve' && res && (res.reservation || res).id) {
           const rr = res.reservation || res;
           n = { text: '📅 Lokal je upravo dobio Vašu rezervaciju.', cta: 'Potvrdite kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 16000 };
+        } else if (path === '/arrive' && res && res.reservation) {
+          const rr = res.reservation;
+          n = { text: '✅ Voditelj na popisu odmah vidi „dolazak potvrđen”.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }) };
         } else if (path === '/feedback') {
           n = { text: '✉️ Poruka je stigla voditelju i direktorima — potpuno anonimno.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: 'msgs' }) };
+        }
+      } else if (page === 'hostesa') {
+        if (path === '/admin/coat/out' && res && res.ticket) {
+          const x = res.ticket;
+          n = { text: `📱 Gost na mobitelu vidi „preuzeto” — broj ${x.no} je opet slobodan.`, cta: 'Pogledajte kao gost', href: TT.keepClock(TT.url(v, 'garderoba/') + '?g=' + encodeURIComponent(x.id) + '&k=' + encodeURIComponent(x.k || '')) };
+        }
+        if (path === '/admin/checkin' && res && res.reservation) {
+          const rr = res.reservation;
+          n = { text: `🚪 Uprava odmah vidi da su ${rr.name.split(' ').slice(-1)[0]} stigli${rr.lateMin > 5 ? ` (kasnili ${rr.lateMin} min)` : ''} i za kojim stolom sjede.`, cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 14000 };
         }
       } else if (page === 'admin') {
         if (path === '/admin/live/update' && res && res.item) {
@@ -1777,11 +2136,11 @@ body.ttd-pad{padding-top:14px}
 (function () {
   'use strict';
   const TT = window.TT; if (!TT) return;
-  const VERSION = 'v12';
+  const VERSION = 'v20';
   /** Stolovi za priču prezentacije: na demo dan i dan poslije ostaju slobodni za rezervaciju uživo. */
-  const STORY = { qclub: ['V2'], kafanica: ['S2', 'K2'], bure: ['B1'], brooklyn: ['L3'] };
+  const STORY = { qclub: ['VIP', '47'], kafanica: ['35', '15'], bure: ['31', '25'], brooklyn: ['L3'] };
   /** Stolovi koje prezentacija koristi kao "gostov stol" (cjenik za stolom). */
-  TT.DEMO_TABLE = { qclub: 'V1', kafanica: 'K3', bure: 'B2', brooklyn: 'T3' };
+  TT.DEMO_TABLE = { qclub: '23', kafanica: '3', bure: '26', brooklyn: 'T3' };
   /** Zadano vrijeme prezentacije po lokalu (dan + sat). */
   TT.DEMO_T = { qclub: 'pet-23:05', kafanica: 'pet-20:40', bure: 'pet-21:10', brooklyn: 'pet-18:20' };
 
@@ -1790,15 +2149,16 @@ body.ttd-pad{padding-top:14px}
   const M = ['Luka', 'Ivan', 'Marko', 'Josip', 'Filip', 'Matej', 'Karlo', 'Domagoj', 'Tomislav', 'Ante', 'Dario', 'Hrvoje', 'Nikola', 'David', 'Leon', 'Mateo', 'Bruno', 'Dino', 'Igor', 'Stjepan'];
   const SUR = ['Horvat', 'Kovačević', 'Babić', 'Marić', 'Jurić', 'Novak', 'Kovačić', 'Knežević', 'Vuković', 'Marković', 'Petrović', 'Matić', 'Tomić', 'Pavlović', 'Božić', 'Blažević', 'Grgić', 'Pavić', 'Radić', 'Perić', 'Šarić', 'Lovrić', 'Vidović', 'Perković', 'Nikolić', 'Bošnjak', 'Mandić', 'Klarić', 'Galić', 'Jakovljević'];
   /** Napomene: uz prigodu (da se ne kose) ili općenite. */
+  /** Napomene uz prigodu; funkcija dobiva broj osoba (da se napomena ne kosi s rezervacijom). */
   const OCC_NOTES = {
     rodjendan: ['Slavimo 25. rođendan 🎉', 'Torta u ponoć — donosimo je sami 🎂', 'Iznenađenje za slavljenicu, molimo diskretno 🤫'],
     proslava: ['Proslava godišnjice braka ❤️', 'Slavimo diplomu 🎓', 'Proslava novog posla 🥂'],
-    momacka: ['Momačka večer — dolazimo oko 23 h', 'Djevojačka, 8 cura 💃'],
+    momacka: ['Momačka večer 🎉', p => `Djevojačka, ${p} cura 💃`],
     posao: ['Poslovna večera — trebat će R1 račun', 'Dolazimo s poslovnim partnerima iz Zagreba'],
     utakmica: ['Gledamo utakmicu — stol s pogledom na TV ⚽', 'Dolazimo prije početka utakmice']
   };
   const NOTES = {
-    qclub: ['Dolazimo oko pola 12', 'Molimo stol bliže DJ-u', 'Prvi put kod vas 🙂'],
+    qclub: ['Možda kasnimo desetak minuta', 'Molimo stol bliže DJ-u', 'Prvi put kod vas 🙂'],
     kafanica: ['Što bliže bini, molim', 'Bit ćemo 10 minuta kasnije', 'Dolazi i baka, treba nam stolica s naslonom'],
     bure: ['Dolazimo nakon posla', 'Prvi put kod vas 🙂', 'Probali bismo sva craft piva 🍺'],
     brooklyn: ['Stol na terasi ako je lijepo vrijeme', 'Trebamo dječju stolicu', 'Kratki sastanak uz kavu', 'Dolazimo s psom 🐶']
@@ -1827,39 +2187,51 @@ body.ttd-pad{padding-top:14px}
     let ph = 100 + vi * 200;
     const phone = () => `+385 9${1 + Math.floor(R() * 8)} 000 ${String(++ph).padStart(4, '0')}`;
     const person = () => `${pick(R, R() < .5 ? F : M)} ${pick(R, SUR)}`;
+    const PRE_OK = t => !!(cfg.features && cfg.features.preorder && (cfg.features.preorderZones || []).includes(t.zone) && bottles.length);
+    const mkPre = (body, party) => {
+      const b1 = pick(R, bottles.slice(0, Math.min(8, bottles.length)));
+      body.preorder = [{ id: b1.id, name: b1.name, vol: b1.vol, eur: b1.eur, qty: party >= 8 && R() < .5 ? 2 : 1 }];
+      if (R() < .35) { const b2 = pick(R, bottles); if (b2.id !== b1.id) body.preorder.push({ id: b2.id, name: b2.name, vol: b2.vol, eur: b2.eur, qty: 1 }); }
+      body.sparkler = R() < .7;
+    };
 
     /* --- rezervacije: od prekjučer do +12 dana --- */
     const dates = new Set(); if (!(cfg.features && cfg.features.reservations === false)) { for (let i = -2; i <= 12; i++) dates.add(TT.addDays(real.date, i)); dates.add(demoDate); }
     for (const date of [...dates].sort()) {
       const slots = C.slotsFor(cfg, date); if (!slots.length) continue;
       const w = TT.wd(date), weekend = w === 5 || w === 6;
-      const dens = v === 'brooklyn' ? (weekend ? .4 : .22) : weekend ? (date === demoDate ? .74 : .6) : (w === 4 ? .38 : .2);
+      const dens = v === 'brooklyn' ? (weekend ? .4 : .22) : v === 'bure' ? (weekend ? (date === demoDate ? .48 : .42) : (w === 4 ? .3 : .16)) : weekend ? (date === demoDate ? .74 : .6) : (w === 4 ? .38 : .2);
       const isDemo = date === demoDate, isPast = date < real.date && !isDemo, isNext = date === TT.addDays(demoDate, 1);
-      const keep = t => !((isDemo || isNext) && (STORY[v] || []).includes(t.id)) && !(isDemo && t.id === TT.DEMO_TABLE[v]);
+      const keep = t => !t.noRes && !((isDemo || isNext) && (STORY[v] || []).includes(t.id)) && !(isDemo && t.id === TT.DEMO_TABLE[v]);
       const tables = cfg.tables.filter(keep).sort(() => R() - .5).slice(0, Math.round(cfg.tables.length * dens));
       if (isDemo) {   // gost za "demo stolom" (cjenik za stolom u prezentaciji) već sjedi
         const t = cfg.tables.find(x => x.id === TT.DEMO_TABLE[v]);
         const early = slots.filter(m => m <= demoMin - 15); const start = early.length ? early[early.length - 1] : slots[0];
-        if (t) await C.createReservation(S, { date, start, party: Math.max(t.min || 1, Math.min(t.max, 4)), tableId: t.id, name: person(), phone: phone(), status: 'seated', source: 'web', _at: iso(2 * 864e5) }, { admin: true });
+        if (t) { const party = Math.max(t.min || 1, Math.min(t.max, 4)); const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status: 'seated', source: 'web', _at: iso(2 * 864e5), _lateMin: 4 }; if (PRE_OK(t)) mkPre(body, party); await C.createReservation(S, body, { admin: true }); }
       }
-      let pend = 0;
+      let pend = 0, late = 0;
       for (const t of tables) {
-        const party = Math.max(t.min || 1, Math.min(t.max, Math.round((t.min || 1) + R() * (t.max - (t.min || 1)))));
+        const lo = Math.min(t.max, Math.max(2, t.min || 1));   // stol se rezervira barem za dvoje
+        const party = Math.round(lo + R() * (t.max - lo));
         const early = slots.slice(0, Math.max(2, Math.ceil(slots.length * .7)));
         const start = pick(R, R() < .7 ? early : slots);
         let status = 'confirmed';
         if (isPast) status = R() < .9 ? 'done' : 'noshow';
-        else if (isDemo) status = start + 20 <= demoMin ? 'seated' : (pend < 2 && R() < .35 ? (pend++, 'pending') : 'confirmed');
-        else if (date <= TT.addDays(real.date, 6) && R() < .25) status = 'pending';
-        const occasion = pick(R, OCC[v] || ['']);
-        const note = occasion ? (R() < .55 ? pick(R, OCC_NOTES[occasion] || ['']) : '') : (R() < .3 ? pick(R, NOTES[v] || ['']) : '');
-        const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status, source: status === 'pending' ? 'web' : pick(R, SRC), occasion, note, _at: iso((1 + R() * 9) * 864e5) };
-        if (cfg.features && cfg.features.preorder && (cfg.features.preorderZones || []).includes(t.zone) && bottles.length && R() < .8) {
-          const b1 = pick(R, bottles.slice(0, Math.min(8, bottles.length)));
-          body.preorder = [{ id: b1.id, name: b1.name, vol: b1.vol, eur: b1.eur, qty: party >= 8 && R() < .5 ? 2 : 1 }];
-          if (R() < .35) { const b2 = pick(R, bottles); if (b2.id !== b1.id) body.preorder.push({ id: b2.id, name: b2.name, vol: b2.vol, eur: b2.eur, qty: 1 }); }
-          body.sparkler = R() < .7;
+        else if (isDemo) {
+          const ago = demoMin - start;
+          if (ago >= 6 && late < 2 && (ago < 20 || R() < .3)) { status = 'confirmed'; late++; }   // kasne — hostesa ih još čeka na ulazu
+          else if (ago >= 6) status = 'seated';
+          else status = pend < 2 && R() < .35 ? (pend++, 'pending') : 'confirmed';
         }
+        else if (date <= TT.addDays(real.date, 6) && R() < .25) status = 'pending';
+        let occasion = pick(R, OCC[v] || ['']);
+        if (occasion === 'momacka' && party < 5) occasion = 'rodjendan';   // momačka / djevojačka tek za veće društvo
+        let note = occasion ? (R() < .55 ? pick(R, OCC_NOTES[occasion] || ['']) : '') : (R() < .3 ? pick(R, NOTES[v] || ['']) : '');
+        if (typeof note === 'function') note = note(party);
+        const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status, source: status === 'pending' ? 'web' : pick(R, SRC), occasion, note, _at: iso((1 + R() * 9) * 864e5) };
+        if (PRE_OK(t) && (isDemo || R() < .8)) mkPre(body, party);
+        if (isDemo && status === 'confirmed' && R() < .55) body._arrive = iso((1 + R() * 6) * 3600e3);   // potvrdili dolazak (podsjetnik u podne)
+        if (status === 'seated') body._lateMin = Math.round(-8 + R() * 22);   // hostesa ih je uvela: na vrijeme ili par minuta kasnije
         await C.createReservation(S, body, { admin: true });
       }
     }
@@ -1889,6 +2261,29 @@ body.ttd-pad{padding-top:14px}
     if (cfg.features && cfg.features.songs) SONGS.forEach(([title, artist, ded], i) => liveList.push(mk('song', [66, 38, 6, 1][i], ['done', 'done', 'ack', 'new'][i], { song: { title, artist, ded } })));
     liveList.sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
     for (const d of new Set([demoDate, TT.biz().date, (() => { const n = TT.realNow(); return n.min < 360 ? TT.addDays(n.date, -1) : n.date; })()])) await S.setJSON(`live/${d}`, liveList.map(x => Object.assign({}, x, { id: C.token(6) })), null);
+
+    /* --- garderoba (Q Club, Kafanica): jakne koje su gosti večeras već predali --- */
+    if (((cfg.features || {}).hostess || []).includes('coat')) {
+      /* opis uvijek odgovara prvoj stvari (jakna ↔ "crna kožna jakna", torba ↔ "crvena torbica"…) */
+      const DESC = {
+        jakna: ['crna kožna jakna', 'bež kaput', 'traper jakna', 'crni puhovac', 'zelena parka', 'siva jakna s krznom', 'tamnoplavi kaput', 'bijela jakna', 'smeđa kožna jakna', 'crni kaput', 'bordo kaput', '', '', ''],
+        torba: ['crvena torbica', 'crna torba s lancem', 'bež torba', ''],
+        ruksak: ['crni ruksak', 'sivi ruksak', '']
+      };
+      const ADD = { torba: 'torba', kapa: 'šal', kisobran: 'kišobran' };
+      const NAMES = ['Ana', 'Luka', 'Ivana', 'Marko', 'Petra', 'Dora', '', '', '', '', '', ''];
+      const from = demoMin - (v === 'qclub' ? 65 : 100), N = v === 'qclub' ? 46 : 28, list = [];
+      const ats = Array.from({ length: N }, (_, i) => Math.round(from + (demoMin - 8 - from) * (i / N) + R() * 3)).sort((a, b) => a - b);   // brojevi idu redom kako su gosti dolazili
+      for (let i = 0; i < N; i++) {
+        const r = R(); const items = [{ t: r < .8 ? 'jakna' : r < .9 ? 'torba' : 'ruksak', n: R() < .18 ? 2 : 1 }];
+        if (R() < .25) { const t2 = pick(R, ['torba', 'kapa', 'kisobran']); if (t2 !== items[0].t) items.push({ t: t2, n: 1 }); }
+        let desc = items[0].n === 1 ? pick(R, DESC[items[0].t] || ['']) : '';
+        if (desc && items[1] && R() < .6) desc += ' + ' + ADD[items[1].t];
+        const at = ats[i], out = i < 7 && R() < .7;
+        list.push(Object.assign({ id: C.token(8), k: C.token(12), no: i + 1, items, desc, name: pick(R, NAMES), table: '', ph: false, status: out ? 'out' : 'in', at: iso(0), atMin: at, by: 'hostesa' }, out ? { outMin: Math.min(demoMin - 3, at + 35 + Math.round(R() * 25)) } : {}));
+      }
+      await S.setJSON(`coat/${demoDate}`, list, null);
+    }
 
     /* --- anonimne poruke --- */
     const fbByMonth = {};
@@ -1984,7 +2379,7 @@ window.TT_MENU={"cats": [{"id": "kombo", "name": "Kombo i 1AM Special", "items":
       const r = t.r || 28, high = t.shape === 'high';
       el('circle', { cx: t.x, cy: t.y, r: r + 30, fill: `url(#${id}glow)`, class: 'pl-halo' }, grp);
       const n = Math.max(2, Math.min(t.max || 4, high ? 5 : 8)), cr = r + (high ? 12 : 13);
-      for (let i = 0; i < n; i++) { const a = (i / n) * Math.PI * 2 - Math.PI / 2 + (n === 2 ? 0 : Math.PI / n); chairC(grp, t.x + Math.cos(a) * cr, t.y + Math.sin(a) * cr, high ? 6.5 : 8, c); }
+      for (let i = 0; i < n; i++) { const a = (i / n) * Math.PI * 2 - Math.PI / 2 + (n === 2 || t.cross ? 0 : Math.PI / n); chairC(grp, t.x + Math.cos(a) * cr, t.y + Math.sin(a) * cr, high ? 6.5 : 8, c); }
       if (t.shape === 'barrel') {
         el('circle', { cx: t.x, cy: t.y, r, class: 'pl-top', fill: `url(#${id}barrel)` }, grp);
         el('circle', { cx: t.x, cy: t.y, r: r - 6, fill: 'none', stroke: '#2a1a0c', 'stroke-width': 3, opacity: .7, 'pointer-events': 'none' }, grp);
@@ -2012,6 +2407,16 @@ window.TT_MENU={"cats": [{"id": "kombo", "name": "Kombo i 1AM Special", "items":
         el('rect', { x: x + 26, y: y + 28, width: w - 52, height: h - 46, rx: 8, class: 'pl-ring', fill: 'none' }, sub);
       }
     } else {
+      if (Array.isArray(t.seats)) {   // točan raspored stolica [gore, dolje, lijevo, desno] — kao na tlocrtu lokala
+        const [tp, bt, lf, rt] = t.seats.map(v => +v || 0);
+        const row = (cnt, fn) => { for (let i = 0; i < cnt; i++) fn((i + .5) / cnt); };
+        row(tp, f => chairR(sub, x + w * f, y - 10, 18, 11, c)); row(bt, f => chairR(sub, x + w * f, y + h + 10, 18, 11, c));
+        row(lf, f => chairR(sub, x - 10, y + h * f, 11, 18, c)); row(rt, f => chairR(sub, x + w + 10, y + h * f, 11, 18, c));
+        el('rect', { x, y, width: w, height: h, rx: t.shape === 'long' ? 8 : 9, class: 'pl-top' }, sub);
+        el('rect', { x, y, width: w, height: h, rx: t.shape === 'long' ? 8 : 9, class: 'pl-ring', fill: 'none' }, sub);
+        el('rect', { x: x - 16, y: y - 16, width: w + 32, height: h + 32, rx: 18, ...hit }, sub);
+        return { cx: t.x, cy: t.y, rr: Math.min(w, h) / 2 };
+      }
       // stolice uz duže stranice (i na krajevima za dugi stol)
       const n = Math.max(2, Math.min(t.max || 4, 14)), long = w >= h;
       const ends = t.shape === 'long' && n >= 6 ? 2 : 0, side = Math.ceil((n - ends) / 2), side2 = n - ends - side;
@@ -2072,7 +2477,7 @@ window.TT_MENU={"cats": [{"id": "kombo", "name": "Kombo i 1AM Special", "items":
       case 'bar': {
         el('rect', { x: w.x, y: w.y, width: w.w, height: w.h, rx: 10, fill: `url(#${id}wood)`, stroke: c.trim, 'stroke-width': 2 }, gg);
         // barske stolice prema sredini prostora
-        const n = Math.max(2, Math.floor((vert ? w.h : w.w) / 46));
+        const n = w.stools != null ? +w.stools : Math.max(2, Math.floor((vert ? w.h : w.w) / 46));
         for (let i = 0; i < n; i++) {
           const p = (i + .5) / n;
           if (vert) { const sx = cx < P.w / 2 ? w.x + w.w + 14 : w.x - 14; chairC(gg, sx, w.y + w.h * p, 6.5, c); }
@@ -2102,16 +2507,69 @@ window.TT_MENU={"cats": [{"id": "kombo", "name": "Kombo i 1AM Special", "items":
    * opts.sub(t) → mali tekst ispod oznake · opts.alert(t) → '🔔' itd. (pulsira)
    * opts.onTap(t) · opts.editable · opts.onMove(obj,isWall) · opts.onSelectObj(obj,isWall)
    */
-  function render(svg, cfg, opts = {}) {
+  /** Tlocrt okrenut za 90° (ulaz dolje) — za uske ekrane mobitela; vraća kopiju s istim oznakama stolova. */
+  function rot90(cfg) {
+    const P = cfg.plan, W = P.w;
+    const walls = (P.walls || []).map(w => Object.assign({}, w, { x: w.y, y: W - w.x - w.w, w: w.h, h: w.w }));
+    const tables = cfg.tables.map(t => {
+      const n = Object.assign({}, t, { x: t.y, y: W - t.x });
+      if (t.shape === 'booth' || t.shape === 'lounge') n.rot = ((+t.rot || 0) + 270) % 360;
+      else if (t.w != null) { n.w = t.h; n.h = t.w; }
+      if (Array.isArray(t.seats)) { const [tp, bt, lf, rt] = t.seats; n.seats = [rt, lf, tp, bt]; }
+      return n;
+    });
+    return Object.assign({}, cfg, { plan: Object.assign({}, P, { w: P.h, h: P.w, walls }), tables });
+  }
+  const wantRot = (cfg, opts) => opts.rotate != null ? !!opts.rotate : !!(cfg.plan && cfg.plan.rotateMobile && !opts.editable && innerWidth < 700);
+
+  /* ---------- etaže (npr. Q Club: prizemlje i kat) — vodoravne trake jednog tlocrta ---------- */
+  const floorsOf = cfg => (cfg && cfg.plan && Array.isArray(cfg.plan.floors) && cfg.plan.floors.length) ? cfg.plan.floors : null;
+  function floorOf(cfg, tableId) {
+    const F = floorsOf(cfg); if (!F) return null;
+    const t = (cfg.tables || []).find(x => x.id === tableId); if (!t) return null;
+    if (t.floor) return t.floor;
+    const f = F.find(f => t.y >= f.y && t.y < f.y + f.h); return f ? f.id : F[0].id;
+  }
+  function floorBar(svg, F, fid, lang) {
+    const box = svg.closest('.planbox') || svg.parentNode; if (!box || !box.parentNode) return;
+    let bar = box.previousElementSibling;
+    if (!bar || !bar.classList.contains('flbar')) { bar = document.createElement('div'); bar.className = 'flbar'; bar.setAttribute('role', 'tablist'); box.parentNode.insertBefore(bar, box); }
+    bar.innerHTML = F.map(f => `<button type="button" role="tab" data-floor="${f.id}" aria-pressed="${f.id === fid}">${(lang === 'en' && f.en) || f.name}</button>`).join('');
+    bar.onclick = e => { const b = e.target.closest('[data-floor]'); if (!b || b.dataset.floor === svg.__floor) return; svg.__floor = b.dataset.floor; const [c0, o] = svg.__last || []; if (c0) render(svg, c0, Object.assign({}, o, { floor: b.dataset.floor })); svg.dispatchEvent(new CustomEvent('floor', { detail: b.dataset.floor })); };
+  }
+
+  function render(svg, cfg0, opts = {}) {
+    const rotated = wantRot(cfg0, opts);
+    const cfg = rotated ? rot90(cfg0) : cfg0;
     const P = cfg.plan || { w: 1000, h: 640, walls: [] };
     const id = 'pl' + (++uid) + '-';
     svg.innerHTML = '';
-    svg.setAttribute('viewBox', `0 0 ${P.w} ${P.h}`);
-    svg.classList.add('plan');
+    const F = floorsOf(cfg0); let fl = null;
+    if (F) {
+      const want = opts.focus ? floorOf(cfg0, opts.focus) : null;
+      const fid = opts.floor === 'all' ? null : (want || opts.floor || svg.__floor || F[0].id);
+      fl = fid ? (F.find(f => f.id === fid) || F[0]) : null;
+      svg.__floor = fl ? fl.id : null; svg.__last = [cfg0, Object.assign({}, opts, { floor: undefined, focus: undefined })];
+      if (opts.floorBar !== false && fl) floorBar(svg, F, fl.id, opts.lang);
+    }
+    const B = fl ? (rotated ? { x: fl.y, y: 0, w: fl.h, h: P.h } : { x: 0, y: fl.y, w: P.w, h: fl.h }) : { x: 0, y: 0, w: P.w, h: P.h };
+    const baseStr = `${B.x} ${B.y} ${B.w} ${B.h}`;
+    const keep = svg.__vb && svg.__vb.base === baseStr ? svg.__vb.cur : null;   // zum ostaje kad se tlocrt osvježi
+    svg.__vb = { base: baseStr, cur: keep || baseStr, W: P.w, H: P.h, bx: B.x, by: B.y, bw: B.w, bh: B.h, rot: rotated, pos: Object.fromEntries(cfg.tables.map(t => [t.id, [t.x, t.y]])) };
+    svg.setAttribute('viewBox', svg.__vb.cur);
+    svg.classList.add('plan'); svg.classList.toggle('rot', rotated); svg.classList.toggle('zoomed', !!keep && keep !== svg.__vb.base);
     const c = pal(svg);
     defs(svg, c, id);
-    el('rect', { x: 0, y: 0, width: P.w, height: P.h, rx: 24, fill: `url(#${id}floor)` }, svg);
-    el('rect', { x: 5, y: 5, width: P.w - 10, height: P.h - 10, rx: 20, fill: 'none', stroke: c.edge, 'stroke-width': 6 }, svg);
+    if (F) {   // svaka etaža svoja podloga i oznaka
+      F.forEach(f => {
+        const R = rotated ? { x: f.y, y: 0, w: f.h, h: P.h } : { x: 0, y: f.y, w: P.w, h: f.h };
+        el('rect', { x: R.x, y: R.y, width: R.w, height: R.h, rx: 24, fill: `url(#${id}floor)` }, svg);
+        el('rect', { x: R.x + 5, y: R.y + 5, width: R.w - 10, height: R.h - 10, rx: 20, fill: 'none', stroke: c.edge, 'stroke-width': 6 }, svg);
+      });
+    } else {
+      el('rect', { x: 0, y: 0, width: P.w, height: P.h, rx: 24, fill: `url(#${id}floor)` }, svg);
+      el('rect', { x: 5, y: 5, width: P.w - 10, height: P.h - 10, rx: 20, fill: 'none', stroke: c.edge, 'stroke-width': 6 }, svg);
+    }
     // podloge (zone, terasa, rijeka) ispod svega
     const walls = (P.walls || []).map((w, i) => [w, i]);
     const under = walls.filter(([w]) => ['area', 'deck', 'river', 'dance'].includes(w.type)), over = walls.filter(([w]) => !['area', 'deck', 'river', 'dance'].includes(w.type));
@@ -2123,7 +2581,7 @@ window.TT_MENU={"cats": [{"id": "kombo", "name": "Kombo i 1AM Special", "items":
     const byId = {};
     cfg.tables.forEach(t => {
       const cls = (opts.state ? opts.state(t) : 'free') || '';
-      const gg = el('g', { class: 'pl-t ' + cls + (t.vip ? ' vip' : ''), 'data-id': t.id, tabindex: opts.onTap ? 0 : -1, role: opts.onTap ? 'button' : 'img', 'aria-label': `${t.id} ${t.min}-${t.max}` }, svg);
+      const gg = el('g', { class: 'pl-t ' + cls + (t.vip ? ' vip' : '') + (t.zone ? ' cat-' + t.zone : ''), 'data-id': t.id, tabindex: opts.onTap ? 0 : -1, role: opts.onTap ? 'button' : 'img', 'aria-label': `${t.id} ${t.min}-${t.max}` }, svg);
       const s = tableShape(t, gg, c, id);
       const al = opts.alert ? opts.alert(t) : '';
       if (al) {
@@ -2168,7 +2626,31 @@ window.TT_MENU={"cats": [{"id": "kombo", "name": "Kombo i 1AM Special", "items":
     gg.addEventListener('pointerup', end); gg.addEventListener('pointercancel', end);
   }
 
-  g.TTPlan = { render };
+  /* ---------- zum (glatko, kao u aplikacijama) ---------- */
+  const ease = k => 1 - Math.pow(1 - k, 3);
+  function animVB(svg, to, ms = 520) {
+    const st = svg.__vb; if (!st) return;
+    const from = (svg.getAttribute('viewBox') || st.base).split(/[\s,]+/).map(Number), T = to.split(/[\s,]+/).map(Number);
+    cancelAnimationFrame(svg.__raf); const t0 = performance.now();
+    const red = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const step = now => { const k = red ? 1 : Math.min(1, (now - t0) / ms), e = ease(k); const v = from.map((a, i) => a + (T[i] - a) * e); svg.setAttribute('viewBox', v.map(x => x.toFixed(1)).join(' ')); if (k < 1) svg.__raf = requestAnimationFrame(step); };
+    svg.__raf = requestAnimationFrame(step); st.cur = to; svg.classList.toggle('zoomed', to !== st.base);
+  }
+  /** Približi stol (oznaka) — z = koliko puta, okvir ostaje unutar tlocrta. */
+  function zoomTo(svg, tableId, z = 2.2, ms) {
+    let st = svg.__vb; if (!st || !st.pos[tableId]) return;
+    if (svg.__last && svg.__floor) {   // stol na drugoj etaži → prvo prebaci etažu
+      const f = floorOf(svg.__last[0], tableId);
+      if (f && f !== svg.__floor) { render(svg, svg.__last[0], Object.assign({}, svg.__last[1], { floor: f })); st = svg.__vb; }
+    }
+    const [cx, cy] = st.pos[tableId]; const bx = st.bx || 0, by = st.by || 0, bw = st.bw || st.W, bh = st.bh || st.H;
+    const w = bw / z, h = bh / z;
+    const x = Math.max(bx, Math.min(bx + bw - w, cx - w / 2)), y = Math.max(by, Math.min(by + bh - h, cy - h / 2));
+    animVB(svg, `${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`, ms);
+  }
+  function zoomReset(svg, ms) { const st = svg.__vb; if (st) animVB(svg, st.base, ms); }
+
+  g.TTPlan = { render, zoomTo, zoomReset, rot90, floorsOf, floorOf };
 })(window);
 /* Minimal QR encoder (byte mode, ECC M, versions 1–15). Returns boolean matrix [y][x]. */
 function qrMatrix(text){
@@ -2219,6 +2701,279 @@ function qrMatrix(text){
   return M;
 }
 if(typeof module!=='undefined')module.exports=qrMatrix;
+/* =====================================================================
+   TIPTAP SUITE — ispis rezervacija za večer (uprava lokala)
+   • kartice za stolove (sklopive "REZERVIRANO" kartice, 2 na A4)
+   • popis za hostesu na ulazu (po prezimenu / vremenu / stolu)
+   • tlocrt s imenima na rezerviranim stolovima
+   Pregled papira na ekranu + window.print() (laptop: "Spremi kao PDF").
+   ===================================================================== */
+(function (g) {
+  'use strict';
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fmt = m => { m = ((+m % 1440) + 1440) % 1440; return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
+  const pl = (n, one, few, many) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : (a >= 2 && a <= 4 && (b < 12 || b > 14)) ? few : many; };
+  const DAYS = ['nedjelja', 'ponedjeljak', 'utorak', 'srijeda', 'četvrtak', 'petak', 'subota'];
+  const cap = s => String(s || '').replace(/(^|[\s-])(\p{L})/gu, (m, a, b) => a + b.toUpperCase());
+  const split = n => { const p = cap(String(n || '').trim()).split(/\s+/).filter(Boolean); return p.length < 2 ? { sur: p[0] || '', first: '' } : { sur: p[p.length - 1], first: p.slice(0, -1).join(' ') }; };
+  const nat = (a, b) => String(a).localeCompare(String(b), 'hr', { numeric: true, sensitivity: 'base' });
+  const OCC = { rodjendan: 'Rođendan', proslava: 'Proslava', momacka: 'Momačka / djevojačka', posao: 'Poslovno', utakmica: 'Utakmica' };
+  const ST = { pending: 'čeka potvrdu', confirmed: 'potvrđeno', seated: 'sjede' };
+
+  let el = null, S = null;
+
+  function css() {
+    if (document.getElementById('ttp-css')) return;
+    const st = document.createElement('style'); st.id = 'ttp-css';
+    st.textContent = `
+#ttp{position:fixed;inset:0;z-index:2147483000;background:#2a2826;overflow:auto;-webkit-overflow-scrolling:touch;color:#f4f2ee}
+#ttp[hidden]{display:none}
+#ttp .bar{position:sticky;top:0;z-index:2;background:rgba(24,22,20,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:max(10px,env(safe-area-inset-top)) 14px 10px}
+#ttp .b1{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto}
+#ttp .b1 h2{flex:1;margin:0;font-family:var(--f-display);font-size:22px;letter-spacing:.04em;text-transform:uppercase;line-height:1.05}
+#ttp .b1 h2 small{display:block;font-family:var(--f-body);font-size:12.5px;letter-spacing:0;text-transform:none;color:#a9a39a;font-weight:600;margin-top:2px}
+#ttp .x{width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:inherit;font-size:20px;cursor:pointer;flex:none}
+#ttp .go{height:44px;border:0;border-radius:12px;padding:0 16px;font:800 15px var(--f-body);background:var(--gold2,#f2d08c);color:#1a1408;cursor:pointer;flex:none;white-space:nowrap}
+#ttp .b2{display:flex;flex-wrap:wrap;gap:8px;max-width:1100px;margin:10px auto 0}
+#ttp .ch{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#d9d4cc;font:700 13px var(--f-body);cursor:pointer}
+#ttp .ch[aria-pressed=true]{background:rgba(242,208,140,.16);border-color:rgba(242,208,140,.6);color:#fff}
+#ttp .ch i{width:16px;height:16px;border-radius:5px;border:1.5px solid currentColor;display:grid;place-items:center;font-style:normal;font-size:11px;line-height:1}
+#ttp .ch[aria-pressed=true] i{background:var(--gold2,#f2d08c);border-color:var(--gold2,#f2d08c);color:#1a1408}
+#ttp .ch[aria-pressed=true] i::after{content:"✓"}
+#ttp .sg{display:inline-flex;border:1px solid rgba(255,255,255,.14);border-radius:999px;overflow:hidden;height:36px}
+#ttp .sg span{display:flex;align-items:center;padding:0 10px;font:700 12px var(--f-body);color:#8f897f}
+#ttp .sg button{border:0;background:none;color:#cfc9bf;font:700 12.5px var(--f-body);padding:0 11px;cursor:pointer}
+#ttp .sg button[aria-pressed=true]{background:rgba(242,208,140,.18);color:#fff}
+#ttp .note{max-width:1100px;margin:8px auto 0;font:600 12.5px/1.4 var(--f-body);color:#a9a39a}
+#ttp .note b{color:#f2d08c}
+#ttp .pages{padding:18px 0 40px;display:flex;flex-direction:column;align-items:center;gap:18px}
+#ttp .empty{max-width:420px;margin:60px auto;text-align:center;color:#a9a39a;font:600 15px var(--f-body)}
+.pp{width:210mm;height:297mm;background:#fff;color:#141414;position:relative;overflow:hidden;box-sizing:border-box;box-shadow:0 10px 40px rgba(0,0,0,.45);font-family:var(--f-body);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pp *{box-sizing:border-box}
+/* --- kartice --- */
+.tc{position:absolute;left:0;right:0;height:148.5mm}
+.tc.a{top:0}.tc.b{top:148.5mm}
+.tc.a::after{content:"";position:absolute;left:6mm;right:6mm;bottom:0;border-bottom:.35mm dashed #9a9a9a}
+.tc .cut{position:absolute;right:7mm;bottom:-2.1mm;background:#fff;padding:0 1.5mm;font-size:2.6mm;color:#8a8a8a;letter-spacing:.06em;z-index:1}
+.tc .fold{position:absolute;left:14mm;right:14mm;top:74.25mm;border-top:.3mm dotted #c4c4c4}
+.tc .fold span{position:absolute;left:50%;top:-1.7mm;transform:translateX(-50%);background:#fff;padding:0 2mm;font-size:2.4mm;color:#b0b0b0;letter-spacing:.2em;text-transform:uppercase}
+.tc .face{position:absolute;left:0;right:0;height:74.25mm;padding:7mm 12mm 8mm;display:grid;grid-template-columns:30mm 1fr 34mm;align-items:center;gap:6mm}
+.tc .face.up{top:0;transform:rotate(180deg)}
+.tc .face.dn{top:74.25mm}
+.tc .lg{display:flex;align-items:center;justify-content:center;height:100%}
+.tc .lg svg{width:100%;max-height:26mm;color:#141414}
+.tc .md{min-width:0;text-align:center}
+.tc .md small{display:block;font:800 3.2mm var(--f-body);letter-spacing:.42em;color:#7a7a7a;text-transform:uppercase;margin-bottom:1.5mm;padding-left:.42em}
+.tc .md b{display:block;font-family:var(--f-display);font-weight:800;text-transform:uppercase;line-height:.95;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#111}
+.tc .md span{display:block;margin-top:2.6mm;font:700 4mm var(--f-body);color:#3a3a3a}
+.tc .md em{display:inline-block;margin-top:2mm;font:800 2.8mm var(--f-body);font-style:normal;letter-spacing:.24em;text-transform:uppercase;color:#555;border:.3mm solid #999;border-radius:99px;padding:1mm 3mm 1mm calc(3mm + .24em)}
+.tc .tb{height:46mm;border-left:.4mm solid #d6d6d6;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tc .tb small{font:800 3mm var(--f-body);letter-spacing:.4em;color:#7a7a7a;padding-left:.4em;text-transform:uppercase}
+.tc .tb b{font-family:var(--f-display);font-weight:800;font-size:24mm;line-height:.9;color:#111;margin-top:1mm}
+.tc .tb i{font-style:normal;margin-top:2mm;font:800 2.8mm var(--f-body);letter-spacing:.26em;text-transform:uppercase;color:#fff;background:#141414;border-radius:99px;padding:1.1mm 2.8mm 1.1mm calc(2.8mm + .26em)}
+.tc .tb i.silver{background:#8d959e}.tc .tb i.vip{background:#b58a2c}
+/* --- popis --- */
+.pl{padding:12mm 9mm 10mm}
+.pl .hd{display:flex;align-items:center;gap:5mm;padding-bottom:4mm;border-bottom:.6mm solid #141414}
+.pl .hd svg{height:13mm;width:auto;max-width:34mm;color:#141414;flex:none}
+.pl .hd h1{margin:0;font-family:var(--f-display);font-weight:800;font-size:8.5mm;line-height:1;text-transform:uppercase;letter-spacing:.02em}
+.pl .hd h1 small{display:block;font:600 3.4mm var(--f-body);letter-spacing:0;text-transform:none;color:#555;margin-top:1.2mm}
+.pl .hd .sm{margin-left:auto;text-align:right;font:600 3.1mm/1.45 var(--f-body);color:#333}
+.pl .hd .sm b{font-size:5.2mm;font-family:var(--f-display);display:block;line-height:1;color:#111}
+.pl.cont .hd{padding-bottom:2.5mm}.pl.cont .hd h1{font-size:6mm}
+.pl table{width:100%;border-collapse:collapse;margin-top:3mm;table-layout:fixed}
+.pl th{font:800 2.6mm var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:#666;text-align:left;padding:1.5mm 1.5mm;border-bottom:.3mm solid #999}
+.pl td{height:9.6mm;padding:0 1.5mm;border-bottom:.25mm solid #dcdcdc;font-size:3.35mm;vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl tr:nth-child(even) td{background:#f6f6f6}
+.pl td.ck i{display:block;width:4.6mm;height:4.6mm;border:.35mm solid #444;border-radius:1mm}
+.pl td.nm b{font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+.pl td.nm .ok{display:inline-block;margin-left:1.5mm;font:800 2.4mm var(--f-body);color:#1d7a3e;border:.3mm solid #1d7a3e;border-radius:99px;padding:.4mm 1.6mm;vertical-align:.4mm}
+.pl td.nm .pd{display:inline-block;margin-left:1.5mm;font:800 2.4mm var(--f-body);color:#9a5b00;border:.3mm solid #c98a20;border-radius:99px;padding:.4mm 1.6mm;vertical-align:.4mm}
+.pl td.tb{font-family:var(--f-display);font-weight:800;font-size:5.6mm;text-align:center}
+.pl td.pp2,.pl td.tm{text-align:center;font-weight:700}
+.pl td.ct{font-size:2.9mm;color:#333}
+.pl td.nt{font-size:2.85mm;color:#444;white-space:normal;line-height:1.2}
+.pl td.cd{font:700 2.9mm ui-monospace,Menlo,Consolas,monospace;color:#555}
+.pp .ft{position:absolute;left:9mm;right:9mm;bottom:6mm;display:flex;justify-content:space-between;font:600 2.5mm var(--f-body);color:#9a9a9a}
+/* --- tlocrt --- */
+.pm{padding:11mm 10mm 12mm;display:flex;flex-direction:column}
+.pm .hd{display:flex;align-items:center;gap:5mm;padding-bottom:3mm;border-bottom:.6mm solid #141414}
+.pm .hd svg{height:11mm;width:auto;max-width:30mm;color:#141414}
+.pm .hd h1{margin:0;font-family:var(--f-display);font-weight:800;font-size:7mm;line-height:1;text-transform:uppercase}
+.pm .hd h1 small{display:block;font:600 3.2mm var(--f-body);text-transform:none;color:#555;margin-top:1mm}
+.pm .hd .sm{margin-left:auto;text-align:right;font:600 3mm/1.4 var(--f-body);color:#444}
+.pm .sv{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding-top:4mm}
+.pm .sv svg{width:100%;height:100%}
+.pm .lgd{display:flex;gap:6mm;justify-content:center;font:600 2.8mm var(--f-body);color:#555;padding-top:2mm}
+.pm .lgd i{display:inline-block;width:4mm;height:3mm;border-radius:.8mm;vertical-align:-.3mm;margin-right:1.5mm}
+@media print{
+  html.ttp-on,html.ttp-on body{background:#fff!important;height:auto!important;overflow:visible!important}
+  html.ttp-on body>*:not(#ttp){display:none!important}
+  html.ttp-on #ttp,html.ttp-on #ttp *{visibility:visible!important}
+  html.ttp-on #ttp{position:static!important;inset:auto;overflow:visible!important;background:#fff!important;display:block!important}
+  html.ttp-on #ttp .bar,html.ttp-on #ttp .empty{display:none!important}
+  html.ttp-on #ttp .pages{padding:0!important;gap:0!important;display:block!important;zoom:1!important}
+  html.ttp-on .pp{box-shadow:none!important;break-after:page;page-break-after:always;margin:0!important}
+  html.ttp-on .pp:last-child{break-after:auto;page-break-after:auto}
+}`;
+    document.head.appendChild(st);
+  }
+
+  /* ---------- podaci ---------- */
+  function rows() {
+    const keep = r => r.status === 'confirmed' || r.status === 'seated' || (S.pend && r.status === 'pending');
+    return (S.list || []).filter(keep);
+  }
+  const zoneOf = t => t && (S.cfg.zones || []).find(z => z.id === t.zone);
+  const zLabel = z => z ? (z.short || (z.name && (z.name.hr || z.name)) || z.id) : '';
+  const tableOf = id => (S.cfg.tables || []).find(t => t.id === id);
+  const dateLbl = (long) => { const [y, m, d] = S.date.split('-').map(Number); const wd = new Date(Date.UTC(y, m - 1, d)).getUTCDay(); return long ? `${DAYS[wd]}, ${d}. ${m}. ${y}.` : `${DAYS[wd]} ${d}. ${m}.`; };
+  const logo = () => S.logo ? `<svg viewBox="${esc(S.logoVB)}" aria-hidden="true">${S.logo}</svg>` : `<b>${esc(S.cfg.venue || '')}</b>`;
+  const printedAt = () => { const n = new Date(); return `Ispisano ${n.toLocaleDateString('hr-HR')} u ${n.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}`; };
+
+  /* ---------- kartice za stolove ---------- */
+  function cardFace(r, cls) {
+    const t = tableOf(r.tableId), z = zoneOf(t), full = cap(r.name || '').trim();
+    const L = full.length, size = Math.max(8, Math.min(17, 118 / Math.max(1, L * .5)));
+    const zc = z ? zLabel(z) : '';
+    return `<div class="face ${cls}"><div class="lg">${logo()}</div>
+      <div class="md"><small>Rezervirano</small><b style="font-size:${size.toFixed(1)}mm">${esc(full)}</b>
+        <span>od ${fmt(r.start)} · ${r.party} ${pl(r.party, 'osoba', 'osobe', 'osoba')}</span>${r.occasion && OCC[r.occasion] ? `<em>${esc(OCC[r.occasion])}</em>` : ''}</div>
+      <div class="tb"><small>Stol</small><b>${esc(r.tableId)}</b>${zc ? `<i class="${esc(z.id)}">${esc(zc)}</i>` : ''}</div></div>`;
+  }
+  function cards(list) {
+    const L = list.slice().sort((a, b) => nat(a.tableId, b.tableId) || a.start - b.start);
+    const out = [];
+    for (let i = 0; i < L.length; i += 2) {
+      const pair = L.slice(i, i + 2);
+      out.push(`<section class="pp">${pair.map((r, k) => `<div class="tc ${k ? 'b' : 'a'}">${cardFace(r, 'up')}<div class="fold"><span>presavijte</span></div>${cardFace(r, 'dn')}${k === 0 && pair.length > 1 ? '<span class="cut">✂ izrežite</span>' : ''}</div>`).join('')}</section>`);
+    }
+    return out;
+  }
+
+  /* ---------- popis za ulaz ---------- */
+  function hostList(list) {
+    const L = list.slice();
+    const by = S.sort;
+    L.sort((a, b) => by === 'time' ? (a.start - b.start || nat(split(a.name).sur, split(b.name).sur))
+      : by === 'table' ? (nat(a.tableId, b.tableId) || a.start - b.start)
+      : (nat(split(a.name).sur, split(b.name).sur) || nat(split(a.name).first, split(b.name).first)));
+    const guests = L.reduce((a, r) => a + r.party, 0), arr = L.filter(r => r.arrive).length, cf = L.filter(r => r.status === 'confirmed').length;
+    const byZ = {}; L.forEach(r => { const z = zoneOf(tableOf(r.tableId)); const k = z ? zLabel(z) : ''; if (k) byZ[k] = (byZ[k] || 0) + 1; });
+    const minS = L.reduce((a, r) => a + (r.minSpend || 0), 0);
+    const zs = (S.cfg.zones || []).map(z => zLabel(z)).filter(k => byZ[k]).map(k => `${k} ${byZ[k]}`).join(' · ');
+    const head = (first, pg, pages) => `<div class="hd">${logo()}<h1>${first ? 'Popis rezervacija' : 'Popis rezervacija — nastavak'}<small>${esc(S.cfg.venue || '')} · ${esc(dateLbl(true))}${by === 'sur' ? ' · po prezimenu' : by === 'time' ? ' · po vremenu dolaska' : ' · po stolu'}</small></h1>
+      ${first ? `<div class="sm"><b>${L.length} ${pl(L.length, 'rezervacija', 'rezervacije', 'rezervacija')} · ${guests} ${pl(guests, 'gost', 'gosta', 'gostiju')}</b>${zs ? esc(zs) + '<br>' : ''}${minS ? `Zajamčena min. potrošnja ${Math.round(minS).toLocaleString('hr-HR')} €<br>` : ''}${cf ? `Potvrdilo dolazak ${arr} od ${cf}` : ''}</div>` : `<div class="sm">${pg}/${pages}</div>`}</div>`;
+    const showCat = (S.cfg.zones || []).length > 0;
+    const th = `<tr><th style="width:8mm"></th><th style="width:${showCat ? 50 : 66}mm">Prezime i ime</th><th style="width:15mm;text-align:center">Stol</th><th style="width:13mm;text-align:center">Osoba</th><th style="width:16mm;text-align:center">Dolazak</th>${showCat ? '<th style="width:22mm">Kategorija</th>' : ''}<th>Napomena</th><th style="width:17mm">Kod</th></tr>`;
+    const tr = r => {
+      const n = split(r.name), z = zoneOf(tableOf(r.tableId));
+      const pre = (r.preorder || []).map(x => `${x.qty > 1 ? x.qty + '× ' : ''}${x.name}`).join(', ');
+      const note = [r.occasion && OCC[r.occasion], r.note, pre && 'Boce: ' + pre, r.staffNote && 'Osoblje: ' + r.staffNote].filter(Boolean).join(' · ');
+      return `<tr><td class="ck"><i></i></td><td class="nm"><b>${esc(n.sur)}</b> ${esc(n.first)}${r.arrive ? '<span class="ok">✓ potvrdio</span>' : ''}${r.status === 'pending' ? '<span class="pd">čeka potvrdu</span>' : ''}</td><td class="tb">${esc(r.tableId)}</td><td class="pp2">${r.party}</td><td class="tm">${fmt(r.start)}</td>${showCat ? `<td class="ct">${z ? esc(zLabel(z)) : ''}${r.minSpend ? ` · ${r.minSpend} €` : ''}</td>` : ''}<td class="nt">${esc(note.length > 90 ? note.slice(0, 88) + '…' : note)}</td><td class="cd">${esc(r.code || '')}</td></tr>`;
+    };
+    const first = 22, next = 25, chunks = [];
+    if (!L.length) chunks.push([]);
+    else { chunks.push(L.slice(0, first)); for (let i = first; i < L.length; i += next) chunks.push(L.slice(i, i + next)); }
+    return chunks.map((ch, i) => `<section class="pp pl${i ? ' cont' : ''}">${head(i === 0, i + 1, chunks.length)}<table>${th}${ch.map(tr).join('')}</table>${!ch.length ? '<p style="margin-top:8mm;color:#777;font-size:4mm">Nema potvrđenih rezervacija za ovaj dan.</p>' : ''}<div class="ft"><span>${esc(printedAt())}</span><span>☐ = stigli · TipTap</span><span>${i + 1}/${chunks.length}</span></div></section>`);
+  }
+
+  /* ---------- tlocrt s imenima ---------- */
+  function planPage(list) {
+    const c0 = S.cfg, P0 = c0.plan || { w: 1000, h: 640, walls: [] };
+    const cfg = P0.w > P0.h * 1.3 && !(P0.floors || []).length && g.TTPlan && g.TTPlan.rot90 ? g.TTPlan.rot90(c0) : c0;
+    const P = cfg.plan || P0;
+    const byT = {}; list.slice().sort((a, b) => a.start - b.start).forEach(r => (byT[r.tableId] = byT[r.tableId] || []).push(r));
+    const FS = Math.max(14, Math.round(P.w / 52));          // veličina slova u jedinicama tlocrta
+    let s = '';
+    for (const w of P.walls || []) {
+      const dashed = ['area', 'deck'].includes(w.type);
+      const fill = { bar: '#ece6dc', door: '#e2efe4', dance: '#eeeaf6', river: '#e4eff4', stage: '#f1e6e6', dj: '#ebe7f1', wardrobe: '#efefef' }[w.type] || (dashed ? 'none' : '#f0f0f0');
+      s += `<rect x="${w.x}" y="${w.y}" width="${w.w}" height="${w.h}" rx="10" fill="${fill}" stroke="${dashed ? '#b9b9b9' : '#a5a5a5'}" stroke-width="2"${dashed ? ' stroke-dasharray="10 8"' : ''}/>`;
+      if (w.label) {
+        const cx = w.x + w.w / 2, cy = w.y + w.h / 2, vert = w.h > w.w * 1.4;
+        if (dashed) s += `<text x="${w.x + 14}" y="${w.y + FS + 8}" font-size="${FS * .8}" fill="#9a9a9a" font-weight="700" letter-spacing="2">${esc(w.label)}</text>`;
+        else s += `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central" font-size="${Math.min(FS * 1.05, (vert ? w.h : w.w) / Math.max(3, w.label.length) * 1.3)}" fill="#7a7a7a" font-weight="800" letter-spacing="3"${vert ? ` transform="rotate(-90 ${cx} ${cy})"` : ''}>${esc(w.label)}</text>`;
+      }
+    }
+    const F = (P0.floors || []);
+    if (F.length && cfg === c0) F.forEach(f => { s += `<rect x="4" y="${f.y + 4}" width="${P.w - 8}" height="${f.h - 8}" rx="18" fill="none" stroke="#9a9a9a" stroke-width="3"/><text x="${P.w - 22}" y="${f.y + FS * 1.4}" text-anchor="end" font-size="${FS * 1.15}" font-weight="800" fill="#555" letter-spacing="4">${esc(String(f.name || '').toUpperCase())}</text>`; });
+    const boxes = [];   // zauzeti pravokutnici (stolovi + oznake)
+    const geo = cfg.tables.map(t => {
+      let w, h, round = false;
+      if (['round', 'barrel', 'high'].includes(t.shape)) { const r = t.r || 28; w = h = r * 2; round = true; }
+      else { w = t.w || 100; h = t.h || 60; if ((t.shape === 'booth' || t.shape === 'lounge') && [90, 270].includes((+t.rot || 0) % 360)) [w, h] = [h, w]; }
+      const b = { x: t.x - w / 2, y: t.y - h / 2, w, h }; boxes.push(b);
+      return { t, w, h, round, b };
+    });
+    const hit = (a) => boxes.some(b => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y) || a.x < -10 || a.y < -10 || a.x + a.w > P.w + 10 || a.y + a.h > P.h + 10;
+    let lab = '';
+    for (const G of geo) {
+      const { t, w, h, round } = G, rs = byT[t.id], on = !!rs;
+      const st = on ? 'fill="#fff" stroke="#111" stroke-width="3.5"' : 'fill="#f6f6f6" stroke="#c4c4c4" stroke-width="2"';
+      s += round ? `<circle cx="${t.x}" cy="${t.y}" r="${w / 2}" ${st}/>` : `<rect x="${t.x - w / 2}" y="${t.y - h / 2}" width="${w}" height="${h}" rx="${Math.min(10, h / 4)}" ${st}/>`;
+      s += `<text x="${t.x}" y="${t.y}" text-anchor="middle" dominant-baseline="central" font-size="${Math.min(FS * 1.15, Math.max(11, Math.min(w, h) * .55))}" font-weight="800" fill="${on ? '#111' : '#b5b5b5'}">${esc(t.id)}</text>`;
+      if (!on) continue;
+      const lines = rs.slice(0, 3).map(r => [split(r.name).sur || r.name, `${fmt(r.start)} · ${r.party}`]);
+      const lw = Math.max(...lines.map(([a, b]) => Math.max(a.length * FS * .62, b.length * FS * .5))) + 10, lh = lines.length * FS * 2.05 + 4;
+      const gap = 8, cand = [
+        { x: t.x - lw / 2, y: t.y + h / 2 + gap }, { x: t.x + w / 2 + gap, y: t.y - lh / 2 }, { x: t.x - w / 2 - gap - lw, y: t.y - lh / 2 }, { x: t.x - lw / 2, y: t.y - h / 2 - gap - lh },
+        { x: t.x + w / 2 + gap, y: t.y + h / 2 }, { x: t.x - w / 2 - gap - lw, y: t.y + h / 2 }, { x: t.x + w / 2 + gap, y: t.y - h / 2 - lh }, { x: t.x - w / 2 - gap - lw, y: t.y - h / 2 - lh }
+      ].map(p => ({ x: p.x, y: p.y, w: lw, h: lh }));
+      const pos = cand.find(c => !hit(c)) || cand[0]; boxes.push(pos);
+      lab += `<g>${lines.map(([a, b], i) => `<text x="${pos.x + pos.w / 2}" y="${pos.y + 2 + i * FS * 2.05 + FS * .9}" text-anchor="middle" font-size="${FS}" font-weight="800" fill="#111" paint-order="stroke" stroke="#fff" stroke-width="5" stroke-linejoin="round">${esc(a)}</text><text x="${pos.x + pos.w / 2}" y="${pos.y + 2 + i * FS * 2.05 + FS * 1.85}" text-anchor="middle" font-size="${FS * .82}" font-weight="600" fill="#444" paint-order="stroke" stroke="#fff" stroke-width="5" stroke-linejoin="round">${esc(b)}</text>`).join('')}</g>`;
+    }
+    const nT = Object.keys(byT).length, guests = list.reduce((a, r) => a + r.party, 0);
+    return [`<section class="pp pm"><div class="hd">${logo()}<h1>Tlocrt s rezervacijama<small>${esc(S.cfg.venue || '')} · ${esc(dateLbl(true))}</small></h1><div class="sm"><b>${nT}</b> ${pl(nT, 'stol', 'stola', 'stolova')} · <b>${guests}</b> ${pl(guests, 'gost', 'gosta', 'gostiju')}<br>ime · vrijeme dolaska · broj osoba</div></div>
+      <div class="sv"><svg viewBox="-24 -24 ${P.w + 48} ${P.h + 48}" preserveAspectRatio="xMidYMid meet" font-family="Inter, system-ui, sans-serif"><rect x="-6" y="-6" width="${P.w + 12}" height="${P.h + 12}" rx="16" fill="#fff" stroke="#d0d0d0" stroke-width="3"/>${s}${lab}</svg></div>
+      <div class="lgd"><span><i style="border:.5mm solid #111;background:#fff"></i>rezervirano</span><span><i style="border:.4mm solid #c4c4c4;background:#f6f6f6"></i>slobodno</span><span>${esc(printedAt())}</span></div></section>`];
+  }
+
+  /* ---------- prikaz ---------- */
+  function render() {
+    const list = rows(), pend = (S.list || []).filter(r => r.status === 'pending').length;
+    const pages = [];
+    if (S.cards) pages.push(...cards(list));
+    if (S.host) pages.push(...hostList(list));
+    if (S.plan) pages.push(...planPage(list));
+    const cardsN = list.length;
+    el.innerHTML = `<div class="bar"><div class="b1"><button class="x" data-x aria-label="Zatvori">✕</button><h2>Ispis za večer<small>${esc(dateLbl(true))} · ${list.length} ${pl(list.length, 'rezervacija', 'rezervacije', 'rezervacija')} · ${pages.length} ${pl(pages.length, 'stranica', 'stranice', 'stranica')} A4</small></h2><button class="go" data-go ${pages.length ? '' : 'disabled'}>🖨️ Ispiši</button></div>
+      <div class="b2"><button class="ch" data-t="cards" aria-pressed="${S.cards}"><i></i>Kartice za stolove (${cardsN})</button><button class="ch" data-t="host" aria-pressed="${S.host}"><i></i>Popis za ulaz</button><button class="ch" data-t="plan" aria-pressed="${S.plan}"><i></i>Tlocrt s imenima</button>
+        <span class="sg"><span>Popis:</span>${[['sur', 'prezime'], ['time', 'vrijeme'], ['table', 'stol']].map(([k, l]) => `<button data-s="${k}" aria-pressed="${S.sort === k}">${l}</button>`).join('')}</span>
+        ${pend ? `<button class="ch" data-t="pend" aria-pressed="${S.pend}"><i></i>I one koje čekaju potvrdu (${pend})</button>` : ''}</div>
+      <p class="note">Kartice se ispisuju po 2 na A4 — izrežite po crti i presavijte na pola, ime stoji s obje strane stola. ${g.TT && g.TT.mode === 'demo' ? '<b>Na laptopu: Ispiši → Spremi kao PDF.</b>' : ''}</p></div>
+      <div class="pages" id="ttpPages">${pages.length ? pages.join('') : '<p class="empty">Odaberite što želite ispisati.</p>'}</div>`;
+    fit();
+  }
+  function fit() {
+    const p = el && el.querySelector('#ttpPages'); if (!p) return;
+    const pageW = 210 * 96 / 25.4, z = Math.min(1, (el.clientWidth - 24) / pageW);
+    p.style.zoom = z.toFixed(4);
+  }
+  function onClick(e) {
+    const x = e.target.closest('[data-x]'); if (x) { close(); return; }
+    if (e.target.closest('[data-go]')) { try { g.print(); } catch (err) { } return; }
+    const t = e.target.closest('[data-t]'); if (t) { S[t.dataset.t] = !S[t.dataset.t]; save(); render(); return; }
+    const s = e.target.closest('[data-s]'); if (s) { S.sort = s.dataset.s; save(); render(); }
+  }
+  function save() { try { localStorage.setItem('tt_print', JSON.stringify({ cards: S.cards, host: S.host, plan: S.plan, sort: S.sort })); } catch (e) { } }
+  function load() { try { return JSON.parse(localStorage.getItem('tt_print') || 'null') || {}; } catch (e) { return {}; } }
+  function close() { if (!el) return; el.hidden = true; el.innerHTML = ''; document.documentElement.style.overflow = ''; document.documentElement.classList.remove('ttp-on'); const pg = document.getElementById('ttp-page'); if (pg) pg.remove(); removeEventListener('resize', fit); removeEventListener('keydown', onKey); }
+  function onKey(e) { if (e.key === 'Escape') close(); }
+
+  /** open({cfg, list, date, logo, logoVB}) */
+  function open(o) {
+    css();
+    const pref = load();
+    S = Object.assign({ cards: true, host: true, plan: true, sort: 'sur', pend: false }, pref, o);
+    if (!el) { el = document.createElement('div'); el.id = 'ttp'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Ispis rezervacija'); el.addEventListener('click', onClick); document.body.appendChild(el); }
+    el.hidden = false; document.documentElement.style.overflow = 'hidden'; document.documentElement.classList.add('ttp-on');
+    if (!document.getElementById('ttp-page')) { const pg = document.createElement('style'); pg.id = 'ttp-page'; pg.textContent = '@page{size:A4 portrait;margin:0}'; document.head.appendChild(pg); }
+    render(); el.scrollTop = 0;
+    addEventListener('resize', fit); addEventListener('keydown', onKey);
+  }
+  g.TTPrint = { open, close };
+})(window);
 
 </script>
 <script>
@@ -2227,6 +2982,7 @@ const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelecto
 const esc=TT.esc,fmt=TT.fmt,toMin=TT.toMin,addDays=TT.addDays,wd=TT.wd,buzz=TT.buzz;
 const V=TT_CFG,DEMO=TT.mode==='demo',CAT=window.TT_MENU||{cats:[]};
 const money=v=>TT.money(v,'hr');
+const money0=v=>new Intl.NumberFormat('hr-HR',{style:'currency',currency:'EUR',minimumFractionDigits:Number.isInteger(+v)?0:2,maximumFractionDigits:2}).format(+v||0);
 const pl=(n,one,few,many)=>{const a=n%10,b=n%100;return a===1&&b!==11?one:(a>=2&&a<=4&&(b<12||b>14))?few:many};
 const arm=(btn,label)=>{if(btn.dataset.armed)return true;btn.dataset.armed=1;const o=btn.innerHTML;btn.innerHTML=label;btn.classList.add('armed');setTimeout(()=>{if(btn.isConnected){delete btn.dataset.armed;btn.innerHTML=o;btn.classList.remove('armed')}},3500);return false};
 const DN=['Nedjelja','Ponedjeljak','Utorak','Srijeda','Četvrtak','Petak','Subota'],DS=['Ned','Pon','Uto','Sri','Čet','Pet','Sub'];
@@ -2236,6 +2992,10 @@ const KIND={call:['🔔','Zove konobara'],bill:['🧾','Traži račun'],order:['
 const LST={new:'Novo',ack:'Preuzeto',done:'Riješeno',skip:'Preskočeno'};
 const TOP={usluga:'Usluga / osoblje',pice:'Piće',cekanje:'Čekanje',cistoca:'Čistoća / WC',glazba:'Glazba / atmosfera',racun:'Cijene / račun',pohvala:'Pohvala',ostalo:'Ostalo'};
 const ACTIVE=['pending','confirmed','seated'];
+const zoneOf=id=>((S.cfg&&S.cfg.zones)||[]).find(z=>z.id===id)||null;
+const CATS=()=>((S.cfg&&S.cfg.zones)||[]).filter(z=>z.minSpend||z.noShow);
+const catPill=id=>{const z=zoneOf(id);return z?`<span class="cp ${esc(z.id)}">${esc(z.short||z.name.hr)}</span>`:''};
+const tCat=t=>{const z=zoneOf(t.zone);return z&&(z.minSpend||z.noShow)?z:null};
 const I=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const IC={list:I('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>'),plan:I('<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><circle cx="15" cy="15" r="2"/><path d="M15 7h2M7 15h2"/>'),
  live:I('<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>'),songs:I('<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'),
@@ -2251,11 +3011,11 @@ const REZ=(V.features||{}).reservations!==false,BILL=!!(V.features||{}).bill;   
 function MOB(){return REZ?[['list','Večer'],['plan','Tlocrt'],['+',''],['live','Uživo'],['more','Više']]:[['live','Uživo'],['menu','Cjenik'],['msgs','Poruke'],['more','Više']]}
 function NAV(){return [...(REZ?[['list','Večer'],['plan','Tlocrt']]:[]),['live','Uživo'],...(FEAT().songs?[['songs','Glazba']]:[]),['menu','Cjenik'],['msgs','Poruke'],['stats','Statistika'],['set','Postavke']]}
 
-const ERR={taken:'Stol je zauzet u to vrijeme.',table:'Nepostojeći stol.',time:'Neispravno vrijeme.',name:'Upišite ime.',party:'Neispravan broj osoba.',full:'Nema slobodnog stola za to — odaberite stol ručno.',notfound:'Nije pronađeno.',server:'Greška na serveru.',busy:'Server zauzet, pokušajte ponovno.',tableid:'Oznake stolova moraju biti jedinstvene.',tables:'Mora postojati barem jedan stol.',net:'Nema veze sa serverom.'};
+const ERR={taken:'Stol je zauzet u to vrijeme.',table:'Nepostojeći stol.',time:'Neispravno vrijeme.',name:'Upišite ime.',party:'Neispravan broj osoba.',full:'Nema slobodnog stola za to — odaberite stol ručno.',notfound:'Nije pronađeno.',server:'Greška na serveru.',busy:'Server zauzet, pokušajte ponovno.',tableid:'Oznake stolova moraju biti jedinstvene.',tables:'Mora postojati barem jedan stol.',net:'Nema veze sa serverom.',locked:'Previše pogrešnih PIN-ova s ove mreže — pričekajte 15 minuta.'};
 const errMsg=e=>ERR[e&&e.error]||('Greška: '+(e&&e.error||'mreža'));
 const api=(p,body)=>TT.api(p,{admin:true,body}).catch(e=>{if(e&&e.status===401){logout(true)}throw e});
 let tt;function toast(m){const e=$('#toast');e.innerHTML=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2600)}
-function centerIn(box,el){if(!box||!el)return;const l=el.offsetLeft-box.clientWidth/2+el.clientWidth/2;box.scrollTo({left:Math.max(0,l),behavior:'auto'});}
+function centerIn(box,el){if(!box||!el)return;const l=el.getBoundingClientRect().left-box.getBoundingClientRect().left+box.scrollLeft-box.clientWidth/2+el.clientWidth/2;box.scrollTo({left:Math.max(0,l),behavior:'auto'});}
 const ago=iso=>{const s=Math.max(0,Math.floor((Date.now()-Date.parse(iso))/1000));return s<3600?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`:`${Math.floor(s/3600)} h ${Math.floor(s%3600/60)} min`};
 const agoTxt=iso=>{const s=Math.max(0,Math.floor((Date.now()-Date.parse(iso))/1000));if(s<60)return 'upravo';if(s<3600)return `prije ${Math.floor(s/60)} min`;if(s<86400)return `prije ${Math.floor(s/3600)} h`;const d=Math.floor(s/86400);return d===1?'jučer':`prije ${d} dana`};
 const preTotal=r=>(r.preorder||[]).reduce((a,x)=>a+x.eur*x.qty,0);
@@ -2263,12 +3023,12 @@ const preTotal=r=>(r.preorder||[]).reduce((a,x)=>a+x.eur*x.qty,0);
 /* ---------- prijava ---------- */
 function logout(bad){TT.setPin(V.venue,'');$('#app').hidden=true;$('#login').hidden=false;if(bad)$('#loginErr').textContent='Pogrešan PIN.';setTimeout(()=>$('#pin').focus(),50)}
 $('#loginForm').onsubmit=async e=>{e.preventDefault();const p=$('#pin').value.trim();$('#loginErr').textContent='';
-  try{await TT.api('/admin/login',{admin:true,pin:p});TT.setPin(V.venue,p);start()}catch(err){$('#loginErr').textContent=err.error==='auth'?'Pogrešan PIN.':err.error==='nopin'?'PIN nije postavljen na serveru.':'Nema veze sa serverom.'}};
+  try{await TT.api('/admin/login',{admin:true,pin:p});TT.setPin(V.venue,p);start()}catch(err){$('#loginErr').textContent=err.error==='auth'?'Pogrešan PIN.':err.error==='locked'?'Previše pogrešnih pokušaja — pokušajte ponovno za 15 minuta.':err.error==='nopin'?'PIN nije postavljen na serveru.':'Nema veze sa serverom.'}};
 
 /* ---------- navigacija ---------- */
 function renderNav(){
   const badge=k=>k==='live'?openLive().filter(x=>x.kind!=='song').length:k==='songs'?S.live.filter(x=>x.kind==='song'&&x.status==='new').length:k==='msgs'?S.fbUnread:k==='list'?S.list.filter(r=>r.status==='pending').length:0;
-  $('#snav').innerHTML=(REZ?`<button class="newb" data-new>＋ Nova rezervacija</button>`:'')+NAV().map(([k,l])=>`<button data-tab="${k}" aria-pressed="${S.tab===k}">${IC[k]}<span>${l}</span><span class="nb">${badge(k)||''}</span></button>`).join('');
+  $('#snav').innerHTML=(REZ?`<button class="newb" data-new>＋ Nova rezervacija</button>`:'')+NAV().map(([k,l])=>`<button data-tab="${k}" aria-pressed="${S.tab===k}">${IC[k]}<span>${l}</span><span class="nb">${badge(k)||''}</span></button>`).join('')+((V.features||{}).hostess?`<a class="navx" href="${esc(TT.keepClock('../hostesa/'))}"><span class="nx">${V.venue==='qclub'?'🧥':'🚪'}</span><span>${V.venue==='qclub'?'Garderoba · hostesa':'Hostesa'}</span></a>`:'');
   const mob=MOB();
   $('#tabs').innerHTML=mob.map(([k,l])=>k==='+'?`<button class="plus" data-new aria-label="Nova rezervacija"><span class="o">+</span></button>`:`<button data-tab="${k}" aria-pressed="${k==='more'?!mob.some(([x])=>x===S.tab):S.tab===k}">${IC[k]}${l}<span class="nb">${k==='more'?(S.fbUnread+(FEAT().songs?badge('songs'):0))||'':badge(k)||''}</span></button>`).join('');
   const p=S.list.filter(r=>r.status==='pending').length+openLive().length;document.title=(p?`(${p}) `:'')+'Voditelj · '+V.name;
@@ -2280,7 +3040,7 @@ function setTab(k){
   if(k==='list'||k==='plan')render();if(k==='live')renderLive();if(k==='songs')renderSongs();if(k==='menu')renderMenu();if(k==='msgs')renderMsgs();if(k==='stats')renderStats();if(k==='set')renderSettings();
   try{history.replaceState(null,'',TT.keepClock('#'+k+(S.date&&['list','plan'].includes(k)?'/'+S.date:'')))}catch(e){}
 }
-function moreSheet(){openSheet(shHead('Više')+`<div style="display:grid;gap:8px">${NAV().filter(([k])=>!MOB().some(([x])=>x===k)).map(([k,l])=>`<button class="btn block" data-tab="${k}" style="justify-content:flex-start">${IC[k].replace('<svg','<svg width="22" height="22"')} ${l}${k==='msgs'&&S.fbUnread?` <span class="pill st-new" style="margin-left:auto">${S.fbUnread} ${pl(S.fbUnread,'nova','nove','novih')}</span>`:''}${k==='songs'&&S.live.some(x=>x.kind==='song'&&x.status==='new')?` <span class="pill st-new" style="margin-left:auto">nova pjesma</span>`:''}</button>`).join('')}<button class="btn block" data-logout style="justify-content:flex-start">⎋ Odjava</button></div>`)}
+function moreSheet(){openSheet(shHead('Više')+`<div style="display:grid;gap:8px">${NAV().filter(([k])=>!MOB().some(([x])=>x===k)).map(([k,l])=>`<button class="btn block" data-tab="${k}" style="justify-content:flex-start">${IC[k].replace('<svg','<svg width="22" height="22"')} ${l}${k==='msgs'&&S.fbUnread?` <span class="pill st-new" style="margin-left:auto">${S.fbUnread} ${pl(S.fbUnread,'nova','nove','novih')}</span>`:''}${k==='songs'&&S.live.some(x=>x.kind==='song'&&x.status==='new')?` <span class="pill st-new" style="margin-left:auto">nova pjesma</span>`:''}</button>`).join('')}${(V.features||{}).hostess?`<a class="btn block" href="${esc(TT.keepClock('../hostesa/'))}" style="justify-content:flex-start">${V.venue==='qclub'?'🧥 Garderoba — hostesa':'🚪 Hostesa — ulaz'+((V.features.hostess||[]).includes('coat')?' i garderoba':'')}</a>`:''}<button class="btn block" data-logout style="justify-content:flex-start">⎋ Odjava</button></div>`)}
 
 /* ---------- podaci ---------- */
 async function loadDay(silent){
@@ -2321,7 +3081,7 @@ function renderHeader(){if(!S.date)return;const [y,m,dd]=S.date.split('-');const
   $('#dlabel').textContent=`${DN[wd(S.date)]} ${+dd}.${+m}.`;
   $('#dsub').textContent=S.date===td?'Večeras':S.date===addDays(td,1)?'Sutra':(S.date<td?'Prošlo':'Za '+Math.round((Date.parse(S.date)-Date.parse(td))/864e5)+' dana');}
 function renderStrip(){const td=TT.biz().date;const map=Object.fromEntries(S.upcoming.map(x=>[x.date,x]));let h='';
-  for(let i=0;i<14;i++){const d=addDays(td,i),u=map[d]||{};h+=`<button data-date="${d}" aria-pressed="${d===S.date}">${DS[wd(d)]}<b>${+d.slice(8)}</b><span class="cnt">${u.total?u.guests+' os':''}</span>${u.pending?`<span class="bdg">${u.pending}</span>`:''}</button>`}
+  for(let i=0;i<14;i++){const d=addDays(td,i),u=map[d]||{};const cl=S.cfg&&S.cfg.hours&&!S.cfg.hours[wd(d)]&&!u.total;h+=`<button data-date="${d}" aria-pressed="${d===S.date}"${cl?' class="closed"':''}>${DS[wd(d)]}<b>${+d.slice(8)}</b><span class="cnt">${u.total?u.guests+' os':cl?'zatv.':''}</span>${u.pending?`<span class="bdg">${u.pending}</span>`:''}</button>`}
   $('#strip').innerHTML=h;centerIn($('#strip'),$('#strip [aria-pressed=true]'));}
 
 /* ---------- večer: lista rezervacija ---------- */
@@ -2332,24 +3092,28 @@ function resCard(r){
   if(r.status==='pending')acts=`<button class="btn ok" data-act="confirmed" data-id="${r.id}">✓ Potvrdi</button><button class="btn bad" data-act="declined" data-id="${r.id}">✕ Odbij</button>`;
   else if(r.status==='confirmed')acts=`<button class="btn" data-act="seated" data-id="${r.id}">🪑 Stigli</button><button class="btn" data-act="noshow" data-id="${r.id}">Nisu došli</button>`;
   else if(r.status==='seated')acts=`<button class="btn" data-act="done" data-id="${r.id}">✓ Otišli</button>`;
+  const remR=r.status==='confirmed'&&!r.arrive&&r.phone&&r.date>=TT.biz().date&&!(r.date===TT.biz().date&&TT.biz().min>r.start+30);
   const pre=r.preorder||[];
   return `<article class="res ${r.status} ${ACTIVE.includes(r.status)?'':'dimmed'}${S.flash===r.id?' flash':''}" data-rid="${r.id}">
-   <div class="h"><div class="tm">${fmt(r.start)}</div><div class="who"><b>${esc(r.name)}</b><div class="meta">${r.party} os. · stol <span class="tb">${esc(r.tableId)}</span></div><span class="pill st-${r.status}" style="height:22px;margin:4px 0 2px">${ST[r.status]}</span>
-   <div class="meta">${[r.phone,r.code&&'#'+r.code,r.source&&r.source!=='web'?r.source:'online'].filter(Boolean).map(esc).join(' · ')}</div></div>
+   <div class="h"><div class="tm">${fmt(r.start)}</div><div class="who"><b>${esc(r.name)}</b><div class="meta">${r.party} os. · stol <span class="tb">${esc(r.tableId)}</span>${r.cat?` ${catPill(r.cat)}`:''}${r.minSpend?` · <span class="min" style="white-space:nowrap">min.&nbsp;${money0(r.minSpend)}</span>`:''}</div><span class="pill st-${r.status}" style="height:22px;margin:4px 0 2px">${ST[r.status]}</span>${r.status==='confirmed'&&r.arrive?` <span class="arr${S.flash===r.id?' new':''}">✓ dolazak potvrđen</span>`:''}${r.status==='seated'&&r.lateMin!=null?` <span class="arr in${S.flash===r.id?' new':''}">🚪 stigli ${fmt(r.start+r.lateMin)}${r.lateMin>5?` · kasnili ${r.lateMin} min`:r.lateMin<-5?` · ${-r.lateMin} min ranije`:' · na vrijeme'}</span>`:''}${r.status==='confirmed'&&r.date===TT.biz().date&&TT.biz().min-r.start>5?` <span class="arr late">⏱ kasne ${TT.biz().min-r.start} min</span>`:''}
+   <div class="meta">${[TT.phoneFmt(r.phone),r.code&&'#'+r.code,r.source&&r.source!=='web'?r.source:'online'].filter(Boolean).map(esc).join(' · ')}</div></div>
    <div class="contact">${contactLinks(r)}</div></div>
    ${pre.length?`<div class="pre">🍾 ${pre.map(x=>`${x.qty}× ${esc(x.name)} ${esc(x.vol)}`).join(' · ')} · <b>${money(preTotal(r))}</b>${r.sparkler?' · ✨ prskalica':''}</div>`:''}
+   ${r.status==='noshow'&&r.noShowFee?`<div class="ns">⚠️ Naknada za nedolazak: ${r.party} × ${money0(r.noShowFee)} = <b>${money0(r.party*r.noShowFee)}</b></div>`:''}
    ${r.occasion||r.note||r.staffNote?`<div class="note">${r.occasion?(OCC[r.occasion]||esc(r.occasion))+(r.note?' · ':''):''}${esc(r.note||'')}${r.staffNote?`<div class="small">🔒 ${esc(r.staffNote)}</div>`:''}</div>`:''}
-   <div class="acts">${acts}<button class="btn sm" data-edit="${r.id}" style="flex:0 0 auto;min-width:0">⋯ Uredi</button></div></article>`;}
+   <div class="acts">${acts}<button class="btn sm" data-edit="${r.id}" style="flex:0 0 auto;min-width:0">⋯ Uredi</button></div>${remR?`<button class="remr${r.remindedAt?' sent':''}" data-remind="${r.id}"><span>📲</span>${r.remindedAt?'Podsjetnik poslan — čeka se potvrda dolaska · <u>pošalji opet</u>':'Pošalji podsjetnik — gost potvrdi dolazak jednim dodirom'}</button>`:''}</article>`;}
 function renderList(){
-  const q=S.q.toLowerCase();const L=S.list.filter(r=>!q||[r.name,r.phone,r.code].some(x=>String(x||'').toLowerCase().includes(q)));
+  const q=S.q.toLowerCase(),qd=q.replace(/[\s\-\/]/g,'');const L=S.list.filter(r=>!q||(qd.length>=3&&/^\+?\d+$/.test(qd)&&String(r.phone||'').replace(/^\+385/,'0').includes(qd.replace(/^\+385/,'0')))||[r.name,r.phone,r.code].some(x=>String(x||'').toLowerCase().includes(q)));
   const act=S.list.filter(r=>ACTIVE.includes(r.status)),pendN=S.list.filter(r=>r.status==='pending').length,pre=act.reduce((a,r)=>a+preTotal(r),0);
-  const gN=act.reduce((a,r)=>a+r.party,0),sN=act.filter(r=>r.status==='seated').length;
-  $('#stats').innerHTML=`<div class="stat"><b>${act.length}</b><span>${pl(act.length,'rezervacija','rezervacije','rezervacija')}</span></div><div class="stat"><b>${gN}</b><span>${pl(gN,'gost','gosta','gostiju')}</span></div><div class="stat${pendN?' hot':''}"><b>${pendN}</b><span>${pl(pendN,'čeka','čekaju','čeka')} potvrdu</span></div>${FEAT().preorder?`<div class="stat"><b>${Math.round(pre)} €</b><span>🍾 boce unaprijed</span></div>`:`<div class="stat"><b>${sN}</b><span>${pl(sN,'stol sjedi','stola sjede','stolova sjedi')}</span></div>`}`;
+  const cfN=S.list.filter(r=>r.status==='confirmed').length,arN0=S.list.filter(r=>r.status==='confirmed'&&r.arrive).length;
+  const gN=act.reduce((a,r)=>a+r.party,0),sN=act.filter(r=>r.status==='seated').length,minS=act.reduce((a,r)=>a+(r.minSpend||0),0),nsF=S.list.filter(r=>r.status==='noshow').reduce((a,r)=>a+(r.noShowFee||0)*r.party,0);
+  $('#stats').innerHTML=`<div class="stat"><b>${act.length}</b><span>${pl(act.length,'rezervacija','rezervacije','rezervacija')}</span></div><div class="stat"><b>${gN}</b><span>${pl(gN,'gost','gosta','gostiju')}</span></div><div class="stat${pendN?' hot':''}"><b>${pendN}</b><span>${pl(pendN,'čeka','čekaju','čeka')} potvrdu</span></div><div class="stat"><b>${sN}</b><span>${pl(sN,'stol sjedi','stola sjede','stolova sjedi')}</span></div>${FEAT().preorder?`<div class="stat gold"><b>${money0(Math.round(pre))}</b><span>🍾 boce naručene unaprijed</span></div>`:''}${!FEAT().preorder&&!CATS().length&&cfN&&S.date>=TT.biz().date?`<div class="stat gold ok"><b>${arN0}/${cfN}</b><span>✓ potvrdilo dolazak</span></div>`:''}${CATS().length?`<div class="stat gold"><b>${Math.round(minS).toLocaleString('hr-HR')} €</b><span>zajamčena min. potrošnja</span></div>${nsF?`<div class="stat"><b>${Math.round(nsF)} €</b><span>naknade za nedolazak</span></div>`:''}`:''}`;
   const pend=L.filter(r=>r.status==='pending'),on=L.filter(r=>r.status==='confirmed'||r.status==='seated'),rest=L.filter(r=>!ACTIVE.includes(r.status));
   let h='';
   if(!L.length)h=`<div class="empty"><b>${q?'Nema rezultata':'Nema rezervacija'}</b>${q?'':'Dodajte rezervaciju gumbom +'}</div>`;
   if(pend.length)h+=`<div class="sec"><span>⏳ Čeka potvrdu</span><span>${pend.length}</span></div>`+pend.map(resCard).join('');
-  if(on.length)h+=`<div class="sec"><span>${S.date===TT.biz().date?'Večeras':'Potvrđeno'}</span><span>${on.length}</span></div>`+on.map(resCard).join('');
+  const cf=on.filter(r=>r.status==='confirmed'),arN=cf.filter(r=>r.arrive).length;
+  if(on.length)h+=`<div class="sec"><span>${S.date===TT.biz().date?'Večeras':'Potvrđeno'}</span><span>${cf.length&&S.date>=TT.biz().date?`<b style="color:#7ee2a8;letter-spacing:.06em">✓ ${arN}/${cf.length} potvrdilo dolazak</b> · `:''}${on.length}</span></div>`+on.map(resCard).join('');
   if(rest.length)h+=`<details><summary class="sec" style="cursor:pointer"><span>Otkazano / završeno</span><span>${rest.length} ▾</span></summary>${rest.map(resCard).join('')}</details>`;
   $('#list').innerHTML=h;
   if(S.flash){const el=$(`[data-rid="${S.flash}"]`);if(el&&el.getBoundingClientRect().top>innerHeight)el.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>{S.flash=null},3500);}
@@ -2379,15 +3143,16 @@ function tableSheet(t){
   const rs=S.list.filter(r=>r.tableId===t.id).sort((a,b)=>a.start-b.start);
   const lv=S.date===S.liveDate?S.live.filter(x=>x.table===t.id&&(x.status==='new'||x.status==='ack')):[];
   const zone=(S.cfg.zones.find(z=>z.id===t.zone)||{name:{hr:''}}).name.hr;
-  openSheet(shHead(`Stol ${esc(t.id)}`)+`<p class="small">${esc(zone)} · ${t.min}–${t.max} os.${t.vip?' · ★ VIP':''}</p>`+(lv.length?`<div class="sec"><span>Uživo za ovim stolom</span></div>${lv.map(liveCard).join('')}`:'')+(rs.length?rs.map(resCard).join(''):'<div class="empty">Stol je slobodan cijelu večer.</div>')+`<button class="btn gold block" data-newfor="${esc(t.id)}">+ Rezerviraj ovaj stol</button>`);
+  const zc=tCat(t);
+  openSheet(shHead(`Stol ${esc(t.id)}`)+(zc&&zc.img?`<div class="tsh-ph" style="background-image:url('../kat/${esc(zc.img)}.jpg')"><span>${catPill(zc.id)}</span></div>`:'')+`<p class="small">${zc?`${esc(zc.name.hr)} · do ${t.max} os. · min. potrošnja <b style="color:var(--gold2)">${money0(zc.minSpend)}</b> · nedolazak ${money0(zc.noShow)}/os.`:`${esc(zone)} · ${t.min}–${t.max} os.${t.vip?' · ★ VIP':''}`}</p>`+(lv.length?`<div class="sec"><span>Uživo za ovim stolom</span></div>${lv.map(liveCard).join('')}`:'')+(rs.length?rs.map(resCard).join(''):'<div class="empty">Stol je slobodan cijelu večer.</div>')+`<button class="btn gold block" data-newfor="${esc(t.id)}">+ Rezerviraj ovaj stol</button>`);
 }
 function freeAt(tid,start,ignore){const e=start+S.cfg.durationMinutes;return !S.list.some(r=>r.tableId===tid&&ACTIVE.includes(r.status)&&r.id!==ignore&&start<r.end&&r.start<e)}
-function tableOptions(sel,start,party,ignore){return S.cfg.tables.map(t=>{const ok=freeAt(t.id,start,ignore);const fit=!party||(party>=t.min&&party<=t.max);return `<option value="${esc(t.id)}" ${t.id===sel?'selected':''}>${esc(t.id)} · ${t.min}–${t.max} os.${ok?'':' · ZAUZET'}${fit?'':' · ne odgovara'}</option>`}).join('')}
+function tableOptions(sel,start,party,ignore){return S.cfg.tables.map(t=>{const ok=freeAt(t.id,start,ignore);const fit=!party||(party>=t.min&&party<=t.max);const zc=tCat(t);return `<option value="${esc(t.id)}" ${t.id===sel?'selected':''}>${esc(t.id)}${zc?` · ${esc(zc.short||zc.name.hr)} (min. ${zc.minSpend} €)`:''} · ${zc?'do '+t.max:t.min+'–'+t.max} os.${t.noRes?' · pušiona (bez rez.)':''}${ok?'':' · ZAUZET'}${fit?'':' · ne odgovara'}</option>`}).join('')}
 function timeOptions(sel){const s=[...new Set([...(S.slots.length?S.slots:[]),sel].filter(x=>x!=null))].sort((a,b)=>a-b);return s.map(m=>`<option value="${m}" ${m===sel?'selected':''}>${fmt(m)}</option>`).join('')}
 function anyTimeOptions(){let h='<option value="">Drugo vrijeme…</option>';for(let m=420;m<=1800;m+=15)h+=`<option value="${m}">${fmt(m)}${m>=1440?' (iza ponoći)':''}</option>`;return h}
 
 function editSheet(id){const r=S.list.find(x=>x.id===id);if(!r)return;
-  openSheet(shHead(esc(r.name))+`<div class="meta small">#${esc(r.code)} · ${esc(r.phone||'')} ${r.email?'· '+esc(r.email):''} · izvor: ${esc(r.source)}</div>
+  openSheet(shHead(esc(r.name))+`<div class="meta small">#${esc(r.code)} · ${esc(TT.phoneFmt(r.phone))} ${r.email?'· '+esc(r.email):''} · izvor: ${esc(r.source)}</div>
   <form id="editForm"><div class="grid2"><div><label class="lbl">Vrijeme</label><select id="eStart">${timeOptions(r.start)}</select><select id="eCustom" style="margin-top:6px" aria-label="Drugo vrijeme">${anyTimeOptions()}</select></div><div><label class="lbl">Osoba</label><input type="number" id="eParty" min="1" max="60" value="${r.party}"></div></div>
   <label class="lbl">Stol</label><select id="eTable">${tableOptions(r.tableId,r.start,r.party,r.id)}</select>
   <label class="lbl">Datum</label><input type="date" id="eDate" value="${r.date}">
@@ -2400,17 +3165,25 @@ function editSheet(id){const r=S.list.find(x=>x.id===id);if(!r)return;
   $('#editForm').onsubmit=async e=>{e.preventDefault();const cu=$('#eCustom').value;let start=cu?+cu:+$('#eStart').value;
     try{const x=await api('/admin/update',{id:r.id,start,party:+$('#eParty').value,tableId:$('#eTable').value,status:st,staffNote:$('#eNote').value,date:$('#eDate').value});afterUpdate(x);}catch(err){$('#eErr').textContent=errMsg(err)}};
 }
-function demoGuest(r,msg){const mine=TT.myRes().find(m=>m.id===r.id);let href=mine&&mine.k?TT.keepClock(TT.url(V.venue,'rezervacije/')+'?r='+encodeURIComponent(r.id)+'&k='+encodeURIComponent(mine.k)):null;
+function demoGuest(r,msg,extra){const mine=TT.myRes().find(m=>m.id===r.id);let href=mine&&mine.k?TT.keepClock(TT.url(V.venue,'rezervacije/')+'?r='+encodeURIComponent(r.id)+'&k='+encodeURIComponent(mine.k)+(extra||'')):null;
   if(!href){const m=/(https?:\/\/\S*?rezervacije\/\?r=[^\s]+)/.exec(msg||'');if(m)href=TT.keepClock(m[1].replace(/[.,)]+$/,''));}
   return `<div class="demo-note"><b>Demo:</b> gost je ovu poruku upravo dobio na mobitel. U pravom sustavu jednim dodirom otvara se WhatsApp s gotovim tekstom.${href?`<a class="btn gold block" style="margin-top:10px" href="${esc(href)}">📱 Pogledajte kako to vidi gost</a>`:''}</div>`}
+async function remind(id,btn){
+  try{btn&&(btn.disabled=true);const x=await api('/admin/remind',{id});buzz(10);loadDay(true);const r=x.reservation;
+    openSheet(shHead('📲 Podsjetnik gostu')+`<p style="margin:0 0 4px">Podsjetnik s potvrdom dolaska — jedan dodir i ide na WhatsApp. Gost potvrdi dolazak jednim dodirom, a vi ovdje vidite <b style="color:#7ee2a8">✓ potvrdio dolazak</b>.</p>
+     <div class="wa-prev"><div class="hd"><i>👤</i><div><b>${esc(r.name)}</b><div class="small" style="color:#8696a0">${esc(TT.phoneFmt(r.phone))}</div></div></div><div class="bub">${esc(x.msg)}<small>${fmt(TT.now().min)} ✓✓</small></div></div>
+     ${x.wa?`<a class="btn wa block" href="${x.wa}" target="_blank" rel="noopener" data-close data-demo-link="WhatsApp poruka">💬 Pošalji na WhatsApp</a>`:''}
+     ${DEMO?demoGuest(r,x.msg,'&a=1'):''}
+     <button class="btn block" style="margin-top:10px" data-close>Zatvori</button>`);
+  }catch(e){toast(errMsg(e));btn&&(btn.disabled=false)}}
 function afterUpdate(x){buzz(12);loadDay(true);loadUpcoming();
   if(x.msg){const r=x.reservation;const ok=r.status==='confirmed';
     openSheet(shHead(ok?'✓ Potvrđeno':'Odbijeno')+`<p style="margin:0 0 4px">Poruka gostu je spremna — jedan dodir i ide na WhatsApp:</p>
-     <div class="wa-prev"><div class="hd"><i>👤</i><div><b>${esc(r.name)}</b><div class="small" style="color:#8696a0">${esc(r.phone||'')}</div></div></div><div class="bub">${esc(x.msg)}<small>${fmt(TT.now().min)} ✓✓</small></div></div>
+     <div class="wa-prev"><div class="hd"><i>👤</i><div><b>${esc(r.name)}</b><div class="small" style="color:#8696a0">${esc(TT.phoneFmt(r.phone))}</div></div></div><div class="bub">${esc(x.msg)}<small>${fmt(TT.now().min)} ✓✓</small></div></div>
      ${x.wa?`<a class="btn wa block" href="${x.wa}" target="_blank" rel="noopener" data-close data-demo-link="WhatsApp poruka">💬 Pošalji na WhatsApp</a>`:''}
      ${DEMO?demoGuest(r,x.msg):(r.email?'<p class="small">E-mail gostu šalje se automatski.</p>':'')}
      <button class="btn block" style="margin-top:10px" data-close>Zatvori</button>`);}
-  else{closeSheet();toast('✓ Spremljeno')}}
+  else{closeSheet();const r=x.reservation;toast(r&&r.status==='noshow'&&r.noShowFee?`⚠️ Nedolazak zabilježen · naknada ${money0(r.party*r.noShowFee)}`:'✓ Spremljeno')}}
 
 function newSheet(tableId,start){
   const sl=S.slots.length?S.slots:[1200];start=start??(S.planTime||sl[0]);
@@ -2510,7 +3283,7 @@ function renderMenu(){
   for(const c of CAT.cats){const its=c.items.filter(it=>!q||fold(it.name).includes(fold(q)));if(!its.length)continue;
     h+=`<div class="cat-h">${esc(c.name)}<span>${its.length}</span></div>`+its.map(it=>{const so=!!m.soldOut[it.id],pv=m.price[it.id]||{};
       return `<div class="mi${so?' so':''}"><div class="nm"><b>${esc(it.name)}</b><div class="ps">${it.prices.map((pr,i)=>{const ch=pv[i]!=null;return `<button class="pc${ch?' ch':''}" data-mp="${esc(it.id)}" data-i="${i}" title="Dodirnite za izmjenu"><small>${esc(pr.l||'cijena')}</small>${money(ch?pv[i]:pr.eur)}${ch?` <small style="margin:0 0 0 4px;text-decoration:line-through">${money(pr.eur)}</small>`:''}</button>`}).join('')}</div></div>
-       <div class="so-l">${so?'<span style="color:var(--bad)">Nema</span>':'Ima'}<br><input type="checkbox" class="tog red" data-so="${esc(it.id)}" ${so?'checked':''} aria-label="Rasprodano" style="margin-top:4px"></div></div>`}).join('');}
+       <div class="so-l">${so?'<span style="color:var(--bad)">Nema</span>':'Ima'}<br><input type="checkbox" class="tog${so?' off':''}" data-so="${esc(it.id)}" ${so?'':'checked'} aria-label="Na stanju" style="margin-top:4px"></div></div>`}).join('');}
   box.innerHTML=h;
   {const et=$('#evTxt'),ef=$('#evFrom'),ew=$('#evWel'),ed=$('#evDj'),F=V.fort;if(et){const upd=()=>{const mm=mdoc(),txt=et.value.trim(),welcome=ew?ew.value.trim():'',dj=ed?ed.value.trim():'';
     if(F){if(txt||welcome||dj||ef.value!==F.from)mm.tonight={txt,from:ef.value,welcome,dj,fort:1};else delete mm.tonight;}
@@ -2592,12 +3365,12 @@ async function renderSettings(){
   $$('[data-ho]').forEach(c=>c.onchange=()=>{const i=c.dataset.ho;$(`[data-hf="${i}"]`).disabled=!c.checked;$(`[data-ht="${i}"]`).disabled=!c.checked});
   const tn=$('#testN');if(tn)tn.onclick=async()=>{try{const r=await api('/admin/test-notify',{});toast(`WhatsApp: ${r.whatsapp?'poslano ✓':'nije poslano'} · E-mail: ${r.email?'poslano ✓':'nije poslano'}`)}catch(e){toast(errMsg(e))}};
   $('#qrBtn').onclick=()=>{const box=$('#qrprint');box.hidden=false;box.innerHTML=`<div class="qrs" style="margin-top:12px">${EC.tables.map(t=>`<div class="qrc">${qrSVG(tableUrl(t.id))}<b>STOL ${esc(t.id)}</b><small>${esc(V.name)} · skenirajte ili prislonite mobitel</small></div>`).join('')}</div>`;setTimeout(()=>{try{print()}catch(e){}},200)};
-  $('#addT').onclick=()=>{let n=1;while(EC.tables.some(t=>t.id==='N'+n))n++;const t={id:'N'+n,zone:(EC.zones[0]||{}).id||'',shape:'round',x:EC.plan.w/2,y:EC.plan.h/2,r:28,min:2,max:4};EC.tables.push(t);edSel={o:t,w:false};drawEditor()};
-  $('#addW').onclick=()=>{const w={type:'bar',x:EC.plan.w/2-60,y:EC.plan.h/2-30,w:120,h:60,label:'ŠANK'};EC.plan.walls.push(w);edSel={o:w,w:true};drawEditor()};
+  $('#addT').onclick=()=>{let n=1;while(EC.tables.some(t=>t.id==='N'+n))n++;const FL=(EC.plan.floors||[]).find(f=>f.id===$('#edplan').__floor);const t={id:'N'+n,zone:(EC.zones[0]||{}).id||'',shape:'round',x:EC.plan.w/2,y:FL?FL.y+FL.h/2:EC.plan.h/2,r:28,min:2,max:4,...(FL?{floor:FL.id}:{})};EC.tables.push(t);edSel={o:t,w:false};drawEditor()};
+  $('#addW').onclick=()=>{const FL=(EC.plan.floors||[]).find(f=>f.id===$('#edplan').__floor);const w={type:'bar',x:EC.plan.w/2-60,y:(FL?FL.y+FL.h/2:EC.plan.h/2)-30,w:120,h:60,label:'ŠANK'};EC.plan.walls.push(w);edSel={o:w,w:true};drawEditor()};
   $('#addZ').onclick=()=>{EC.zones.push({id:'z'+Date.now().toString(36).slice(-4),name:{hr:'Nova zona',en:'New zone'}});renderZones()};
   $('#saveCfg').onclick=saveCfg;
 }
-function qrSVG(text){const m=qrMatrix(text),n=m.length,qz=3,s=n+qz*2;let d='';m.forEach((r,y)=>r.forEach((c,x)=>{if(c)d+=`M${x+qz} ${y+qz}h1v1h-1z`;}));return `<svg viewBox="0 0 ${s} ${s}" shape-rendering="crispEdges"><rect width="${s}" height="${s}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;}
+function qrSVG(text){let m;try{m=qrMatrix(text)}catch(e){return ''}const n=m.length,qz=3,s=n+qz*2;let d='';m.forEach((r,y)=>r.forEach((c,x)=>{if(c)d+=`M${x+qz} ${y+qz}h1v1h-1z`;}));return `<svg viewBox="0 0 ${s} ${s}" shape-rendering="crispEdges"><rect width="${s}" height="${s}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;}
 function drawEditor(){
   TTPlan.render($('#edplan'),EC,{editable:true,state:t=>edSel&&edSel.o===t?'free sel':'free',onSelectObj:(o,w)=>{edSel={o,w};renderEdPanel();$$('#edplan .pl-t').forEach(g=>g.classList.toggle('sel',g.dataset.id===(w?null:o.id)))},onMove:()=>{drawEditor()}});
   renderEdPanel();
@@ -2628,12 +3401,14 @@ async function saveCfg(){
 /* ---------- akcije ---------- */
 async function setStatus(id,status,btn){
   if(status==='declined'&&btn&&!arm(btn,'Dodirnite ponovno'))return;
+  if(status==='noshow'&&btn){const r=S.list.find(x=>x.id===id);if(!arm(btn,r&&r.noShowFee?`Potvrdi · ${money0(r.party*r.noShowFee)}`:'Dodirnite ponovno'))return;}
   try{btn&&(btn.disabled=true);const x=await api('/admin/update',{id,status});afterUpdate(x)}catch(e){toast(errMsg(e));btn&&(btn.disabled=false)}
 }
 document.addEventListener('click',e=>{const x=e.target;
   const sr=x.closest('[data-showres]');if(sr){$('#nban').classList.remove('on');S.flash=sr.dataset.showres;if(S.tab!=='list')setTab('list');if(S.date!==sr.dataset.d)setDate(sr.dataset.d);else renderList();return}
   const dl=x.closest('[data-demo-link]');if(dl&&DEMO){e.preventDefault();const kind=dl.dataset.demoLink;if(dl.hasAttribute('data-close'))closeSheet();toast(kind==='WhatsApp poruka'?'✓ Demo: poruka je stigla gostu na WhatsApp':`Demo: ovdje se otvara ${kind} s gostom`);return}
   if(x.closest('[data-logout]')){const b=x.closest('[data-logout]');if(arm(b,'Dodirnite ponovno'))logout();return}
+  const rm=x.closest('[data-remind]');if(rm){remind(rm.dataset.remind,rm);return}
   const a=x.closest('[data-act]');if(a){setStatus(a.dataset.id,a.dataset.act,a);return}
   const lv=x.closest('[data-lv]');if(lv){setLive(lv.dataset.id,lv.dataset.lv,lv);return}
   const ed=x.closest('[data-edit]');if(ed){editSheet(ed.dataset.edit);return}
@@ -2649,10 +3424,11 @@ document.addEventListener('click',e=>{const x=e.target;
   const fd=x.closest('[data-fbd]');if(fd){api('/admin/feedback/update',{id:fd.dataset.fbd,read:true,done:true}).then(loadFb);return}
   const tb=x.closest('[data-tab]');if(tb){setTab(tb.dataset.tab);return}
 });
-document.addEventListener('change',e=>{const so=e.target.closest('[data-so]');if(so){const m=mdoc();if(so.checked)m.soldOut[so.dataset.so]=1;else delete m.soldOut[so.dataset.so];buzz(8);saveMenu();renderMenu();}});
+document.addEventListener('change',e=>{const so=e.target.closest('[data-so]');if(so){const m=mdoc();if(!so.checked)m.soldOut[so.dataset.so]=1;else delete m.soldOut[so.dataset.so];buzz(8);saveMenu();renderMenu();}});
 $('#prev').onclick=()=>setDate(addDays(S.date,-1));$('#next').onclick=()=>setDate(addDays(S.date,1));
 $('#todayBtn').onclick=()=>{const i=document.createElement('input');i.type='date';i.value=S.date;i.style.position='fixed';i.style.opacity=0;document.body.appendChild(i);i.onchange=()=>{if(i.value)setDate(i.value);i.remove()};i.onblur=()=>setTimeout(()=>i.remove(),300);try{i.showPicker()}catch(e){i.click()}};
 $('#search').oninput=e=>{S.q=e.target.value;renderList()};
+$('#printBtn').onclick=()=>{if(!window.TTPrint||!S.cfg)return;buzz(8);const lg=document.querySelector('.sb svg');TTPrint.open({cfg:S.cfg,list:S.list||[],date:S.date,logo:lg?lg.innerHTML:'',logoVB:lg?lg.getAttribute('viewBox'):''});};
 addEventListener('resize',()=>{clearTimeout(window._rz);window._rz=setTimeout(()=>{if(S.tab==='list')renderListPlan();if(S.tab==='live')renderLive()},200)});
 
 /* ---------- osvježavanje ---------- */
