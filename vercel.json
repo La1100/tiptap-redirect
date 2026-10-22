@@ -1,8 +1,18 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/bure-meni", "destination": "/demo/bure-bar/", "permanent": false },
+    { "source": "/bure-meni.html", "destination": "/demo/bure-bar/", "permanent": false },
+    { "source": "/bure-rezervacije", "destination": "/demo/bure-bar/rezervacije/", "permanent": false },
+    { "source": "/bure-rezervacije.html", "destination": "/demo/bure-bar/rezervacije/", "permanent": false },
+    { "source": "/bure-admin", "destination": "/demo/bure-bar/admin/", "permanent": false },
+    { "source": "/bure-admin.html", "destination": "/demo/bure-bar/admin/", "permanent": false }
+  ],
   "rewrites": [
+    { "source": "/studio-charm", "destination": "/studio-charm/index.html" },
+    { "source": "/studio-charm.html", "destination": "/studio-charm/index.html" },
+    { "source": "/osjecki-taxi", "destination": "/osjecki-taxi/index.html" },
+    { "source": "/osjecki-taxi.html", "destination": "/osjecki-taxi/index.html" },
     { "source": "/:code", "destination": "/api/redirect?code=:code" }
   ]
 }
-
-
