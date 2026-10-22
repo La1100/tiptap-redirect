@@ -394,6 +394,29 @@ body.kiosk .content{max-width:1000px}
 .remr{display:flex;align-items:center;gap:8px;width:100%;margin:10px 0 -2px;padding:9px 2px 0;border:0;border-top:1px dashed rgba(255,255,255,.1);background:none;color:var(--gold2);font:700 13px/1.3 var(--f-body);text-align:left;cursor:pointer}
 .remr span{font-size:15px}.remr.sent{color:var(--muted);font-weight:600}.remr.sent u{color:var(--gold2)}
 .res .ns{margin-top:8px;font-size:14px;border-radius:10px;padding:8px 10px;background:rgba(255,90,78,.1);border:1px solid rgba(255,90,78,.35)}
+.res .gpl{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 2px;padding:0;background:none;border:0;text-align:left;cursor:pointer}
+.res .gpl i{font-style:normal;font-size:12px;font-weight:800;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--muted);border:1px solid rgba(255,255,255,.08);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.res .gpl .gv{color:#ffd77a;background:rgba(255,200,80,.12);border-color:rgba(255,200,80,.4)}
+.res .gpl .gb{color:#ffb3d1;background:rgba(255,120,180,.13);border-color:rgba(255,120,180,.45)}
+.res .gpl .gn{color:#ffb44f;background:rgba(255,170,60,.12);border-color:rgba(255,170,60,.45)}
+.res .gpl .gnote{color:var(--text);font-weight:700}
+.res .vipx{display:flex;flex-wrap:wrap;gap:3px 14px;margin-top:8px;font-size:13.5px;font-weight:600;border-radius:10px;padding:8px 10px;color:#ffe3a1;background:linear-gradient(120deg,rgba(255,200,90,.16),rgba(255,140,40,.05));border:1px solid rgba(255,205,110,.5)}
+.res .vipx b{flex-basis:100%;font-weight:800}
+.res .dep{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;font-size:14px;border-radius:10px;padding:8px 10px}
+.res .dep.ok{background:rgba(80,200,130,.1);border:1px solid rgba(80,200,130,.35)}
+.res .dep.due{background:rgba(255,170,60,.1);border:1px solid rgba(255,170,60,.4)}
+.res .dep .btn{flex:none;min-height:34px;font-size:13px}
+.gsk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 12px}
+.gsk div{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:10px 12px}
+.gsk b{display:block;font-family:var(--f-display);font-weight:800;font-size:26px;line-height:1}
+.gsk span{font-size:12px;color:var(--muted)}
+.gsk .warn{border-color:rgba(255,170,60,.5);background:rgba(255,170,60,.1)}.gsk .warn b{color:#ffb44f}
+.gs-new{margin:0 0 12px;color:var(--muted);font-size:14px}
+.gs-b{margin:0 0 12px;padding:12px 14px;border-radius:14px;background:rgba(255,120,180,.12);border:1px solid rgba(255,120,180,.45);font-size:14.5px;font-weight:700}
+.gs-h{margin:14px 2px 8px;font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.gs-h small{letter-spacing:.02em;text-transform:none;font-weight:600}
+.gs-f{display:flex;flex-wrap:wrap;gap:6px}.gs-f span{font-size:14px;padding:6px 10px;border-radius:10px;background:rgba(var(--gold2-rgb),.1);border:1px solid rgba(var(--gold2-rgb),.3)}
+.gs-hist{display:grid;gap:6px}.gs-hist div{display:flex;gap:10px;align-items:baseline;font-size:14px}.gs-hist b{min-width:58px}.gs-hist span{color:var(--muted)}
 .stat.gold{background:linear-gradient(160deg,rgba(var(--gold2-rgb),.2),rgba(var(--gold2-rgb),.05));border-color:rgba(var(--gold2-rgb),.35)}
 .stat.gold b{color:var(--gold2)}
 .stats .stat.gold{grid-column:span 2}
@@ -491,7 +514,7 @@ const QCLUB = {
   zones: [
     { id: 'prizemlje', name: { hr: 'Prizemlje', en: 'Ground floor' }, short: 'Prizemlje' },
     { id: 'kat', name: { hr: 'Kat', en: 'Upstairs' }, short: 'Kat' },
-    { id: 'vip', name: { hr: 'VIP', en: 'VIP' }, short: 'VIP' },
+    { id: 'vip', name: { hr: 'VIP', en: 'VIP' }, short: 'VIP', deposit: 100 },   // kapara pri rezervaciji, odbija se od računa
     { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
@@ -522,8 +545,8 @@ const QCLUB = {
   closedDates: [],
   autoConfirm: false,
   rules: {
-    hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
-    en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
+    hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. VIP lounge: kapara 100 € pri rezervaciji, odbija se od računa. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
+    en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. VIP lounge: a 100 € deposit when booking, taken off the bill. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
   features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['coat'] }
 };
@@ -545,7 +568,7 @@ const KAFANICA = {
   },
   zones: [
     { id: 'sala', name: { hr: 'Sala', en: 'Main room' }, short: 'Sala' },
-    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP' },
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', deposit: 50 },
     { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
@@ -574,8 +597,8 @@ const KAFANICA = {
   closedDates: [],
   autoConfirm: false,
   rules: {
-    hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
-    en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
+    hr: 'Petkom i subotom svira živa glazba. VIP stol (35): kapara 50 € pri rezervaciji, odbija se od računa. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
+    en: 'Live music on Fridays and Saturdays. VIP table (35): a 50 € deposit when booking, taken off the bill. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
   features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: true, hostess: ['rez', 'coat'] }
 };
@@ -659,7 +682,37 @@ const BURE = {
       desc: { hr: 'Stolovi za 4 osobe uz zidove i šank — od 1 do 23.', en: 'Tables for 4 along the walls and the bar — 1 to 23.' } },
     { id: 'silver', name: { hr: 'Silver stolovi', en: 'Silver tables' }, short: 'Silver', minSpend: 100, noShow: 8, img: 'silver',
       desc: { hr: 'Stolovi za 6 osoba, bačve i veliki okrugli stol — od 24 do 30.', en: 'Tables for 6, barrels and the big round table — 24 to 30.' } },
-    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', minSpend: 200, noShow: 12, img: 'vip',
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', minSpend: 250, noShow: 12, deposit: 50, img: 'vip',
+      // VIP doživljaj (prijedlog — lokal mijenja po želji): gost ga vidi u rezervaciji, osoblje dobije podsjetnik za doček
+      show: {
+        where: { hr: 'u Buretu', en: 'at Bure Bar' },
+        tag: { hr: 'Vaša ekipa u središtu večeri', en: 'Your crew at the centre of the night' },
+        one: { hr: 'Samo jedan takav stol u Buretu', en: 'The only table like it in the bar' },
+        perks: [
+          { i: '🎆', hr: 'Boca uz prskalice — ako želite', en: 'Your bottle with sparklers — if you like' },
+          { i: '🎤', hr: 'DJ najavljuje vaše ime — ako želite', en: 'The DJ calls out your name — if you like' },
+          { i: '🥃', hr: 'Rakija dobrodošlice za cijeli stol — šljiva, travarica, višnja, medica ili viljamovka', en: 'A welcome round for the whole table — plum, herbal, sour cherry, honey or pear brandy' },
+          { i: '🧊', hr: 'Stol vas čeka spreman — boca u kibli s ledom, led i limun sa strane, slamke', en: 'Your table is ready when you arrive — the bottle on ice, extra ice and lemon on the side, straws' },
+          { i: '🥂', hr: 'Uz premium boce kristalne čaše', en: 'Crystal glasses with premium bottles' },
+          { i: '🎧', hr: 'Stol odmah uz DJ-a — najbolje mjesto u Buretu', en: 'Right next to the DJ — the best spot in the bar' },
+          { i: '🚪', hr: 'Ulaz bez čekanja — hostesa vas dočeka imenom', en: 'Skip the queue — the host greets you by name' },
+          { i: '🤵', hr: 'Vaš konobar cijelu večer — jedan dodir na mobitelu', en: 'Your own waiter all night — one tap on your phone' }
+        ],
+        // gost bira: prskalice, najavu DJ-a (i tekst najave) i rakiju dobrodošlice za cijeli stol (Badel, iz cjenika Bure Bara)
+        choose: { spark: true, dj: true, shots: [
+          { id: 'Badel Šljivovica', hr: 'Šljiva', en: 'Plum brandy' },
+          { id: 'Badel Travarica', hr: 'Travarica', en: 'Herbal brandy' },
+          { id: 'Badel Višnjevac', hr: 'Višnja', en: 'Sour cherry' },
+          { id: 'Badel Medica', hr: 'Medica', en: 'Honey brandy' },
+          { id: 'Badel Williams', hr: 'Viljamovka', en: 'Pear brandy' }
+        ] },
+        // premium boce (šampanjci, Grey Goose, Hendrick's…) stižu uz kristalne čaše
+        crystal: ['moet-brut', 'moet-rose', 'moet-ice', 'dom-perignon', 'armand-de-brignac', 'grey-goose', 'grey-goose-altius', 'old-pilots-vodka', 'botanist', 'hendricks', 'old-pilots-gin', 'gentleman-jack', 'jd-single-barrel', 'jw-black', 'chivas-12', 'hennessy-vs'],
+        // osoblje: stol se postavi prije dolaska (prepMin minuta ranije)
+        prep: { min: 15, hr: 'kible s ledom, led i limun sa strane, slamke, kartica s imenom', en: 'ice buckets, extra ice and lemon on the side, straws, a name card' },
+        staff: { hr: 'VIP doček', en: 'VIP welcome' },
+        always: { hr: 'stol spreman prije dolaska (kible s ledom, led i limun sa strane, slamke), stol uz DJ-a, ulaz bez čekanja i vaš konobar cijelu večer', en: 'your table ready before you arrive (ice buckets, extra ice and lemon on the side, straws), the table by the DJ, no queue and your own waiter all night' }
+      },
       desc: { hr: 'Dugi stol za do 16 osoba, odmah uz DJ-a — stol 31.', en: 'The long table for up to 16 guests, right by the DJ — table 31.' } }
   ],
   tables: [
@@ -691,10 +744,11 @@ const BURE = {
     terms: true
   },
   rules: {
-    hr: 'Minimalna potrošnja vrijedi po stolu. Ako ne dođete, a niste otkazali do 10:00 na dan rezervacije, naplaćuje se naknada za nedolazak po osobi.',
-    en: 'The minimum spend applies per table. If you do not come and have not cancelled by 10:00 on the day, a no-show fee per person is charged.'
+    hr: 'Minimalna potrošnja vrijedi po stolu. Ako ne dođete, a niste otkazali do 10:00 na dan rezervacije, naplaćuje se naknada za nedolazak po osobi. VIP stol: kapara 50 € pri rezervaciji, odbija se od računa.',
+    en: 'The minimum spend applies per table. If you do not come and have not cancelled by 10:00 on the day, a no-show fee per person is charged. VIP table: a 50 € deposit when booking, taken off the bill.'
   },
-  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez'] }
+  // boca uz rezervaciju samo za VIP stol (čeka goste u kibli s ledom)
+  features: { reservations: true, preorder: true, preorderZones: ['vip'], preorderOnly: true, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez'] }
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -739,7 +793,16 @@ const isoNow = () => new Date().toISOString();
 /* ---------- nasumični id-jevi (Web Crypto: Node 19+ i svi preglednici) ---------- */
 function rbytes(n) { const a = new Uint8Array(n); globalThis.crypto.getRandomValues(a); return a; }
 const token = (n = 16) => Array.from(rbytes(n), b => b.toString(16).padStart(2, '0')).join('');
-function shortCode() { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (const x of rbytes(6)) s += A[x % A.length]; return s; }
+/** Kod rezervacije: 4 znamenke (1000–9999) — gost ga lako zapamti i kaže hostesi i kad mu se isprazni mobitel.
+    Bez kodova s istim znamenkama (npr. 7777) i bez okruglih tisuća. Jedinstven u danu rezervacije i susjednim danima. */
+function shortCode(taken = new Set()) {
+  for (let i = 0; i < 200; i++) {
+    const b = rbytes(2), n = 1000 + ((b[0] << 8) | b[1]) % 9000, c = String(n);
+    if (/^(\d)\1{3}$/.test(c) || /000$/.test(c) || taken.has(c)) continue;
+    return c;
+  }
+  const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (const x of rbytes(6)) s += A[x % A.length]; return s;   // (praktički nemoguće) sve zauzeto
+}
 function safeEqual(a, b) {
   a = String(a ?? ''); b = String(b ?? '');
   let d = a.length ^ b.length;
@@ -841,6 +904,61 @@ function cleanPreorder(list) {
 }
 const preorderTotal = r => (r.preorder || []).reduce((a, x) => a + x.eur * x.qty, 0);
 
+/* =====================================================================
+   POZNATI GOST: profil po broju mobitela — posjete, nedolasci, omiljena boca, rođendan, napomena osoblja.
+   Uz svaku rezervaciju sprema se kratka snimka profila (r.guest), pa popis večeri ne treba dodatna čitanja.
+   ===================================================================== */
+const guestKey = phone => { const d = String(phone || '').replace(/\D/g, ''); return d.length >= 8 ? `guest/${d}` : null; };
+const GP0 = () => ({ name: '', visits: 0, noShows: 0, cancels: 0, bookings: 0, first: '', last: '', bottles: {}, occ: [], hist: [], note: '', spend: 0 });
+async function guestGet(store, phone) { const k = guestKey(phone); if (!k) return null; const r = await store.getJSON(k); return r?.data || null; }
+/** Sažetak profila za osoblje (snimka uz rezervaciju). */
+function guestSnap(g) {
+  if (!g) return { visits: 0, noShows: 0 };
+  const fav = Object.entries(g.bottles || {}).sort((a, b) => b[1] - a[1])[0];
+  const bday = (g.occ || []).filter(o => o.t === 'rodjendan').map(o => o.d).sort().pop() || '';
+  return { visits: g.visits || 0, noShows: g.noShows || 0, cancels: g.cancels || 0, last: g.last || '', fav: fav ? fav[0] : '', favN: fav ? fav[1] : 0, bday, note: g.note || '', spend: Math.round(g.spend || 0) };
+}
+async function guestBump(store, r, fn) {
+  const k = guestKey(r.phone); if (!k) return null;
+  return mutate(store, k, GP0, g => { if (r.name) g.name = r.name; fn(g); return { ok: true }; });
+}
+const visitBump = r => g => {
+  g.visits = (g.visits || 0) + 1;
+  if (!g.first || r.date < g.first) g.first = r.date;
+  if (!g.last || r.date > g.last) g.last = r.date;
+  g.bottles = g.bottles || {}; for (const x of r.preorder || []) g.bottles[x.name] = (g.bottles[x.name] || 0) + (x.qty || 1);
+  g.spend = (g.spend || 0) + preorderTotal(r);
+  g.hist = [{ d: r.date, t: r.tableId, p: r.party, b: (r.preorder || []).map(x => x.name).join(', ') }, ...(g.hist || []).filter(h => h.d !== r.date)].slice(0, 8);
+};
+/** VIP doček (zona s "show"): gost bira prskalice, najavu DJ-a i rakiju za rundu dobrodošlice. */
+function vipOf(cfg, tableId) { const t = (cfg.tables || []).find(x => x.id === tableId); const z = t && (cfg.zones || []).find(x => x.id === t.zone); return z && z.show ? z.show : null; }
+/** Rakije dobrodošlice: { id: 'Badel Šljivovica', hr: 'Šljiva', en: 'Plum brandy' } (ili samo naziv). */
+const shotsOf = sh => ((sh && sh.choose && sh.choose.shots) || []).map(s => typeof s === 'string' ? { id: s, hr: s, en: s } : s);
+const shotOf = (sh, id) => (id ? shotsOf(sh).find(s => s.id === id) || null : null);
+/** Premium boca uz rezervaciju (šampanjac, Grey Goose…) → kristalne čaše; vraća prvu takvu bocu. */
+const crystalOf = (sh, pre) => { const L = (sh && sh.crystal) || []; return (pre || []).find(x => L.includes(String(x.id || '').split('@')[0])) || null; };
+function cleanVip(sh, v) {
+  if (!sh || !sh.choose || !v || typeof v !== 'object') return null;
+  const c = sh.choose, dj = !!(v.dj && c.dj);
+  return { spark: !!(v.spark && c.spark), dj, djName: dj ? str(v.djName, 60) : '', shot: shotOf(sh, v.shot) ? v.shot : '' };
+}
+function vipLine(v, sh, L = 'hr', pre = []) {
+  const hr = L !== 'en', a = [];
+  if (v && v.spark) a.push(hr ? 'boca uz prskalice' : 'your bottle with sparklers');
+  if (v && v.dj) a.push(v.djName ? (hr ? `DJ najavljuje „${v.djName}”` : `the DJ calls out “${v.djName}”`) : (hr ? 'DJ najavljuje vaše ime' : 'the DJ calls out your name'));
+  const sh1 = shotOf(sh, v && v.shot);
+  if (sh1) a.push(hr ? `rakija dobrodošlice za cijeli stol: ${sh1.hr.toLowerCase()}` : `a welcome round of ${sh1.en.toLowerCase()} for the table`);
+  else if (shotsOf(sh).length) a.push(hr ? 'rakija dobrodošlice za cijeli stol' : 'a welcome round for the whole table');
+  const cr = crystalOf(sh, pre); if (cr) a.push(hr ? `kristalne čaše uz ${cr.name}` : `crystal glasses with your ${cr.name}`);
+  const al = sh && sh.always ? (sh.always[L] || sh.always.hr) : '';
+  return (hr ? 'Vaš VIP doček: ' : 'Your VIP welcome: ') + [...a, al].filter(Boolean).join(', ') + '.';
+}
+/** Kapara (npr. VIP stol): iznos iz zone stola; 0 = bez kapare. */
+function depositOf(cfg, tableId) {
+  const t = (cfg.tables || []).find(x => x.id === tableId); const z = t && (cfg.zones || []).find(x => x.id === t.zone);
+  return z && +z.deposit > 0 ? +z.deposit : 0;
+}
+
 async function availability(store, date) {
   const cfg = await getConfig(store);
   const { list } = await readDay(store, date);
@@ -876,6 +994,10 @@ async function createReservation(store, body, { admin = false } = {}) {
     if (date === now.date && start < now.min + cfg.leadMinutes) return { error: 'time', status: 400 };
   } else if (!(start >= 0 && start < 2880)) return { error: 'time', status: 400 };
   const preorder = cfg.features?.preorder ? cleanPreorder(body.preorder) : [];
+  // kodovi susjednih dana (hostesa traži kod danas, sutra i jučer) — da se kod ne ponovi
+  const near = new Set();
+  for (const d of [addDays(date, -1), addDays(date, 1)]) for (const x of (await readDay(store, d)).list) if (x.code) near.add(String(x.code));
+  const gp = phone ? await guestGet(store, phone) : null;   // poznati gost: kako ga osoblje vidi u trenutku rezervacije
 
   const res = await mutateDay(store, date, list => {
     let table = null;
@@ -891,15 +1013,21 @@ async function createReservation(store, body, { admin = false } = {}) {
       if (!table) return { error: 'full', status: 409 };
     }
     const at = isoNow();
-    const cat = catOf(cfg, table.id);
+    const cat = catOf(cfg, table.id), dep = depositOf(cfg, table.id), depPaid = !!(admin && body._deposit === 'paid'), vip = cleanVip(vipOf(cfg, table.id), body.vip);
+    const pre = cfg.features?.preorderOnly && !(cfg.features.preorderZones || []).includes(table.zone) ? [] : preorder;   // npr. Bure: boca samo uz VIP stol
+    const st0 = admin ? (['pending', 'confirmed', 'seated', 'done', 'noshow'].includes(body.status) ? body.status : 'confirmed') : (cfg.autoConfirm ? 'confirmed' : 'pending');
     const r = {
-      id: token(8), code: shortCode(), key: token(16),
+      id: token(8), code: shortCode(new Set([...near, ...list.map(x => String(x.code || ''))])), key: token(16),
       date, start, end: start + cfg.durationMinutes, party, tableId: table.id,
       name, phone: phone || phoneRaw, email, note: str(body.note, 400), occasion: str(body.occasion, 30),
-      preorder, sparkler: !!(preorder.length && body.sparkler),
+      preorder: pre, sparkler: !!(pre.length && body.sparkler),
       ...(cat && (cat.minSpend || cat.noShow) ? { cat: cat.id, minSpend: cat.minSpend, noShowFee: cat.noShow } : {}),
       lang: body.lang === 'en' ? 'en' : 'hr',
-      status: admin ? (['pending', 'confirmed', 'seated', 'done', 'noshow'].includes(body.status) ? body.status : 'confirmed') : (cfg.autoConfirm ? 'confirmed' : 'pending'),
+      status: st0,
+      guest: guestSnap(gp),
+      ...(dep ? { deposit: { eur: dep, paid: depPaid, ...(depPaid ? { paidAt: at, by: 'staff' } : {}) } } : {}),
+      ...(vip ? { vip } : {}),
+      ...(st0 === 'seated' || st0 === 'done' ? { gv: 1 } : st0 === 'noshow' ? { gn: 1 } : {}),
       ...(admin && body._arrive ? { arrive: str(body._arrive, 30) } : {}),
       ...(admin && body._lateMin != null && body.status === 'seated' ? { lateMin: Math.round(Number(body._lateMin)) || 0, checkedBy: 'hostesa' } : {}),
       source: admin ? str(body.source || 'staff', 20) : 'web',
@@ -908,10 +1036,19 @@ async function createReservation(store, body, { admin = false } = {}) {
     list.push(r);
     return { ok: true, reservation: r, table };
   });
-  if (res.ok) await setIndex(store, res.reservation.id, date);
+  if (res.ok) {
+    await setIndex(store, res.reservation.id, date);
+    const r = res.reservation;
+    await guestBump(store, r, g => {
+      g.bookings = (g.bookings || 0) + 1;
+      if (r.occasion) g.occ = [...(g.occ || []), { t: r.occasion, d: r.date }].slice(-12);
+      if (r.gv) visitBump(r)(g);
+      if (r.gn) g.noShows = (g.noShows || 0) + 1;
+    });
+  }
   return res;
 }
-const guestView = r => ({ id: r.id, code: r.code, date: r.date, start: r.start, end: r.end, party: r.party, tableId: r.tableId, name: r.name, status: r.status, note: r.note, occasion: r.occasion, lang: r.lang, preorder: r.preorder || [], sparkler: !!r.sparkler, cat: r.cat || null, minSpend: r.minSpend || 0, noShowFee: r.noShowFee || 0, arrive: !!r.arrive, reminded: !!r.remindedAt });
+const guestView = r => ({ id: r.id, code: r.code, date: r.date, start: r.start, end: r.end, party: r.party, tableId: r.tableId, name: r.name, status: r.status, note: r.note, occasion: r.occasion, lang: r.lang, preorder: r.preorder || [], sparkler: !!r.sparkler, cat: r.cat || null, minSpend: r.minSpend || 0, noShowFee: r.noShowFee || 0, arrive: !!r.arrive, reminded: !!r.remindedAt, deposit: r.deposit ? { eur: r.deposit.eur, paid: !!r.deposit.paid } : null, back: !!(r.guest && r.guest.visits > 0), vip: r.vip || null });
 async function getReservation(store, id, key, site = '') {
   const date = await findDate(store, str(id, 40));
   if (!date) return { error: 'notfound', status: 404 };
@@ -933,7 +1070,7 @@ async function cancelByGuest(store, id, key) {
     if (r.status === 'confirmed' && pastDeadline(cfg, r.date)) return { error: 'late', status: 409 };
     r.status = 'cancelled'; r.updatedAt = isoNow(); r.history.push({ at: r.updatedAt, by: 'guest', to: 'cancelled' });
     return { ok: true, reservation: r };
-  });
+  }).then(async res => { if (res.ok) await guestBump(store, res.reservation, g => { g.cancels = (g.cancels || 0) + 1; }); return res; });
 }
 
 /** Gost jednim dodirom potvrđuje dolazak (link iz podsjetnika). */
@@ -1004,6 +1141,47 @@ async function checkIn(store, body, by = 'hostesa') {
     const before = r.status;
     r.status = 'seated'; r.arrivedAt = isoNow(); r.lateMin = lateBy(r); r.checkedBy = str(by, 20); r.updatedAt = r.arrivedAt;
     r.history.push({ at: r.arrivedAt, by: r.checkedBy, from: before, to: 'seated' });
+    const gv = !r.gv, undoNs = gv && !!r.gn; r.gv = 1; if (undoNs) r.gn = 0;
+    return { ok: true, reservation: r, gv, undoNs };
+  }).then(async res => {
+    if (res.ok && res.gv) await guestBump(store, res.reservation, g => { visitBump(res.reservation)(g); if (res.undoNs) g.noShows = Math.max(0, (g.noShows || 0) - 1); });
+    return res;
+  });
+}
+
+/* ---------- poznati gost: profil i napomena osoblja ---------- */
+async function adminGuest(store, id) {
+  const f = await findRes(store, id); if (f.error) return f;
+  const g = await guestGet(store, f.reservation.phone);
+  return { ok: true, guest: g ? { ...guestSnap(g), name: g.name, bookings: g.bookings || 0, first: g.first || '', hist: g.hist || [], bottles: g.bottles || {}, occ: g.occ || [] } : null };
+}
+async function adminGuestNote(store, body) {
+  const f = await findRes(store, body.id); if (f.error) return f;
+  const r0 = f.reservation, note = str(body.note, 300);
+  if (!guestKey(r0.phone)) return { error: 'phone', status: 400 };
+  await guestBump(store, r0, g => { g.note = note; });
+  const date = await findDate(store, r0.id);
+  return mutateDay(store, date, list => { const r = list.find(x => x.id === r0.id); if (r) r.guest = { ...(r.guest || {}), note }; return { ok: true, reservation: r }; });
+}
+/* ---------- kapara: gost plaća (demo odmah), osoblje može označiti ručno ---------- */
+async function payDeposit(store, id, key) {
+  const date = await findDate(store, str(id, 40)); if (!date) return { error: 'notfound', status: 404 };
+  return mutateDay(store, date, list => {
+    const r = list.find(x => x.id === id);
+    if (!r || !safeEqual(r.key, key || '')) return { error: 'notfound', status: 404 };
+    if (!r.deposit) return { error: 'nodeposit', status: 400 };
+    if (['cancelled', 'declined'].includes(r.status)) return { error: 'state', status: 409 };
+    if (!r.deposit.paid) { r.deposit.paid = true; r.deposit.paidAt = isoNow(); r.deposit.by = 'guest'; r.updatedAt = r.deposit.paidAt; r.history.push({ at: r.updatedAt, by: 'guest', to: 'deposit' }); }
+    return { ok: true, reservation: r };
+  });
+}
+async function adminDeposit(store, body) {
+  const id = str(body.id, 40); const date = await findDate(store, id); if (!date) return { error: 'notfound', status: 404 };
+  return mutateDay(store, date, list => {
+    const r = list.find(x => x.id === id); if (!r) return { error: 'notfound', status: 404 };
+    if (!r.deposit) return { error: 'nodeposit', status: 400 };
+    r.deposit.paid = body.paid !== false; r.deposit.paidAt = r.deposit.paid ? isoNow() : null; r.deposit.by = 'staff';
+    r.updatedAt = isoNow(); r.history.push({ at: r.updatedAt, by: 'staff', to: r.deposit.paid ? 'deposit' : 'deposit-undo' });
     return { ok: true, reservation: r };
   });
 }
@@ -1118,8 +1296,14 @@ async function adminUpdate(store, body) {
     if (body.date && body.date !== date) moved = str(body.date, 10);
     r.updatedAt = isoNow();
     r.history.push({ at: r.updatedAt, by: 'staff', from: before, to: r.status });
-    return { ok: true, reservation: r, changedStatus: before !== r.status };
+    let gv = false, gn = false, undoNs = false;
+    if (before !== r.status) {
+      if ((r.status === 'seated' || r.status === 'done') && !r.gv) { r.gv = 1; gv = true; if (r.gn) { r.gn = 0; undoNs = true; } }
+      else if (r.status === 'noshow' && !r.gn && !r.gv) { r.gn = 1; gn = true; }
+    }
+    return { ok: true, reservation: r, changedStatus: before !== r.status, gv, gn, undoNs };
   });
+  if (res.ok && (res.gv || res.gn)) await guestBump(store, res.reservation, g => { if (res.gv) visitBump(res.reservation)(g); if (res.undoNs) g.noShows = Math.max(0, (g.noShows || 0) - 1); if (res.gn) g.noShows = (g.noShows || 0) + 1; });
   if (res.ok && moved && isDate(moved)) {
     const r = res.reservation;
     const add = await mutateDay(store, moved, list => {
@@ -1377,7 +1561,7 @@ async function venueSummary(store) {
   const st = await adminStats(store, 7);
   return {
     id: store.venue, name: cfg.venue, day, features: cfg.features || {},
-    tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), tables: cfg.tables.length, booked: new Set(act.map(r => r.tableId)).size, minSpend: act.reduce((a, r) => a + (r.minSpend || 0), 0), arrived: act.filter(r => r.status === 'seated').length, late: day === b.date ? act.filter(r => r.status !== 'seated' && lateBy(r) > 5).length : 0 },
+    tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), preOver: act.reduce((a, r) => a + Math.max(0, preorderTotal(r) - (r.minSpend || 0)), 0), tables: cfg.tables.length, booked: new Set(act.map(r => r.tableId)).size, minSpend: act.reduce((a, r) => a + (r.minSpend || 0), 0), arrived: act.filter(r => r.status === 'seated').length, regulars: act.filter(r => r.guest && r.guest.visits >= 2).length, deposits: act.filter(r => r.deposit && r.deposit.paid).reduce((a, r) => a + (r.deposit.eur || 0), 0), late: day === b.date ? act.filter(r => r.status !== 'seated' && lateBy(r) > 5).length : 0 },
     week,
     live: { open: live.filter(x => OPEN.has(x.status) && x.kind !== 'song').length, songQueue: live.filter(x => x.kind === 'song' && x.status === 'new').length, today: live.length, orders: live.filter(x => x.kind === 'order').length, orderEur: live.filter(x => x.kind === 'order' && x.status !== 'skip').reduce((a, x) => a + (x.total || 0), 0), songs: live.filter(x => x.kind === 'song').length, calls: live.filter(x => x.kind === 'call').length, bills: live.filter(x => x.kind === 'bill').length, avgAck: acked.length ? Math.round(acked.reduce((a, s) => a + s, 0) / acked.length) : null, slowAck: acked.length ? Math.round(Math.max(...acked)) : null, recent: live.slice(-6).reverse() },
     feedback: { unread: fb.unread, total: fb.list.length, recent: fb.list.slice(0, 3) },
@@ -1411,9 +1595,12 @@ function guestMessage(r, cfg, site, kind) {
   const dl = cancelDeadline(cfg, r.date);
   const rules = dl ? (L === 'hr' ? `\nOtkazivanje najkasnije do ${fmt(dl.min)} na dan rezervacije${r.noShowFee ? ` — inače naknada za nedolazak ${eur(r.noShowFee, L)} po osobi` : ''}.` : `\nCancel by ${fmt(dl.min)} on the day at the latest${r.noShowFee ? ` — otherwise a no-show fee of ${eur(r.noShowFee, L)} per person applies` : ''}.`) : '';
   const pol = cfg.policy && (cfg.policy.age || cfg.policy.dress) ? (L === 'hr' ? `\n${cfg.policy.age ? `🔞 ${cfg.policy.age}+` : ''}${cfg.policy.age && cfg.policy.dress ? ' · ' : ''}${cfg.policy.dress ? `👔 Dress code: ${cfg.policy.dress.hr || cfg.policy.dress}` : ''}` : `\n${cfg.policy.age ? `🔞 ${cfg.policy.age}+` : ''}${cfg.policy.age && cfg.policy.dress ? ' · ' : ''}${cfg.policy.dress ? `👔 Dress code: ${cfg.policy.dress.en || cfg.policy.dress}` : ''}`) : '';
+  const depT = r.deposit ? (L === 'hr' ? (r.deposit.paid ? `\n💳 Kapara ${eur(r.deposit.eur, L)} je plaćena i odbija se od računa.` : `\n💳 Za ovaj stol potrebna je kapara ${eur(r.deposit.eur, L)} — uplata na linku ispod.`) : (r.deposit.paid ? `\n💳 Your ${eur(r.deposit.eur, L)} deposit is paid and comes off the bill.` : `\n💳 This table needs a ${eur(r.deposit.eur, L)} deposit — pay via the link below.`)) : '';
+  const back = r.guest && r.guest.visits > 0;
+  const vsh = vipOf(cfg, r.tableId), vipM = vsh ? `\n👑 ${vipLine(r.vip, vsh, L, r.preorder)}` : '';
   if (kind === 'confirmed') return L === 'hr'
-    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${pol}\nStol držimo ${cfg.holdMinutes} min.${rules}\n🎟️ Vaša ulaznica s QR kodom (pokažite je na ulazu), promjene i otkaz: ${link}\nVidimo se!`
-    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${pol}\nWe hold the table for ${cfg.holdMinutes} min.${rules}\n🎟️ Your ticket with a QR code (show it at the door), changes or cancellation: ${link}\nSee you!`;
+    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${depT}${vipM}${pol}\nStol držimo ${cfg.holdMinutes} min.${rules}\n🔢 Kod rezervacije: ${r.code} (dovoljno je reći ga na ulazu)\n🎟️ Vaša ulaznica s QR kodom, promjene i otkaz: ${link}\n${back ? 'Drago nam je što se vraćate — vidimo se! 🙌' : 'Vidimo se!'}`
+    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${depT}${vipM}${pol}\nWe hold the table for ${cfg.holdMinutes} min.${rules}\n🔢 Reservation code: ${r.code} (just say it at the door)\n🎟️ Your ticket with a QR code, changes or cancellation: ${link}\n${back ? 'Great to have you back — see you! 🙌' : 'See you!'}`;
   if (kind === 'remind') {
     const today = r.date === bizNow().date;
     const whenR = today ? (L === 'hr' ? `večeras u ${fmt(r.start)}` : `tonight at ${fmt(r.start)}`) : (L === 'hr' ? `${humanDate(r.date, L)} u ${fmt(r.start)}` : `${humanDate(r.date, L)} at ${fmt(r.start)}`);
@@ -1440,7 +1627,7 @@ function staffAlert(r, cfg, site, path = '') {
 }
 const waLink = (phone, text) => `https://wa.me/${String(phone).replace(/\D/g, '')}?text=${encodeURIComponent(text)}`;
 
-return { VENUES, VENUE_IDS, isVenue, TZ, setClock, zagrebNow, bizNow, toMin, fmt, weekday, addDays, isDate, token, shortCode, safeEqual, scoped, getConfig, publicConfig, catOf, cancelDeadline, pastDeadline, slotsFor, ACTIVE, overlaps, tableFree, fits, bestTable, cleanPhone, preorderTotal, availability, createReservation, guestView, getReservation, cancelByGuest, confirmArrival, adminRemind, lateBy, findRes, findCode, checkIn, COAT_KINDS, coatList, coatNew, coatFind, coatOut, coatPhoto, coatGuest, defaultDay, adminDay, adminUpdate, adminSaveConfig, adminSearch, adminUpcoming, liveCreate, liveStatus, adminLive, adminLiveUpdate, feedbackCreate, adminFeedback, adminFeedbackUpdate, adminFeedbackReadAll, getMenu, adminSaveMenu, statsHit, adminStats, venueSummary, groupSummary, humanDate, guestMessage, staffMessage, staffAlert, waLink };
+return { VENUES, VENUE_IDS, isVenue, TZ, setClock, zagrebNow, bizNow, toMin, fmt, weekday, addDays, isDate, token, shortCode, safeEqual, scoped, getConfig, publicConfig, catOf, cancelDeadline, pastDeadline, slotsFor, ACTIVE, overlaps, tableFree, fits, bestTable, cleanPhone, preorderTotal, guestKey, guestGet, guestSnap, vipOf, shotsOf, shotOf, crystalOf, vipLine, depositOf, availability, createReservation, guestView, getReservation, cancelByGuest, confirmArrival, adminRemind, lateBy, findRes, findCode, checkIn, adminGuest, adminGuestNote, payDeposit, adminDeposit, COAT_KINDS, coatList, coatNew, coatFind, coatOut, coatPhoto, coatGuest, defaultDay, adminDay, adminUpdate, adminSaveConfig, adminSearch, adminUpcoming, liveCreate, liveStatus, adminLive, adminLiveUpdate, feedbackCreate, adminFeedback, adminFeedbackUpdate, adminFeedbackReadAll, getMenu, adminSaveMenu, statsHit, adminStats, venueSummary, groupSummary, humanDate, guestMessage, staffMessage, staffAlert, waLink };
 })();
 __m["router"] = (function () {
 /* =====================================================================
@@ -1567,6 +1754,12 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
       return json({ ok: true, reservation: C.guestView(x) });
     }
     if (path === '/coat' && req.method === 'GET') { const r = await C.coatGuest(S, q('g'), q('k')); return r.error ? fail(r) : json(r); }
+    if (path === '/deposit' && req.method === 'POST') {
+      // kapara: u demu se plaća odmah; u pravom radu ide preko pružatelja plaćanja (dok nije spojen, osoblje označi uplatu ručno)
+      if (!env.DEMO && !env.PAY_DEMO) return json({ error: 'nopay' }, 501);
+      const r = await C.payDeposit(S, body.id, body.k);
+      return r.error ? fail(r) : json({ ok: true, reservation: C.guestView(r.reservation) });
+    }
     if (path === '/arrive' && req.method === 'POST') {
       const r = await C.confirmArrival(S, body.id, body.k);
       return r.error ? fail(r) : json({ ok: true, reservation: C.guestView(r.reservation) });
@@ -1599,6 +1792,9 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
       if (a === '/coat/out' && req.method === 'POST') { const r = await C.coatOut(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
       if (a === '/coat/find' && req.method === 'GET') { const r = await C.coatFind(S, { no: q('no'), id: q('id'), k: q('k') }); return r.error ? fail(r) : json(r); }
       if (a === '/coat/photo' && req.method === 'GET') return json(await C.coatPhoto(S, q('id')));
+      if (a === '/guest' && req.method === 'GET') { const r = await C.adminGuest(S, q('id')); return r.error ? fail(r) : json(r); }
+      if (a === '/guest/note' && req.method === 'POST') { const r = await C.adminGuestNote(S, body); return r.error ? fail(r) : json(r); }
+      if (a === '/deposit' && req.method === 'POST') { const r = await C.adminDeposit(S, body); return r.error ? fail(r) : json(r); }
       if (a === '/checkin' && req.method === 'POST') { const r = await C.checkIn(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
       if (a === '/day') { const d = q('date') || await C.defaultDay(S); if (!C.isDate(d)) return json({ error: 'date' }, 400); return json(await C.adminDay(S, d)); }
       if (a === '/upcoming') return json(await C.adminUpcoming(S, C.bizNow().date, 14));
@@ -1651,7 +1847,7 @@ return { route };
 })();
 window.TTCore = { core: __m["core"], router: __m["router"] };
 })();
-window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "name": "Moët & Chandon Ice Impérial", "vol": "boca 0,75 l", "eur": 190.0}, {"id": "grey-goose", "name": "Grey Goose", "vol": "čaša 0,03 l", "eur": 5.7}, {"id": "jack-daniel-s-old-no-7-whiskey", "name": "Jack Daniel's Old No. 7", "vol": "čaša 0,03 l", "eur": 3.2}, {"id": "bombay-sapphire-gin", "name": "Bombay Sapphire", "vol": "čaša 0,03 l", "eur": 3.2}, {"id": "heineken", "name": "Heineken", "vol": "boca 0,25 l", "eur": 3.0}, {"id": "coca-cola", "name": "Coca-Cola", "vol": "čaša 0,10 l", "eur": 1.6}, {"id": "jagermeister-liqueur", "name": "Jägermeister", "vol": "čaša 0,03 l", "eur": 2.9}, {"id": "belvedere", "name": "Belvedere", "vol": "čaša 0,03 l", "eur": 6.0}, {"id": "dom-perignon", "name": "Dom Pérignon", "vol": "boca 0,75 l", "eur": 500.0}, {"id": "red-bull", "name": "Red Bull", "vol": "limenka 0,25 l", "eur": 4.4}], "bottles": [{"id": "armand-de-brignac-brut-gold-imperial@0,75 l", "iid": "armand-de-brignac-brut-gold-imperial", "pi": 0, "name": "Armand de Brignac Brut Gold Imperial", "vol": "0,75 l", "eur": 900.0, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "dom-perignon@0,75 l", "iid": "dom-perignon", "pi": 0, "name": "Dom Pérignon", "vol": "0,75 l", "eur": 500.0, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "moet-chandon-ice-imperial@0,75 l", "iid": "moet-chandon-ice-imperial", "pi": 0, "name": "Moët & Chandon Ice Impérial", "vol": "0,75 l", "eur": 190.0, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "moet-chandon-brut-imperial@0,75 l", "iid": "moet-chandon-brut-imperial", "pi": 0, "name": "Moët & Chandon Brut Impérial", "vol": "0,75 l", "eur": 135.0, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "grey-goose@0,70 l", "iid": "grey-goose", "pi": 1, "name": "Grey Goose", "vol": "0,70 l", "eur": 131.1, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "grey-goose@1,5 l", "iid": "grey-goose", "pi": 2, "name": "Grey Goose", "vol": "1,5 l", "eur": 360.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "grey-goose-altius@0,70 l", "iid": "grey-goose-altius", "pi": 0, "name": "Grey Goose Altius", "vol": "0,70 l", "eur": 300.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "vigor-vodka-vodka@1 l", "iid": "vigor-vodka-vodka", "pi": 1, "name": "Vigor Vodka", "vol": "1 l", "eur": 75.9, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}, "deal": 45.54, "dref": ["vigor-vodka", 0]}, {"id": "belvedere@1 l", "iid": "belvedere", "pi": 1, "name": "Belvedere", "vol": "1 l", "eur": 138.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "vodka-finlandia-vodka@0,70 l", "iid": "vodka-finlandia-vodka", "pi": 1, "name": "Vodka Finlandia", "vol": "0,70 l", "eur": 69.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}, "deal": 41.4, "dref": ["vodka-finlandia", 0]}, {"id": "absolut-vodka@1 l", "iid": "absolut-vodka", "pi": 1, "name": "Absolut", "vol": "1 l", "eur": 105.6, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}, "deal": 63.36, "dref": ["absolut", 0]}, {"id": "old-pilots-vodka-vodka@0,70 l", "iid": "old-pilots-vodka-vodka", "pi": 1, "name": "Old Pilot’s Vodka", "vol": "0,70 l", "eur": 115.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}, "deal": 69.0, "dref": ["old-pilots-vodka", 0]}, {"id": "vodka-borovnica@0,70 l", "iid": "vodka-borovnica", "pi": 1, "name": "Vodka borovnica", "vol": "0,70 l", "eur": 52.9, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "jack-daniel-s-old-no-7-whiskey@1 l", "iid": "jack-daniel-s-old-no-7-whiskey", "pi": 1, "name": "Jack Daniel's Old No. 7", "vol": "1 l", "eur": 105.6, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}, "deal": 63.36, "dref": ["jack-daniel-s-old-no-7", 0]}, {"id": "gentleman-jack-whiskey@0,70 l", "iid": "gentleman-jack-whiskey", "pi": 1, "name": "Gentleman Jack", "vol": "0,70 l", "eur": 115.0, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}, "deal": 69.0, "dref": ["gentleman-jack", 0]}, {"id": "jameson-whiskey@0,70 l", "iid": "jameson-whiskey", "pi": 1, "name": "Jameson", "vol": "0,70 l", "eur": 73.6, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "jameson-whiskey@1 l", "iid": "jameson-whiskey", "pi": 2, "name": "Jameson", "vol": "1 l", "eur": 105.6, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}, "deal": 63.36, "dref": ["jameson", 0]}, {"id": "jim-beam-whiskey@1 l", "iid": "jim-beam-whiskey", "pi": 0, "name": "Jim Beam", "vol": "1 l", "eur": 82.5, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}, "deal": 49.5, "dref": ["jim-beam", 0]}, {"id": "johnnie-walker-red-label@1 l", "iid": "johnnie-walker-red-label", "pi": 1, "name": "Johnnie Walker Red Label", "vol": "1 l", "eur": 92.4, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "johnnie-walker-black-label@0,70 l", "iid": "johnnie-walker-black-label", "pi": 1, "name": "Johnnie Walker Black Label", "vol": "0,70 l", "eur": 94.3, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "chivas-regal-12-y-o@1 l", "iid": "chivas-regal-12-y-o", "pi": 1, "name": "Chivas Regal 12 Y.O.", "vol": "1 l", "eur": 125.4, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "bombay-sapphire-gin@1 l", "iid": "bombay-sapphire-gin", "pi": 1, "name": "Bombay Sapphire", "vol": "1 l", "eur": 105.6, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}, "deal": 63.36, "dref": ["bombay-sapphire", 0]}, {"id": "gin-sax-gin@1 l", "iid": "gin-sax-gin", "pi": 1, "name": "Gin Sax", "vol": "1 l", "eur": 75.9, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}, "deal": 45.54, "dref": ["gin-sax", 0]}, {"id": "old-pilots-gin-gin@0,70 l", "iid": "old-pilots-gin-gin", "pi": 1, "name": "Old Pilot’s Gin", "vol": "0,70 l", "eur": 126.5, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}, "deal": 75.9, "dref": ["old-pilots-gin", 0]}]}, "kafanica": {"top": [{"id": "jack-daniel-s-old-no-7", "name": "Jack Daniel's Old No. 7", "vol": "čaša 0,03 l", "eur": 3.5}, {"id": "badel-sljivovica", "name": "Badel Šljivovica", "vol": "čaša 0,03 l", "eur": 2.6}, {"id": "heineken", "name": "Heineken", "vol": "boca 0,25 l", "eur": 3.4}, {"id": "grey-goose", "name": "Grey Goose", "vol": "čaša 0,03 l", "eur": 6.2}, {"id": "strukani-limun", "name": "Štrukani limun", "vol": "čaša 0,02 l", "eur": 0.8}, {"id": "moet-chandon-brut-imperial", "name": "Moët & Chandon Brut Impérial", "vol": "boca 0,75 l", "eur": 155.0}, {"id": "karlovacko", "name": "Karlovačko", "vol": "boca 0,33 l", "eur": 3.9}, {"id": "coca-cola", "name": "Coca-Cola", "vol": "boca 0,25 l", "eur": 3.6}, {"id": "badel-pelinkovac", "name": "Badel Pelinkovac", "vol": "čaša 0,03 l", "eur": 2.6}, {"id": "jagermeister", "name": "Jägermeister", "vol": "čaša 0,03 l", "eur": 3.0}], "bottles": []}, "bure": {"top": [{"id": "mango-fusion", "name": "Mango Fusion by Bure Bar", "vol": "čaša", "eur": 6.5}, {"id": "spicy-sip", "name": "Spicy Sip by Bure Bar", "vol": "čaša", "eur": 6.5}, {"id": "mojito", "name": "Mojito", "vol": "čaša", "eur": 6.5}, {"id": "long-island", "name": "Long Island", "vol": "čaša", "eur": 7}, {"id": "cuba-libre", "name": "Cuba Libre", "vol": "čaša", "eur": 6.5}, {"id": "sex-on-the-beach", "name": "Sex on the Beach", "vol": "čaša", "eur": 6.5}, {"id": "hawaiian", "name": "Hawaiian", "vol": "čaša", "eur": 6.5}, {"id": "mai-tai", "name": "Mai Tai", "vol": "čaša", "eur": 7}], "bottles": []}, "brooklyn": {"top": [{"id": "espresso", "name": "Espresso", "vol": "šalica", "eur": 2.0}, {"id": "mojito", "name": "Mojito", "vol": "čaša", "eur": 6.5}, {"id": "aperol-spritz", "name": "Aperol Spritz", "vol": "čaša", "eur": 5.5}, {"id": "heineken-toceno", "name": "Heineken (točeno)", "vol": "točeno 0,25 l", "eur": 3.3}, {"id": "kava-s-mlijekom", "name": "Kava s mlijekom", "vol": "šalica", "eur": 2.1}, {"id": "cuba-libre", "name": "Cuba Libre", "vol": "čaša", "eur": 6.5}, {"id": "long-island", "name": "Long Island", "vol": "čaša", "eur": 7.0}, {"id": "b-52", "name": "B-52", "vol": "čaša", "eur": 4.0}, {"id": "coca-cola", "name": "Coca-Cola", "vol": "boca 0,25 l", "eur": 3.2}, {"id": "jameson", "name": "Jameson", "vol": "čaša 0,03 l", "eur": 3.3}], "bottles": []}};
+window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "name": "Moët & Chandon Ice Impérial", "vol": "boca 0,75 l", "eur": 190.0}, {"id": "grey-goose", "name": "Grey Goose", "vol": "čaša 0,03 l", "eur": 5.7}, {"id": "jack-daniel-s-old-no-7-whiskey", "name": "Jack Daniel's Old No. 7", "vol": "čaša 0,03 l", "eur": 3.2}, {"id": "bombay-sapphire-gin", "name": "Bombay Sapphire", "vol": "čaša 0,03 l", "eur": 3.2}, {"id": "heineken", "name": "Heineken", "vol": "boca 0,25 l", "eur": 3.0}, {"id": "coca-cola", "name": "Coca-Cola", "vol": "čaša 0,10 l", "eur": 1.6}, {"id": "jagermeister-liqueur", "name": "Jägermeister", "vol": "čaša 0,03 l", "eur": 2.9}, {"id": "belvedere", "name": "Belvedere", "vol": "čaša 0,03 l", "eur": 6.0}, {"id": "dom-perignon", "name": "Dom Pérignon", "vol": "boca 0,75 l", "eur": 500.0}, {"id": "red-bull", "name": "Red Bull", "vol": "limenka 0,25 l", "eur": 4.4}], "bottles": [{"id": "armand-de-brignac-brut-gold-imperial@0,75 l", "iid": "armand-de-brignac-brut-gold-imperial", "pi": 0, "name": "Armand de Brignac Brut Gold Imperial", "vol": "0,75 l", "eur": 900.0, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "dom-perignon@0,75 l", "iid": "dom-perignon", "pi": 0, "name": "Dom Pérignon", "vol": "0,75 l", "eur": 500.0, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "moet-chandon-ice-imperial@0,75 l", "iid": "moet-chandon-ice-imperial", "pi": 0, "name": "Moët & Chandon Ice Impérial", "vol": "0,75 l", "eur": 190.0, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "moet-chandon-brut-imperial@0,75 l", "iid": "moet-chandon-brut-imperial", "pi": 0, "name": "Moët & Chandon Brut Impérial", "vol": "0,75 l", "eur": 135.0, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "grey-goose@0,70 l", "iid": "grey-goose", "pi": 1, "name": "Grey Goose", "vol": "0,70 l", "eur": 131.1, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "grey-goose@1,5 l", "iid": "grey-goose", "pi": 2, "name": "Grey Goose", "vol": "1,5 l", "eur": 360.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "grey-goose-altius@0,70 l", "iid": "grey-goose-altius", "pi": 0, "name": "Grey Goose Altius", "vol": "0,70 l", "eur": 300.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "vigor-vodka-vodka@1 l", "iid": "vigor-vodka-vodka", "pi": 1, "name": "Vigor Vodka", "vol": "1 l", "eur": 75.9, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}, "deal": 45.54, "dref": ["vigor-vodka", 0]}, {"id": "belvedere@1 l", "iid": "belvedere", "pi": 1, "name": "Belvedere", "vol": "1 l", "eur": 138.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "vodka-finlandia-vodka@0,70 l", "iid": "vodka-finlandia-vodka", "pi": 1, "name": "Vodka Finlandia", "vol": "0,70 l", "eur": 69.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}, "deal": 41.4, "dref": ["vodka-finlandia", 0]}, {"id": "absolut-vodka@1 l", "iid": "absolut-vodka", "pi": 1, "name": "Absolut", "vol": "1 l", "eur": 105.6, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}, "deal": 63.36, "dref": ["absolut", 0]}, {"id": "old-pilots-vodka-vodka@0,70 l", "iid": "old-pilots-vodka-vodka", "pi": 1, "name": "Old Pilot’s Vodka", "vol": "0,70 l", "eur": 115.0, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}, "deal": 69.0, "dref": ["old-pilots-vodka", 0]}, {"id": "vodka-borovnica@0,70 l", "iid": "vodka-borovnica", "pi": 1, "name": "Vodka borovnica", "vol": "0,70 l", "eur": 52.9, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "jack-daniel-s-old-no-7-whiskey@1 l", "iid": "jack-daniel-s-old-no-7-whiskey", "pi": 1, "name": "Jack Daniel's Old No. 7", "vol": "1 l", "eur": 105.6, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}, "deal": 63.36, "dref": ["jack-daniel-s-old-no-7", 0]}, {"id": "gentleman-jack-whiskey@0,70 l", "iid": "gentleman-jack-whiskey", "pi": 1, "name": "Gentleman Jack", "vol": "0,70 l", "eur": 115.0, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}, "deal": 69.0, "dref": ["gentleman-jack", 0]}, {"id": "jameson-whiskey@0,70 l", "iid": "jameson-whiskey", "pi": 1, "name": "Jameson", "vol": "0,70 l", "eur": 73.6, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "jameson-whiskey@1 l", "iid": "jameson-whiskey", "pi": 2, "name": "Jameson", "vol": "1 l", "eur": 105.6, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}, "deal": 63.36, "dref": ["jameson", 0]}, {"id": "jim-beam-whiskey@1 l", "iid": "jim-beam-whiskey", "pi": 0, "name": "Jim Beam", "vol": "1 l", "eur": 82.5, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}, "deal": 49.5, "dref": ["jim-beam", 0]}, {"id": "johnnie-walker-red-label@1 l", "iid": "johnnie-walker-red-label", "pi": 1, "name": "Johnnie Walker Red Label", "vol": "1 l", "eur": 92.4, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "johnnie-walker-black-label@0,70 l", "iid": "johnnie-walker-black-label", "pi": 1, "name": "Johnnie Walker Black Label", "vol": "0,70 l", "eur": 94.3, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "chivas-regal-12-y-o@1 l", "iid": "chivas-regal-12-y-o", "pi": 1, "name": "Chivas Regal 12 Y.O.", "vol": "1 l", "eur": 125.4, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "bombay-sapphire-gin@1 l", "iid": "bombay-sapphire-gin", "pi": 1, "name": "Bombay Sapphire", "vol": "1 l", "eur": 105.6, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}, "deal": 63.36, "dref": ["bombay-sapphire", 0]}, {"id": "gin-sax-gin@1 l", "iid": "gin-sax-gin", "pi": 1, "name": "Gin Sax", "vol": "1 l", "eur": 75.9, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}, "deal": 45.54, "dref": ["gin-sax", 0]}, {"id": "old-pilots-gin-gin@0,70 l", "iid": "old-pilots-gin-gin", "pi": 1, "name": "Old Pilot’s Gin", "vol": "0,70 l", "eur": 126.5, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}, "deal": 75.9, "dref": ["old-pilots-gin", 0]}]}, "kafanica": {"top": [{"id": "jack-daniel-s-old-no-7", "name": "Jack Daniel's Old No. 7", "vol": "čaša 0,03 l", "eur": 3.5}, {"id": "badel-sljivovica", "name": "Badel Šljivovica", "vol": "čaša 0,03 l", "eur": 2.6}, {"id": "heineken", "name": "Heineken", "vol": "boca 0,25 l", "eur": 3.4}, {"id": "grey-goose", "name": "Grey Goose", "vol": "čaša 0,03 l", "eur": 6.2}, {"id": "strukani-limun", "name": "Štrukani limun", "vol": "čaša 0,02 l", "eur": 0.8}, {"id": "moet-chandon-brut-imperial", "name": "Moët & Chandon Brut Impérial", "vol": "boca 0,75 l", "eur": 155.0}, {"id": "karlovacko", "name": "Karlovačko", "vol": "boca 0,33 l", "eur": 3.9}, {"id": "coca-cola", "name": "Coca-Cola", "vol": "boca 0,25 l", "eur": 3.6}, {"id": "badel-pelinkovac", "name": "Badel Pelinkovac", "vol": "čaša 0,03 l", "eur": 2.6}, {"id": "jagermeister", "name": "Jägermeister", "vol": "čaša 0,03 l", "eur": 3.0}], "bottles": []}, "bure": {"top": [{"id": "mango-fusion", "name": "Mango Fusion by Bure Bar", "vol": "čaša", "eur": 6.5}, {"id": "spicy-sip", "name": "Spicy Sip by Bure Bar", "vol": "čaša", "eur": 6.5}, {"id": "mojito", "name": "Mojito", "vol": "čaša", "eur": 6.5}, {"id": "long-island", "name": "Long Island", "vol": "čaša", "eur": 7}, {"id": "cuba-libre", "name": "Cuba Libre", "vol": "čaša", "eur": 6.5}, {"id": "sex-on-the-beach", "name": "Sex on the Beach", "vol": "čaša", "eur": 6.5}, {"id": "hawaiian", "name": "Hawaiian", "vol": "čaša", "eur": 6.5}, {"id": "mai-tai", "name": "Mai Tai", "vol": "čaša", "eur": 7}], "bottles": [{"id": "moet-brut@0,75 l", "iid": "moet-brut", "pi": 0, "name": "Moët & Chandon Brut Impérial", "vol": "0,75 l", "eur": 145, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "moet-rose@0,75 l", "iid": "moet-rose", "pi": 0, "name": "Moët & Chandon Brut Rosé Impérial", "vol": "0,75 l", "eur": 185, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "moet-ice@0,75 l", "iid": "moet-ice", "pi": 0, "name": "Moët & Chandon Brut Ice Impérial", "vol": "0,75 l", "eur": 185, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "dom-perignon@0,75 l", "iid": "dom-perignon", "pi": 0, "name": "Dom Pérignon", "vol": "0,75 l", "eur": 650, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "armand-de-brignac@0,75 l", "iid": "armand-de-brignac", "pi": 0, "name": "Armand de Brignac Brut Gold", "vol": "0,75 l", "eur": 900, "cat": "champagne", "catName": {"hr": "Šampanjci", "en": "Champagne"}}, {"id": "grey-goose@0,70 l", "iid": "grey-goose", "pi": 1, "name": "Grey Goose", "vol": "0,70 l", "eur": 133.4, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "grey-goose-altius@0,70 l", "iid": "grey-goose-altius", "pi": 0, "name": "Grey Goose Altius", "vol": "0,70 l", "eur": 350, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "vigor@1 l", "iid": "vigor", "pi": 1, "name": "Vigor Vodka", "vol": "1 l", "eur": 75.9, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "finlandia@0,70 l", "iid": "finlandia", "pi": 1, "name": "Vodka Finlandia", "vol": "0,70 l", "eur": 69, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "absolut@1 l", "iid": "absolut", "pi": 1, "name": "Absolut", "vol": "1 l", "eur": 102.3, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "old-pilots-vodka@0,70 l", "iid": "old-pilots-vodka", "pi": 1, "name": "Old Pilot's Vodka", "vol": "0,70 l", "eur": 115, "cat": "vodka", "catName": {"hr": "Votka", "en": "Vodka"}}, {"id": "jd-no7@0,70 l", "iid": "jd-no7", "pi": 2, "name": "Jack Daniel's Old No. 7", "vol": "0,70 l", "eur": 75.9, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "jd-no7@1 l", "iid": "jd-no7", "pi": 3, "name": "Jack Daniel's Old No. 7", "vol": "1 l", "eur": 108.9, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "gentleman-jack@0,70 l", "iid": "gentleman-jack", "pi": 1, "name": "Gentleman Jack", "vol": "0,70 l", "eur": 119.6, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "jd-single-barrel@0,70 l", "iid": "jd-single-barrel", "pi": 0, "name": "Jack Daniel's Single Barrel Select", "vol": "0,70 l", "eur": 172.3, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "jameson@0,70 l", "iid": "jameson", "pi": 1, "name": "Jameson", "vol": "0,70 l", "eur": 75.9, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "jameson@1 l", "iid": "jameson", "pi": 2, "name": "Jameson", "vol": "1 l", "eur": 108.9, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "jw-black@0,70 l", "iid": "jw-black", "pi": 1, "name": "Johnnie Walker Black Label", "vol": "0,70 l", "eur": 105.8, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "chivas-12@0,70 l", "iid": "chivas-12", "pi": 1, "name": "Chivas Regal 12 Y.O.", "vol": "0,70 l", "eur": 94.3, "cat": "whiskey", "catName": {"hr": "Viski", "en": "Whiskey"}}, {"id": "bombay@1 l", "iid": "bombay", "pi": 1, "name": "Bombay Sapphire", "vol": "1 l", "eur": 102.3, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}}, {"id": "botanist@0,70 l", "iid": "botanist", "pi": 1, "name": "The Botanist", "vol": "0,70 l", "eur": 103.5, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}}, {"id": "gin-sax@1 l", "iid": "gin-sax", "pi": 1, "name": "Gin Sax", "vol": "1 l", "eur": 75.9, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}}, {"id": "gin-sax-pink@1 l", "iid": "gin-sax-pink", "pi": 1, "name": "Gin Sax Pink", "vol": "1 l", "eur": 52.9, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}}, {"id": "hendricks@0,70 l", "iid": "hendricks", "pi": 1, "name": "Hendrick's", "vol": "0,70 l", "eur": 110.4, "cat": "gin", "catName": {"hr": "Gin", "en": "Gin"}}]}, "brooklyn": {"top": [{"id": "espresso", "name": "Espresso", "vol": "šalica", "eur": 2.0}, {"id": "mojito", "name": "Mojito", "vol": "čaša", "eur": 6.5}, {"id": "aperol-spritz", "name": "Aperol Spritz", "vol": "čaša", "eur": 5.5}, {"id": "heineken-toceno", "name": "Heineken (točeno)", "vol": "točeno 0,25 l", "eur": 3.3}, {"id": "kava-s-mlijekom", "name": "Kava s mlijekom", "vol": "šalica", "eur": 2.1}, {"id": "cuba-libre", "name": "Cuba Libre", "vol": "čaša", "eur": 6.5}, {"id": "long-island", "name": "Long Island", "vol": "čaša", "eur": 7.0}, {"id": "b-52", "name": "B-52", "vol": "čaša", "eur": 4.0}, {"id": "coca-cola", "name": "Coca-Cola", "vol": "boca 0,25 l", "eur": 3.2}, {"id": "jameson", "name": "Jameson", "vol": "čaša 0,03 l", "eur": 3.3}], "bottles": []}};
 /* =====================================================================
    TIPTAP SUITE — klijent (zajednički za meni, rezervacije, admin, grupu)
    • TT.api(): živi način → /api/… na Netlifyju; demo način → isti
@@ -1678,7 +1874,7 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   const ls = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } } };
   TT.ls = ls;
   /** Korijen paketa (gdje su mape q-club/, kafanica/ …) — iz adrese stranice. */
-  TT.root = (() => { const u = location.href.split(/[?#]/)[0]; const m = /^(.*?\/)(?:q-club|kafanica|bure-bar|brooklyn|grupa|prezentacija)\//.exec(u); return m ? m[1] : u.replace(/[^/]*$/, ''); })();
+  TT.root = (() => { const u = location.href.split(/[?#]/)[0]; const m = /^(.*?\/)(?:q-club|kafanica|bure-bar|brooklyn|grupa|prezentacija|bht)\//.exec(u); return m ? m[1] : u.replace(/[^/]*$/, ''); })();
   TT.url = (venue, sub) => TT.root + (VPATH[venue] || venue) + '/' + (sub || '');
 
   /* ---------- vrijeme: stvarno (Zagreb) ili demo sat ---------- */
@@ -1726,6 +1922,24 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     return `+385 ${d.slice(0, a)} ${r.length > 3 ? r.slice(0, 3) + ' ' + r.slice(3) : r}`;
   };
 
+  /** VIP doček za osoblje (r = rezervacija, sh = "show" zone stola): što je gost odabrao, što pripremiti prije
+      dolaska (kible s ledom, limun, slamke, kartica; kristalne čaše uz premium bocu) i koga javiti. */
+  TT.vipStaff = (r, sh) => {
+    const v = r && r.vip, c = (sh && sh.choose) || {}, it = [], n = (r && r.party) || 0;
+    const shots = (c.shots || []).map(x => typeof x === 'string' ? { id: x, hr: x } : x), s1 = v && v.shot ? shots.find(x => x.id === v.shot) : null;
+    const cr = ((r && r.preorder) || []).find(x => ((sh && sh.crystal) || []).includes(String(x.id || '').split('@')[0]));
+    if (!v) it.push(['❔', 'pitajte goste: prskalice i DJ najava']);
+    else {
+      if (!v.spark && !v.dj && (c.spark || c.dj)) it.push(['–', 'bez prskalica i DJ najave']);
+      if (v.spark) it.push(['🎆', 'boca uz prskalice']);
+      if (v.dj) it.push(['🎤', v.djName ? `DJ najavljuje „${v.djName}”` : 'DJ najavljuje ime gosta']);
+    }
+    if (s1) it.push(['🥃', `rakija dobrodošlice: ${s1.hr.toLowerCase()} (${s1.id}) × ${n}`]); else if (shots.length) it.push(['🥃', `rakija dobrodošlice × ${n} — biraju za stolom`]);
+    if (sh && sh.prep && r) it.push(['🧊', `stol spreman do ${TT.fmt(r.start - (sh.prep.min || 15))}: ${sh.prep.hr || sh.prep}`]);
+    if (cr) it.push(['🥂', `kristalne čaše — ${cr.name}`]);
+    return { it, tell: v && !v.dj ? 'Javite šanku čim uvedete goste' : 'Javite šanku i DJ-u čim uvedete goste' };
+  };
+
   /* ---------- PIN (admin) ---------- */
   TT.pin = v => ls.get('tt_pin_' + (v || 'group'), '') || '';   // i u demu: voditelj/direktor se prijavljuje PIN-om
   TT.setPin = (v, p) => { if (p) ls.set('tt_pin_' + (v || 'group'), p); else try { localStorage.removeItem('tt_pin_' + (v || 'group')); } catch (e) { } };
@@ -1759,8 +1973,10 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   /** Sažetak rezervacije za QR (kratki ključevi, bez telefona). Prazno ako bi QR bio pregust. */
   const STC = { pending: 'p', confirmed: 'c', seated: 's', cancelled: 'x', declined: 'd', done: 'o', noshow: 'n' };
   TT.demoResPack = (r, max = 240) => {
-    const o = { c: r.code, d: r.date, s: r.start, p: r.party, t: r.tableId, n: String(r.name || '').slice(0, 40), st: STC[r.status] || 'c', o: r.occasion || undefined, a: r.arrive ? 1 : undefined, pr: (r.preorder || []).length ? r.preorder.slice(0, 3).map(x => [String(x.name).slice(0, 30), x.qty]) : undefined };
+    const o = { c: r.code, d: r.date, s: r.start, p: r.party, t: r.tableId, n: String(r.name || '').slice(0, 40), st: STC[r.status] || 'c', o: r.occasion || undefined, a: r.arrive ? 1 : undefined, pr: (r.preorder || []).length ? r.preorder.slice(0, 3).map(x => [String(x.name).slice(0, 30), x.qty]) : undefined,
+      vi: r.vip ? [r.vip.spark ? 1 : 0, r.vip.dj ? 1 : 0, String(r.vip.djName || '').slice(0, 30), r.vip.shot || ''] : undefined };
     let s = TT.demoPack(o); if (s.length > max) { delete o.pr; delete o.o; s = TT.demoPack(o); }
+    if (s.length > max && o.vi) { o.vi[2] = ''; s = TT.demoPack(o); }
     return s.length > max ? '' : s;
   };
   TT.demoCoatPack = (x, max = 200) => {
@@ -1786,7 +2002,8 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
           list.push(Object.assign({ id, key: k, code: o.c || '', date: o.d, start: +o.s, end: +o.s + (cfg.durationMinutes || 180), party: +o.p || 2, tableId: String(o.t || ''), name: o.n || '', phone: '', email: '', note: '', occasion: o.o || '',
             preorder: (o.pr || []).map(([name, qty]) => ({ id: '', name, qty: +qty || 1, vol: '', eur: 0 })), sparkler: false, lang: 'hr',
             status: st, source: 'web', createdAt: now, updatedAt: now, history: [] },
-            o.a ? { arrive: now } : {}, z && (z.minSpend || z.noShow) ? { cat: z.id, minSpend: z.minSpend, noShowFee: z.noShow } : {}));
+            o.a ? { arrive: now } : {}, z && (z.minSpend || z.noShow) ? { cat: z.id, minSpend: z.minSpend, noShowFee: z.noShow } : {},
+            Array.isArray(o.vi) ? { vip: { spark: !!o.vi[0], dj: !!o.vi[1], djName: String(o.vi[2] || ''), shot: String(o.vi[3] || '') } } : {}));
           await S.setJSON('idx/' + id, { date: o.d }, null);
         }
         await S.setJSON(key, list, null);
@@ -2054,6 +2271,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
       if (seen) return; try { sessionStorage.setItem('ttd_tip', '1'); } catch (e) { }
       setTimeout(() => {
         if (sh && sh.classList.contains('on')) return;
+        if (document.documentElement.classList.contains('noscroll')) return;   // otvoren prozor (npr. VIP doživljaj) — savjet ne smeta
         tipEl = document.createElement('div'); tipEl.className = 'ttd-tip' + (['admin', 'grupa'].includes(CFG.page) ? ' r' : ''); tipEl.textContent = 'Dodirnite DEMO: voditelj, direktor i ostali lokali';
         if (anchorBottom) tipEl.style.top = anchorBottom + 10 + 'px';
         document.body.appendChild(tipEl); requestAnimationFrame(() => requestAnimationFrame(() => tipEl && tipEl.classList.add('on')));
@@ -2092,6 +2310,9 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
         } else if (path === '/reserve' && res && (res.reservation || res).id) {
           const rr = res.reservation || res;
           n = { text: '📅 Lokal je upravo dobio Vašu rezervaciju.', cta: 'Potvrdite kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 16000 };
+        } else if (path === '/deposit' && res && res.reservation) {
+          const rr = res.reservation;
+          n = { text: '💳 Voditelj odmah vidi da je kapara plaćena — stol je osiguran.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }) };
         } else if (path === '/arrive' && res && res.reservation) {
           const rr = res.reservation;
           n = { text: '✅ Voditelj na popisu odmah vidi „dolazak potvrđen”.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }) };
@@ -2136,7 +2357,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
 (function () {
   'use strict';
   const TT = window.TT; if (!TT) return;
-  const VERSION = 'v20';
+  const VERSION = 'v27';
   /** Stolovi za priču prezentacije: na demo dan i dan poslije ostaju slobodni za rezervaciju uživo. */
   const STORY = { qclub: ['VIP', '47'], kafanica: ['35', '15'], bure: ['31', '25'], brooklyn: ['L3'] };
   /** Stolovi koje prezentacija koristi kao "gostov stol" (cjenik za stolom). */
@@ -2171,6 +2392,13 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
     bure: [['pice', 'Izbor piva je odličan, samo tako nastavite!', 4, true], ['glazba', 'Glazba je u petak bila preglasna za razgovor.', 2, false], ['racun', 'Na računu je bila jedna runda viška — riješili smo, ali neka se pripazi.', 8, true]],
     brooklyn: [['cistoca', 'Kava je odlična, ali stolovi na terasi ujutro su bili mokri i prljavi.', 3, false], ['ostalo', 'Molim vas više utičnica unutra, često radim s laptopom.', 10, true], ['usluga', 'Jutarnja smjena je super ljubazna ☀️', 1, false]]
   };
+  /** Poznati gosti: napomene osoblja (demo). */
+  const GNOTES = {
+    qclub: ['Voli stol uz DJ-a', 'Uvijek Grey Goose s Red Bullom', 'Dolazi s ekipom iz Đakova', 'Slavi s prskalicama — pripremiti'],
+    kafanica: ['Voli tamburaše — naruči „Lipe cvatu”', 'Uvijek stol što bliže bini', 'Dolazi s društvom s posla', 'Stalni gost petkom'],
+    bure: ['Craft piva — voli IPA', 'Dolazi nakon utakmice', 'Uvijek traži Silver stol', 'Voli stol uz DJ-a'],
+    brooklyn: ['Kava bez šećera', 'Terasa kad god je lijepo']
+  };
   const SONGS = [['Ne dirajte mi ravnicu', 'Miroslav Škoro', 'Za cijeli stol iz Đakova 🌾'], ['Lipe cvatu', 'Bijelo dugme', 'Za Ivanu, sretan rođendan! 🎂'], ['Đurđevdan', 'Bijelo dugme', ''], ['Moja štikla', 'Severina', 'Za djevojke za susjednim stolom 💃']];
 
   const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
@@ -2187,6 +2415,19 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
     let ph = 100 + vi * 200;
     const phone = () => `+385 9${1 + Math.floor(R() * 8)} 000 ${String(++ph).padStart(4, '0')}`;
     const person = () => `${pick(R, R() < .5 ? F : M)} ${pick(R, SUR)}`;
+    const BOT = bottles.length && !(cfg.features && cfg.features.preorderOnly);   // Bure: boce samo uz VIP stol — omiljeno piće ostaje iz cjenika
+    const favs = BOT ? bottles.slice(0, 8) : ((items && items.top) || []).slice(0, 6);
+    let bdays = 0;
+    /** Profil gosta koji je već bio (posjete, zadnji put, omiljeno piće, ponekad rođendan i napomena). */
+    const mkGuest = (body, opt = {}) => {
+      const visits = opt.visits || (1 + Math.floor(Math.pow(R(), 1.7) * 12)), lastAgo = 6 + Math.floor(R() * 100);
+      const g = { name: body.name, visits, noShows: !opt.bday && R() < .1 ? 1 : 0, cancels: R() < .15 ? 1 : 0, bookings: visits + 1, first: TT.addDays(body.date, -(lastAgo + visits * 18)), last: TT.addDays(body.date, -lastAgo), bottles: {}, occ: [], hist: [], note: '', spend: 0 };
+      if (favs.length && R() < .75) { const f = pick(R, favs); const n = 1 + Math.floor(R() * Math.min(visits, 5)); g.bottles[f.name] = n; if (BOT) g.spend = n * (f.eur || 0); }
+      if (opt.bday) g.occ.push({ t: 'rodjendan', d: TT.addDays(body.date, -364 - Math.floor(R() * 5)) });
+      if (opt.note || R() < .2) g.note = pick(R, GNOTES[v] || ['']);
+      for (let i = 0; i < Math.min(visits, 3); i++) g.hist.push({ d: TT.addDays(body.date, -(lastAgo + i * 24)), t: pick(R, cfg.tables.filter(x => !x.noRes)).id, p: Math.max(2, body.party - 1 + Math.floor(R() * 3)), b: '' });
+      return g;
+    };
     const PRE_OK = t => !!(cfg.features && cfg.features.preorder && (cfg.features.preorderZones || []).includes(t.zone) && bottles.length);
     const mkPre = (body, party) => {
       const b1 = pick(R, bottles.slice(0, Math.min(8, bottles.length)));
@@ -2209,7 +2450,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
         const early = slots.filter(m => m <= demoMin - 15); const start = early.length ? early[early.length - 1] : slots[0];
         if (t) { const party = Math.max(t.min || 1, Math.min(t.max, 4)); const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status: 'seated', source: 'web', _at: iso(2 * 864e5), _lateMin: 4 }; if (PRE_OK(t)) mkPre(body, party); await C.createReservation(S, body, { admin: true }); }
       }
-      let pend = 0, late = 0;
+      let pend = 0, late = 0, noArr = 0;
       for (const t of tables) {
         const lo = Math.min(t.max, Math.max(2, t.min || 1));   // stol se rezervira barem za dvoje
         const party = Math.round(lo + R() * (t.max - lo));
@@ -2229,10 +2470,40 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
         let note = occasion ? (R() < .55 ? pick(R, OCC_NOTES[occasion] || ['']) : '') : (R() < .3 ? pick(R, NOTES[v] || ['']) : '');
         if (typeof note === 'function') note = note(party);
         const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status, source: status === 'pending' ? 'web' : pick(R, SRC), occasion, note, _at: iso((1 + R() * 9) * 864e5) };
-        if (PRE_OK(t) && (isDemo || R() < .8)) mkPre(body, party);
-        if (isDemo && status === 'confirmed' && R() < .55) body._arrive = iso((1 + R() * 6) * 3600e3);   // potvrdili dolazak (podsjetnik u podne)
+        if (PRE_OK(t) && !(C.vipOf && C.vipOf(cfg, t.id)) && (isDemo || R() < .8)) mkPre(body, party);
+        // poznati gost: dio gostiju je već bio — najviše oni koji stižu oko demo vremena (hostesa ih dočeka imenom)
+        const nearNow = isDemo && start >= demoMin - 5 && start <= demoMin + 30;
+        if (!isPast && R() < (nearNow ? .85 : isDemo ? .45 : .3)) {
+          const bday = isDemo && bdays < 2 && status === 'confirmed' && (nearNow || R() < .25) && occasion !== 'rodjendan';   // slavljenik je potvrđen — hostesa ga dočeka
+          if (bday) bdays++;
+          await S.setJSON(C.guestKey(body.phone), mkGuest(body, { bday, note: nearNow && R() < .5 }), null);
+        }
+        if (C.depositOf(cfg, t.id) && !isPast) body._deposit = R() < .8 ? 'paid' : '';   // kapara za VIP: većina plaćena, poneka čeka uplatu
+        // potvrdili dolazak (podsjetnik u podne); barem dvoje koji tek dolaze NISU — da voditelj ima kome poslati podsjetnik
+        if (isDemo && status === 'confirmed') { if (start > demoMin && noArr < 2) noArr++; else if (R() < .55) body._arrive = iso((1 + R() * 6) * 3600e3); }
         if (status === 'seated') body._lateMin = Math.round(-8 + R() * 22);   // hostesa ih je uvela: na vrijeme ili par minuta kasnije
+        const vsh = C.vipOf && C.vipOf(cfg, t.id);   // VIP doček: što je gost odabrao (bez R(), da ostali podaci ostanu isti)
+        if (vsh && vsh.choose) { const sh = (C.shotsOf ? C.shotsOf(vsh) : []).map(x => x.id), k = (party + Math.floor(start / 30)) % 5, fn = body.name.split(' ')[0];
+          body.vip = { spark: k !== 1, dj: k !== 3, djName: k === 3 ? '' : occasion === 'rodjendan' ? `${fn} i ekipa — sretan rođendan!` : `${fn} i ekipa`, shot: sh.length && k !== 4 ? sh[(party + start) % sh.length] : '' };
+          const VB = ['moet-brut@0,75 l', 'grey-goose@0,70 l', 'jd-no7@1 l', '', 'hendricks@0,70 l'], b = bottles.find(x => x.id === VB[(party + k) % VB.length]);   // boca koja čeka u kibli
+          if (b && PRE_OK(t)) { body.preorder = [{ id: b.id, name: b.name, vol: b.vol, eur: b.eur, qty: party >= 12 ? 2 : 1 }]; body.sparkler = body.vip.spark; } }
         await C.createReservation(S, body, { admin: true });
+      }
+    }
+
+    /* --- demo: uvijek barem jedan potvrđeni poznati gost koji stiže oko demo vremena (hostesa ga dočeka imenom) --- */
+    if (dates.has(demoDate)) {
+      const cur = ((await S.getJSON(`res/${demoDate}`)) || {}).data || [];
+      const near = cur.filter(r => r.status === 'confirmed' && r.start >= demoMin - 5 && r.start <= demoMin + 30);
+      if (!near.some(r => r.guest && r.guest.visits > 0)) {
+        const slot = C.slotsFor(cfg, demoDate).find(m => m >= demoMin + 5 && m <= demoMin + 30);
+        const busy = id => cur.some(r => r.tableId === id && ['pending', 'confirmed', 'seated'].includes(r.status) && slot < r.end && r.start < slot + (cfg.durationMinutes || 180));
+        const t = slot != null && cfg.tables.filter(x => !x.noRes && !(STORY[v] || []).includes(x.id) && x.id !== TT.DEMO_TABLE[v] && !C.depositOf(cfg, x.id) && x.max >= 2).find(x => !busy(x.id));
+        if (t) {
+          const party = Math.max(2, Math.min(t.max, 4)), body = { date: demoDate, start: slot, party, tableId: t.id, name: person(), phone: phone(), status: 'confirmed', source: 'web', occasion: '', note: '', _at: iso(3 * 864e5) };
+          await S.setJSON(C.guestKey(body.phone), mkGuest(body, { visits: 4, bday: bdays < 2, note: true }), null); bdays++;
+          await C.createReservation(S, body, { admin: true });
+        }
       }
     }
 
@@ -2308,7 +2579,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
   /** Lokalni podaci "gosta" na ovom uređaju (moja lista, upamćeno ime…) — brišu se uz demo podatke. */
   TT.clearGuestLocal = (pins) => {
     try {
-      const ks = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith('ttd1:') || k.startsWith('tt_my') || (pins && k.startsWith('tt_pin_')) || k === 'tt_guest' || /^(qclub|kafanica|brooklyn|bure)_favs$/.test(k))) ks.push(k); }
+      const ks = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith('ttd1:') || k.startsWith('tt_my') || (pins && k.startsWith('tt_pin_')) || k === 'tt_guest' || k === 'tt_coat' || /^(qclub|kafanica|brooklyn|bure)_favs$/.test(k))) ks.push(k); }
       ks.forEach(k => localStorage.removeItem(k));
     } catch (e) { }
   };
@@ -2869,8 +3140,16 @@ if(typeof module!=='undefined')module.exports=qrMatrix;
     const tr = r => {
       const n = split(r.name), z = zoneOf(tableOf(r.tableId));
       const pre = (r.preorder || []).map(x => `${x.qty > 1 ? x.qty + '× ' : ''}${x.name}`).join(', ');
-      const note = [r.occasion && OCC[r.occasion], r.note, pre && 'Boce: ' + pre, r.staffNote && 'Osoblje: ' + r.staffNote].filter(Boolean).join(' · ');
-      return `<tr><td class="ck"><i></i></td><td class="nm"><b>${esc(n.sur)}</b> ${esc(n.first)}${r.arrive ? '<span class="ok">✓ potvrdio</span>' : ''}${r.status === 'pending' ? '<span class="pd">čeka potvrdu</span>' : ''}</td><td class="tb">${esc(r.tableId)}</td><td class="pp2">${r.party}</td><td class="tm">${fmt(r.start)}</td>${showCat ? `<td class="ct">${z ? esc(zLabel(z)) : ''}${r.minSpend ? ` · ${r.minSpend} €` : ''}</td>` : ''}<td class="nt">${esc(note.length > 90 ? note.slice(0, 88) + '…' : note)}</td><td class="cd">${esc(r.code || '')}</td></tr>`;
+      const g = r.guest || {};
+      const bd = (() => { const x = g.bday, d = r.date; if (!x || !d || x.slice(0, 4) >= d.slice(0, 4)) return false; const a1 = Date.UTC(2000, +x.slice(5, 7) - 1, +x.slice(8, 10)), a2 = Date.UTC(2000, +d.slice(5, 7) - 1, +d.slice(8, 10)), dd = Math.abs(a1 - a2) / 864e5; return Math.min(dd, 366 - dd) <= 7; })();
+      const gb = [g.visits > 0 ? `★ ${g.visits + 1}. posjet` : '', bd ? 'rođendan ovih dana' : '', g.noShows ? `${g.noShows}× nije došao` : '', r.deposit ? (r.deposit.paid ? `kapara ${r.deposit.eur} € plaćena` : `kapara ${r.deposit.eur} € NIJE plaćena`) : '', g.note ? 'Napomena: ' + g.note : ''];
+      const vp = z && z.show ? (() => {   // VIP doček: izbor gosta + priprema stola prije dolaska
+        const x = r.vip || {}, sh = z.show, shots = ((sh.choose || {}).shots || []).map(s => typeof s === 'string' ? { id: s, hr: s } : s), s1 = shots.find(s => s.id === x.shot);
+        const cr = (r.preorder || []).some(p => (sh.crystal || []).includes(String(p.id || '').split('@')[0]));
+        const a = [x.spark && 'prskalice', x.dj && `DJ „${x.djName || 'ime gosta'}”`, shots.length && `${s1 ? s1.hr.toLowerCase() : 'rakija'} ×${r.party}`, sh.prep && 'stol spreman do ' + fmt(r.start - (sh.prep.min || 15)), cr && 'kristalne čaše'].filter(Boolean);
+        return 'VIP: ' + a.join(', '); })() : '';
+      const note = [vp, ...gb, r.occasion && OCC[r.occasion], r.note, pre && 'Boce: ' + pre, r.staffNote && 'Osoblje: ' + r.staffNote].filter(Boolean).join(' · ');
+      return `<tr><td class="ck"><i></i></td><td class="nm"><b>${esc(n.sur)}</b> ${esc(n.first)}${r.arrive ? '<span class="ok">✓ potvrđeno</span>' : ''}${r.status === 'pending' ? '<span class="pd">čeka potvrdu</span>' : ''}</td><td class="tb">${esc(r.tableId)}</td><td class="pp2">${r.party}</td><td class="tm">${fmt(r.start)}</td>${showCat ? `<td class="ct">${z ? esc(zLabel(z)) : ''}${r.minSpend ? ` · ${r.minSpend} €` : ''}</td>` : ''}<td class="nt">${esc(note.length > 130 ? note.slice(0, 128) + '…' : note)}</td><td class="cd">${esc(r.code || '')}</td></tr>`;
     };
     const first = 22, next = 25, chunks = [];
     if (!L.length) chunks.push([]);
@@ -3096,10 +3375,13 @@ function resCard(r){
   const pre=r.preorder||[];
   return `<article class="res ${r.status} ${ACTIVE.includes(r.status)?'':'dimmed'}${S.flash===r.id?' flash':''}" data-rid="${r.id}">
    <div class="h"><div class="tm">${fmt(r.start)}</div><div class="who"><b>${esc(r.name)}</b><div class="meta">${r.party} os. · stol <span class="tb">${esc(r.tableId)}</span>${r.cat?` ${catPill(r.cat)}`:''}${r.minSpend?` · <span class="min" style="white-space:nowrap">min.&nbsp;${money0(r.minSpend)}</span>`:''}</div><span class="pill st-${r.status}" style="height:22px;margin:4px 0 2px">${ST[r.status]}</span>${r.status==='confirmed'&&r.arrive?` <span class="arr${S.flash===r.id?' new':''}">✓ dolazak potvrđen</span>`:''}${r.status==='seated'&&r.lateMin!=null?` <span class="arr in${S.flash===r.id?' new':''}">🚪 stigli ${fmt(r.start+r.lateMin)}${r.lateMin>5?` · kasnili ${r.lateMin} min`:r.lateMin<-5?` · ${-r.lateMin} min ranije`:' · na vrijeme'}</span>`:''}${r.status==='confirmed'&&r.date===TT.biz().date&&TT.biz().min-r.start>5?` <span class="arr late">⏱ kasne ${TT.biz().min-r.start} min</span>`:''}
+   ${gpLine(r)}
    <div class="meta">${[TT.phoneFmt(r.phone),r.code&&'#'+r.code,r.source&&r.source!=='web'?r.source:'online'].filter(Boolean).map(esc).join(' · ')}</div></div>
    <div class="contact">${contactLinks(r)}</div></div>
    ${pre.length?`<div class="pre">🍾 ${pre.map(x=>`${x.qty}× ${esc(x.name)} ${esc(x.vol)}`).join(' · ')} · <b>${money(preTotal(r))}</b>${r.sparkler?' · ✨ prskalica':''}</div>`:''}
-   ${r.status==='noshow'&&r.noShowFee?`<div class="ns">⚠️ Naknada za nedolazak: ${r.party} × ${money0(r.noShowFee)} = <b>${money0(r.party*r.noShowFee)}</b></div>`:''}
+   ${(()=>{const t0=(S.cfg.tables||[]).find(x=>x.id===r.tableId),z0=t0&&(S.cfg.zones||[]).find(z=>z.id===t0.zone);if(!(z0&&z0.show&&ACTIVE.includes(r.status)))return '';const vx=TT.vipStaff(r,z0.show);return `<div class="vipx"><b>👑 VIP doček</b>${vx.it.map(([i,s])=>`<span>${i} ${esc(s)}</span>`).join('')}</div>`})()}
+   ${r.deposit?`<div class="dep ${r.deposit.paid?'ok':'due'}"><span>💳 Kapara <b>${money0(r.deposit.eur)}</b> · ${r.deposit.paid?'plaćena — odbija se od računa':'čeka uplatu'}</span>${!r.deposit.paid&&ACTIVE.includes(r.status)?`<button class="btn sm" data-dep="${r.id}">Označi plaćeno</button>`:''}</div>`:''}
+   ${r.status==='noshow'?nsLine(r):''}
    ${r.occasion||r.note||r.staffNote?`<div class="note">${r.occasion?(OCC[r.occasion]||esc(r.occasion))+(r.note?' · ':''):''}${esc(r.note||'')}${r.staffNote?`<div class="small">🔒 ${esc(r.staffNote)}</div>`:''}</div>`:''}
    <div class="acts">${acts}<button class="btn sm" data-edit="${r.id}" style="flex:0 0 auto;min-width:0">⋯ Uredi</button></div>${remR?`<button class="remr${r.remindedAt?' sent':''}" data-remind="${r.id}"><span>📲</span>${r.remindedAt?'Podsjetnik poslan — čeka se potvrda dolaska · <u>pošalji opet</u>':'Pošalji podsjetnik — gost potvrdi dolazak jednim dodirom'}</button>`:''}</article>`;}
 function renderList(){
@@ -3139,6 +3421,40 @@ function openSheet(html){const s=$('#sheet');s.innerHTML=html;s.classList.add('o
 function closeSheet(){$('#sheet').classList.remove('on');$('#scrim').classList.remove('on')}
 $('#scrim').onclick=()=>{closeSheet()};
 const shHead=t=>`<div class="sh"><h3>${t}</h3><button class="x" data-close>✕</button></div>`;
+/* ---------- poznati gost ---------- */
+const bdaySoon=(b,d)=>{if(!b||!d||b.slice(0,4)>=d.slice(0,4))return false;const x=Date.UTC(2000,+b.slice(5,7)-1,+b.slice(8,10)),y=Date.UTC(2000,+d.slice(5,7)-1,+d.slice(8,10)),dd=Math.abs(x-y)/864e5;return Math.min(dd,366-dd)<=7};
+const dShort=d=>d?`${+d.slice(8,10)}.${+d.slice(5,7)}.${d.slice(0,4)!==TT.biz().date.slice(0,4)?d.slice(0,4)+'.':''}`:'';
+const favIc=()=>FEAT().preorder&&!FEAT().preorderOnly?'🍾':'🍸';
+function gpLine(r){const g=r.guest;if(!g)return '';const b=[];
+  if(g.visits>0)b.push(`<i class="gv">⭐ ${g.visits+1}. posjet${g.last?` · zadnji put ${dShort(g.last)}`:''}</i>`);else b.push('<i class="g1">🆕 prvi put</i>');
+  if(bdaySoon(g.bday,r.date))b.push('<i class="gb">🎂 rođendan ovih dana</i>');
+  if(g.noShows>0)b.push(`<i class="gn">⚠️ ${g.noShows}× nije došao</i>`);
+  if(g.fav)b.push(`<i class="gf">${favIc()} obično ${esc(g.fav)}</i>`);
+  if(g.note)b.push(`<i class="gnote">📝 ${esc(g.note)}</i>`);
+  return `<button class="gpl" type="button" data-guest="${r.id}" aria-label="Profil gosta">${b.join('')}</button>`;}
+function nsLine(r){const fee=r.noShowFee?r.party*r.noShowFee:0,dep=r.deposit&&r.deposit.paid?r.deposit.eur:0;if(!fee&&!dep)return '';
+  if(fee&&dep)return `<div class="ns">⚠️ Naknada za nedolazak: ${r.party} × ${money0(r.noShowFee)} = <b>${money0(fee)}</b> · kapara ${money0(dep)} je već plaćena${fee>dep?` → naplatiti još <b>${money0(fee-dep)}</b>`:' → pokriveno kaparom'}</div>`;
+  if(dep)return `<div class="ns">⚠️ Nisu došli — kapara <b>${money0(dep)}</b> ostaje lokalu</div>`;
+  return `<div class="ns">⚠️ Naknada za nedolazak: ${r.party} × ${money0(r.noShowFee)} = <b>${money0(fee)}</b></div>`;}
+async function guestSheet(id){const r=S.list.find(x=>x.id===id);if(!r)return;
+  openSheet(shHead('👤 '+esc(r.name))+'<p class="small" id="gsLoad">Učitavam profil gosta…</p>');
+  let g=null;try{g=(await api('/admin/guest?id='+encodeURIComponent(id))).guest}catch(e){}
+  if(!$('#sheet').classList.contains('on'))return;
+  const vis=g?g.visits:0,bd=g&&bdaySoon(g.bday||'',r.date);
+  const prev=g?((g.hist||[]).map(h=>h.d).filter(d=>d<r.date).sort().pop()||(g.last&&g.last<r.date?g.last:'')):'';   // zadnji put prije ove večeri
+  const bottles=g?Object.entries(g.bottles||{}).sort((a,b)=>b[1]-a[1]).slice(0,4):[];
+  openSheet(shHead('👤 '+esc(r.name))+`<div class="gsk">
+     <div><b>${vis}</b><span>${pl(vis,'posjet','posjeta','posjeta')}</span></div>
+     <div><b>${prev?dShort(prev):'—'}</b><span>zadnji put prije</span></div>
+     <div class="${g&&g.noShows?'warn':''}"><b>${g?g.noShows:0}</b><span>${g&&g.noShows?'nije došao':'nedolazaka'}</span></div></div>
+   ${!vis?'<p class="gs-new">🆕 Prvi put kod vas — nakon prvog dolaska ovdje će se vidjeti njegove posjete, omiljeno piće i napomene.</p>':''}
+   ${bd?`<div class="gs-b">🎂 Prošle godine je kod vas slavio rođendan (${dShort(g.bday)}) — čestitajte mu, a šank neka pripremi prskalicu.</div>`:''}
+   ${bottles.length?`<h4 class="gs-h">${FEAT().preorder&&!FEAT().preorderOnly?'Najčešće boce':'Najčešće naručuje'}</h4><div class="gs-f">${bottles.map(([n,c])=>`<span>${favIc()} ${esc(n)}${c>1?` <b>×${c}</b>`:''}</span>`).join('')}</div>`:''}
+   ${g&&(g.hist||[]).length?`<h4 class="gs-h">Zadnje posjete</h4><div class="gs-hist">${g.hist.slice(0,5).map(h=>`<div><b>${dShort(h.d)}</b><span>stol ${esc(h.t)} · ${h.p} os.${h.b?' · '+esc(h.b):''}</span></div>`).join('')}</div>`:''}
+   <h4 class="gs-h">Napomena osoblja <small>(vidi i hostesa na ulazu)</small></h4>
+   <form id="gnForm"><textarea id="gnote" rows="2" maxlength="300" placeholder="npr. voli stol uz DJ-a · uvijek Grey Goose">${esc((g&&g.note)||'')}</textarea><button class="btn gold block" style="margin-top:8px">Spremi napomenu</button></form>
+   <p class="small" style="margin-top:10px">Profil se gradi sam iz rezervacija i dolazaka (po broju mobitela). Gost ga ne vidi.</p>`);
+  $('#gnForm').onsubmit=async e=>{e.preventDefault();try{const x=await api('/admin/guest/note',{id,note:$('#gnote').value.trim()});const i=S.list.findIndex(y=>y.id===id);if(i>=0&&x.reservation)S.list[i]=x.reservation;renderList();toast('✓ Napomena spremljena');closeSheet();}catch(err){toast(errMsg(err))}};}
 function tableSheet(t){
   const rs=S.list.filter(r=>r.tableId===t.id).sort((a,b)=>a.start-b.start);
   const lv=S.date===S.liveDate?S.live.filter(x=>x.table===t.id&&(x.status==='new'||x.status==='ack')):[];
@@ -3183,7 +3499,7 @@ function afterUpdate(x){buzz(12);loadDay(true);loadUpcoming();
      ${x.wa?`<a class="btn wa block" href="${x.wa}" target="_blank" rel="noopener" data-close data-demo-link="WhatsApp poruka">💬 Pošalji na WhatsApp</a>`:''}
      ${DEMO?demoGuest(r,x.msg):(r.email?'<p class="small">E-mail gostu šalje se automatski.</p>':'')}
      <button class="btn block" style="margin-top:10px" data-close>Zatvori</button>`);}
-  else{closeSheet();const r=x.reservation;toast(r&&r.status==='noshow'&&r.noShowFee?`⚠️ Nedolazak zabilježen · naknada ${money0(r.party*r.noShowFee)}`:'✓ Spremljeno')}}
+  else{closeSheet();const r=x.reservation;toast(r&&r.status==='noshow'&&r.noShowFee?`⚠️ Nedolazak zabilježen · naknada ${money0(r.party*r.noShowFee)}`:r&&r.status==='noshow'&&r.deposit&&r.deposit.paid?`⚠️ Nedolazak zabilježen · kapara ${money0(r.deposit.eur)} ostaje lokalu`:'✓ Spremljeno')}}
 
 function newSheet(tableId,start){
   const sl=S.slots.length?S.slots:[1200];start=start??(S.planTime||sl[0]);
@@ -3401,7 +3717,7 @@ async function saveCfg(){
 /* ---------- akcije ---------- */
 async function setStatus(id,status,btn){
   if(status==='declined'&&btn&&!arm(btn,'Dodirnite ponovno'))return;
-  if(status==='noshow'&&btn){const r=S.list.find(x=>x.id===id);if(!arm(btn,r&&r.noShowFee?`Potvrdi · ${money0(r.party*r.noShowFee)}`:'Dodirnite ponovno'))return;}
+  if(status==='noshow'&&btn){const r=S.list.find(x=>x.id===id);if(!arm(btn,r&&r.noShowFee?`Potvrdi · ${money0(r.party*r.noShowFee)}`:r&&r.deposit&&r.deposit.paid?'Potvrdi · kapara ostaje':'Dodirnite ponovno'))return;}
   try{btn&&(btn.disabled=true);const x=await api('/admin/update',{id,status});afterUpdate(x)}catch(e){toast(errMsg(e));btn&&(btn.disabled=false)}
 }
 document.addEventListener('click',e=>{const x=e.target;
@@ -3409,6 +3725,8 @@ document.addEventListener('click',e=>{const x=e.target;
   const dl=x.closest('[data-demo-link]');if(dl&&DEMO){e.preventDefault();const kind=dl.dataset.demoLink;if(dl.hasAttribute('data-close'))closeSheet();toast(kind==='WhatsApp poruka'?'✓ Demo: poruka je stigla gostu na WhatsApp':`Demo: ovdje se otvara ${kind} s gostom`);return}
   if(x.closest('[data-logout]')){const b=x.closest('[data-logout]');if(arm(b,'Dodirnite ponovno'))logout();return}
   const rm=x.closest('[data-remind]');if(rm){remind(rm.dataset.remind,rm);return}
+  const gq=x.closest('[data-guest]');if(gq){buzz(6);guestSheet(gq.dataset.guest);return}
+  const dp=x.closest('[data-dep]');if(dp){if(!arm(dp,'Dodirnite ponovno'))return;dp.disabled=true;api('/admin/deposit',{id:dp.dataset.dep,paid:true}).then(x=>{afterUpdate(x);toast('✓ Kapara je označena kao plaćena')}).catch(e=>{toast(errMsg(e));dp.disabled=false});return}
   const a=x.closest('[data-act]');if(a){setStatus(a.dataset.id,a.dataset.act,a);return}
   const lv=x.closest('[data-lv]');if(lv){setLive(lv.dataset.id,lv.dataset.lv,lv);return}
   const ed=x.closest('[data-edit]');if(ed){editSheet(ed.dataset.edit);return}
