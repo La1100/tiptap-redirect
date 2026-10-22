@@ -1,3 +1,0 @@
-Ovde stavite Higgsfield videe:
-  ulaz.mp4                 — walk-in (ulazak u lokal)
-  <id-jela>.mp4            — npr. kosnica-burger.mp4 (spisak id-jeva u HIGGSFIELD.md)
