@@ -310,7 +310,7 @@ const QCLUB = {
   zones: [
     { id: 'prizemlje', name: { hr: 'Prizemlje', en: 'Ground floor' }, short: 'Prizemlje' },
     { id: 'kat', name: { hr: 'Kat', en: 'Upstairs' }, short: 'Kat' },
-    { id: 'vip', name: { hr: 'VIP', en: 'VIP' }, short: 'VIP', deposit: 100 },   // kapara pri rezervaciji, odbija se od računa
+    { id: 'vip', name: { hr: 'VIP', en: 'VIP' }, short: 'VIP' },
     { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
@@ -340,9 +340,10 @@ const QCLUB = {
   holdMinutes: 60,
   closedDates: [],
   autoConfirm: false,
+  policy: { guarantee: { eur: 29, hours: 12 }, terms: true },   // jamstvo karticom: ništa se ne naplaćuje; besplatan otkaz do 12 h prije dolaska, inače 29 €
   rules: {
-    hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. VIP lounge: kapara 100 € pri rezervaciji, odbija se od računa. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
-    en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. VIP lounge: a 100 € deposit when booking, taken off the bill. The upstairs smoking room (tables 12 and 37) cannot be booked.'
+    hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
+    en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
   features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['coat'] }
 };
@@ -364,7 +365,7 @@ const KAFANICA = {
   },
   zones: [
     { id: 'sala', name: { hr: 'Sala', en: 'Main room' }, short: 'Sala' },
-    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', deposit: 50 },
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP' },
     { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
@@ -392,9 +393,10 @@ const KAFANICA = {
   holdMinutes: 30,
   closedDates: [],
   autoConfirm: false,
+  policy: { guarantee: { eur: 29, hours: 12 }, terms: true },   // jamstvo karticom: ništa se ne naplaćuje; besplatan otkaz do 12 h prije dolaska, inače 29 €
   rules: {
-    hr: 'Petkom i subotom svira živa glazba. VIP stol (35): kapara 50 € pri rezervaciji, odbija se od računa. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
-    en: 'Live music on Fridays and Saturdays. VIP table (35): a 50 € deposit when booking, taken off the bill. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
+    hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
+    en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
   features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: true, hostess: ['rez', 'coat'] }
 };
@@ -474,11 +476,11 @@ const BURE = {
     ]
   },
   zones: [
-    { id: 'classic', name: { hr: 'Classic stolovi', en: 'Classic tables' }, short: 'Classic', minSpend: 60, noShow: 8, img: 'classic',
+    { id: 'classic', name: { hr: 'Classic stolovi', en: 'Classic tables' }, short: 'Classic', minSpend: 60, img: 'classic',
       desc: { hr: 'Stolovi za 4 osobe uz zidove i šank — od 1 do 23.', en: 'Tables for 4 along the walls and the bar — 1 to 23.' } },
-    { id: 'silver', name: { hr: 'Silver stolovi', en: 'Silver tables' }, short: 'Silver', minSpend: 100, noShow: 8, img: 'silver',
+    { id: 'silver', name: { hr: 'Silver stolovi', en: 'Silver tables' }, short: 'Silver', minSpend: 100, img: 'silver',
       desc: { hr: 'Stolovi za 6 osoba, bačve i veliki okrugli stol — od 24 do 30.', en: 'Tables for 6, barrels and the big round table — 24 to 30.' } },
-    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', minSpend: 250, noShow: 12, deposit: 50, img: 'vip',
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', minSpend: 250, img: 'vip',
       // VIP doživljaj (prijedlog — lokal mijenja po želji): gost ga vidi u rezervaciji, osoblje dobije podsjetnik za doček
       show: {
         where: { hr: 'u Buretu', en: 'at Bure Bar' },
@@ -536,12 +538,12 @@ const BURE = {
   policy: {
     age: 21,
     dress: { hr: 'Elegant', en: 'Elegant' },
-    cancelUntil: '10:00',        // otkazivanje najkasnije 12 sati prije početka — do 10:00 na dan rezervacije
+    guarantee: { eur: 29, hours: 12 },   // jamstvo karticom: ništa se ne naplaćuje; besplatan otkaz do 12 h prije dolaska, inače 29 €
     terms: true
   },
   rules: {
-    hr: 'Minimalna potrošnja vrijedi po stolu. Ako ne dođete, a niste otkazali do 10:00 na dan rezervacije, naplaćuje se naknada za nedolazak po osobi. VIP stol: kapara 50 € pri rezervaciji, odbija se od računa.',
-    en: 'The minimum spend applies per table. If you do not come and have not cancelled by 10:00 on the day, a no-show fee per person is charged. VIP table: a 50 € deposit when booking, taken off the bill.'
+    hr: 'Minimalna potrošnja vrijedi po stolu.',
+    en: 'The minimum spend applies per table.'
   },
   // boca uz rezervaciju samo za VIP stol (čeka goste u kibli s ledom)
   features: { reservations: true, preorder: true, preorderZones: ['vip'], preorderOnly: true, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez'] }
@@ -655,6 +657,30 @@ function pastDeadline(cfg, date) {
   const n = zagrebNow(); return n.date > d.date || (n.date === d.date && n.min >= d.min);
 }
 
+/* ---------- jamstvo rezervacije karticom ----------
+   Pri rezervaciji gost potvrdi karticu (Apple Pay · Google Pay · kartica) — ništa se ne naplaćuje.
+   Do roka (12 h prije dolaska) otkazuje besplatno. Od roka je iznos blokiran na kartici;
+   hostesa skenira ulaznicu → blokada se ukida. Ne dođe → voditelj potvrdi naplatu (ili oprosti). */
+function guarCfg(cfg) { const g = cfg && cfg.policy && cfg.policy.guarantee; return g && +g.eur > 0 ? { eur: +g.eur, hours: +g.hours > 0 ? +g.hours : 12 } : null; }
+/** Do kada gost otkazuje besplatno: { date, min } (min 0–1439) — npr. dolazak u 21:00 → 09:00 istog dana. */
+function guarDeadline(r) { const h = (r.guar && r.guar.hours) || 12, m = r.start - h * 60, d = Math.floor(m / 1440); return { date: addDays(r.date, d), min: m - d * 1440 }; }
+const reached = (dl, n) => n.date > dl.date || (n.date === dl.date && n.min >= dl.min);
+const GUAR_FINAL = new Set(['released', 'charged', 'waived', 'free']);
+/** Stanje jamstva — card: kartica spremljena, ništa blokirano · held: iznos blokiran (prošao rok za besplatni otkaz)
+    · late: prošlo vrijeme dolaska i zadržavanja stola, gost nije stigao · released: stigli, blokada ukinuta
+    · charged: naplaćeno (nedolazak ili kasni otkaz) · waived: voditelj nije naplatio · free: otkazano na vrijeme. */
+function guarState(r, cfg, now = zagrebNow()) {
+  const g = r && r.guar; if (!g) return null;
+  if (GUAR_FINAL.has(g.state)) return g.state;
+  if (r.status === 'seated' || r.status === 'done') return 'released';
+  if (r.status === 'cancelled' || r.status === 'declined') return 'free';
+  if (!reached(guarDeadline(r), now)) return 'card';
+  return lateBy(r, now) > ((cfg && cfg.holdMinutes) || 15) ? 'late' : 'held';
+}
+/** Rezervacija s izračunatim stanjem jamstva (za osoblje). */
+const withGuar = (r, cfg, now) => (r && r.guar ? { ...r, gs: guarState(r, cfg, now) } : r);
+const CARD_BRANDS = ['visa', 'mc', 'amex', 'apple', 'google'];
+
 /* =====================================================================
    REZERVACIJE
    ===================================================================== */
@@ -764,8 +790,16 @@ async function availability(store, date) {
   const busy = list.filter(r => ACTIVE.has(r.status)).map(r => ({ t: r.tableId, s: r.start, e: r.end }));
   return { date, slots, busy, config: publicConfig(cfg), today: now.date };
 }
-async function createReservation(store, body, { admin = false } = {}) {
+async function createReservation(store, body, { admin = false, pay = false } = {}) {
   const cfg = await getConfig(store);
+  // jamstvo karticom (samo za rezervacije gostiju i samo kad je plaćanje uključeno)
+  const gc = !admin && pay ? guarCfg(cfg) : null;
+  let card = null;
+  if (gc) {
+    const c = body.card || {};
+    card = { brand: CARD_BRANDS.includes(c.brand) ? c.brand : '', last4: /^\d{4}$/.test(String(c.last4 || '')) ? String(c.last4) : '' };
+    if (!card.brand || !card.last4) return { error: 'card', status: 402 };
+  }
   if (!admin && cfg.features?.reservations === false) return { error: 'off', status: 403 };
   if (body.hp) return { error: 'spam', status: 400 };
   const date = str(body.date, 10);
@@ -811,7 +845,8 @@ async function createReservation(store, body, { admin = false } = {}) {
     const at = isoNow();
     const cat = catOf(cfg, table.id), dep = depositOf(cfg, table.id), depPaid = !!(admin && body._deposit === 'paid'), vip = cleanVip(vipOf(cfg, table.id), body.vip);
     const pre = cfg.features?.preorderOnly && !(cfg.features.preorderZones || []).includes(table.zone) ? [] : preorder;   // npr. Bure: boca samo uz VIP stol
-    const st0 = admin ? (['pending', 'confirmed', 'seated', 'done', 'noshow'].includes(body.status) ? body.status : 'confirmed') : (cfg.autoConfirm ? 'confirmed' : 'pending');
+    // rezervacija zajamčena karticom potvrđuje se odmah — gost odmah dobiva potvrdu, voditelj obavijest
+    const st0 = admin ? (['pending', 'confirmed', 'seated', 'done', 'noshow'].includes(body.status) ? body.status : 'confirmed') : (cfg.autoConfirm || gc ? 'confirmed' : 'pending');
     const r = {
       id: token(8), code: shortCode(new Set([...near, ...list.map(x => String(x.code || ''))])), key: token(16),
       date, start, end: start + cfg.durationMinutes, party, tableId: table.id,
@@ -822,11 +857,14 @@ async function createReservation(store, body, { admin = false } = {}) {
       status: st0,
       guest: guestSnap(gp),
       ...(dep ? { deposit: { eur: dep, paid: depPaid, ...(depPaid ? { paidAt: at, by: 'staff' } : {}) } } : {}),
+      ...(gc ? { guar: { eur: gc.eur, hours: gc.hours, card, at, state: 'card' } } : {}),
+      ...(admin && body._guar && guarCfg(cfg) ? { guar: { eur: guarCfg(cfg).eur, hours: guarCfg(cfg).hours, card: body._guar.card || { brand: 'visa', last4: '4242' }, at, state: body._guar.state || 'card', ...(body._guar.state === 'released' ? { releasedAt: at, by: 'hostesa' } : body._guar.state === 'charged' ? { chargedAt: at, reason: body._guar.reason || 'noshow' } : {}) } } : {}),
       ...(vip ? { vip } : {}),
       ...(st0 === 'seated' || st0 === 'done' ? { gv: 1 } : st0 === 'noshow' ? { gn: 1 } : {}),
       ...(admin && body._arrive ? { arrive: str(body._arrive, 30) } : {}),
-      ...(admin && body._lateMin != null && body.status === 'seated' ? { lateMin: Math.round(Number(body._lateMin)) || 0, checkedBy: 'hostesa' } : {}),
+      ...(admin && body._lateMin != null && body.status === 'seated' ? { lateMin: Math.round(Number(body._lateMin)) || 0, checkedBy: 'hostesa', ...(['qr', 'code'].includes(body._via) ? { via: body._via } : {}) } : {}),
       source: admin ? str(body.source || 'staff', 20) : 'web',
+      bookedAt: now,   // lokalno (Zagreb) vrijeme rezervacije — za raspored poruka gostu
       createdAt: body._at && admin ? str(body._at, 30) : at, updatedAt: at, history: []
     };
     list.push(r);
@@ -844,7 +882,8 @@ async function createReservation(store, body, { admin = false } = {}) {
   }
   return res;
 }
-const guestView = r => ({ id: r.id, code: r.code, date: r.date, start: r.start, end: r.end, party: r.party, tableId: r.tableId, name: r.name, status: r.status, note: r.note, occasion: r.occasion, lang: r.lang, preorder: r.preorder || [], sparkler: !!r.sparkler, cat: r.cat || null, minSpend: r.minSpend || 0, noShowFee: r.noShowFee || 0, arrive: !!r.arrive, reminded: !!r.remindedAt, deposit: r.deposit ? { eur: r.deposit.eur, paid: !!r.deposit.paid } : null, back: !!(r.guest && r.guest.visits > 0), vip: r.vip || null });
+const guestView = (r, cfg) => ({ id: r.id, code: r.code, date: r.date, start: r.start, end: r.end, party: r.party, tableId: r.tableId, name: r.name, status: r.status, note: r.note, occasion: r.occasion, lang: r.lang, preorder: r.preorder || [], sparkler: !!r.sparkler, cat: r.cat || null, minSpend: r.minSpend || 0, noShowFee: r.noShowFee || 0, arrive: !!r.arrive, reminded: !!r.remindedAt, deposit: r.deposit ? { eur: r.deposit.eur, paid: !!r.deposit.paid } : null, back: !!(r.guest && r.guest.visits > 0), vip: r.vip || null,
+  guar: r.guar ? { eur: r.guar.eur, hours: r.guar.hours, card: r.guar.card, state: guarState(r, cfg), dl: guarDeadline(r), reason: r.guar.reason || '', releasedAt: r.guar.releasedAt || '', chargedAt: r.guar.chargedAt || '' } : null });
 async function getReservation(store, id, key, site = '') {
   const date = await findDate(store, str(id, 40));
   if (!date) return { error: 'notfound', status: 404 };
@@ -853,9 +892,11 @@ async function getReservation(store, id, key, site = '') {
   if (!r || !safeEqual(r.key, key || '')) return { error: 'notfound', status: 404 };
   const cfg = await getConfig(store);
   const notice = (r.status === 'confirmed' || r.status === 'declined') ? guestMessage(r, cfg, site, r.status) : '';
-  return { ok: true, reservation: guestView(r), table: cfg.tables.find(t => t.id === r.tableId) || null, config: publicConfig(cfg), notice };
+  const msgs = r.guar && r.status === 'confirmed' ? guestTimeline(r, cfg, site) : null;
+  return { ok: true, reservation: guestView(r, cfg), table: cfg.tables.find(t => t.id === r.tableId) || null, config: publicConfig(cfg), notice, msgs };
 }
-async function cancelByGuest(store, id, key) {
+/** Gost otkazuje. Sa jamstvom: do roka besplatno; nakon roka samo uz pristanak na naknadu (fee: true). */
+async function cancelByGuest(store, id, key, fee = false) {
   const date = await findDate(store, str(id, 40));
   if (!date) return { error: 'notfound', status: 404 };
   const cfg = await getConfig(store);
@@ -863,8 +904,13 @@ async function cancelByGuest(store, id, key) {
     const r = list.find(x => x.id === id);
     if (!r || !safeEqual(r.key, key || '')) return { error: 'notfound', status: 404 };
     if (!['pending', 'confirmed'].includes(r.status)) return { error: 'state', status: 409 };
-    if (r.status === 'confirmed' && pastDeadline(cfg, r.date)) return { error: 'late', status: 409 };
-    r.status = 'cancelled'; r.updatedAt = isoNow(); r.history.push({ at: r.updatedAt, by: 'guest', to: 'cancelled' });
+    const at = isoNow();
+    if (r.guar && !GUAR_FINAL.has(r.guar.state)) {
+      const late = reached(guarDeadline(r), zagrebNow());
+      if (late && !fee) return { error: 'late', status: 409, fee: r.guar.eur };
+      Object.assign(r.guar, late ? { state: 'charged', reason: 'late-cancel', chargedAt: at } : { state: 'free', freedAt: at });
+    } else if (r.status === 'confirmed' && pastDeadline(cfg, r.date)) return { error: 'late', status: 409 };
+    r.status = 'cancelled'; r.updatedAt = at; r.history.push({ at, by: 'guest', to: 'cancelled' });
     return { ok: true, reservation: r };
   }).then(async res => { if (res.ok) await guestBump(store, res.reservation, g => { g.cancels = (g.cancels || 0) + 1; }); return res; });
 }
@@ -905,7 +951,7 @@ async function findRes(store, id) {
   if (!date) return { error: 'notfound', status: 404 };
   const { list } = await readDay(store, date);
   const r = list.find(x => x.id === id);
-  return r ? { ok: true, reservation: r } : { error: 'notfound', status: 404 };
+  return r ? { ok: true, reservation: withGuar(r, await getConfig(store)) } : { error: 'notfound', status: 404 };
 }
 async function findCode(store, code) {
   const c = str(code, 16).toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -914,7 +960,7 @@ async function findCode(store, code) {
   for (const d of [b.date, addDays(b.date, 1), addDays(b.date, -1)]) {
     const { list } = await readDay(store, d);
     const r = list.find(x => String(x.code || '').toUpperCase() === c);
-    if (r) return { ok: true, reservation: r };
+    if (r) return { ok: true, reservation: withGuar(r, await getConfig(store)) };
   }
   return { error: 'notfound', status: 404 };
 }
@@ -936,11 +982,15 @@ async function checkIn(store, body, by = 'hostesa') {
     if (body.party != null) { const p = Math.floor(Number(body.party)); if (p >= 1 && p <= 60) r.party = p; }
     const before = r.status;
     r.status = 'seated'; r.arrivedAt = isoNow(); r.lateMin = lateBy(r); r.checkedBy = str(by, 20); r.updatedAt = r.arrivedAt;
+    if (body.via === 'qr' || body.via === 'code') r.via = body.via; else delete r.via;   // skenirana ulaznica / kod s ulaznice / pronađeni na popisu
     r.history.push({ at: r.arrivedAt, by: r.checkedBy, from: before, to: 'seated' });
+    // gost je stigao → blokada jamstva se ukida (ako je bilo naplaćeno, voditelj vraća ručno)
+    if (r.guar && !GUAR_FINAL.has(r.guar.state)) Object.assign(r.guar, { state: 'released', releasedAt: r.arrivedAt, by: r.checkedBy });
     const gv = !r.gv, undoNs = gv && !!r.gn; r.gv = 1; if (undoNs) r.gn = 0;
     return { ok: true, reservation: r, gv, undoNs };
   }).then(async res => {
     if (res.ok && res.gv) await guestBump(store, res.reservation, g => { visitBump(res.reservation)(g); if (res.undoNs) g.noShows = Math.max(0, (g.noShows || 0) - 1); });
+    if (res.ok) res.reservation = withGuar(res.reservation, cfg);
     return res;
   });
 }
@@ -1061,7 +1111,8 @@ async function defaultDay(store) {
 async function adminDay(store, date) {
   const cfg = await getConfig(store);
   const { list } = await readDay(store, date);
-  return { ok: true, date, list: list.sort((a, b) => a.start - b.start), config: cfg, slots: slotsFor(cfg, date), now: zagrebNow(), biz: bizNow() };
+  const now = zagrebNow();
+  return { ok: true, date, list: list.sort((a, b) => a.start - b.start).map(r => withGuar(r, cfg, now)), config: cfg, slots: slotsFor(cfg, date), now, biz: bizNow() };
 }
 async function adminUpdate(store, body) {
   const cfg = await getConfig(store);
@@ -1075,6 +1126,15 @@ async function adminUpdate(store, body) {
     if (!r) return { error: 'notfound', status: 404 };
     const before = r.status;
     if (body.status) { if (!STAT.includes(body.status)) return { error: 'status', status: 400 }; r.status = body.status; }
+    if (r.status === 'seated' && before !== 'seated' && before !== 'done') { r.arrivedAt = isoNow(); r.lateMin = lateBy(r); r.checkedBy = 'voditelj'; delete r.via; }   // voditelj ih je uveo ručno
+    // jamstvo: voditelj potvrđuje naplatu za nedolazak (ili ne naplaćuje); ručni status također vodi jamstvo
+    if (r.guar && !GUAR_FINAL.has(r.guar.state)) {
+      const at = isoNow();
+      if (body.guar === 'charge') { Object.assign(r.guar, { state: 'charged', reason: 'noshow', chargedAt: at }); r.status = 'noshow'; }
+      else if (body.guar === 'waive') { Object.assign(r.guar, { state: 'waived', waivedAt: at }); r.status = 'noshow'; }
+      else if (r.status === 'seated' || r.status === 'done') Object.assign(r.guar, { state: 'released', releasedAt: at, by: 'voditelj' });
+      else if (r.status === 'cancelled' || r.status === 'declined') Object.assign(r.guar, { state: 'free', freedAt: at });
+    }
     if (body.tableId && body.tableId !== r.tableId) {
       if (!cfg.tables.find(t => t.id === body.tableId)) return { error: 'table', status: 400 };
       if (ACTIVE.has(r.status) && !tableFree(cfg, list, body.tableId, r.start, r.id)) return { error: 'taken', status: 409 };
@@ -1111,6 +1171,7 @@ async function adminUpdate(store, body) {
     await setIndex(store, r.id, moved);
     res.reservation = { ...r, date: moved };
   }
+  if (res.ok) res.reservation = withGuar(res.reservation, cfg);
   return res;
 }
 async function adminSaveConfig(store, cfgIn) {
@@ -1141,7 +1202,9 @@ async function adminUpcoming(store, from, days = 14) {
   const out = [];
   for (let i = 0; i < days; i++) {
     const d = addDays(from, i); const { list } = await readDay(store, d); const act = list.filter(r => ACTIVE.has(r.status));
-    out.push({ date: d, pending: list.filter(r => r.status === 'pending').length, total: act.length, guests: act.reduce((a, r) => a + r.party, 0) });
+    // nw: kad je stigla zadnja rezervacija gosta s weba — voditelj dobiva obavijest i za zajamčene (odmah potvrđene) rezervacije
+    const nw = list.filter(r => r.source === 'web').reduce((m, r) => (r.createdAt > m ? r.createdAt : m), '');
+    out.push({ date: d, pending: list.filter(r => r.status === 'pending').length, total: act.length, guests: act.reduce((a, r) => a + r.party, 0), nw });
   }
   return { ok: true, days: out };
 }
@@ -1357,7 +1420,8 @@ async function venueSummary(store) {
   const st = await adminStats(store, 7);
   return {
     id: store.venue, name: cfg.venue, day, features: cfg.features || {},
-    tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), preOver: act.reduce((a, r) => a + Math.max(0, preorderTotal(r) - (r.minSpend || 0)), 0), tables: cfg.tables.length, booked: new Set(act.map(r => r.tableId)).size, minSpend: act.reduce((a, r) => a + (r.minSpend || 0), 0), arrived: act.filter(r => r.status === 'seated').length, regulars: act.filter(r => r.guest && r.guest.visits >= 2).length, deposits: act.filter(r => r.deposit && r.deposit.paid).reduce((a, r) => a + (r.deposit.eur || 0), 0), late: day === b.date ? act.filter(r => r.status !== 'seated' && lateBy(r) > 5).length : 0 },
+    tonight: { res: act.length, guests: act.reduce((a, r) => a + r.party, 0), pending: list.filter(r => r.status === 'pending').length, seated: list.filter(r => r.status === 'seated').length, pre: act.reduce((a, r) => a + preorderTotal(r), 0), preOver: act.reduce((a, r) => a + Math.max(0, preorderTotal(r) - (r.minSpend || 0)), 0), tables: cfg.tables.length, booked: new Set(act.map(r => r.tableId)).size, minSpend: act.reduce((a, r) => a + (r.minSpend || 0), 0), arrived: act.filter(r => r.status === 'seated').length, regulars: act.filter(r => r.guest && r.guest.visits >= 2).length, deposits: act.filter(r => r.deposit && r.deposit.paid).reduce((a, r) => a + (r.deposit.eur || 0), 0), late: day === b.date ? act.filter(r => r.status !== 'seated' && lateBy(r) > 5).length : 0,
+      guar: act.filter(r => r.guar).length, guarCharged: list.filter(r => r.guar && r.guar.state === 'charged').reduce((a, r) => a + (r.guar.eur || 0), 0), guarLate: list.filter(r => guarState(r, cfg) === 'late').length },
     week,
     live: { open: live.filter(x => OPEN.has(x.status) && x.kind !== 'song').length, songQueue: live.filter(x => x.kind === 'song' && x.status === 'new').length, today: live.length, orders: live.filter(x => x.kind === 'order').length, orderEur: live.filter(x => x.kind === 'order' && x.status !== 'skip').reduce((a, x) => a + (x.total || 0), 0), songs: live.filter(x => x.kind === 'song').length, calls: live.filter(x => x.kind === 'call').length, bills: live.filter(x => x.kind === 'bill').length, avgAck: acked.length ? Math.round(acked.reduce((a, s) => a + s, 0) / acked.length) : null, slowAck: acked.length ? Math.round(Math.max(...acked)) : null, recent: live.slice(-6).reverse() },
     feedback: { unread: fb.unread, total: fb.list.length, recent: fb.list.slice(0, 3) },
@@ -1378,7 +1442,42 @@ const MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July
 function humanDate(date, lang = 'hr') { const [, m, d] = date.split('-'); return lang === 'en' ? `${DAYS.en[weekday(date)]}, ${+d} ${MONTHS_EN[+m - 1]}` : `${DAYS.hr[weekday(date)]}, ${+d}.${+m}.`; }
 const formsOf = cfg => cfg.forms || { loc: 'u ' + cfg.venue, gen: 'iz ' + cfg.venue };
 const eur = (v, L) => new Intl.NumberFormat(L === 'en' ? 'en-IE' : 'hr-HR', { style: 'currency', currency: 'EUR', minimumFractionDigits: Number.isInteger(+v) ? 0 : 2, maximumFractionDigits: 2 }).format(v);
-function guestMessage(r, cfg, site, kind) {
+const CARD_NAME = { visa: 'Visa', mc: 'Mastercard', amex: 'Amex', apple: 'Apple Pay', google: 'Google Pay' };
+const cardLabel = c => (c ? `${CARD_NAME[c.brand] || 'Kartica'} •••• ${c.last4}` : '');
+/** Trenutak pomaknut za delta minuta: { date, min } (min 0–1439). */
+function shiftDM(date, min, delta) { const m = min + delta, d = Math.floor(m / 1440); return { date: addDays(date, d), min: m - d * 1440 }; }
+function dlText(r, L) {
+  const dl = guarDeadline(r), same = dl.date === r.date;
+  return L === 'hr' ? (same ? `do ${fmt(dl.min)} na dan dolaska` : `do ${humanDate(dl.date, L)} u ${fmt(dl.min)}`) : (same ? `until ${fmt(dl.min)} on the day` : `until ${humanDate(dl.date, L)} at ${fmt(dl.min)}`);
+}
+function guarMsg(r, L) {
+  const v = eur(r.guar.eur, L), c = cardLabel(r.guar.card), h = r.guar.hours || 12;
+  // rezervirano kad je rok za besplatni otkaz već prošao (npr. danas za večeras): blokada odmah
+  if (r.bookedAt && reached(guarDeadline(r), r.bookedAt)) return L === 'hr'
+    ? `💳 Jamstvo ${v} · ${c}\nDo dolaska je manje od ${h} sati, pa je ${v} odmah blokirano na kartici — ništa nije naplaćeno. Čim hostesa skenira vašu ulaznicu, blokada se ukida. Ako otkažete ili ne dođete, naplaćuje se ${v}.`
+    : `💳 ${v} guarantee · ${c}\nYour arrival is less than ${h} hours away, so ${v} is held on your card now — nothing has been charged. It's released as soon as the host scans your ticket. If you cancel or don't show up, ${v} is charged.`;
+  return L === 'hr'
+    ? `💳 Jamstvo ${v} · ${c} — ništa nije naplaćeno.\nBesplatno otkazivanje ${dlText(r, L)}. Od tada je ${v} blokirano na kartici, a čim hostesa skenira vašu ulaznicu, blokada se ukida.`
+    : `💳 ${v} guarantee · ${c} — nothing has been charged.\nFree cancellation ${dlText(r, L)}. After that ${v} is held on your card and released as soon as the host scans your ticket.`;
+}
+/** WhatsApp poruke koje gost dobiva: potvrda odmah, podsjetnik dan prije, „vidimo se” 2 h prije (bez gnjavaže — najviše 3). */
+function guestTimeline(r, cfg, site, now = zagrebNow()) {
+  const abs = dm => Date.parse(dm.date + 'T00:00:00Z') / 6e4 + dm.min;   // minute za usporedbu
+  const booked = r.bookedAt || null;
+  const rem = shiftDM(r.date, r.start, -24 * 60), soon = shiftDM(r.date, r.start, -120);
+  const out = [{ kind: 'confirmed', at: booked, sent: true, text: guestMessage(r, cfg, site, 'confirmed') }];
+  // podsjetnik i „vidimo se” samo ako ima smisla (rezervacija nije napravljena tik prije)
+  if (!booked || abs(rem) > abs(booked) + 60) out.push({ kind: 'remind', at: rem, sent: abs(now) >= abs(rem), text: guestMessage(r, cfg, site, 'remind', rem) });
+  if (!booked || abs(soon) > abs(booked) + 30) out.push({ kind: 'soon', at: soon, sent: abs(now) >= abs(soon), text: guestMessage(r, cfg, site, 'soon') });
+  return out;
+}
+/** „sutra u 21:00” / „danas u 09:00” / „petak, 23.10. u 21:00” — u odnosu na trenutak slanja poruke. */
+function rel(date, min, asOf, L) {
+  const d = (min >= 1440 ? addDays(date, 1) : date), t = fmt(min), base = asOf.date;
+  const w = d === base ? (L === 'hr' ? (min >= 17 * 60 ? 'večeras' : 'danas') : (min >= 17 * 60 ? 'tonight' : 'today')) : d === addDays(base, 1) ? (L === 'hr' ? 'sutra' : 'tomorrow') : humanDate(d, L);
+  return L === 'hr' ? `${w} u ${t}` : `${w} at ${t}`;
+}
+function guestMessage(r, cfg, site, kind, asOf = null) {
   const L = r.lang === 'en' ? 'en' : 'hr';
   const link = `${site}/rezervacije/?r=${r.id}&k=${r.key}`;
   const when = `${humanDate(r.date, L)} ${fmt(r.start)}`;
@@ -1394,6 +1493,20 @@ function guestMessage(r, cfg, site, kind) {
   const depT = r.deposit ? (L === 'hr' ? (r.deposit.paid ? `\n💳 Kapara ${eur(r.deposit.eur, L)} je plaćena i odbija se od računa.` : `\n💳 Za ovaj stol potrebna je kapara ${eur(r.deposit.eur, L)} — uplata na linku ispod.`) : (r.deposit.paid ? `\n💳 Your ${eur(r.deposit.eur, L)} deposit is paid and comes off the bill.` : `\n💳 This table needs a ${eur(r.deposit.eur, L)} deposit — pay via the link below.`)) : '';
   const back = r.guest && r.guest.visits > 0;
   const vsh = vipOf(cfg, r.tableId), vipM = vsh ? `\n👑 ${vipLine(r.vip, vsh, L, r.preorder)}` : '';
+  if (r.guar && kind === 'confirmed') return L === 'hr'
+    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${vipM}${pol}\n${guarMsg(r, L)}\n🎟️ Vaša ulaznica s QR kodom (pokažite je na ulazu), promjene i otkaz: ${link}\nStol držimo ${cfg.holdMinutes} min. ${back ? 'Drago nam je što se vraćate — vidimo se! 🙌' : 'Vidimo se!'}`
+    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${vipM}${pol}\n${guarMsg(r, L)}\n🎟️ Your ticket with a QR code (show it at the door), changes or cancellation: ${link}\nWe hold the table for ${cfg.holdMinutes} min. ${back ? 'Great to have you back — see you! 🙌' : 'See you!'}`;
+  if (r.guar && kind === 'remind') {
+    // šalje se dan prije (24 h prije dolaska) — riječi „sutra/danas” računamo od trenutka slanja
+    const sendAt = asOf || bizNow(), free = !reached(guarDeadline(r), asOf || zagrebNow());
+    const whenR = rel(r.date, r.start, sendAt, L), dl = guarDeadline(r), dlR = rel(dl.date, dl.min, sendAt, L);
+    return L === 'hr'
+      ? `Pozdrav ${F.gen}! 👋 Podsjetnik: ${whenR} čeka Vas stol ${r.tableId}.\n👥 ${r.party} os. · na ime ${r.name}\n👉 Dolazite? Potvrdite jednim dodirom: ${link}&a=1\n${free ? `Ne stižete? Otkažite besplatno do ${dlR}: ${link}` : `Ne stižete? Javite nam na ${cfg.phone}.`}`
+      : `Hi from ${cfg.venue}! 👋 Reminder: table ${r.tableId} is waiting for you ${whenR}.\n👥 ${r.party} guests · for ${r.name}\n👉 Coming? Confirm with one tap: ${link}&a=1\n${free ? `Can't make it? Cancel free of charge by ${dlR}: ${link}` : `Can't make it? Let us know at ${cfg.phone}.`}`;
+  }
+  if (kind === 'soon') return L === 'hr'
+    ? `Vidimo se u ${fmt(r.start)}! 🥂 Stol ${r.tableId} je spreman.\n🎟️ Na ulazu pokažite QR ulaznicu — hostesa vas odmah vodi do stola${r.guar ? `, a blokada ${eur(r.guar.eur, L)} se tada ukida` : ''}: ${link}\nKasnite? Stol držimo ${cfg.holdMinutes} min — javite nam na ${cfg.phone}.`
+    : `See you at ${fmt(r.start)}! 🥂 Table ${r.tableId} is ready.\n🎟️ Show your QR ticket at the door — the host takes you straight to your table${r.guar ? ` and the ${eur(r.guar.eur, L)} hold is released` : ''}: ${link}\nRunning late? We hold the table for ${cfg.holdMinutes} min — call us at ${cfg.phone}.`;
   if (kind === 'confirmed') return L === 'hr'
     ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${depT}${vipM}${pol}\nStol držimo ${cfg.holdMinutes} min.${rules}\n🔢 Kod rezervacije: ${r.code} (dovoljno je reći ga na ulazu)\n🎟️ Vaša ulaznica s QR kodom, promjene i otkaz: ${link}\n${back ? 'Drago nam je što se vraćate — vidimo se! 🙌' : 'Vidimo se!'}`
     : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${depT}${vipM}${pol}\nWe hold the table for ${cfg.holdMinutes} min.${rules}\n🔢 Reservation code: ${r.code} (just say it at the door)\n🎟️ Your ticket with a QR code, changes or cancellation: ${link}\n${back ? 'Great to have you back — see you! 🙌' : 'See you!'}`;
@@ -1423,7 +1536,7 @@ function staffAlert(r, cfg, site, path = '') {
 }
 const waLink = (phone, text) => `https://wa.me/${String(phone).replace(/\D/g, '')}?text=${encodeURIComponent(text)}`;
 
-return { VENUES, VENUE_IDS, isVenue, TZ, setClock, zagrebNow, bizNow, toMin, fmt, weekday, addDays, isDate, token, shortCode, safeEqual, scoped, getConfig, publicConfig, catOf, cancelDeadline, pastDeadline, slotsFor, ACTIVE, overlaps, tableFree, fits, bestTable, cleanPhone, preorderTotal, guestKey, guestGet, guestSnap, vipOf, shotsOf, shotOf, crystalOf, vipLine, depositOf, availability, createReservation, guestView, getReservation, cancelByGuest, confirmArrival, adminRemind, lateBy, findRes, findCode, checkIn, adminGuest, adminGuestNote, payDeposit, adminDeposit, COAT_KINDS, coatList, coatNew, coatFind, coatOut, coatPhoto, coatGuest, defaultDay, adminDay, adminUpdate, adminSaveConfig, adminSearch, adminUpcoming, liveCreate, liveStatus, adminLive, adminLiveUpdate, feedbackCreate, adminFeedback, adminFeedbackUpdate, adminFeedbackReadAll, getMenu, adminSaveMenu, statsHit, adminStats, venueSummary, groupSummary, humanDate, guestMessage, staffMessage, staffAlert, waLink };
+return { VENUES, VENUE_IDS, isVenue, TZ, setClock, zagrebNow, bizNow, toMin, fmt, weekday, addDays, isDate, token, shortCode, safeEqual, scoped, getConfig, publicConfig, catOf, cancelDeadline, pastDeadline, guarCfg, guarDeadline, GUAR_FINAL, guarState, withGuar, slotsFor, ACTIVE, overlaps, tableFree, fits, bestTable, cleanPhone, preorderTotal, guestKey, guestGet, guestSnap, vipOf, shotsOf, shotOf, crystalOf, vipLine, depositOf, availability, createReservation, guestView, getReservation, cancelByGuest, confirmArrival, adminRemind, lateBy, findRes, findCode, checkIn, adminGuest, adminGuestNote, payDeposit, adminDeposit, COAT_KINDS, coatList, coatNew, coatFind, coatOut, coatPhoto, coatGuest, defaultDay, adminDay, adminUpdate, adminSaveConfig, adminSearch, adminUpcoming, liveCreate, liveStatus, adminLive, adminLiveUpdate, feedbackCreate, adminFeedback, adminFeedbackUpdate, adminFeedbackReadAll, getMenu, adminSaveMenu, statsHit, adminStats, venueSummary, groupSummary, humanDate, cardLabel, shiftDM, guestTimeline, guestMessage, staffMessage, staffAlert, waLink };
 })();
 __m["router"] = (function () {
 /* =====================================================================
@@ -1445,7 +1558,7 @@ __m["router"] = (function () {
 const C = __m["core"];
 const PATHS = { qclub: '/q-club', kafanica: '/kafanica', bure: '/bure-bar', brooklyn: '/brooklyn' };
 const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
-const fail = r => json({ error: r.error }, r.status || 400);
+const fail = r => json({ error: r.error, ...(r.fee ? { fee: r.fee } : {}) }, r.status || 400);
 const envFor = (env, name, v) => env[`${name}_${String(v).toUpperCase()}`] || env[name] || '';
 
 async function sendEmail(env, to, subject, text) {
@@ -1493,6 +1606,8 @@ async function pinFailed(store, env, req) {
   try { const k = ipKey(req), r = await store.getJSON(k); let d = r && r.data; if (!d || Date.now() - d.t > LOCK_MS) d = { n: 0, t: 0 }; d.n++; d.t = Date.now(); await store.setJSON(k, d, null); } catch { }
 }
 /** Hostesa vidi samo ono što treba na ulazu. */
+/** Jamstvo karticom: u demu uvijek; u pravom radu tek kad je spojen pružatelj plaćanja (Stripe). */
+const payOn = env => !!(env.DEMO || env.PAY_DEMO || env.STRIPE_SECRET_KEY);
 const HOST_OK = new Set(['/login', '/day', '/res', '/code', '/checkin', '/coat', '/coat/new', '/coat/out', '/coat/find', '/coat/photo']);
 
 async function route(req, { store, env = {}, waitUntil } = {}) {
@@ -1524,10 +1639,10 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     if (path === '/availability' && req.method === 'GET') {
       const date = q('date') || C.zagrebNow().date;
       if (!C.isDate(date)) return json({ error: 'date' }, 400);
-      return json(await C.availability(S, date));
+      return json({ ...(await C.availability(S, date)), pay: payOn(env) });
     }
     if (path === '/reserve' && req.method === 'POST') {
-      const r = await C.createReservation(S, body);
+      const r = await C.createReservation(S, body, { pay: payOn(env) });
       if (r.error) return fail(r);
       const cfg = await C.getConfig(S); const x = r.reservation;
       await later(Promise.all([
@@ -1535,19 +1650,19 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
         sendEmail(env, envFor(env, 'NOTIFY_EMAIL', v), `Nova rezervacija: ${C.humanDate(x.date)} ${C.fmt(x.start)} · ${x.party} os. · ${x.name}`, C.staffMessage(x, cfg, site, vpath))
       ]));
       if (x.status === 'confirmed' && x.email) await later(sendEmail(env, x.email, `${cfg.venue} — rezervacija ${x.code}`, C.guestMessage(x, cfg, site + vpath, 'confirmed')));
-      return json({ ok: true, reservation: { ...C.guestView(x), key: x.key }, table: r.table });
+      return json({ ok: true, reservation: { ...C.guestView(x, cfg), key: x.key }, table: r.table, msgs: x.guar && x.status === 'confirmed' ? C.guestTimeline(x, cfg, site + vpath) : null });
     }
     if (path === '/reservation' && req.method === 'GET') {
       const r = await C.getReservation(S, q('id'), q('k'), site + vpath);
       return r.error ? fail(r) : json(r);
     }
     if (path === '/cancel' && req.method === 'POST') {
-      const r = await C.cancelByGuest(S, body.id, body.k);
+      const r = await C.cancelByGuest(S, body.id, body.k, body.fee === true);
       if (r.error) return fail(r);
       const cfg = await C.getConfig(S); const x = r.reservation;
-      const alert = `❌ Otkazana rezervacija ${cfg.venue}: ${C.humanDate(x.date)} ${C.fmt(x.start)} · ${x.party} os. · stol ${x.tableId} · kod ${x.code}`;
+      const alert = `❌ Otkazana rezervacija ${cfg.venue}: ${C.humanDate(x.date)} ${C.fmt(x.start)} · ${x.party} os. · stol ${x.tableId} · kod ${x.code}${x.guar ? (x.guar.state === 'charged' ? ` · kasni otkaz: naplaćeno ${x.guar.eur} €` : ' · besplatno (na vrijeme)') : ''}`;
       await later(Promise.all([sendWhatsAppStaff(env, v, alert), sendEmail(env, envFor(env, 'NOTIFY_EMAIL', v), 'Otkazana rezervacija ' + x.code, alert + ` · ${x.name}`)]));
-      return json({ ok: true, reservation: C.guestView(x) });
+      return json({ ok: true, reservation: C.guestView(x, cfg) });
     }
     if (path === '/coat' && req.method === 'GET') { const r = await C.coatGuest(S, q('g'), q('k')); return r.error ? fail(r) : json(r); }
     if (path === '/deposit' && req.method === 'POST') {
@@ -1558,7 +1673,7 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     }
     if (path === '/arrive' && req.method === 'POST') {
       const r = await C.confirmArrival(S, body.id, body.k);
-      return r.error ? fail(r) : json({ ok: true, reservation: C.guestView(r.reservation) });
+      return r.error ? fail(r) : json({ ok: true, reservation: C.guestView(r.reservation, await C.getConfig(S)) });
     }
     if (path === '/menu' && req.method === 'GET') return json(await C.getMenu(S));
     if (path === '/live' && req.method === 'POST') { const r = await C.liveCreate(S, body); return r.error ? fail(r) : json({ ok: true, id: r.id, k: r.k, dup: !!r.dup }); }
@@ -1591,7 +1706,8 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
       if (a === '/guest' && req.method === 'GET') { const r = await C.adminGuest(S, q('id')); return r.error ? fail(r) : json(r); }
       if (a === '/guest/note' && req.method === 'POST') { const r = await C.adminGuestNote(S, body); return r.error ? fail(r) : json(r); }
       if (a === '/deposit' && req.method === 'POST') { const r = await C.adminDeposit(S, body); return r.error ? fail(r) : json(r); }
-      if (a === '/checkin' && req.method === 'POST') { const r = await C.checkIn(S, body, role === 'host' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
+      // ulaz (aplikacija hostese) uvijek bilježi "hostesa" — i kad je na njoj prijavljen voditelj
+      if (a === '/checkin' && req.method === 'POST') { const r = await C.checkIn(S, body, role === 'host' || body.from === 'door' ? 'hostesa' : 'voditelj'); return r.error ? fail(r) : json(r); }
       if (a === '/day') { const d = q('date') || await C.defaultDay(S); if (!C.isDate(d)) return json({ error: 'date' }, 400); return json(await C.adminDay(S, d)); }
       if (a === '/upcoming') return json(await C.adminUpcoming(S, C.bizNow().date, 14));
       if (a === '/search') return json(await C.adminSearch(S, q('q'), C.zagrebNow().date));
@@ -2105,7 +2221,8 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
             : { text: `🔔 Osoblje je upravo dobilo poziv sa stola ${T}.`, cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: 'live' }) };
         } else if (path === '/reserve' && res && (res.reservation || res).id) {
           const rr = res.reservation || res;
-          n = { text: '📅 Lokal je upravo dobio Vašu rezervaciju.', cta: 'Potvrdite kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 16000 };
+          n = rr.guar ? { text: '📅 Rezervacija je potvrđena i zajamčena karticom — voditelj je odmah vidi na popisu večeri.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 16000 }
+            : { text: '📅 Lokal je upravo dobio Vašu rezervaciju.', cta: 'Potvrdite kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 16000 };
         } else if (path === '/deposit' && res && res.reservation) {
           const rr = res.reservation;
           n = { text: '💳 Voditelj odmah vidi da je kapara plaćena — stol je osiguran.', cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }) };
@@ -2122,7 +2239,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
         }
         if (path === '/admin/checkin' && res && res.reservation) {
           const rr = res.reservation;
-          n = { text: `🚪 Uprava odmah vidi da su ${rr.name.split(' ').slice(-1)[0]} stigli${rr.lateMin > 5 ? ` (kasnili ${rr.lateMin} min)` : ''} i za kojim stolom sjede.`, cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 14000 };
+          n = { text: `🚪 Voditelj je dobio potvrdu: ${rr.name.split(' ').slice(-1)[0]} su stigli${rr.lateMin > 5 ? ` (kasnili ${rr.lateMin} min)` : ''}, stol ${rr.tableId}${rr.guar && rr.guar.state === 'released' ? ` — blokada ${rr.guar.eur} € na kartici je oslobođena` : ''}.`, cta: 'Pogledajte kao voditelj', href: TT.demoHref(v, 'admin', { hash: `list/${rr.date}/${encodeURIComponent(rr.id)}` }), ms: 14000 };
         }
       } else if (page === 'admin') {
         if (path === '/admin/live/update' && res && res.item) {
@@ -2153,7 +2270,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
 (function () {
   'use strict';
   const TT = window.TT; if (!TT) return;
-  const VERSION = 'v27';
+  const VERSION = 'v28';
   /** Stolovi za priču prezentacije: na demo dan i dan poslije ostaju slobodni za rezervaciju uživo. */
   const STORY = { qclub: ['VIP', '47'], kafanica: ['35', '15'], bure: ['31', '25'], brooklyn: ['L3'] };
   /** Stolovi koje prezentacija koristi kao "gostov stol" (cjenik za stolom). */
@@ -2224,6 +2341,17 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
       for (let i = 0; i < Math.min(visits, 3); i++) g.hist.push({ d: TT.addDays(body.date, -(lastAgo + i * 24)), t: pick(R, cfg.tables.filter(x => !x.noRes)).id, p: Math.max(2, body.party - 1 + Math.floor(R() * 3)), b: '' });
       return g;
     };
+    /* jamstvo karticom: gost koji je rezervirao preko weba jamčio je s Apple Pay / Google Pay / karticom — zajamčena rezervacija
+       odmah je potvrđena. Bez R(), da ostali demo podaci ostanu isti. Rezervacije s telefona / Instagrama upisuje osoblje, bez kartice. */
+    const GU = !!(cfg.policy && cfg.policy.guarantee && +cfg.policy.guarantee.eur > 0);
+    const guar = body => {
+      if (!GU || body.source !== 'web') return;
+      if (body.status === 'pending') body.status = 'confirmed';
+      const k = (body.party * 7 + body.start + String(body.tableId).length) % 8;
+      body._guar = { card: { brand: ['apple', 'apple', 'google', 'visa', 'apple', 'mc', 'google', 'visa'][k], last4: String(1000 + (body.start * 37 + body.party * 113) % 9000) },
+        state: body.status === 'seated' || body.status === 'done' ? 'released' : body.status === 'noshow' ? 'charged' : 'card' };
+      if (body.status === 'seated') body._via = k % 3 ? 'qr' : 'code';   // hostesa je skenirala ulaznicu (ili upisala kod s nje)
+    };
     const PRE_OK = t => !!(cfg.features && cfg.features.preorder && (cfg.features.preorderZones || []).includes(t.zone) && bottles.length);
     const mkPre = (body, party) => {
       const b1 = pick(R, bottles.slice(0, Math.min(8, bottles.length)));
@@ -2244,7 +2372,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
       if (isDemo) {   // gost za "demo stolom" (cjenik za stolom u prezentaciji) već sjedi
         const t = cfg.tables.find(x => x.id === TT.DEMO_TABLE[v]);
         const early = slots.filter(m => m <= demoMin - 15); const start = early.length ? early[early.length - 1] : slots[0];
-        if (t) { const party = Math.max(t.min || 1, Math.min(t.max, 4)); const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status: 'seated', source: 'web', _at: iso(2 * 864e5), _lateMin: 4 }; if (PRE_OK(t)) mkPre(body, party); await C.createReservation(S, body, { admin: true }); }
+        if (t) { const party = Math.max(t.min || 1, Math.min(t.max, 4)); const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status: 'seated', source: 'web', _at: iso(2 * 864e5), _lateMin: 4 }; if (PRE_OK(t)) mkPre(body, party); guar(body); await C.createReservation(S, body, { admin: true }); }
       }
       let pend = 0, late = 0, noArr = 0;
       for (const t of tables) {
@@ -2274,7 +2402,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
           if (bday) bdays++;
           await S.setJSON(C.guestKey(body.phone), mkGuest(body, { bday, note: nearNow && R() < .5 }), null);
         }
-        if (C.depositOf(cfg, t.id) && !isPast) body._deposit = R() < .8 ? 'paid' : '';   // kapara za VIP: većina plaćena, poneka čeka uplatu
+        if (C.depositOf(cfg, t.id) && !isPast) body._deposit = R() < .8 ? 'paid' : '';   // stara kapara (ako je lokal još ima u postavkama)
         // potvrdili dolazak (podsjetnik u podne); barem dvoje koji tek dolaze NISU — da voditelj ima kome poslati podsjetnik
         if (isDemo && status === 'confirmed') { if (start > demoMin && noArr < 2) noArr++; else if (R() < .55) body._arrive = iso((1 + R() * 6) * 3600e3); }
         if (status === 'seated') body._lateMin = Math.round(-8 + R() * 22);   // hostesa ih je uvela: na vrijeme ili par minuta kasnije
@@ -2283,6 +2411,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
           body.vip = { spark: k !== 1, dj: k !== 3, djName: k === 3 ? '' : occasion === 'rodjendan' ? `${fn} i ekipa — sretan rođendan!` : `${fn} i ekipa`, shot: sh.length && k !== 4 ? sh[(party + start) % sh.length] : '' };
           const VB = ['moet-brut@0,75 l', 'grey-goose@0,70 l', 'jd-no7@1 l', '', 'hendricks@0,70 l'], b = bottles.find(x => x.id === VB[(party + k) % VB.length]);   // boca koja čeka u kibli
           if (b && PRE_OK(t)) { body.preorder = [{ id: b.id, name: b.name, vol: b.vol, eur: b.eur, qty: party >= 12 ? 2 : 1 }]; body.sparkler = body.vip.spark; } }
+        guar(body);
         await C.createReservation(S, body, { admin: true });
       }
     }
@@ -2298,7 +2427,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
         if (t) {
           const party = Math.max(2, Math.min(t.max, 4)), body = { date: demoDate, start: slot, party, tableId: t.id, name: person(), phone: phone(), status: 'confirmed', source: 'web', occasion: '', note: '', _at: iso(3 * 864e5) };
           await S.setJSON(C.guestKey(body.phone), mkGuest(body, { visits: 4, bday: bdays < 2, note: true }), null); bdays++;
-          await C.createReservation(S, body, { admin: true });
+          guar(body); await C.createReservation(S, body, { admin: true });
         }
       }
     }
@@ -2424,8 +2553,8 @@ function render(){
   $('#clk').textContent=`${DN[TT.wd(n.date)]} ${fmt(n.min)}`;
   const sum=k=>V.reduce((a,v)=>a+k(v),0);
   const openNow=sum(v=>v.live.open);
-  const R_=sum(v=>v.tonight.res),G_=sum(v=>v.tonight.guests),P_=sum(v=>v.tonight.pending),U_=sum(v=>v.feedback.unread);
-  $('#kp').innerHTML=[[R_,pl(R_,'rezervacija','rezervacije','rezervacija')+' večeras'],[G_,pl(G_,'gost','gosta','gostiju')+' večeras'],[P_,pl(P_,'čeka','čekaju','čeka')+' potvrdu',P_>0],[openNow,pl(openNow,'stol zove','stola zovu','stolova zove')+' sada',openNow>0],[(()=>{const a=V.filter(v=>v.live.avgAck!=null);if(!a.length)return '—';const s=Math.round(a.reduce((x,v)=>x+v.live.avgAck,0)/a.length);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})(),'prosječna reakcija osoblja'],[U_,pl(U_,'nepročitana poruka','nepročitane poruke','nepročitanih poruka'),U_>0]]
+  const R_=sum(v=>v.tonight.res),G_=sum(v=>v.tonight.guests),P_=sum(v=>v.tonight.pending),U_=sum(v=>v.feedback.unread),J_=sum(v=>v.tonight.guar||0);
+  $('#kp').innerHTML=[[R_,pl(R_,'rezervacija','rezervacije','rezervacija')+' večeras'],[G_,pl(G_,'gost','gosta','gostiju')+' večeras'],P_||!J_?[P_,pl(P_,'čeka','čekaju','čeka')+' potvrdu',P_>0]:[J_,'zajamčeno karticom'],[openNow,pl(openNow,'stol zove','stola zovu','stolova zove')+' sada',openNow>0],[(()=>{const a=V.filter(v=>v.live.avgAck!=null);if(!a.length)return '—';const s=Math.round(a.reduce((x,v)=>x+v.live.avgAck,0)/a.length);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})(),'prosječna reakcija osoblja'],[U_,pl(U_,'nepročitana poruka','nepročitane poruke','nepročitanih poruka'),U_>0]]
     .map(([b,s,h])=>`<div class="${h?'hot':''}"><b>${b}</b><span>${s}</span></div>`).join('');
   const GZ=V.map(v=>({v,ms:v.tonight.minSpend||0,pre:v.tonight.preOver!=null?v.tonight.preOver:(v.tonight.pre||0)})).filter(x=>x.ms+x.pre>0),gT=GZ.reduce((a,x)=>a+x.ms+x.pre,0),gz=$('#gz');
   gz.hidden=!gT;
@@ -2436,15 +2565,15 @@ function render(){
     const dayLbl=v.day===D.biz.date?'večeras':`${DS[TT.wd(v.day)]} ${+v.day.slice(8)}.${+v.day.slice(5,7)}.`;
     return `<article class="vc" style="--a:${th.gold2||'#f2d08c'};--a2:${th.gold||'#d9b25f'};--vb:${th.card||'#15151c'}">
       <div class="hd"><svg viewBox="${c.vb||'0 0 220 160'}" aria-hidden="true">${c.logo||''}</svg><div class="nm">${esc(v.name)}<small>${!REZ(v)?'bez rezervacija · '+dayLbl:t.res?`${t.res} ${pl(t.res,'rezervacija','rezervacije','rezervacija')} · ${dayLbl}`:'nema rezervacija · '+dayLbl}</small></div><a href="${esc(TT.keepClock(TT.url(v.id,'admin/')))}" data-adm="${v.id}">Otvori ›</a></div>
-      <div class="nums">${REZ(v)?`<div><b>${t.guests}</b><span>${pl(t.guests,'gost','gosta','gostiju')}</span></div><div class="${t.pending?'hot':''}"><b>${t.pending}</b><span>čeka potvrdu</span></div>`:`<div><b>${calls(v)}</b><span>${pl(calls(v),'zahtjev','zahtjeva','zahtjeva')} večeras</span></div><div><b>${mmss(v.live.slowAck)}</b><span>najduže čekanje</span></div>`}<div class="${v.live.open?'hot':''}"><b>${v.live.open}</b><span>${pl(v.live.open,'zove sada','zovu sada','zove sada')}</span></div><div><b>${v.live.avgAck==null?'—':Math.floor(v.live.avgAck/60)+':'+String(v.live.avgAck%60).padStart(2,'0')}</b><span>reakcija osoblja</span></div></div>
+      <div class="nums">${REZ(v)?`<div><b>${t.guests}</b><span>${pl(t.guests,'gost','gosta','gostiju')}</span></div>${t.pending||!t.guar?`<div class="${t.pending?'hot':''}"><b>${t.pending}</b><span>čeka potvrdu</span></div>`:`<div><b>${t.guar}</b><span>zajamčeno karticom</span></div>`}`:`<div><b>${calls(v)}</b><span>${pl(calls(v),'zahtjev','zahtjeva','zahtjeva')} večeras</span></div><div><b>${mmss(v.live.slowAck)}</b><span>najduže čekanje</span></div>`}<div class="${v.live.open?'hot':''}"><b>${v.live.open}</b><span>${pl(v.live.open,'zove sada','zovu sada','zove sada')}</span></div><div><b>${v.live.avgAck==null?'—':Math.floor(v.live.avgAck/60)+':'+String(v.live.avgAck%60).padStart(2,'0')}</b><span>reakcija osoblja</span></div></div>
       ${REZ(v)&&t.tables?`<div class="occ"><span>Popunjenost</span><i style="--p:${Math.round(100*(t.booked||0)/t.tables)}%"></i><b>${t.booked||0}/${t.tables} ${pl(t.tables,'stol','stola','stolova')}</b></div>`:''}<div class="spark">${!REZ(v)?(v.stats.days||[]).slice(-7).map((w,_,A)=>{const mx2=Math.max(1,...A.map(z=>z.open||0));return `<i class="${[5,6].includes(TT.wd(w.date))?'we':''}" style="height:${Math.max(3,Math.round((w.open||0)/mx2*54))}px"><s>${w.open||''}</s><em>${DS[TT.wd(w.date)].slice(0,2)}</em></i>`}).join(''):v.week.map(w=>`<i class="${[5,6].includes(TT.wd(w.date))?'we':''}" style="height:${Math.max(3,Math.round(w.guests/mx*54))}px"><s>${w.guests||''}</s><em>${DS[TT.wd(w.date)].slice(0,2)}</em></i>`).join('')}</div>
-      <div class="row2" style="margin-top:22px">${REZ(v)?`<span class="chipx">🔔 <b>${calls(v)}</b> ${pl(calls(v),'poziv','poziva','poziva')} večeras</span>`:''}${t.minSpend?`<span class="chipx">💶 min. potrošnja <b>${money0(t.minSpend)}</b></span>`:''}${t.pre?`<span class="chipx">🍾 boce unaprijed <b>${money0(t.pre)}</b></span>`:''}${t.regulars?`<span class="chipx">⭐ <b>${t.regulars}</b> ${pl(t.regulars,'stalni gost','stalna gosta','stalnih gostiju')} večeras</span>`:''}${t.deposits?`<span class="chipx">💳 kapare <b>${money0(t.deposits)}</b></span>`:''}${v.live.songs?`<span class="chipx">🎵 <b>${v.live.songs}</b> ${pl(v.live.songs,'pjesma','pjesme','pjesama')} po želji</span>`:''}<span class="chipx">✉️ <b>${v.feedback.unread}</b> ${pl(v.feedback.unread,'nova poruka','nove poruke','novih poruka')}</span><span class="chipx">📱 <b>${v.stats.open}</b> ${pl(v.stats.open,'otvaranje','otvaranja','otvaranja')} cjenika (7 dana)</span>${v.stats.top[0]?`<span class="chipx">🏆 ${esc(v.stats.top[0].name)}</span>`:''}</div></article>`}).join('');
+      <div class="row2" style="margin-top:22px">${REZ(v)?`<span class="chipx">🔔 <b>${calls(v)}</b> ${pl(calls(v),'poziv','poziva','poziva')} večeras</span>`:''}${t.minSpend?`<span class="chipx">💶 min. potrošnja <b>${money0(t.minSpend)}</b></span>`:''}${t.pre?`<span class="chipx">🍾 boce unaprijed <b>${money0(t.pre)}</b></span>`:''}${t.regulars?`<span class="chipx">⭐ <b>${t.regulars}</b> ${pl(t.regulars,'stalni gost','stalna gosta','stalnih gostiju')} večeras</span>`:''}${t.deposits?`<span class="chipx">💳 kapare <b>${money0(t.deposits)}</b></span>`:''}${t.guarLate?`<span class="chipx">⏰ <b>${t.guarLate}</b> ${pl(t.guarLate,'stol nije stigao','stola nisu stigla','stolova nije stiglo')} · jamstvo čeka</span>`:''}${t.guarCharged?`<span class="chipx">€ naplaćeno za nedolazak <b>${money0(t.guarCharged)}</b></span>`:''}${v.live.songs?`<span class="chipx">🎵 <b>${v.live.songs}</b> ${pl(v.live.songs,'pjesma','pjesme','pjesama')} po želji</span>`:''}<span class="chipx">✉️ <b>${v.feedback.unread}</b> ${pl(v.feedback.unread,'nova poruka','nove poruke','novih poruka')}</span><span class="chipx">📱 <b>${v.stats.open}</b> ${pl(v.stats.open,'otvaranje','otvaranja','otvaranja')} cjenika (7 dana)</span>${v.stats.top[0]?`<span class="chipx">🏆 ${esc(v.stats.top[0].name)}</span>`:''}</div></article>`}).join('');
   const feed=V.flatMap(v=>v.live.recent.map(x=>({v,x}))).sort((a,b)=>a.x.createdAt<b.x.createdAt?1:-1).slice(0,9);
   $('#feed').innerHTML=feed.length?feed.map(({v,x})=>{const k=KIND[x.kind]||['•',x.kind];const th=(VS[v.id]||{}).theme||{};
     return `<div class="it"><span class="vb" style="color:${th.gold2};background:${th.gold2}"></span><span class="ki">${k[0]}</span><span class="tx"><b>${esc(v.name)}</b> · ${x.table?'stol '+esc(x.table)+' · ':''}${k[1]}${x.kind==='order'?' · '+money(x.total):''}${x.kind==='song'&&x.song?` · „${esc(x.song.title)}”`:''}</span><span class="pill st-${x.status}" style="height:22px">${{new:'novo',ack:'preuzeto',done:'riješeno',skip:'preskočeno'}[x.status]}</span><span class="tm">${agoTxt(x.createdAt)}</span></div>`}).join(''):'<p class="small">Još nema događaja večeras.</p>';
   const fbs=V.flatMap(v=>v.feedback.recent.map(f=>({v,f}))).sort((a,b)=>a.f.createdAt<b.f.createdAt?1:-1).slice(0,5);
   $('#fbs').innerHTML=fbs.length?fbs.map(({v,f})=>`<div class="fbx"><div class="s"><b style="color:${((VS[v.id]||{}).theme||{}).gold2}">${esc(v.name)}</b> · ${esc(TOP[f.topic]||f.topic)} · ${agoTxt(f.createdAt)}${f.read?'':' · <span style="color:var(--amber);font-weight:800">NOVO</span>'}</div><div class="m">${esc(f.msg)}</div></div>`).join(''):'<p class="small">Nema poruka.</p>';
-  $('#one').innerHTML=[['📖 Digitalni cjenik','cijene, rasprodano i akcije mijenja voditelj sam'],['📅 Rezervacije s tlocrtom','gost bira stol, voditelj potvrđuje jednim dodirom'],['🔔 Poziv konobara','gost zove konobara jednim dodirom — vidi se brzina reakcije'],['⭐ Recenzije i poruke','Google recenzije + anonimne poruke voditelju i direktorima'],['🔐 Voditelji i direktori','voditelj vidi svoj lokal, direktori sve — svatko svojim PIN-om']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('');
+  $('#one').innerHTML=[['📖 Digitalni cjenik','cijene, rasprodano i akcije mijenja voditelj sam'],['📅 Rezervacije s tlocrtom','gost bira stol i jamči karticom — hostesa skenira ulaznicu, voditelj odmah zna tko je stigao'],['🔔 Poziv konobara','gost zove konobara jednim dodirom — vidi se brzina reakcije'],['⭐ Recenzije i poruke','Google recenzije + anonimne poruke voditelju i direktorima'],['🔐 Voditelji i direktori','voditelj vidi svoj lokal, direktori sve — svatko svojim PIN-om']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('');
 }
 function show(on){$('#app').hidden=!on;$('#login').hidden=on;}
 $('#lf').onsubmit=async e=>{e.preventDefault();const p=$('#pin').value.trim();try{await TT.api('/group/login',{root:true,admin:true,pin:p});TT.setPin(null,p);show(true);load();}catch(err){$('#le').textContent=err&&err.error==='locked'?'Previše pogrešnih pokušaja — pokušajte ponovno za 15 minuta.':err&&err.status===401?'Pogrešan PIN.':'Nema veze sa serverom.'}};
