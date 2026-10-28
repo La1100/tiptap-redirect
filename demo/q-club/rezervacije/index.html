@@ -218,7 +218,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .bt-total b{font-family:var(--f-display);font-size:30px;color:var(--text);letter-spacing:.02em}
 .preview{margin-top:12px;border-radius:14px;padding:12px 14px;background:rgba(0,0,0,.25);font-size:14px}
 .preview li{margin:2px 0}
-#fx{position:fixed;inset:0;pointer-events:none;z-index:120}
+#fx{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:120}
 .status-live{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:4px}
 .status-live i{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:bl 1.4s infinite}
 @keyframes bl{50%{opacity:.3}}
@@ -343,14 +343,6 @@ html.noscroll{overflow:hidden}
 .vtt small{display:block;font:800 11.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:#ffd27a}
 .vtt h2{margin:6px 0 2px;font-family:var(--f-display);font-weight:800;font-size:52px;line-height:.92;text-transform:uppercase;letter-spacing:.02em;color:#fff3dc;text-shadow:0 0 18px rgba(255,170,60,.55),0 2px 0 rgba(0,0,0,.4)}
 .vtt p{margin:0 0 12px;color:#e8d8bd;font-size:15px}
-.vplay{height:42px;padding:0 16px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,230,180,.55);color:#fff3dc;font-weight:800;font-size:14px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.vdj{position:absolute;left:50%;top:34%;z-index:3;transform:translate(-50%,-50%) scale(.6);opacity:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 18px;border-radius:18px;background:rgba(10,6,18,.78);border:1.5px solid rgba(186,150,255,.9);box-shadow:0 0 22px rgba(139,92,255,.6);white-space:nowrap;pointer-events:none}
-.vdj b{font:800 11px/1 var(--f-body);letter-spacing:.2em;color:#cbb6ff}
-.vdj span{font-family:'TT Kafana',Georgia,serif;font-style:italic;font-size:22px;color:#ffe4cc;text-shadow:0 0 8px #ff8a3d,0 0 18px rgba(255,90,30,.6)}
-.vdj.on{animation:vdj 3.4s cubic-bezier(.2,1.2,.4,1) forwards}
-@keyframes vdj{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}12%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}20%,82%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-60%) scale(.96)}}
-.vhero.party .vimg{animation:vkb 16s ease-in-out infinite alternate,vflash 2.6s ease-out}
-@keyframes vflash{0%{filter:brightness(.6) contrast(1.15) saturate(1.3)}8%{filter:brightness(1.25) contrast(1.05) saturate(1.4)}30%,100%{filter:brightness(.6) contrast(1.15) saturate(1.3) sepia(.12)}}
 .vbody{padding:16px 18px calc(22px + env(safe-area-inset-bottom))}
 .vbody h3{margin:0 0 10px;font:800 11.5px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:#ffd27a}
 .vperks{display:grid;gap:8px}
@@ -372,7 +364,31 @@ html.noscroll{overflow:hidden}
 .vipk span{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--text)}.vipk i{font-style:normal;width:22px;text-align:center}
 .plan .pl-t.vip.free .pl-halo{animation:vhalo 1.8s ease-in-out infinite}
 @keyframes vhalo{0%,100%{opacity:.35}50%{opacity:.95}}
-@media (prefers-reduced-motion:reduce){.vteaser::before,.vimg,.vgl,.vipov.on .vp,.plan .pl-t.vip.free .pl-halo{animation:none}.vp{opacity:1;transform:none}}
+.vplay{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 18px 0 7px;border-radius:999px;border:0;background:linear-gradient(180deg,#ffe7a6,#e2ab3e);color:#2a1a02;font-weight:800;font-size:15px;box-shadow:0 12px 30px -10px rgba(255,170,60,.85),inset 0 0 0 1px rgba(255,246,214,.6)}
+.vplay i{position:relative;flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#2a1a02;color:#ffd27a}
+.vplay i svg{width:12px;height:12px;margin-left:2px}
+.vplay i::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(42,26,2,.55);animation:vring 1.9s ease-out infinite}
+@keyframes vring{0%{transform:scale(.78);opacity:1}100%{transform:scale(1.45);opacity:0}}
+/* VIP doček preko cijelog ekrana */
+.vparty{position:fixed;inset:0;z-index:130;overflow:hidden;background:#050302;opacity:0;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.vpcam{position:absolute;inset:0;transform-origin:50% 62%}
+.vpbg{position:absolute;inset:-7%;background-size:cover;background-position:58% 34%;filter:saturate(1.35) contrast(1.15) brightness(.8) sepia(.18)}
+.vpdim{position:absolute;inset:0;background:radial-gradient(130% 70% at 50% 64%,rgba(6,4,2,.66),rgba(6,4,2,.93) 70%,#050302)}
+.vpfx{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vptx{position:absolute;left:0;right:0;top:calc(11vh + env(safe-area-inset-top));display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 18px;pointer-events:none;transform-origin:50% 40%}
+.vpdj{display:inline-flex;align-items:center;gap:9px;padding:8px 13px 8px 10px;border-radius:999px;background:rgba(12,8,3,.6);border:1px solid rgba(255,210,130,.5);box-shadow:0 0 26px rgba(255,170,60,.28);font:800 11px/1 var(--f-body);letter-spacing:.24em;text-transform:uppercase;color:#ffe2a6;opacity:0}
+.vpdj svg{width:15px;height:15px;color:#ffd27a;flex:none}
+.vpdj .eq{display:inline-flex;align-items:flex-end;gap:2px;height:14px;margin-left:1px}
+.vpdj .eq i{display:block;width:3px;height:4px;border-radius:2px;background:#ffd27a;box-shadow:0 0 6px rgba(255,190,80,.8)}
+.vphi{display:block;margin-top:26px;font:800 13px/1 var(--f-body);letter-spacing:.5em;padding-left:.5em;text-transform:uppercase;color:#ffd98a;opacity:0;text-shadow:0 0 14px rgba(255,180,70,.75)}
+.vpn{margin:12px 0 0;font-family:var(--f-display);font-weight:800;font-size:clamp(70px,25vw,132px);line-height:.84;letter-spacing:.012em;text-transform:uppercase;white-space:nowrap}
+.vpn span{display:inline-block;color:#fff7e6;opacity:0;--g:0;text-shadow:0 0 calc(3px + var(--g)*9px) rgba(255,232,170,calc(.45 + var(--g)*.55)),0 0 calc(16px + var(--g)*34px) rgba(255,160,50,calc(.32 + var(--g)*.5)),0 2px 0 rgba(60,30,0,.35)}
+.vpn2{display:block;margin:10px 0 0;font-family:var(--f-display);font-weight:800;font-size:clamp(28px,9.4vw,50px);line-height:1;letter-spacing:.22em;padding-left:.22em;text-transform:uppercase;color:#ffd27a;opacity:0;text-shadow:0 0 18px rgba(255,170,60,.65)}
+.vprule{display:block;width:0;height:1.5px;margin:20px auto 0;background:linear-gradient(90deg,rgba(255,210,122,0),#ffd27a,rgba(255,210,122,0))}
+.vpsub{display:block;margin:12px 0 0;font:800 11px/1 var(--f-body);letter-spacing:.32em;padding-left:.32em;text-transform:uppercase;color:rgba(255,238,206,.85);opacity:0}
+.vpflash{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(90% 62% at 50% 72%,#fffaf0 0%,rgba(255,222,150,.9) 32%,rgba(255,170,60,.35) 62%,rgba(255,150,40,0) 100%)}
+.vpx{position:absolute;right:14px;top:calc(14px + env(safe-area-inset-top));width:42px;height:42px;border-radius:14px;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:17px;opacity:0;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+@media (prefers-reduced-motion:reduce){.vteaser::before,.vimg,.vgl,.vipov.on .vp,.plan .pl-t.vip.free .pl-halo,.vplay i::after{animation:none}.vp{opacity:1;transform:none}}
 .lead.back{color:var(--gold2);font-weight:700}
 .rules .depr{display:block;margin:0 0 8px;padding:10px 12px;border-radius:12px;background:rgba(var(--gold2-rgb),.1);border:1px solid rgba(var(--gold2-rgb),.35);color:var(--text)}
 .rules .depr small,.policy .pi small{display:block}
@@ -3197,7 +3213,7 @@ const T={hr:{back:'← Cjenik',title:'Rezervirajte stol',lead:'Odaberite dan, vr
   terms:'Prihvaćam uvjete rezervacije — minimalnu potrošnju, rok za otkazivanje i naknadu za nedolazak.',
   depL:v=>`Kapara <b>${v}</b> pri rezervaciji — odbija se od računa`,depS:'Ako otkažete na vrijeme, kapara se vraća; ako ne dođete, ostaje lokalu.',depT:'Kapara za stol',depTxt:(v,tb)=>`Za stol ${tb} plaća se kapara <b>${v}</b>. Odbija se od računa — dolazite na već plaćen stol.`,depBtn:v=>`💳 Platite kaparu · ${v}`,depOk:v=>`Kapara ${v} je plaćena — odbija se od računa`,
   vipStepT:'VIP doček',vipStepS:'Odaberite kako želite da vas dočekamo — uključeno uz VIP stol.',vipSp:'Prskalice na bocu',vipSpS:'Boca stiže uz prskalice',vipDj:'DJ najavljuje vaše ime',vipDjS:'Npr. „Dobrodošli, Marko i ekipa!”',vipDJL:'Što DJ najavljuje',vipDjPh:'npr. Marko i ekipa · sretan rođendan, Ana!',vipShT:'🥃 Rakija dobrodošlice za cijeli stol — odaberite',vipShNone:'Odlučit ćemo na licu mjesta',vipCrewOf:n=>`${n} i ekipa`,
-  vipT:'VIP doživljaj',vipTS:'Boca na ledu · prskalice i najava DJ-a · ulaz bez čekanja',s3bV:'Boca koja vas čeka na stolu',btIntroV:'Čeka vas u kibli s ledom kad stignete, a uz premium boce stižu i kristalne čaše. Neobavezno — plaća se na licu mjesta i ulazi u minimalnu potrošnju.',crystal:'kristalne čaše',vipTkShot:(l,id)=>`Rakija dobrodošlice za cijeli stol: ${l} (${id})`,vipTkShot0:'Rakija dobrodošlice za cijeli stol — birate za stolom',vipTkReady:b=>`Stol spreman prije vašeg dolaska — ${b?b+' u kibli s ledom':'kible s ledom'}, led i limun sa strane, slamke`,vipTkCr:n=>`Kristalne čaše uz ${n}`,vipUp:(n,v)=>`Vas je ${n} — VIP je slobodan: ≈ ${v} po osobi`,vipSee:'▶ Pogledajte doček',vipBook:'👑 Rezerviraj VIP stol',vipShare:'📤 Pošalji ekipi',vipCopied:'Link je kopiran — pošaljite ga ekipi',vipShareTxt:v=>`Idemo na VIP stol ${v}? 👑 Boca nas čeka na ledu, prskalice, DJ najavljuje naše ime, rakija dobrodošlice i stol uz DJ-a za cijelu ekipu.`,vipBusy:'VIP stol je u to vrijeme zauzet — odaberite drugo vrijeme.',vipPick:'Odaberite vrijeme dolaska — VIP stol je spreman.',vipDJ:n=>`Dobrodošli, ${n}! 👑`,vipCrew:'ekipo',vipMin:'minimalna potrošnja za cijeli stol',vipPP:n=>`${n} ${n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?'osobe':'osoba'}`,vipPer:'po osobi',vipWhat:'Što vas čeka',vipSeat:(mx)=>`do ${mx} osoba · uz DJ-a`,
+  vipT:'VIP doživljaj',vipTS:'Boca na ledu · prskalice i najava DJ-a · ulaz bez čekanja',s3bV:'Boca koja vas čeka na stolu',btIntroV:'Čeka vas u kibli s ledom kad stignete, a uz premium boce stižu i kristalne čaše. Neobavezno — plaća se na licu mjesta i ulazi u minimalnu potrošnju.',crystal:'kristalne čaše',vipTkShot:(l,id)=>`Rakija dobrodošlice za cijeli stol: ${l} (${id})`,vipTkShot0:'Rakija dobrodošlice za cijeli stol — birate za stolom',vipTkReady:b=>`Stol spreman prije vašeg dolaska — ${b?b+' u kibli s ledom':'kible s ledom'}, led i limun sa strane, slamke`,vipTkCr:n=>`Kristalne čaše uz ${n}`,vipUp:(n,v)=>`Vas je ${n} — VIP je slobodan: ≈ ${v} po osobi`,vipSee:'Pogledajte doček',vipDjLbl:'DJ najavljuje',vipHi:'Dobrodošli',vipEx:'Marko',vipAnd:'i ekipa',vipEnd:'Zatvori',vipBook:'👑 Rezerviraj VIP stol',vipShare:'📤 Pošalji ekipi',vipCopied:'Link je kopiran — pošaljite ga ekipi',vipShareTxt:v=>`Idemo na VIP stol ${v}? 👑 Boca nas čeka na ledu, prskalice, DJ najavljuje naše ime, rakija dobrodošlice i stol uz DJ-a za cijelu ekipu.`,vipBusy:'VIP stol je u to vrijeme zauzet — odaberite drugo vrijeme.',vipPick:'Odaberite vrijeme dolaska — VIP stol je spreman.',vipDJ:n=>`Dobrodošli, ${n}! 👑`,vipCrew:'ekipo',vipMin:'minimalna potrošnja za cijeli stol',vipPP:n=>`${n} ${n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?'osobe':'osoba'}`,vipPer:'po osobi',vipWhat:'Što vas čeka',vipSeat:(mx)=>`do ${mx} osoba · uz DJ-a`,
   payFor:(tb,d)=>`Kapara · stol ${tb} · ${d}`,payBtn:'Plati',payWays:'Kartica · Apple Pay · Google Pay',payNote:'Demo — ništa se ne naplaćuje. U pravom sustavu plaćanje ide preko banke.',paying:'Plaćanje…',paid:'Plaćeno',payNo:'Plaćanje kapare još nije uključeno — osoblje će vam javiti kako platiti.',payX:'Odustani',payToast:'✓ Kapara je plaćena — stol vas čeka',backHi:'Drago nam je što nam se vraćate! 🙌',
   tkDay:'Dan',tkTime:'Dolazak',tkTable:'Stol',tkPeople:'Osoba',tkMin:'Min. potrošnja',tkShow:'Na ulazu pokažite QR ili samo recite kod — osoblje vas odmah vodi do stola.',freeCancel:(u,d)=>`Besplatno otkazivanje do <b>${u}</b>, ${d}.`,lateCancel:p=>`Rok za otkazivanje je prošao. Za promjene nazovite <b>${p}</b>.`,arrQ:d=>d?'Stižete večeras?':'Stižete?',arrTxt:(tb,tm)=>`Stol <b>${tb}</b> čeka Vas u <b>${tm}</b>. Potvrdite dolazak jednim dodirom — osoblje to odmah vidi.`,arrBtn:'✓ Potvrđujem dolazak',arrOk:tm=>`Dolazak potvrđen — vidimo se u ${tm}!`,arrToast:'✓ Hvala! Osoblje zna da stižete.',
   phoneHint:'Potvrdu i podsjetnik šaljemo na WhatsApp.',more:'Prigoda ili napomena?',
@@ -3231,7 +3247,7 @@ en:{back:'← Menu',title:'Book a table',lead:'Pick a day, time and your table. 
   terms:'I accept the booking terms — minimum spend, cancellation deadline and no-show fee.',
   depL:v=>`A <b>${v}</b> deposit when booking — taken off the bill`,depS:'Cancel in time and it is refunded; if you don’t come, the venue keeps it.',depT:'Table deposit',depTxt:(v,tb)=>`Table ${tb} needs a <b>${v}</b> deposit. It comes off your bill — you arrive at a table that’s already paid.`,depBtn:v=>`💳 Pay the deposit · ${v}`,depOk:v=>`${v} deposit paid — taken off the bill`,
   vipStepT:'VIP welcome',vipStepS:'Choose how you’d like to be welcomed — included with the VIP table.',vipSp:'Sparklers on the bottle',vipSpS:'Your bottle arrives with sparklers',vipDj:'The DJ calls out your name',vipDjS:'E.g. “Welcome, Mark and crew!”',vipDJL:'What the DJ announces',vipDjPh:'e.g. Mark and crew · happy birthday, Ana!',vipShT:'🥃 A welcome round for the whole table — pick one',vipShNone:'We’ll decide on the night',vipCrewOf:n=>`${n} & crew`,
-  vipT:'VIP experience',vipTS:'Bottle on ice · sparklers & a DJ shout-out · no queue',s3bV:'The bottle waiting at your table',btIntroV:'It’s waiting in an ice bucket when you arrive, and premium bottles come with crystal glasses. Optional — you pay on the night and it counts towards the minimum spend.',crystal:'crystal glasses',vipTkShot:(l,id)=>`A welcome round for the whole table: ${l} (${id})`,vipTkShot0:'A welcome round for the whole table — pick it on the night',vipTkReady:b=>`Your table is ready before you arrive — ${b?b+' on ice':'ice buckets'}, extra ice and lemon on the side, straws`,vipTkCr:n=>`Crystal glasses with your ${n}`,vipUp:(n,v)=>`You’re ${n} — VIP is free: ≈ ${v} per person`,vipSee:'▶ See the welcome',vipBook:'👑 Book the VIP table',vipShare:'📤 Send to the crew',vipCopied:'Link copied — send it to your crew',vipShareTxt:v=>`VIP table ${v}? 👑 A bottle waiting on ice, sparklers, the DJ calls our name, a welcome round and the table right by the DJ for the whole crew.`,vipBusy:'The VIP table is taken at that time — pick another time.',vipPick:'Pick your arrival time — the VIP table is ready.',vipDJ:n=>`Welcome, ${n}! 👑`,vipCrew:'crew',vipMin:'minimum spend for the whole table',vipPP:n=>`${n} guests`,vipPer:'per person',vipWhat:'What’s waiting for you',vipSeat:(mx)=>`up to ${mx} guests · by the DJ`,
+  vipT:'VIP experience',vipTS:'Bottle on ice · sparklers & a DJ shout-out · no queue',s3bV:'The bottle waiting at your table',btIntroV:'It’s waiting in an ice bucket when you arrive, and premium bottles come with crystal glasses. Optional — you pay on the night and it counts towards the minimum spend.',crystal:'crystal glasses',vipTkShot:(l,id)=>`A welcome round for the whole table: ${l} (${id})`,vipTkShot0:'A welcome round for the whole table — pick it on the night',vipTkReady:b=>`Your table is ready before you arrive — ${b?b+' on ice':'ice buckets'}, extra ice and lemon on the side, straws`,vipTkCr:n=>`Crystal glasses with your ${n}`,vipUp:(n,v)=>`You’re ${n} — VIP is free: ≈ ${v} per person`,vipSee:'See the welcome',vipDjLbl:'The DJ announces',vipHi:'Welcome',vipEx:'Mark',vipAnd:'& crew',vipEnd:'Close',vipBook:'👑 Book the VIP table',vipShare:'📤 Send to the crew',vipCopied:'Link copied — send it to your crew',vipShareTxt:v=>`VIP table ${v}? 👑 A bottle waiting on ice, sparklers, the DJ calls our name, a welcome round and the table right by the DJ for the whole crew.`,vipBusy:'The VIP table is taken at that time — pick another time.',vipPick:'Pick your arrival time — the VIP table is ready.',vipDJ:n=>`Welcome, ${n}! 👑`,vipCrew:'crew',vipMin:'minimum spend for the whole table',vipPP:n=>`${n} guests`,vipPer:'per person',vipWhat:'What’s waiting for you',vipSeat:(mx)=>`up to ${mx} guests · by the DJ`,
   payFor:(tb,d)=>`Deposit · table ${tb} · ${d}`,payBtn:'Pay',payWays:'Card · Apple Pay · Google Pay',payNote:'Demo — nothing is charged. In the live system payment goes through the bank.',paying:'Paying…',paid:'Paid',payNo:'Deposit payment isn’t switched on yet — staff will tell you how to pay.',payX:'Cancel',payToast:'✓ Deposit paid — your table is waiting',backHi:'Great to have you back! 🙌',
   tkDay:'Day',tkTime:'Arrival',tkTable:'Table',tkPeople:'Guests',tkMin:'Min. spend',tkShow:'At the door show the QR or just say the code — staff will take you straight to your table.',freeCancel:(u,d)=>`Free cancellation until <b>${u}</b>, ${d}.`,lateCancel:p=>`The cancellation deadline has passed. For changes call <b>${p}</b>.`,arrQ:d=>d?'Coming tonight?':'Coming?',arrTxt:(tb,tm)=>`Table <b>${tb}</b> is waiting for you at <b>${tm}</b>. Confirm with one tap — the staff will see it right away.`,arrBtn:'✓ Yes, we\'re coming',arrOk:tm=>`Arrival confirmed — see you at ${tm}!`,arrToast:'✓ Thank you! The staff knows you\'re coming.',
   phoneHint:'We send the confirmation and a reminder on WhatsApp.',more:'An occasion or a note?',
@@ -3567,8 +3583,7 @@ function vipShow(){const z=VIPZ();if(!z)return;const sh=z.show,L=x=>(x&&(x[lang]
    <div class="vhero"><div class="vimg" style="background-image:url('${catImg(z)}')"></div><i class="vgl g1"></i><i class="vgl g2"></i><i class="vgl g3"></i><canvas class="vfx"></canvas>
      <button class="vx" type="button" aria-label="Zatvori">✕</button>
      <div class="vtop"><span class="vbadge">👑 VIP</span>${sh.one?`<span class="vone">${esc(L(sh.one))}</span>`:''}</div>
-     <div class="vdj" aria-live="polite"><b>🎤 DJ</b><span></span></div>
-     <div class="vtt"><small>${tb?`${t('tbl')} ${esc(tb.id)} · `:''}${esc(T[lang].vipSeat(mx))}</small><h2>${esc(z.name[lang]||z.name.hr)}</h2><p>${esc(L(sh.tag))}</p><button class="vplay" type="button">${t('vipSee')}</button></div></div>
+          <div class="vtt"><small>${tb?`${t('tbl')} ${esc(tb.id)} · `:''}${esc(T[lang].vipSeat(mx))}</small><h2>${esc(z.name[lang]||z.name.hr)}</h2><p>${esc(L(sh.tag))}</p><button class="vplay" type="button"><i aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 1.2v9.6L10.6 6z" fill="currentColor"/></svg></i>${t('vipSee')}</button></div></div>
    <div class="vbody"><h3>${t('vipWhat')}</h3>
      <div class="vperks">${sh.perks.map((x,i)=>`<div class="vp" style="--d:${i*90+250}ms"><i>${x.i}</i><span>${esc(L(x))}</span></div>`).join('')}</div>
      ${z.minSpend?`<div class="vprice"><div class="vtot"><b>${money0(z.minSpend)}</b><span>${t('vipMin')}</span></div><div class="vpp">${ns.map(n=>`<span${n===S.party?' class="me"':''}><small>${T[lang].vipPP(n)}</small><b>≈ ${per(n)}</b><small>${t('vipPer')}</small></span>`).join('')}</div>${z.deposit?`<p>💳 ${T[lang].depL(money0(z.deposit))}</p>`:''}</div>`:''}
@@ -3579,8 +3594,7 @@ function vipShow(){const z=VIPZ();if(!z)return;const sh=z.show,L=x=>(x&&(x[lang]
   addEventListener('keydown',function k(e){if(e.key==='Escape'){close();removeEventListener('keydown',k)}});
   requestAnimationFrame(()=>requestAnimationFrame(()=>o.classList.add('on')));
   vipFx=vipSparks(o.querySelector('.vfx'));
-  o.querySelector('.vplay').onclick=()=>{buzz([10,40,10,40,30]);vipFx&&vipFx.parade();const dj=o.querySelector('.vdj'),nm=($('#fname').value||'').trim().split(/\s+/)[0];
-    dj.querySelector('span').textContent=T[lang].vipDJ(nm?(lang==='hr'?nm+' i ekipa':nm+' & crew'):t('vipCrew'));dj.classList.remove('on');void dj.offsetWidth;dj.classList.add('on');o.querySelector('.vhero').classList.remove('party');void o.offsetWidth;o.querySelector('.vhero').classList.add('party');};
+  o.querySelector('.vplay').onclick=()=>{buzz(12);vipParty();};
   o.querySelector('.vgo').onclick=()=>{close();const v=tb;if(!v)return;if(CATS().some(c=>c.id===z.id))S.cat=z.id;
     if(S.time==null){S.want=v.id;afterPick();toast(t('vipPick'));setTimeout(()=>{const tm=$('#times');tm.scrollIntoView({behavior:'smooth',block:'center'});tm.classList.remove('nudge');void tm.offsetWidth;tm.classList.add('nudge')},250);return}
     if(!free(v,S.time,S.date)){afterPick();toast(t('vipBusy'));return}
@@ -3588,20 +3602,155 @@ function vipShow(){const z=VIPZ();if(!z)return;const sh=z.show,L=x=>(x&&(x[lang]
   o.querySelector('.vshare').onclick=async()=>{let u=location.href.split('?')[0]+'?vip=1';if(TT.mode==='demo')u=TT.keepClock(u);const tx=T[lang].vipShareTxt(sh.where?L(sh.where):(lang==='hr'?'u '+V.name:'at '+V.name));
     try{if(navigator.share){await navigator.share({title:`${t('vipT')} · ${V.name}`,text:tx,url:u});}else{await navigator.clipboard.writeText(tx+' '+u);toast(t('vipCopied'))}}catch(e){}};
 }
-/** Iskre: lagano zlatno svjetlucanje; doček = dvije prskalice + bljesak. */
-function vipSparks(cv){const x=cv.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1),P=[];let W=0,H=0,raf=0,until=0,run=true;
-  const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/** Iskre: lagano zlatno svjetlucanje iznad fotografije VIP stola. */
+function vipSparks(cv){const x=cv.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1),P=[];let W=0,H=0,raf=0,run=true;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return{stop(){}};
   const size=()=>{W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)};size();
-  const amb=()=>{if(P.length<70)P.push({x:Math.random()*W,y:H*(.2+Math.random()*.7),vx:(Math.random()-.5)*.15,vy:-.1-Math.random()*.25,l:0,ml:120+Math.random()*120,r:.6+Math.random()*1.6,c:Math.random()<.7?'255,214,120':'255,255,255',a:1})};
-  const burst=(sx,sy)=>{for(let i=0;i<14;i++){const a=-Math.PI/2+(Math.random()-.5)*.9,sp=3+Math.random()*4.5;P.push({x:sx,y:sy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,g:.12,l:0,ml:26+Math.random()*24,r:1+Math.random()*1.4,c:Math.random()<.5?'255,236,180':'255,255,255',a:1,s:1})}};
-  function step(){if(!run)return;x.clearRect(0,0,W,H);const now=performance.now();
-    if(!red&&Math.random()<.5)amb();if(now<until){burst(W*.3,H*.82);burst(W*.7,H*.82)}
-    for(let i=P.length-1;i>=0;i--){const p=P[i];p.l++;p.x+=p.vx;p.y+=p.vy;if(p.g)p.vy+=p.g;const k=1-p.l/p.ml;if(k<=0){P.splice(i,1);continue}
-      x.globalAlpha=Math.max(0,Math.min(1,k*(p.s?1:Math.sin(Math.PI*p.l/p.ml)*1.2)));x.fillStyle=`rgb(${p.c})`;x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill();
-      if(p.s){x.globalAlpha*=.35;x.beginPath();x.arc(p.x,p.y,p.r*3,0,6.283);x.fill()}}
+  let last=performance.now(),acc=0;
+  function step(now){if(!run)return;const dt=Math.min(.05,(now-last)/1000);last=now;x.clearRect(0,0,W,H);acc+=dt*30;
+    while(acc>=1&&P.length<70){acc--;P.push({x:Math.random()*W,y:H*(.2+Math.random()*.7),vx:(Math.random()-.5)*4.5,vy:-3-Math.random()*7.5,l:0,ml:4+Math.random()*4,r:.6+Math.random()*1.6,c:Math.random()<.7?'255,214,120':'255,255,255'})}
+    if(acc>=1)acc=0;
+    for(let i=P.length-1;i>=0;i--){const p=P[i];p.l+=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.l>=p.ml){P.splice(i,1);continue}
+      x.globalAlpha=Math.max(0,Math.min(1,Math.sin(Math.PI*p.l/p.ml)*1.2));x.fillStyle=`rgb(${p.c})`;x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill()}
     x.globalAlpha=1;raf=requestAnimationFrame(step)}
-  if(!red)raf=requestAnimationFrame(step);
-  return{parade(){if(red)return;until=performance.now()+2600;if(!raf)raf=requestAnimationFrame(step)},stop(){run=false;cancelAnimationFrame(raf)}};}
+  raf=requestAnimationFrame(step);
+  return{stop(){run=false;cancelAnimationFrame(raf)}};}
+/* ---------- VIP doček: predstava preko cijelog ekrana — svjetla se gase, reflektori, boce s prskalicama, DJ najavljuje ekipu ---------- */
+const VP_MIC='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="currentColor"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3.5M8.5 21.5h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+function vpSprite(r,stops){const c=document.createElement('canvas');c.width=c.height=r*2;const g=c.getContext('2d'),gr=g.createRadialGradient(r,r,0,r,r,r);stops.forEach(([o,col])=>gr.addColorStop(o,col));g.fillStyle=gr;g.fillRect(0,0,r*2,r*2);return c}
+/** dim u zraku: ponavljajući šum u tri oktave (pločica se slaže bez šavova) */
+function vpHaze(){const n=128,c=document.createElement('canvas');c.width=c.height=n;const g=c.getContext('2d'),im=g.createImageData(n,n);let s=11;const R=()=>(s=(s*16807)%2147483647)/2147483647;
+  const oct=[[4,.55],[8,.28],[16,.17]],G=oct.map(([f])=>Float32Array.from({length:f*f},R)),sm=v=>v*v*(3-2*v);
+  for(let y=0;y<n;y++)for(let q=0;q<n;q++){let v=0;oct.forEach(([f,w],k)=>{const gx=q/n*f,gy=y/n*f,x0=Math.floor(gx),y0=Math.floor(gy),fx=sm(gx-x0),fy=sm(gy-y0),A=(i,j)=>G[k][(j%f)*f+(i%f)];
+      v+=w*((A(x0,y0)*(1-fx)+A(x0+1,y0)*fx)*(1-fy)+(A(x0,y0+1)*(1-fx)+A(x0+1,y0+1)*fx)*fy)});
+    const a=Math.max(0,Math.min(1,(v-.3)*1.8)),i=(y*n+q)*4;im.data[i]=255;im.data[i+1]=236;im.data[i+2]=206;im.data[i+3]=a*a*255|0}
+  g.putImageData(im,0,0);return c}
+/** boca šampanjca s prskalicom: dno u (0,0), vrh prskalice u (0,-262); heat = koliko je prskalica osvjetljava */
+function vpBottle(x,heat){
+  x.beginPath();x.moveTo(-26,-7);x.quadraticCurveTo(-26,0,-19,0);x.lineTo(19,0);x.quadraticCurveTo(26,0,26,-7);x.lineTo(26,-116);
+  x.bezierCurveTo(26,-141,12,-149,11,-170);x.lineTo(10,-222);x.lineTo(-10,-222);x.lineTo(-11,-170);x.bezierCurveTo(-12,-149,-26,-141,-26,-116);x.closePath();
+  let g=x.createLinearGradient(-26,0,26,0);
+  g.addColorStop(0,'#0b130e');g.addColorStop(.14,'#2f4636');g.addColorStop(.25,'#0c1610');g.addColorStop(.68,'#050a07');
+  g.addColorStop(.9,`rgb(${90+150*heat|0},${52+84*heat|0},${18+22*heat|0})`);g.addColorStop(1,'#070c09');
+  x.fillStyle=g;x.fill();
+  x.fillStyle='rgba(255,255,255,.2)';x.beginPath();x.moveTo(-19.5,-14);x.lineTo(-16.8,-14);x.lineTo(-16.8,-110);x.lineTo(-19.5,-107);x.closePath();x.fill();
+  g=x.createLinearGradient(-23,0,23,0);g.addColorStop(0,'#6e5019');g.addColorStop(.3,'#e6c06a');g.addColorStop(.5,'#fff0c4');g.addColorStop(.72,'#d2a346');g.addColorStop(1,'#563c12');
+  x.fillStyle=g;x.beginPath();x.moveTo(-23,-44);x.quadraticCurveTo(0,-40,23,-44);x.lineTo(23,-96);x.quadraticCurveTo(0,-92,-23,-96);x.closePath();x.fill();
+  x.fillStyle='#2a1a04';x.textAlign='center';x.textBaseline='middle';x.font='800 16px "Big Shoulders Display","Oswald",sans-serif';x.fillText('BURE',0,-73);
+  x.fillRect(-11,-61.6,22,1.1);x.font='800 6.5px "Manrope",sans-serif';x.fillText('V  I  P',0,-54.5);
+  x.beginPath();x.moveTo(-11.4,-172);x.lineTo(-10.6,-224);x.quadraticCurveTo(0,-228,10.6,-224);x.lineTo(11.4,-172);x.quadraticCurveTo(0,-166,-11.4,-172);x.closePath();
+  g=x.createLinearGradient(-12,0,12,0);g.addColorStop(0,'#5a3c0c');g.addColorStop(.32,'#f3cf74');g.addColorStop(.52,'#fff3cc');g.addColorStop(.8,'#b9882c');g.addColorStop(1,'#4d330a');x.fillStyle=g;x.fill();
+  g=x.createLinearGradient(-4,0,4,0);g.addColorStop(0,'#8d8a84');g.addColorStop(.45,'#f4f1ea');g.addColorStop(1,'#77746e');
+  x.fillStyle=g;x.fillRect(-3.6,-262,7.2,38);x.fillStyle='#3a3530';x.fillRect(-4.6,-228,9.2,4);
+}
+function vipParty(){
+  const z=VIPZ();if(!z)return;
+  const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const tb=S.cfg.tables.find(q=>q.zone===z.id);
+  const nm=(($('#fname').value||'').trim().split(/\s+/)[0])||t('vipEx');   // dok gost još nije upisao ime, primjer pokazuje kako DJ najavljuje
+  const o=document.createElement('div');o.className='vparty';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',t('vipT'));
+  o.innerHTML=`<div class="vpcam"><div class="vpbg" style="background-image:url('${catImg(z)}')"></div><div class="vpdim"></div><canvas class="vpfx" aria-hidden="true"></canvas>
+    <div class="vptx" aria-live="polite"><span class="vpdj">${VP_MIC}<b>${esc(t('vipDjLbl'))}</b><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></span>
+      <small class="vphi">${esc(t('vipHi'))}</small><h2 class="vpn">${[...nm.toUpperCase()].map(c=>`<span>${esc(c)}</span>`).join('')}</h2>
+      <b class="vpn2">${esc(t('vipAnd'))}</b><i class="vprule"></i><small class="vpsub">VIP ${esc(t('tbl'))} ${esc(tb?tb.id:'')} · ${esc(V.name)}</small></div></div>
+    <div class="vpflash"></div><button class="vpx" type="button" aria-label="${esc(t('vipEnd'))}">✕</button>`;
+  document.body.appendChild(o);
+  const Q=s=>o.querySelector(s),cam=Q('.vpcam'),bg=Q('.vpbg'),dim=Q('.vpdim'),cv=Q('.vpfx'),x=cv.getContext('2d'),fl=Q('.vpflash'),bx=Q('.vpx');
+  const tx=Q('.vptx'),dj=Q('.vpdj'),eq=[...dj.querySelectorAll('.eq i')],hi=Q('.vphi'),nEl=Q('.vpn'),lt=[...nEl.children],n2=Q('.vpn2'),rule=Q('.vprule'),sub=Q('.vpsub');
+  let W=0,H=0;const dpr=Math.min(2,devicePixelRatio||1);
+  const fit=()=>{nEl.style.fontSize='';const mw=Math.min(o.clientWidth-36,680);if(nEl.scrollWidth>mw)nEl.style.fontSize=parseFloat(getComputedStyle(nEl).fontSize)*mw/nEl.scrollWidth+'px'};
+  const size=()=>{W=o.clientWidth;H=o.clientHeight;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);fit()};size();addEventListener('resize',size);
+  const GW=vpSprite(64,[[0,'rgba(255,255,255,1)'],[.1,'rgba(255,250,232,.95)'],[.3,'rgba(255,214,140,.5)'],[.6,'rgba(255,160,60,.14)'],[1,'rgba(255,140,40,0)']]);
+  const GP=vpSprite(64,[[0,'rgba(255,196,110,.6)'],[.45,'rgba(255,150,60,.2)'],[1,'rgba(255,120,30,0)']]);
+  const HZ=vpHaze();
+  const ss=(a,b,v)=>{const q=Math.max(0,Math.min(1,(v-a)/(b-a)));return q*q*(3-2*q)},out3=q=>1-Math.pow(1-Math.max(0,Math.min(1,q)),3);
+  const DROP=3.05,BPM=124,BEAT=60/BPM;let closeAt=red?3.6:7.6;
+  const BT=[{side:-1,tilt:-.09,ph:.3,acc:0},{side:1,tilt:.09,ph:1.9,acc:0}];
+  const BM=[{x:.1,base:.22,ph:0,on:.42},{x:.36,base:.1,ph:1.7,on:.56},{x:.64,base:-.1,ph:3.1,on:.7},{x:.9,base:-.22,ph:4.4,on:.84}];
+  const SC=[['255,253,244',2,1],['255,230,166',1.6,.95],['255,184,92',1.25,.82],['236,112,40',.95,.55]];
+  const P=[],GL=[],SM=[];let buzzed=false,closing=false,raf=0,glit=false;
+  const SMK=vpSprite(48,[[0,'rgba(255,236,210,.5)'],[.5,'rgba(255,226,196,.2)'],[1,'rgba(255,220,190,0)']]);
+  function smoke(dt,tips,F,k){if(F>.25)tips.forEach(p=>{p.b.sacc=(p.b.sacc||0)+dt*9*F;while(p.b.sacc>=1){p.b.sacc--;SM.push({x:p.x,y:p.y-20*k,vx:(Math.random()-.5)*26*k,vy:-(34+30*Math.random())*k,age:0,life:2.2+Math.random()*1.2,s:(26+18*Math.random())*k})}});
+    for(let i=SM.length-1;i>=0;i--){const m=SM[i];m.age+=dt;if(m.age>=m.life){SM.splice(i,1);continue}m.x+=m.vx*dt;m.y+=m.vy*dt;const u=m.age/m.life,r=m.s*(1+u*3.4);x.globalAlpha=.16*Math.sin(Math.PI*u);x.drawImage(SMK,m.x-r,m.y-r,r*2,r*2)}x.globalAlpha=1}
+  /** zlatni listići: padaju kroz snopove i svjetlucaju dok se okreću */
+  function glitter(k){for(let i=0;i<150;i++)GL.push({x:Math.random()*W,y:-20-Math.random()*H*.55,vx:(Math.random()-.5)*40*k,vy:(70+90*Math.random())*k,r:Math.random()*6.283,vr:(Math.random()-.5)*9,ph:Math.random()*6.283,s:(2.2+2.2*Math.random())*k,c:Math.random()<.5?'255,214,120':Math.random()<.5?'255,236,186':'214,160,64'})}
+  function flakes(dt,vt,k){const fade=1-ss(6.4,7.3,vt);for(const f of GL){f.y+=f.vy*dt;f.x+=(f.vx+Math.sin(vt*2.3+f.ph)*26*k)*dt;f.r+=f.vr*dt;if(f.y>H+20)continue;
+      const m=Math.abs(Math.cos(f.r)),a=(.35+.65*m)*fade;if(a<=.02)continue;x.globalAlpha=a;x.fillStyle=`rgb(${f.c})`;x.save();x.translate(f.x,f.y);x.rotate(f.ph+vt*.6);x.scale(1,.25+.75*m);x.fillRect(-f.s/2,-f.s*.35,f.s,f.s*.7);x.restore();
+      if(m>.93){x.globalCompositeOperation='lighter';x.globalAlpha=(m-.93)*12*fade;const r=f.s*2.6;x.drawImage(GW,f.x-r,f.y-r,r*2,r*2);x.globalCompositeOperation='source-over'}}x.globalAlpha=1}
+  /** dim: pločice samo preko zadanog okvira */
+  function haze(ox,oy,Sz,a,x0=0,y0=0,x1=W,y1=H){if(a<=.002)return;x.globalAlpha=Math.min(1,a);const sx=((ox%Sz)+Sz)%Sz-Sz,sy=((oy%Sz)+Sz)%Sz-Sz;
+    for(let yy=sy;yy<H;yy+=Sz){if(yy+Sz<y0||yy>y1)continue;for(let xx=sx;xx<W;xx+=Sz){if(xx+Sz<x0||xx>x1)continue;x.drawImage(HZ,xx,yy,Sz,Sz)}}x.globalAlpha=1}
+  function beam(sx,sy,a,I,len,w0,w1,vt,k){const dx=Math.sin(a),dy=Math.cos(a),px=dy,py=-dx,ex=sx+dx*len,ey=sy+dy*len;
+    const quad=(f0,f1)=>{x.beginPath();x.moveTo(sx+px*w0*f0,sy+py*w0*f0);x.lineTo(ex+px*w1*f1,ey+py*w1*f1);x.lineTo(ex-px*w1*f1,ey-py*w1*f1);x.lineTo(sx-px*w0*f0,sy-py*w0*f0);x.closePath()};
+    quad(1,1);let g=x.createLinearGradient(sx,sy,ex,ey);g.addColorStop(0,`rgba(255,238,206,${(.3*I).toFixed(3)})`);g.addColorStop(.4,`rgba(255,212,146,${(.12*I).toFixed(3)})`);g.addColorStop(1,'rgba(255,200,120,0)');x.fillStyle=g;x.fill();
+    // osvijetljeni dim u gornjem dijelu snopa (klin koji se sužava — bez oštrog ruba)
+    const mx=sx+dx*len*.66,my=sy+dy*len*.66,wm=w0+(w1-w0)*.4;
+    x.save();x.beginPath();x.moveTo(sx+px*w0,sy+py*w0);x.lineTo(sx+dx*len*.3+px*wm,sy+dy*len*.3+py*wm);x.lineTo(mx,my);x.lineTo(sx+dx*len*.3-px*wm,sy+dy*len*.3-py*wm);x.lineTo(sx-px*w0,sy-py*w0);x.closePath();x.clip();
+    haze(vt*26,-vt*12,280*k,.5*I,Math.min(sx,mx)-wm,Math.min(sy,my),Math.max(sx,mx)+wm,Math.max(sy,my));x.restore();
+    quad(.45,.33);g=x.createLinearGradient(sx,sy,ex,ey);g.addColorStop(0,`rgba(255,250,236,${(.32*I).toFixed(3)})`);g.addColorStop(.55,`rgba(255,226,170,${(.07*I).toFixed(3)})`);g.addColorStop(1,'rgba(255,220,160,0)');x.fillStyle=g;x.fill()}
+  function emit(p,F,h,k){if(F<=0)return;const b=p.b;b.acc+=900*F*h;while(b.acc>=1){b.acc--;const r1=Math.random(),a=-Math.PI/2+p.tl+(Math.random()-.5)*(.3+.42*r1),sp=(380+780*r1*r1+180*Math.random())*(.42+.58*F)*k;
+      P.push({x:p.x+(Math.random()-.5)*2*k,y:p.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,age:0,life:(.4+.95*Math.random())*(.5+.5*F),c:Math.random()<.05})}}
+  function step(h,k){const dr=Math.exp(-1.25*h),gr=900*k*h;for(let i=P.length-1;i>=0;i--){const p=P[i];p.age+=h;if(p.age>=p.life){P[i]=P[P.length-1];P.pop();continue}
+      p.vx*=dr;p.vy=p.vy*dr+gr;p.x+=p.vx*h;p.y+=p.vy*h;
+      if(p.c&&p.age>p.life*.55){p.c=false;for(let j=0;j<6;j++){const a=Math.random()*6.283,s=(60+120*Math.random())*k;P.push({x:p.x+Math.cos(a)*2*k,y:p.y+Math.sin(a)*2*k,vx:p.vx*.2+Math.cos(a)*s,vy:p.vy*.2+Math.sin(a)*s,age:0,life:.06+.12*Math.random(),c:false,d:1})}}}}
+  function sparks(k){const ps=[new Path2D(),new Path2D(),new Path2D(),new Path2D()],kk=.017;
+    for(const p of P){const u=p.age/p.life,q=u<.16?0:u<.42?1:u<.72?2:3,l=p.d?.004:kk*(1.25-.75*u);ps[q].moveTo(p.x-p.vx*l,p.y-p.vy*l);ps[q].lineTo(p.x,p.y)}
+    x.lineCap='round';ps.forEach((ph,q)=>{x.strokeStyle=`rgba(${SC[q][0]},${SC[q][2]})`;x.lineWidth=SC[q][1]*Math.max(.8,k);x.stroke(ph)})}
+  const t0=performance.now();let last=t0;
+  function frame(now){
+    const t=(now-t0)/1000,dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
+    const vt=red?4.2:t,k=Math.min(W/390,H/844,1.5),cx=W/2,since=vt-DROP,dropOn=since>=0;
+    const pulse=dropOn?Math.exp(-((since%BEAT+BEAT)%BEAT)*9):0,shake=dropOn&&!red?6*Math.exp(-since*6):0;
+    o.style.opacity=Math.min(ss(0,.3,t),1-ss(closeAt-.5,closeAt,t)).toFixed(3);
+    dim.style.opacity=(.5+.5*ss(0,.8,vt)).toFixed(3);
+    bg.style.transform=`scale(${(1.05+.07*Math.min(1,vt/7.6)).toFixed(4)})`;
+    cam.style.transform=`translate(${(shake*Math.sin(since*83)).toFixed(2)}px,${(shake*Math.cos(since*61)).toFixed(2)}px) scale(${(1+(dropOn?.02*Math.exp(-since*4)+.005*pulse:0)).toFixed(4)})`;
+    fl.style.opacity=(dropOn&&!red?.92*Math.exp(-since*6.5):0).toFixed(3);
+    bx.style.opacity=(ss(.6,1,t)*.9).toFixed(3);
+    if(dropOn&&!buzzed){buzzed=true;buzz([40,30,90])}
+    if(dropOn&&!glit&&!red){glit=true;glitter(Math.min(W/390,H/844,1.5))}
+    // natpis: DJ, pozdrav, ime koje se pali slovo po slovo, stol
+    const dq=out3((vt-.85)/.45);dj.style.opacity=dq.toFixed(3);dj.style.transform=`translateY(${((1-dq)*-10).toFixed(1)}px)`;
+    eq.forEach((e,i)=>{e.style.height=(3+(vt>.85?11*Math.abs(Math.sin(vt*(7.3+i*1.9)+i*1.3))*(dropOn?.7+.3*pulse:.6):0)).toFixed(1)+'px'});
+    const hq=out3((vt-1.15)/.55);hi.style.opacity=hq.toFixed(3);hi.style.letterSpacing=(.5+.6*(1-hq)).toFixed(3)+'em';
+    const N=lt.length,sw=dropOn?((since/1.3)%1)*(N+5)-2.5:-99;
+    lt.forEach((s,i)=>{const u=(vt-(1.45+i*.075+((i*37)%7)*.012))/.36,op=u<0?0:u<.16?u/.16:u<.3?.22:u<.42?1:u<.52?.5:1;
+      let g=Math.max(0,1-Math.abs(u-.45)*3);if(dropOn)g+=.85*Math.exp(-since*3)+.9*Math.exp(-((sw-i)**2)/1.4);
+      s.style.opacity=op.toFixed(3);s.style.setProperty('--g',Math.min(1.6,g).toFixed(3))});
+    const nq=out3((vt-2.15)/.5);n2.style.opacity=nq.toFixed(3);n2.style.transform=`translateY(${((1-nq)*14).toFixed(1)}px)`;
+    rule.style.width=(150*out3((vt-2.4)/.6)).toFixed(1)+'px';sub.style.opacity=(.95*out3((vt-2.65)/.5)).toFixed(3);
+    tx.style.transform=`scale(${(1+(dropOn?.06*Math.exp(-since*5):0)).toFixed(4)})`;
+    // scena na platnu
+    x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,W,H);
+    const F=vt<2.35?0:vt<DROP?.16*ss(2.35,2.6,vt):(.16+.84*ss(DROP,DROP+.12,vt))*(1-ss(5.6,6.7,vt));
+    const rise=out3((vt-2.35)/.75),d=Math.min(W*.26,230*k);
+    const tips=BT.map(b=>{const tl=b.tilt+Math.sin(vt*1.9+b.ph)*.035,bx0=cx+b.side*d+Math.sin(vt*1.3+b.ph)*3*k,by=H+34*k+(1-rise)*360*k+Math.sin(vt*2.2+b.ph)*2.5*k;
+      return {b,tl,bx:bx0,by,x:bx0+262*k*Math.sin(tl),y:by-262*k*Math.cos(tl)}});
+    x.globalCompositeOperation='lighter';
+    const hz=ss(.2,1.2,vt)*(1-ss(6.6,7.4,vt));haze(vt*14,-vt*5,460*k,.11*hz);haze(-vt*9+80,vt*4+120,330*k,.08*hz);
+    BM.forEach((m,i)=>{const u=vt-m.on;if(u<=0)return;let I=(u<.07?1:u<.13?.2:u<.19?1:u<.24?.55:1)*(1-ss(6.2,7.1,vt));if(dropOn)I*=1+.8*Math.exp(-since*5)+.25*pulse;if(I<=0)return;
+      const sx=W*m.x,sy=-H*.04,swp=m.base+Math.sin(vt*.85+m.ph)*.34,tg=tips[i%2],at=Math.atan2(tg.x-sx,tg.y-sy);
+      const conv=ss(DROP-.05,DROP+.22,vt)*(1-ss(DROP+1,DROP+1.6,vt)),uni=ss(DROP+1,DROP+1.6,vt),au=m.base*.45+Math.sin(since*Math.PI/(2*BEAT))*.42;
+      let a=swp+(at-swp)*conv;a+=(au-a)*uni;
+      beam(sx,sy,a,I*.9,H*1.35,2.5*k,(38+14*(i%2))*k,vt,k);
+      x.globalAlpha=Math.min(1,.9*I);const r=26*k;x.drawImage(GW,sx-r,sy-r+8*k,r*2,r*2);x.globalAlpha=1});
+    if(!red)smoke(dt,tips,F,k);
+    if(F>0)tips.forEach(p=>{const R=(230+230*F)*k;x.globalAlpha=Math.min(1,.8*F*(.85+.15*Math.random()));x.drawImage(GP,p.x-R,p.y-R*.85,R*2,R*2)});
+    x.globalAlpha=1;x.globalCompositeOperation='source-over';
+    if(rise>0)tips.forEach(p=>{x.save();x.translate(p.bx,p.by);x.rotate(p.tl);x.scale(k,k);vpBottle(x,F);x.restore()});
+    if(!red){const n=Math.max(1,Math.ceil(dt*120)),h=dt/n;for(let s=0;s<n;s++){tips.forEach(p=>emit(p,F,h,k));step(h,k)}}
+    if(GL.length)flakes(red?0:dt,vt,k);
+    x.globalCompositeOperation='lighter';sparks(k);
+    if(F>0)tips.forEach(p=>{const r=(12+18*F+Math.random()*5)*k;x.drawImage(GW,p.x-r*2,p.y-r*2,r*4,r*4)});
+    x.globalCompositeOperation='source-over';
+    if(t<closeAt)raf=requestAnimationFrame(frame);else finish();
+  }
+  const skip=()=>{if(closing)return;closing=true;closeAt=Math.min(closeAt,(performance.now()-t0)/1000+.45)};
+  const key=e=>{if(e.key==='Escape')skip()};
+  function finish(){cancelAnimationFrame(raf);removeEventListener('resize',size);removeEventListener('keydown',key);o.remove()}
+  o.addEventListener('click',skip);addEventListener('keydown',key);
+  raf=requestAnimationFrame(frame);
+}
 /* ---------- kapara: plaćanje (u demu odmah; u pravom sustavu preko banke) ---------- */
 function paySheet(r,key,cfg){
   const lg=document.querySelector('.brand svg'),eurS=money(r.deposit.eur);
@@ -3627,19 +3776,24 @@ document.addEventListener('click',e=>{const q=e.target.closest('.ticket .qr');if
 // osoblje je potvrdilo dok je gost na stranici
 document.addEventListener('tt:res',e=>{const d=e.detail;if(CUR&&d.id===CUR.id){showReservation(d.data,CUR.key,false);if(d.data.reservation.status==='confirmed')celebrate(d.data.reservation.preorder&&d.data.reservation.preorder.length?'spark':'confetti');}else renderMine();});
 
-/* ---------- slavlje: prskalica (boca) ili konfeti ---------- */
+/* ---------- slavlje: zlatni listići iza naslova (uz bocu i iskre) ---------- */
 function celebrate(kind){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const c=$('#fx');c.hidden=false;const dpr=Math.min(2,devicePixelRatio||1);c.width=innerWidth*dpr;c.height=innerHeight*dpr;const x=c.getContext('2d');x.scale(dpr,dpr);
-  const W=innerWidth,H=innerHeight,P=[];const cols=kind==='spark'?['#fff6d5','#ffd27a','#ffb347','#fff']:[getComputedStyle(document.documentElement).getPropertyValue('--gold2').trim()||'#f2c872','#fff',getComputedStyle(document.documentElement).getPropertyValue('--amber').trim()||'#ff9f2e','#8ab8ff'];
-  const t0=performance.now();let src={x:W/2,y:H*.3};
-  function emit(n){for(let i=0;i<n;i++){const a=kind==='spark'?Math.random()*Math.PI*2:(-Math.PI/2+(Math.random()-.5)*1.6),sp=kind==='spark'?2+Math.random()*5:6+Math.random()*7;P.push({x:src.x,y:src.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:0,ml:kind==='spark'?24+Math.random()*30:90+Math.random()*60,c:cols[i%cols.length],r:kind==='spark'?1.4+Math.random()*1.4:3+Math.random()*3,rot:Math.random()*6})}}
-  if(kind!=='spark')emit(160);
-  (function step(now){const el=now-t0;x.clearRect(0,0,W,H);
-    if(kind==='spark'&&el<2600){src.x=W/2+Math.sin(el/260)*W*.18;src.y=H*.28+Math.cos(el/400)*20;emit(14);x.fillStyle='rgba(255,240,200,.9)';x.beginPath();x.arc(src.x,src.y,5+Math.random()*3,0,7);x.fill();}
-    for(let i=P.length-1;i>=0;i--){const p=P[i];p.l++;p.x+=p.vx;p.y+=p.vy;p.vy+=kind==='spark'?.12:.22;p.vx*=.985;if(p.l>p.ml){P.splice(i,1);continue}
-      x.globalAlpha=1-p.l/p.ml;x.fillStyle=p.c;if(kind==='spark'){x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();}else{x.save();x.translate(p.x,p.y);x.rotate(p.rot+p.l*.1);x.fillRect(-p.r,-p.r/2,p.r*2,p.r);x.restore();}}
-    x.globalAlpha=1;if(P.length||(kind==='spark'&&el<2600))requestAnimationFrame(step);else c.hidden=true;})(t0);
-  if(kind==='spark')TT.buzz([10,30,10,30,10,30,60]);
+  const c=$('#fx');c.hidden=false;const dpr=Math.min(2,devicePixelRatio||1),W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;c.style.width=W+'px';c.style.height=H+'px';const x=c.getContext('2d');
+  const GW=vpSprite(32,[[0,'rgba(255,255,255,1)'],[.25,'rgba(255,236,190,.7)'],[1,'rgba(255,190,90,0)']]);
+  const COL=['255,214,120','255,236,186','214,160,64','255,244,214','196,140,48'],F=[],oy=Math.min(H*.2,170);
+  for(let i=0;i<(kind==='spark'?170:140);i++){const a=-Math.PI/2+(Math.random()-.5)*1.7,sp=360+560*Math.random();
+    F.push({x:W/2+(Math.random()-.5)*70,y:oy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:Math.random()*6.283,vr:(Math.random()-.5)*14,ph:Math.random()*6.283,s:3+3.4*Math.random(),c:COL[i%COL.length],life:2.4+1.6*Math.random(),g:kind==='spark'&&Math.random()<.35})}
+  const t0=performance.now();let last=t0;
+  (function step(now){const t=(now-t0)/1000,dt=Math.min(.05,(now-last)/1000);last=now;x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,W,H);
+    if(t<.7){x.globalCompositeOperation='lighter';x.globalAlpha=.5*(1-t/.7);const R=Math.min(W,520)*.75;x.drawImage(GW,W/2-R,oy-R,R*2,R*2);x.globalAlpha=1;x.globalCompositeOperation='source-over'}
+    let alive=0;const dr=Math.exp(-2.6*dt);
+    for(const f of F){if(t>f.life)continue;alive++;
+      f.vx*=dr;f.vy=f.vy*dr+520*dt;f.x+=(f.vx+Math.sin(t*3+f.ph)*30)*dt;f.y+=f.vy*dt;f.r+=f.vr*dt;
+      const m=Math.abs(Math.cos(f.r)),fade=Math.min(1,(f.life-t)/.6);
+      x.globalAlpha=(.4+.6*m)*fade;x.fillStyle=`rgb(${f.c})`;x.save();x.translate(f.x,f.y);x.rotate(f.ph+t);x.scale(1,.25+.75*m);x.fillRect(-f.s/2,-f.s*.35,f.s,f.s*.7);x.restore();
+      if(m>.9||f.g){x.globalCompositeOperation='lighter';x.globalAlpha=Math.min(1,(f.g?.5+.5*m:(m-.9)*10))*fade;const r=f.s*(f.g?3:2.4);x.drawImage(GW,f.x-r,f.y-r,r*2,r*2);x.globalCompositeOperation='source-over'}}
+    x.globalAlpha=1;if(alive)requestAnimationFrame(step);else{x.clearRect(0,0,W,H);c.hidden=true}})(t0);
+  TT.buzz(kind==='spark'?[10,30,10,30,10,30,60]:[12,40,18]);
 }
 
 /* ---------- događaji ---------- */
