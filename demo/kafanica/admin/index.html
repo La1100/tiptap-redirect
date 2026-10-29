@@ -2098,9 +2098,12 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   const STC = { pending: 'p', confirmed: 'c', seated: 's', cancelled: 'x', declined: 'd', done: 'o', noshow: 'n' };
   TT.demoResPack = (r, max = 240) => {
     const o = { c: r.code, d: r.date, s: r.start, p: r.party, t: r.tableId, n: String(r.name || '').slice(0, 40), st: STC[r.status] || 'c', o: r.occasion || undefined, a: r.arrive ? 1 : undefined, pr: (r.preorder || []).length ? r.preorder.slice(0, 3).map(x => [String(x.name).slice(0, 30), x.qty]) : undefined,
-      vi: r.vip ? [r.vip.spark ? 1 : 0, r.vip.dj ? 1 : 0, String(r.vip.djName || '').slice(0, 30), r.vip.shot || ''] : undefined };
+      vi: r.vip ? [r.vip.spark ? 1 : 0, r.vip.dj ? 1 : 0, String(r.vip.djName || '').slice(0, 30), r.vip.shot || ''] : undefined,
+      // jamstvo karticom: da i hostesa na drugom mobitelu vidi „29 € na kartici” i da se blokada ukine kad ih uvede
+      g: r.guar ? [String((r.guar.card && r.guar.card.brand) || '').slice(0, 8), String((r.guar.card && r.guar.card.last4) || '').slice(0, 4)].concat(r.guar.state === 'charged' ? ['x'] : r.guar.state === 'waived' ? ['w'] : []) : undefined };
     let s = TT.demoPack(o); if (s.length > max) { delete o.pr; delete o.o; s = TT.demoPack(o); }
     if (s.length > max && o.vi) { o.vi[2] = ''; s = TT.demoPack(o); }
+    if (s.length > max && o.g) { o.g = ['', ''].concat(o.g.slice(2)); s = TT.demoPack(o); }
     return s.length > max ? '' : s;
   };
   TT.demoCoatPack = (x, max = 200) => {
@@ -2127,7 +2130,9 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
             preorder: (o.pr || []).map(([name, qty]) => ({ id: '', name, qty: +qty || 1, vol: '', eur: 0 })), sparkler: false, lang: 'hr',
             status: st, source: 'web', createdAt: now, updatedAt: now, history: [] },
             o.a ? { arrive: now } : {}, z && (z.minSpend || z.noShow) ? { cat: z.id, minSpend: z.minSpend, noShowFee: z.noShow } : {},
-            Array.isArray(o.vi) ? { vip: { spark: !!o.vi[0], dj: !!o.vi[1], djName: String(o.vi[2] || ''), shot: String(o.vi[3] || '') } } : {}));
+            Array.isArray(o.vi) ? { vip: { spark: !!o.vi[0], dj: !!o.vi[1], djName: String(o.vi[2] || ''), shot: String(o.vi[3] || '') } } : {},
+            Array.isArray(o.g) && C.guarCfg && C.guarCfg(cfg) ? { guar: { eur: C.guarCfg(cfg).eur, hours: C.guarCfg(cfg).hours, card: { brand: String(o.g[0] || 'visa'), last4: String(o.g[1] || '') }, at: now,
+              state: o.g[2] === 'x' ? 'charged' : o.g[2] === 'w' ? 'waived' : st === 'seated' || st === 'done' ? 'released' : 'card' } } : {}));
           await S.setJSON('idx/' + id, { date: o.d }, null);
         }
         await S.setJSON(key, list, null);
