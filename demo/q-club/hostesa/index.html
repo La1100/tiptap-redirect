@@ -354,6 +354,72 @@ html.noscroll{overflow:hidden}
 .scan .dmh{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);margin-top:6px}
 .scan.nocam{background:radial-gradient(120% 80% at 50% 30%,#2a2420,#000)}
 @media (prefers-reduced-motion:reduce){.scan .vf i,.ar.flash,.vd.pop,.done2 .ck{animation:none}}
+/* --- jednostavan ekran hostese: sve na jednom mjestu, krupno, bez suvišnog --- */
+.uh .hb{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.06);display:grid;place-items:center;color:var(--gold2);flex:none}
+.uh .hb svg{width:20px;height:20px;max-width:none;color:inherit}
+.st1{display:flex;align-items:baseline;gap:4px 16px;flex-wrap:wrap;margin:2px 2px 12px;font-size:13px;font-weight:700;color:var(--muted)}
+.st1 span{white-space:nowrap}
+.st1 b{font-family:var(--f-display);font-weight:800;font-size:25px;line-height:1;color:var(--text);margin-right:5px}
+.st1 b.ok{color:#7ee2a8}.st1 .hot{color:#ffb3ab}.st1 .hot b{color:#ff8a7e}
+.bigscan{display:flex;align-items:center;justify-content:center;gap:16px;width:100%;min-height:112px;border-radius:24px;background:linear-gradient(180deg,var(--gold2),var(--gold));color:var(--ink);box-shadow:0 14px 34px -12px rgba(var(--gold-rgb),.55);font-family:var(--f-display);font-weight:800;font-size:30px;letter-spacing:.04em;text-transform:uppercase;line-height:1}
+.bigscan svg{width:40px;height:40px;flex:none}
+.bigscan:active,.bigb:active{transform:scale(.985)}
+.qbox{position:relative;margin:10px 0 0}
+.qbox input{height:58px;font-size:18px;padding-left:50px;border-radius:18px}
+.qbox .qi{position:absolute;left:17px;top:50%;width:21px;height:21px;margin-top:-10.5px;color:var(--muted);pointer-events:none}
+#mRez .demoScan,#mCoat .demoScan{margin:10px 0 0;padding:9px 12px;font-size:13.5px}
+.sec3{display:flex;align-items:center;gap:8px;width:100%;margin:18px 2px 8px;padding:0;font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-align:left;background:none;border:0}
+.sec3 b{font-family:var(--f-body);letter-spacing:0;font-size:12.5px;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.08);color:var(--text)}
+.sec3.hot{color:#ff9a8f}.sec3.hot b{background:rgba(255,90,78,.2);color:#ffc2bb}
+.sec3 .lst{margin-left:auto;letter-spacing:0;text-transform:none;font-size:13px;font-weight:700;color:var(--dim)}
+.sec3 i{font-style:normal;font-size:14px;transition:transform .2s}.sec3.open i{transform:rotate(180deg)}
+.sec3.tog{min-height:40px;margin-bottom:4px;cursor:pointer}
+.ar{grid-template-columns:64px minmax(0,1fr) 54px;gap:10px;min-height:66px;padding:10px 10px 10px 12px;margin:0 0 6px;border-radius:16px}
+.ar .tm{font-size:21px}
+.ar .tm small{font-size:11.5px;margin-top:4px;white-space:nowrap}
+.ar .who b{font-size:16.5px}
+.ar .who .mt{font-size:13px;margin-top:3px}
+.ar .who .mt i{font-style:normal;margin-left:7px}
+.ar .tb{display:grid;place-items:center;height:48px;min-width:0;padding:0;border-radius:12px;font-family:var(--f-display);font-weight:800;font-size:27px;line-height:1;color:var(--gold2)}
+.ar.in .tb{color:#9cc0ff}
+.codeq{display:flex;align-items:center;gap:12px;width:100%;margin:10px 0 0;padding:14px 16px;border-radius:16px;background:rgba(var(--gold2-rgb),.12);border:1px solid rgba(var(--gold2-rgb),.5);color:var(--text);font-weight:800;font-size:16px;text-align:left}
+.codeq b{font-family:var(--f-display);font-size:24px;letter-spacing:.14em;color:var(--gold2)}
+.codeq span{margin-left:auto;font-size:22px;color:var(--gold2)}
+@media (max-width:899px){#tPlan{display:none!important}}
+@media (min-width:900px){.uh .hb{display:none}}
+/* kartica gosta: odluka, stol, jedan gumb */
+.sheet .vd{padding:12px 14px;margin:0 0 12px}
+.sheet .vd b{font-size:20px}
+.gst h2{font-size:38px}
+.bigt{min-width:112px;padding:8px 14px 10px}
+.bigt b{font-size:72px}
+.sheet .acts2{margin-top:14px}
+.nts{display:grid;gap:6px;margin-top:12px}
+.nt{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid rgba(255,255,255,.06);font-size:14.5px;font-weight:700;line-height:1.28}
+.nt>i{font-style:normal;font-size:17px;width:22px;text-align:center;flex:none}
+.nt b{color:var(--gold2)}
+.nt.money{border-color:rgba(var(--gold2-rgb),.45);background:rgba(var(--gold2-rgb),.08)}
+.nt.warn{border-color:rgba(255,170,60,.55);background:rgba(255,170,60,.1);color:#ffe6c4}
+.nt.gs{border-color:rgba(255,200,80,.4);background:rgba(255,200,80,.08);color:#ffe2a0}
+.nt.bd{border-color:rgba(255,120,180,.5);background:rgba(255,120,180,.1);color:#ffd0e2}
+.sheet .mini{margin-top:12px}
+.sheet .mini svg{height:150px}
+.row3{display:flex;gap:8px;margin-top:10px}.row3 .btn{flex:1}
+.ok3{text-align:center;padding:30px 0 18px}
+.ok3 .ck{width:96px;height:96px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-size:50px;font-weight:900;color:#08210f;background:#5fd08c;box-shadow:0 0 44px rgba(95,208,140,.5);animation:vpop .55s cubic-bezier(.2,1.5,.4,1)}
+.ok3 h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:36px;text-transform:uppercase;letter-spacing:.03em}
+.ok3 p{margin:8px auto 0;max-width:340px;color:var(--muted);font-size:15px}.ok3 p b{color:#7ee2a8}
+.ok3 .bar{height:4px;border-radius:2px;background:rgba(255,255,255,.08);margin:20px auto 0;max-width:200px;overflow:hidden}
+.ok3 .bar i{display:block;height:100%;background:#5fd08c;transform-origin:0 50%;animation:okbar 1.9s linear forwards}
+@keyframes okbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* garderoba */
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bigb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:112px;padding:10px;border-radius:24px;background:var(--card);border:1px solid var(--line);color:var(--text);font-weight:800;font-size:17px;line-height:1.15;text-align:center}
+.bigb.gold{background:linear-gradient(180deg,var(--gold2),var(--gold));color:var(--ink);border:0;box-shadow:0 14px 34px -12px rgba(var(--gold-rgb),.55)}
+.bigb svg{width:32px;height:32px}
+.bigb small{display:block;margin-top:3px;font-size:12px;font-weight:700;opacity:.7}
+.more{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;padding:12px;border-radius:14px;border:1px dashed var(--line);background:none;color:var(--muted);font-weight:700;font-size:14px}
+@media (prefers-reduced-motion:reduce){.ok3 .ck,.ok3 .bar i{animation:none}}
 </style>
 </head>
 <body>
@@ -366,27 +432,25 @@ html.noscroll{overflow:hidden}
 </div>
 
 <div id="app" hidden>
-  <header class="uh"><svg viewBox="44.2 6.0 131.7 148.0" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M137.3 130.7 136.4 130.2 135.3 130.3 134.8 130.9 133.9 132.5 133.7 133.4 133.7 140.4 133.3 142.6 132.8 144.4 132.0 145.3 129.6 147.0 128.2 147.4 121.2 147.3 119.9 146.7 118.1 145.1 117.2 143.8 116.5 141.4 116.3 132.5 115.8 131.5 115.0 131.0 114.4 130.9 113.4 131.3 112.7 132.0 112.5 132.8 112.5 143.6 112.8 144.9 114.7 147.9 117.1 150.1 120.1 151.6 122.3 152.0 129.1 152.0 130.2 151.7 131.8 150.7 133.4 150.2 134.2 149.7 135.9 148.0 137.3 145.7 137.7 144.6 138.0 140.9 138.0 134.5 137.8 132.2ZM141.6 130.6 141.4 131.4 141.4 139.8 141.8 141.1 142.8 142.1 144.2 142.5 159.2 142.5 160.0 142.7 160.6 143.1 161.3 143.9 161.5 144.6 161.4 145.3 160.9 146.1 160.0 147.0 159.0 147.4 143.4 147.5 142.6 148.2 142.2 149.3 142.4 150.1 143.1 151.0 144.2 151.4 159.2 151.3 162.5 150.2 164.3 148.4 164.7 147.6 165.3 144.2 165.1 142.5 164.4 140.1 164.7 138.2 164.7 134.2 164.2 133.0 162.0 130.6 160.9 130.1 159.8 129.9 143.1 129.9 142.2 130.2ZM144.1 136.0 144.3 135.2 144.8 134.4 145.5 133.9 146.3 133.7 157.4 133.6 158.5 133.8 159.5 134.3 160.0 135.0 160.3 136.1 160.1 136.9 159.5 137.6 158.8 137.9 157.6 138.2 147.2 138.2 145.7 138.0 144.9 137.6 144.3 136.9ZM86.0 130.7 85.7 131.4 85.4 132.8 85.5 146.3 85.9 147.9 87.3 149.4 88.5 150.2 89.7 150.4 107.5 150.4 108.3 150.3 108.9 149.9 109.2 149.0 109.1 148.1 108.5 147.5 107.4 147.2 93.4 147.2 92.0 146.9 91.0 146.4 90.1 145.3 89.8 143.8 89.6 132.0 88.9 130.7 88.1 130.2 87.0 130.1ZM60.7 134.2 58.7 138.0 58.4 139.8 58.5 142.2 58.7 143.1 59.8 144.7 60.5 146.5 62.4 148.6 64.9 150.1 66.1 150.4 80.7 150.4 81.3 150.3 81.8 149.9 82.1 149.3 82.0 148.4 81.6 147.8 81.0 147.5 68.6 147.4 67.3 147.2 64.7 145.0 63.4 143.1 63.0 141.5 63.0 139.0 63.3 138.0 64.3 136.6 66.1 135.0 69.6 133.6 79.2 133.6 80.8 133.3 81.7 132.8 82.1 132.0 82.0 131.0 81.5 130.3 80.0 129.9 67.2 130.0 66.1 130.3 63.0 132.0ZM57.3 28.9 53.8 33.8 51.4 38.3 49.3 43.4 47.6 49.2 46.2 58.9 47.4 74.3 49.6 82.6 54.1 92.0 58.9 98.2 65.4 104.4 73.4 109.6 82.1 113.4 94.3 116.7 104.8 118.4 127.2 119.6 136.4 119.6 163.3 118.5 166.9 118.1 168.4 117.4 168.3 116.4 166.4 115.3 132.9 103.2 126.0 102.9 113.4 103.2 102.1 102.8 93.5 100.9 84.2 97.4 80.2 95.1 75.5 91.5 72.9 88.8 69.5 84.3 66.9 79.6 65.3 75.1 63.4 65.4 63.1 60.8 63.4 57.3 65.1 49.7 67.5 44.1 69.9 40.2 73.1 36.4 76.9 33.1 81.2 30.4 88.1 27.2 94.8 25.3 105.5 24.1 119.4 24.0 134.5 25.0 137.2 25.5 142.8 27.9 145.4 30.2 147.3 32.7 149.9 37.6 154.6 48.8 156.2 56.5 156.2 61.6 154.7 70.7 150.5 81.3 144.5 91.2 144.0 92.8 144.2 94.1 145.7 95.8 148.5 96.5 154.1 96.7 159.3 96.3 161.1 95.9 163.0 94.4 164.9 91.5 170.6 79.1 172.5 71.9 173.7 62.9 173.8 59.1 172.3 47.6 168.7 37.3 165.7 32.1 162.2 27.2 159.5 24.0 156.3 21.1 151.1 17.3 146.6 14.7 142.8 12.9 137.4 11.1 129.0 9.3 115.5 8.0 107.8 8.0 94.0 9.5 86.6 11.2 79.4 13.6 72.3 16.9 65.7 21.0 61.8 24.2Z"/></svg><div class="nm"><b>Q Club</b><small id="dl">Ulaz</small></div><span class="clk" id="clk"></span><button class="out" id="out" type="button" aria-label="Odjava" title="Odjava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button></header>
+  <header class="uh"><svg viewBox="44.2 6.0 131.7 148.0" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M137.3 130.7 136.4 130.2 135.3 130.3 134.8 130.9 133.9 132.5 133.7 133.4 133.7 140.4 133.3 142.6 132.8 144.4 132.0 145.3 129.6 147.0 128.2 147.4 121.2 147.3 119.9 146.7 118.1 145.1 117.2 143.8 116.5 141.4 116.3 132.5 115.8 131.5 115.0 131.0 114.4 130.9 113.4 131.3 112.7 132.0 112.5 132.8 112.5 143.6 112.8 144.9 114.7 147.9 117.1 150.1 120.1 151.6 122.3 152.0 129.1 152.0 130.2 151.7 131.8 150.7 133.4 150.2 134.2 149.7 135.9 148.0 137.3 145.7 137.7 144.6 138.0 140.9 138.0 134.5 137.8 132.2ZM141.6 130.6 141.4 131.4 141.4 139.8 141.8 141.1 142.8 142.1 144.2 142.5 159.2 142.5 160.0 142.7 160.6 143.1 161.3 143.9 161.5 144.6 161.4 145.3 160.9 146.1 160.0 147.0 159.0 147.4 143.4 147.5 142.6 148.2 142.2 149.3 142.4 150.1 143.1 151.0 144.2 151.4 159.2 151.3 162.5 150.2 164.3 148.4 164.7 147.6 165.3 144.2 165.1 142.5 164.4 140.1 164.7 138.2 164.7 134.2 164.2 133.0 162.0 130.6 160.9 130.1 159.8 129.9 143.1 129.9 142.2 130.2ZM144.1 136.0 144.3 135.2 144.8 134.4 145.5 133.9 146.3 133.7 157.4 133.6 158.5 133.8 159.5 134.3 160.0 135.0 160.3 136.1 160.1 136.9 159.5 137.6 158.8 137.9 157.6 138.2 147.2 138.2 145.7 138.0 144.9 137.6 144.3 136.9ZM86.0 130.7 85.7 131.4 85.4 132.8 85.5 146.3 85.9 147.9 87.3 149.4 88.5 150.2 89.7 150.4 107.5 150.4 108.3 150.3 108.9 149.9 109.2 149.0 109.1 148.1 108.5 147.5 107.4 147.2 93.4 147.2 92.0 146.9 91.0 146.4 90.1 145.3 89.8 143.8 89.6 132.0 88.9 130.7 88.1 130.2 87.0 130.1ZM60.7 134.2 58.7 138.0 58.4 139.8 58.5 142.2 58.7 143.1 59.8 144.7 60.5 146.5 62.4 148.6 64.9 150.1 66.1 150.4 80.7 150.4 81.3 150.3 81.8 149.9 82.1 149.3 82.0 148.4 81.6 147.8 81.0 147.5 68.6 147.4 67.3 147.2 64.7 145.0 63.4 143.1 63.0 141.5 63.0 139.0 63.3 138.0 64.3 136.6 66.1 135.0 69.6 133.6 79.2 133.6 80.8 133.3 81.7 132.8 82.1 132.0 82.0 131.0 81.5 130.3 80.0 129.9 67.2 130.0 66.1 130.3 63.0 132.0ZM57.3 28.9 53.8 33.8 51.4 38.3 49.3 43.4 47.6 49.2 46.2 58.9 47.4 74.3 49.6 82.6 54.1 92.0 58.9 98.2 65.4 104.4 73.4 109.6 82.1 113.4 94.3 116.7 104.8 118.4 127.2 119.6 136.4 119.6 163.3 118.5 166.9 118.1 168.4 117.4 168.3 116.4 166.4 115.3 132.9 103.2 126.0 102.9 113.4 103.2 102.1 102.8 93.5 100.9 84.2 97.4 80.2 95.1 75.5 91.5 72.9 88.8 69.5 84.3 66.9 79.6 65.3 75.1 63.4 65.4 63.1 60.8 63.4 57.3 65.1 49.7 67.5 44.1 69.9 40.2 73.1 36.4 76.9 33.1 81.2 30.4 88.1 27.2 94.8 25.3 105.5 24.1 119.4 24.0 134.5 25.0 137.2 25.5 142.8 27.9 145.4 30.2 147.3 32.7 149.9 37.6 154.6 48.8 156.2 56.5 156.2 61.6 154.7 70.7 150.5 81.3 144.5 91.2 144.0 92.8 144.2 94.1 145.7 95.8 148.5 96.5 154.1 96.7 159.3 96.3 161.1 95.9 163.0 94.4 164.9 91.5 170.6 79.1 172.5 71.9 173.7 62.9 173.8 59.1 172.3 47.6 168.7 37.3 165.7 32.1 162.2 27.2 159.5 24.0 156.3 21.1 151.1 17.3 146.6 14.7 142.8 12.9 137.4 11.1 129.0 9.3 115.5 8.0 107.8 8.0 94.0 9.5 86.6 11.2 79.4 13.6 72.3 16.9 65.7 21.0 61.8 24.2Z"/></svg><div class="nm"><b>Q Club</b><small id="dl">Ulaz</small></div><span class="clk" id="clk"></span><button class="hb" id="planBtn" type="button" aria-label="Tlocrt" title="Tlocrt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z"/><path d="M9 4v13.5M15 6.5V20"/></svg></button><button class="out" id="out" type="button" aria-label="Odjava" title="Odjava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button></header>
   <div class="wrapu">
-    <div class="modes" id="modes" hidden><button type="button" data-mode="rez" aria-pressed="true">🚪 Ulaz · rezervacije</button><button type="button" data-mode="coat" aria-pressed="false">🧥 Garderoba</button></div>
+    <div class="modes" id="modes" hidden><button type="button" data-mode="rez" aria-pressed="true">🚪 Ulaz</button><button type="button" data-mode="coat" aria-pressed="false">🧥 Garderoba</button></div>
     <div id="mCoat" hidden>
-      <div class="kp3" id="ckp"></div>
-      <div class="scanrow"><button class="scanbtn" id="coatNew" type="button"><span class="ic" style="font-size:26px">🧥</span><span><b>Primi stvari</b><small>novi broj — gost ga dobiva na mobitel</small></span></button><button class="codebtn" id="coatNo" type="button"><span>47</span>Upiši broj</button></div>
-      <button class="btn block" id="coatScan" type="button" style="margin:0 0 10px">📷 Skeniraj broj s mobitela gosta (odlazak)</button>
+      <p class="st1" id="ckp"></p>
+      <div class="big2"><button class="bigb gold" id="coatNew" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Primi stvari</span></button><button class="bigb" id="coatScan" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 8h3v3H8zM13 13h3v3h-3zM13 8h3M8 13v3"/></svg><span>Izdaj stvari<small>skeniraj broj gosta</small></span></button></div>
+      <div class="qbox"><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg><input type="search" id="cq" placeholder="Broj, opis ili ime" autocomplete="off" enterkeyhint="search" aria-label="Broj, opis ili ime"></div>
       <button class="demoScan" id="coatDemo" type="button" hidden>🎬 Demo: gost dolazi po stvari</button>
-      <input type="search" id="cq" placeholder="🔍 Broj, opis ili ime…" autocomplete="off">
       <div id="clist"></div>
     </div>
     <div id="mRez">
-    <div class="kp3" id="kp"></div>
-    <div class="scanrow"><button class="scanbtn" id="scanBtn" type="button"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 8h3v3H8zM13 13h3v3h-3zM13 8h3M8 13v3"/></svg></span><span><b>Skeniraj ulaznicu</b><small>QR kod s mobitela gosta</small></span></button><button class="codebtn" id="codeBtn" type="button"><span>123</span>Upiši kod</button></div>
-    <button class="demoScan" id="demoScan" type="button" hidden>🎬 Demo: gost na ulazu</button>
-    <div class="seg" role="tablist"><button data-tab="list" aria-pressed="true">Dolasci</button><button data-tab="plan" aria-pressed="false">Tlocrt</button></div>
-    <div class="cols">
-      <section id="tList"><input type="search" id="q" placeholder="🔍 Prezime, ime ili kod…" autocomplete="off"><div id="list"></div></section>
-      <section id="tPlan" class="planwrap" hidden><div class="planbox"><svg id="plan"></svg></div>
-        <p class="hint3">Dodirnite stol za ime, vrijeme i uvjete · tlocrt se pomiče prstom</p><div class="legend"><span><i class="lg-confirmed"></i>Očekujemo</span><span><i class="lg-alert"></i>Kasne</span><span><i class="lg-seated"></i>Stigli</span><span><i class="lg-pending"></i>Čeka potvrdu</span><span><i class="lg-free"></i>Slobodno</span></div></section>
-    </div>
+      <p class="st1" id="kp"></p>
+      <button class="bigscan" id="scanBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 8h3v3H8zM13 13h3v3h-3zM13 8h3M8 13v3"/></svg><span>Skeniraj ulaznicu</span></button>
+      <div class="qbox"><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg><input type="search" id="q" placeholder="Kod ili prezime" autocomplete="off" enterkeyhint="search" aria-label="Kod ili prezime"></div>
+      <button class="demoScan" id="demoScan" type="button" hidden>🎬 Demo: gost na ulazu</button>
+      <div class="cols">
+        <section id="tList"><div id="list"></div></section>
+        <section id="tPlan" class="planwrap"><div class="planbox"><svg id="plan"></svg></div><p class="hint3">Dodirnite stol za ime, vrijeme i uvjete</p><div class="legend"><span><i class="lg-confirmed"></i>Očekujemo</span><span><i class="lg-alert"></i>Kasne</span><span><i class="lg-seated"></i>Stigli</span><span><i class="lg-pending"></i>Čeka potvrdu</span><span><i class="lg-free"></i>Slobodno</span></div></section>
+      </div>
     </div>
   </div>
 </div>
@@ -397,7 +461,7 @@ html.noscroll{overflow:hidden}
   <video id="vid" playsinline muted></video><canvas id="cv" hidden></canvas>
   <div class="vf" id="vf"><i></i></div>
   <div class="tp"><b>Skeniraj ulaznicu</b><button type="button" id="scanX" aria-label="Zatvori">✕</button></div>
-  <div class="bt"><p class="msg" id="scanMsg">Usmjerite kameru na QR kod na mobitelu gosta</p><button class="btn block" type="button" id="scanCode">⌨️ Upiši kod rezervacije</button><div class="dm" id="dm"></div></div>
+  <div class="bt"><p class="msg" id="scanMsg">Usmjerite kameru na QR kod na mobitelu gosta</p><button class="btn block" type="button" id="scanCode">⌨️ Upiši kod ili prezime</button><div class="dm" id="dm"></div></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -3045,7 +3109,9 @@ const DN=['nedjelja','ponedjeljak','utorak','srijeda','četvrtak','petak','subot
 const pl=(n,one,few,many)=>{const a=n%10,b=n%100;return a===1&&b!==11?one:(a>=2&&a<=4&&(b<12||b>14))?few:many};
 const OCC={rodjendan:'🎂 Rođendan',proslava:'🥂 Proslava',momacka:'🎉 Momačka / djevojačka',posao:'💼 Poslovno',utakmica:'⚽ Utakmica'};
 const ACTIVE=['pending','confirmed','seated'];
-const S={cfg:null,list:[],date:null,tab:'list',q:'',open:null,alt:null,flash:null,busy:false};
+const S={cfg:null,list:[],date:null,q:'',open:null,alt:null,flash:null,busy:false,showIn:false,showOff:false};
+const wide=()=>matchMedia('(min-width:900px)').matches;
+const LEG='<div class="legend"><span><i class="lg-confirmed"></i>Očekujemo</span><span><i class="lg-alert"></i>Kasne</span><span><i class="lg-seated"></i>Stigli</span><span><i class="lg-pending"></i>Čeka potvrdu</span><span><i class="lg-free"></i>Slobodno</span></div>';
 const HK='host_'+V.venue;
 const HM=(V.features&&V.features.hostess)||['rez'];   // Bure: ulaz · Kafanica: ulaz + garderoba · Q Club: garderoba
 let MODE=HM.includes('rez')?'rez':'coat';
@@ -3094,7 +3160,7 @@ function kind(r){
   const L=lateBy(r);if(L>hold())return 'hot';if(L>5)return 'late';if(L>=-30)return 'soon';return 'later';
 }
 function stTxt(r){const k=kind(r),L=lateBy(r);
-  return k==='in'?`stigli ${arrTime(r)}`:k==='hot'||k==='late'?`kasne ${L} min`:k==='soon'?(L>=-5?'sad':`za ${-L} min`):k==='off'?({cancelled:'otkazano',declined:'odbijeno',done:'otišli',noshow:'nisu došli'}[r.status]||''):'';}
+  return k==='in'?`✓ ${arrTime(r)}`:k==='hot'||k==='late'?`+${L} min`:k==='soon'?(L>=-5?'sad':`za ${-L} min`):k==='off'?({cancelled:'otkazano',declined:'odbijeno',done:'otišli',noshow:'nisu došli'}[r.status]||''):'';}
 
 /* ---------- prikaz ---------- */
 function render(){
@@ -3104,27 +3170,29 @@ function render(){
   const act=S.list.filter(r=>ACTIVE.includes(r.status)||r.status==='noshow');
   const inN=act.filter(r=>r.status==='seated').length,exp=act.filter(r=>r.status!=='seated'&&r.status!=='noshow').length,lateN=act.filter(r=>['hot','late'].includes(kind(r))).length;
   const gIn=act.filter(r=>r.status==='seated').reduce((a,r)=>a+r.party,0),gAll=act.filter(r=>r.status!=='noshow').reduce((a,r)=>a+r.party,0);
-  $('#kp').innerHTML=`<div class="ok"><b>${inN}/${inN+exp}</b><span>stolova stiglo · gosti ${gIn}/${gAll}</span></div><div><b>${exp}</b><span>očekujemo</span></div><div class="${lateN?'hot':''}"><b>${lateN}</b><span>${pl(lateN,'kasni','kasne','kasni')}</span></div>`;
-  renderList();renderPlan();
+  $('#kp').innerHTML=`<span><b class="ok">${inN}/${inN+exp}</b>stolova stiglo</span><span><b>${gIn}/${gAll}</b>gostiju</span><span class="${lateN?'hot':''}"><b>${lateN}</b>${pl(lateN,'kasni','kasne','kasni')}</span>`;
+  renderList();if(wide())renderPlan();const p2=$('#plan2');if(p2)renderPlan(p2);
 }
-function row(r){const k=kind(r),n=split(r.name),t=tableOf(r.tableId),z=zoneOf(t);
-  const g=r.guest||{};
-  const chips=[g.visits>0?`<i class="gv">⭐ ${g.visits+1}. posjet</i>`:'',bdaySoon(g.bday,r.date)?'<i class="gb">🎂 rođendan</i>':'',g.noShows>0?`<i class="pd">⚠️ ${g.noShows}× nije došao</i>`:'',
-    z&&(z.minSpend||z.noShow)?`<i class="cat">${esc(zShort(z))}${r.minSpend?` · min. ${money0(r.minSpend)}`:''}</i>`:'',r.deposit?(r.deposit.paid?'<i class="ok">💳 kapara plaćena</i>':'<i class="pd">💳 kapara nije plaćena</i>'):'',r.guar?gChip(r):'',r.arrive&&r.status==='confirmed'?'<i class="ok">✓ dolazak potvrđen</i>':'',r.status==='pending'?'<i class="pd">čeka potvrdu</i>':'',r.occasion&&OCC[r.occasion]?`<i>${OCC[r.occasion]}</i>`:'',(r.preorder||[]).length?'<i>🍾 boce</i>':''].join('');
-  return `<button class="ar ${k}${S.flash===r.id?' flash':''}" data-id="${esc(r.id)}" type="button"><span class="tm">${fmt(r.start)}<small>${esc(stTxt(r))}</small></span><span class="who"><b>${esc(n.sur)}</b> ${esc(n.first)}<span class="mt">${r.party} ${pl(r.party,'osoba','osobe','osoba')}${r.code?` · #${esc(r.code)}`:''}</span>${chips?`<span class="chipz">${chips}</span>`:''}</span><span class="tb"><small>stol</small><b>${esc(r.tableId)}</b></span></button>`;}
+/* redak gosta: vrijeme, ime, broj osoba, stol — ikone samo kad nešto znače */
+function row(r){const k=kind(r),n=split(r.name),z=zoneOf(tableOf(r.tableId)),g=r.guest||{};
+  const ic=[g.visits>0?'⭐':'',bdaySoon(g.bday,r.date)?'🎂':'',z&&z.show?'👑':'',(r.preorder||[]).length?'🍾':'',r.status==='pending'?'⏳':'',r.deposit&&!r.deposit.paid?'💳':'',g.noShows>0?'⚠️':''].filter(Boolean).map(x=>`<i>${x}</i>`).join('');
+  return `<button class="ar ${k}${S.flash===r.id?' flash':''}" data-id="${esc(r.id)}" type="button"><span class="tm">${fmt(r.start)}<small>${esc(stTxt(r))}</small></span><span class="who"><b>${esc(n.sur)}</b> ${esc(n.first)}<span class="mt">${r.party} ${pl(r.party,'osoba','osobe','osoba')}${ic}</span></span><span class="tb">${esc(r.tableId)}</span></button>`;}
 function renderList(){
-  const q=S.q.trim().toLowerCase();
+  const raw=S.q.trim(),q=raw.toLowerCase(),dig=/^\d{4,6}$/.test(raw);
   const L=S.list.filter(r=>!q||[r.name,r.code,r.tableId].some(x=>String(x||'').toLowerCase().includes(q)));
-  const by=k=>L.filter(r=>kind(r)===k);
-  const sort=(a,b)=>a.start-b.start;
-  const secs=[['hot','⏱ Kasne — stol se drži '+hold()+' min'],['late','⏱ Kasne'],['soon','Stižu uskoro'],['later','Kasnije večeras'],['in','🚪 Stigli'],['off','Otkazano · nisu došli']];
-  let h='';
-  for(const [k,t] of secs){const A=by(k).sort(k==='in'?(a,b)=>(b.start+(b.lateMin||0))-(a.start+(a.lateMin||0)):sort);if(!A.length)continue;h+=`<div class="sec2"><span>${t}</span><span class="r">${A.length}</span></div>`+A.map(row).join('');}
+  const by=k=>L.filter(r=>kind(r)===k),sort=(a,b)=>a.start-b.start;
+  let h=dig&&!S.list.some(r=>r.code===raw)?`<button class="codeq" type="button" data-code="${esc(raw)}">Provjeri kod <b>${esc(raw)}</b><span>›</span></button>`:'';
+  for(const [k,t,A] of [['hot',`Kasne · stol se drži ${hold()} min`,by('hot').concat(by('late')).sort(sort)],['soon','Stižu',by('soon').sort(sort)],['later','Kasnije večeras',by('later').sort(sort)]]){
+    if(A.length)h+=`<div class="sec3${k==='hot'?' hot':''}"><span>${t}</span><b>${A.length}</b></div>`+A.map(row).join('');}
+  const inA=by('in').sort((a,b)=>(b.start+(b.lateMin||0))-(a.start+(a.lateMin||0))),offA=by('off').sort(sort);
+  if(inA.length){const op=S.showIn||!!q;h+=`<button class="sec3 tog${op?' open':''}" type="button" data-tog="in"><span>Stigli</span><b>${inA.length}</b><span class="lst">${op?'':esc(split(inA[0].name).sur)+' · '+arrTime(inA[0])}</span><i>▾</i></button>`+(op?inA.map(row).join(''):'');}
+  if(offA.length){const op=S.showOff||!!q;h+=`<button class="sec3 tog${op?' open':''}" type="button" data-tog="off"><span>Otkazano · nisu došli</span><b>${offA.length}</b><span class="lst"></span><i>▾</i></button>`+(op?offA.map(row).join(''):'');}
   $('#list').innerHTML=h||`<p class="empty2">${q?'Nema gosta s tim imenom ili kodom.':'Za danas nema rezervacija.'}</p>`;
 }
 function resAt(t){const A=S.list.filter(r=>r.tableId===t.id&&ACTIVE.includes(r.status));if(!A.length)return null;const s=A.find(r=>r.status==='seated');if(s)return s;return A.sort((a,b)=>Math.abs(lateBy(a))-Math.abs(lateBy(b)))[0];}
-function renderPlan(){
-  const svg=$('#plan');if(!svg||!window.TTPlan)return;
+function openPlan(){S.open=null;openSheet(`<div class="sh"><small>Tlocrt · ${esc(dateLbl(S.date||TT.biz().date))}</small><button class="x" data-close aria-label="Zatvori">✕</button></div><div class="planwrap"><div class="planbox"><svg id="plan2"></svg></div><p class="hint3">Dodirnite stol za ime, vrijeme i uvjete</p>${LEG}</div>`);setTimeout(()=>renderPlan($('#plan2')),40);}
+function renderPlan(svg=$('#plan')){
+  if(!svg||!window.TTPlan||!S.cfg)return;
   TTPlan.render(svg,S.cfg,{state:t=>{const r=resAt(t);if(!r)return 'free';const k=kind(r);return (r.status==='seated'?'seated':r.status==='pending'?'pending':'confirmed')+(k==='hot'||k==='late'?' alert':'')},
     alert:t=>{const r=resAt(t);return r&&['hot','late'].includes(kind(r))?'⏱':null},
     sub:t=>{const r=resAt(t);if(!r)return '';const s=split(r.name).sur;return s.length>9?s.slice(0,8)+'…':s},
@@ -3134,16 +3202,16 @@ function renderPlan(){
 /* ---------- kartica gosta ---------- */
 function verdict(r){
   const today=TT.biz().date,L=lateBy(r),h=hold();
-  if(r.status==='cancelled')return {c:'bad',i:'⛔',t:'Rezervacija je otkazana',s:'Gost ju je otkazao. Ako ima mjesta, pozovite voditelja.'};
+  if(r.status==='cancelled')return {c:'bad',i:'⛔',t:'Rezervacija je otkazana',s:'Ako ima mjesta, pozovite voditelja.'};
   if(r.status==='declined')return {c:'bad',i:'⛔',t:'Rezervacija je odbijena',s:'Lokal je odbio ovu rezervaciju. Pozovite voditelja.'};
   if(r.status==='done')return {c:'info',i:'ℹ️',t:'Rezervacija je završena',s:`Gosti su bili za stolom ${esc(r.tableId)}.`};
   if(r.status==='seated')return {c:'info',i:'🪑',t:`Već su ušli u ${arrTime(r)}`,s:`Stol ${esc(r.tableId)}${r.checkedBy?` · uveo/la ${esc(r.checkedBy)}`:''}`};
   if(r.date!==today)return r.date>today?{c:'bad',i:'📅',t:'Rezervacija nije za danas',s:`Rezervirano za <b>${esc(dateLbl(r.date))}</b> u ${fmt(r.start)}.`}:{c:'bad',i:'📅',t:'Rezervacija je istekla',s:`Bila je za ${esc(dateLbl(r.date))} u ${fmt(r.start)}.`};
   let v;
-  if(L>h)v={c:'bad',i:'⏱',t:`Kasne ${L} min`,s:`Dolazak je bio u ${fmt(r.start)} — stol se drži ${h} min. Ako je slobodan, uvedite ih.`};
+  if(L>h)v={c:'bad',i:'⏱',t:`Kasne ${L} min`,s:`Stol se drži ${h} min — uvedite ih ako je slobodan`};
   else if(L>5)v={c:'warn',i:'⏱',t:`Kasne ${L} min`,s:`Dolazak u ${fmt(r.start)} · stol se drži ${h} min`};
   else if(L<-20)v={c:'info',i:'⏰',t:`Rano su — ${-L} min prije`,s:`Rezervacija je u ${fmt(r.start)}.`};
-  else v={c:'ok',i:'✅',t:'Rezervacija vrijedi',s:`Na vrijeme · dolazak u ${fmt(r.start)}`};
+  else v={c:'ok',i:'✅',t:'Rezervacija vrijedi',s:`Na vrijeme · dolazak ${fmt(r.start)}`};
   if(r.status==='pending')v={c:'warn',i:'⏳',t:'Rezervacija još nije potvrđena',s:`${v.t} · voditelj je još nije potvrdio.`};
   if(r.status==='noshow')v={c:'warn',i:'⚠️',t:'Bili su označeni „nisu došli”',s:`Kasne ${L} min · ako je stol slobodan, uvedite ih.`};
   v.can=true;return v;
@@ -3165,29 +3233,38 @@ function freeTables(r){const d=(S.cfg.durationMinutes||180),t0=tableOf(r.tableId
 function openSheet(h){const s=$('#sheet');s.innerHTML=h;s.scrollTop=0;$('#scrim').classList.add('on');s.classList.add('on');document.documentElement.classList.add('noscroll');}
 function closeSheet(){$('#sheet').classList.remove('on');$('#scrim').classList.remove('on');document.documentElement.classList.remove('noscroll');S.open=null;S.alt=null;}
 $('#scrim').onclick=closeSheet;
+/* napomene u jednom retku: samo ono što hostesa mora reći ili provjeriti */
+function notes(r,v,z){const N=[],pol=S.cfg.policy||{},g=r.guest||{};
+  if(r.guar){const gs=gsOf(r),m=money0(r.guar.eur);
+    if(gs==='released')N.push(`<span class="nt money"><i>✓</i><span>Jamstvo <b>${m}</b> je oslobođeno</span></span>`);
+    else if(gs==='charged')N.push(`<span class="nt warn"><i>€</i><span>Jamstvo ${m} je naplaćeno — javite voditelju</span></span>`);
+    else if(gs!=='free'&&gs!=='waived')N.push(`<span class="nt money"><i>🔒</i><span><b>${m}</b> na kartici · ukida se kad ih uvedete</span></span>`);}
+  if(r.deposit)N.push(r.deposit.paid?`<span class="nt money"><i>💳</i><span>Kapara <b>${money0(r.deposit.eur)}</b> plaćena · recite konobaru</span></span>`:`<span class="nt warn"><i>💳</i><span>Kapara ${money0(r.deposit.eur)} nije plaćena — pozovite voditelja</span></span>`);
+  if(r.minSpend||(z&&z.minSpend))N.push(`<span class="nt"><i>💶</i><span>Min. potrošnja <b>${money0(r.minSpend||z.minSpend)}</b> po stolu</span></span>`);
+  {const zz=zoneOf(tableOf(r.tableId));if(zz&&zz.show&&v.can){const it=TT.vipStaff(r,zz.show).it.filter(([i])=>['🎆','🎤','🥃','❔','–'].includes(i));N.push(`<span class="nt money"><i>👑</i><span>VIP doček · ${it.map(([,x])=>esc(x)).join(' · ')}</span></span>`);}}
+  if(pol.age||pol.dress)N.push(`<span class="nt"><i>🪪</i><span>${pol.age?`<b>${pol.age}+</b> provjerite osobnu`:''}${pol.age&&pol.dress?' · ':''}${pol.dress?esc(pol.dress.hr||pol.dress):''}</span></span>`);
+  if((r.preorder||[]).length)N.push(`<span class="nt"><i>🍾</i><span>${r.preorder.map(x=>`${x.qty>1?x.qty+'× ':''}${esc(x.name)}`).join(', ')}${r.sparkler?' · s prskalicom':''} — javite šanku</span></span>`);
+  if(g.visits>0)N.push(`<span class="nt gs"><i>⭐</i><span>${g.visits+1}. posjet${g.fav?` · obično ${esc(g.fav)}`:''}</span></span>`);
+  if(bdaySoon(g.bday,r.date))N.push(`<span class="nt bd"><i>🎂</i><span>Rođendan ovih dana — čestitajte</span></span>`);
+  if(g.noShows)N.push(`<span class="nt warn"><i>⚠️</i><span>${g.noShows}× nije došao bez otkazivanja</span></span>`);
+  if(r.occasion||r.note){const oc=r.occasion&&OCC[r.occasion]?OCC[r.occasion].replace(/^\S+\s/,''):'',dup=oc&&r.note&&r.note.toLowerCase().includes(oc.split(/[ /]/)[0].toLowerCase());
+    N.push(`<span class="nt"><i>📝</i><span>${oc&&!dup?esc(oc)+(r.note?' · ':''):''}${esc(r.note||'')}</span></span>`);}
+  if(g.note)N.push(`<span class="nt"><i>📝</i><span>${esc(g.note)}</span></span>`);
+  if(r.staffNote)N.push(`<span class="nt"><i>🔒</i><span>${esc(r.staffNote)}</span></span>`);
+  return N;}
 function openRes(id,o={}){const r=S.list.find(x=>x.id===id)||o.r;if(!r)return;S.open=r.id;if(!o.keepAlt){S.alt=null;S.via=o.via||'';}
-  const v=verdict(r),t=tableOf(S.alt||r.tableId),z=zoneOf(tableOf(r.tableId)),n=split(r.name),pol=S.cfg.policy||{};
-  const tid=S.alt||r.tableId,cl=v.can?clash(r,tid):null;
-  const conds=[];
-  if(r.minSpend||(z&&z.minSpend))conds.push(`<div class="cond money"><span class="ci">💶</span><span>Minimalna potrošnja <b>${money0(r.minSpend||z.minSpend)}</b> po stolu<small>${esc(zShort(z))} · recite gostima odmah na ulazu</small></span></div>`);
-  {const zv=tableOf(r.tableId),zz=zv&&zoneOf(zv);if(zz&&zz.show&&v.can){const vx=TT.vipStaff(r,zz.show);conds.push(`<div class="cond money vipc"><span class="ci">👑</span><span><b>VIP doček</b>${vx.it.map(([i,s])=>`<span class="vi">${i} ${esc(s)}</span>`).join('')}<small>${esc(vx.tell)}</small></span></div>`);}}
-  if(r.guar)conds.unshift(gCond(r));
-  if(r.deposit)conds.push(`<div class="cond${r.deposit.paid?' money':' warnc'}"><span class="ci">💳</span><span>${r.deposit.paid?`Kapara <b>${money0(r.deposit.eur)}</b> je plaćena<small>Odbija se od računa — recite konobaru</small>`:`Kapara <b>${money0(r.deposit.eur)}</b> nije plaćena<small>Pozovite voditelja prije uvođenja</small>`}</span></div>`);
-  if(pol.age||pol.dress)conds.push(`<div class="cond"><span class="ci">🪪</span><span>${pol.age?`<b>${pol.age}+</b> — provjerite osobnu`:''}${pol.age&&pol.dress?' · ':''}${pol.dress?`Dress code: <b>${esc(pol.dress.hr||pol.dress)}</b>`:''}</span></div>`);
-  if((r.preorder||[]).length)conds.push(`<div class="cond"><span class="ci">🍾</span><span>Uz stol naručeno: <b>${r.preorder.map(x=>`${x.qty>1?x.qty+'× ':''}${esc(x.name)}`).join(', ')}</b>${r.sparkler?' ✨ s prskalicom':''}<small>Javite šanku da pripremi</small></span></div>`);
-  if(r.occasion||r.note)conds.push(`<div class="cond"><span class="ci">📝</span><span>${r.occasion&&OCC[r.occasion]?`<b>${OCC[r.occasion]}</b>${r.note?' · ':''}`:''}${esc(r.note||'')}</span></div>`);
-  if(r.staffNote)conds.push(`<div class="cond"><span class="ci">🔒</span><span>${esc(r.staffNote)}</span></div>`);
-  const zc=t?zoneOf(t):null;
+  const v=verdict(r),t=tableOf(S.alt||r.tableId),z=zoneOf(tableOf(r.tableId)),n=split(r.name);
+  const tid=S.alt||r.tableId,cl=v.can?clash(r,tid):null,zc=t?zoneOf(t):null,N=notes(r,v,z);
   openSheet(`<div class="sh"><small>${o.scanned?'Skenirana ulaznica':'Rezervacija'}${r.code?' · #'+esc(r.code):''}</small><button class="x" data-close aria-label="Zatvori">✕</button></div>
    <div class="vd ${v.c}${o.scanned?' pop':''}"><span class="i">${v.i}</span><span><b>${v.t}</b><span>${v.s}</span></span></div>
-   <div class="gst"><div><h2>${esc(n.sur)}<br><span style="font-size:.62em;opacity:.85">${esc(n.first)}</span></h2><div class="m"><b>${r.party} ${pl(r.party,'osoba','osobe','osoba')}</b> · dolazak ${fmt(r.start)}${r.arrive&&r.status==='confirmed'?' · <span style="color:#7ee2a8">✓ dolazak potvrđen</span>':''}</div></div>
+   <div class="gst"><div><h2>${esc(n.sur)}<br><span style="font-size:.6em;opacity:.85">${esc(n.first)}</span></h2><div class="m"><b>${r.party} ${pl(r.party,'osoba','osobe','osoba')}</b>${r.arrive&&r.status==='confirmed'?' · <span style="color:#7ee2a8">✓ potvrdili dolazak</span>':''}</div></div>
      <div class="bigt"><small>Stol</small><b>${esc(tid)}</b>${zc&&zShort(zc)?`<i class="${esc(zc.id)}">${esc(zShort(zc))}</i>`:''}</div></div>
-   ${gWel(r)}
-   <div class="mini"><svg id="mini"></svg><span>${S.alt?'Novi stol':'Put do stola'}</span></div>
    ${cl?`<div class="warnbox">⚠️ Za stolom ${esc(tid)} još sjede <b>${esc(split(cl.name).sur)}</b> (od ${arrTime(cl)}). Odaberite drugi stol ili pričekajte.</div>`:''}
-   ${conds.length?`<div class="h4">Uvjeti i napomene</div><div class="conds">${conds.join('')}</div>`:''}
+   ${v.can?`<div class="acts2"><button class="btn gold block go2" data-in="${esc(r.id)}" ${cl&&!S.alt?'disabled':''}>✓ Uvedi — stol ${esc(tid)}</button></div>`:''}
+   ${N.length?`<div class="nts">${N.join('')}</div>`:''}
+   <div class="mini"><svg id="mini"></svg><span>${S.alt?'Novi stol':'Put do stola'}</span></div>
    ${v.can?`<div id="altBox" ${S.alt||cl?'':'hidden'}><div class="h4">Drugi slobodni stolovi</div><div class="alt">${freeTables(r).map(x=>`<button type="button" data-alt="${esc(x.id)}" aria-pressed="${S.alt===x.id}">${esc(x.id)}</button>`).join('')||'<span class="small">Nema slobodnog stola za toliko osoba.</span>'}</div></div>
-   <div class="acts2"><button class="btn gold block go2" data-in="${esc(r.id)}" ${cl&&!S.alt?'disabled':''}>✓ Uvedi — stol ${esc(tid)}</button><div class="row2"><button class="btn" data-altt>🔁 Drugi stol</button>${r.phone?`<a class="btn" href="tel:${esc(r.phone)}" data-demo-link="poziv">📞 Nazovi</a>`:'<button class="btn" data-close>Zatvori</button>'}</div></div>`
+   <div class="row3"><button class="btn sm" data-altt>🔁 Drugi stol</button>${r.phone?`<a class="btn sm" href="tel:${esc(r.phone)}" data-demo-link="poziv">📞 Nazovi</a>`:''}</div>`
    :`<div class="acts2">${r.phone&&r.status!=='seated'?`<a class="btn block" href="tel:${esc(r.phone)}">📞 Nazovi gosta</a>`:''}<button class="btn block" data-close>Zatvori</button></div>`}`);
   setTimeout(()=>{const m=$('#mini');if(!m||!window.TTPlan)return;TTPlan.render(m,S.cfg,{rotate:false,floorBar:false,focus:tid,state:x=>x.id===tid?'sel':(resAt(x)?'nofit':'free'),sub:x=>x.id===tid?`${n.sur.slice(0,12)}`:''});requestAnimationFrame(()=>TTPlan.zoomTo(m,tid,2.4));},60);
   if(o.scanned)buzz(v.c==='ok'?[18,50,18]:[60,60,60]);
@@ -3196,9 +3273,8 @@ async function checkIn(id,btn){
   if(S.busy)return;S.busy=true;btn&&(btn.disabled=true);
   const r0=S.list.find(x=>x.id===id),tid=S.alt||(r0&&r0.tableId);
   try{const x=await api('/admin/checkin',{id,tableId:S.alt||undefined,via:S.via||undefined,from:'door'});const r=x.reservation;upsert(r);S.flash=r.id;buzz([20,60,30]);
-    $('#sheet').innerHTML=`<div class="sh"><small>Uvedeno</small><button class="x" data-close aria-label="Zatvori">✕</button></div><div class="done2"><div class="ck">✓</div><h2>Dobrodošli, ${esc(split(r.name).sur)}</h2><p>Vodite goste do stola <b>${esc(r.tableId)}</b>${r.lateMin>5?` · kasnili su ${r.lateMin} min`:''}</p><p style="margin-top:4px">${r.guar&&r.guar.state==='released'?`Blokada ${money0(r.guar.eur)} na kartici je ukinuta, a voditelj je dobio potvrdu da su stigli.`:'Voditelj ih već vidi kao „sjede”.'}</p></div><div class="mini"><svg id="mini2"></svg><span>Stol ${esc(r.tableId)}</span></div><div class="acts2"><button class="btn block" data-close>Gotovo</button></div>`;
-    setTimeout(()=>{const m=$('#mini2');if(m&&window.TTPlan){TTPlan.render(m,S.cfg,{rotate:false,floorBar:false,focus:r.tableId,state:t=>t.id===r.tableId?'sel':(resAt(t)?'nofit':'free'),sub:t=>t.id===r.tableId?split(r.name).sur.slice(0,12):''});m.classList.add('plan');requestAnimationFrame(()=>TTPlan.zoomTo(m,r.tableId,2.4));}},60);
-    render();setTimeout(()=>{if(S.open===id)closeSheet();},4200);
+    $('#sheet').innerHTML=`<div class="ok3"><div class="ck">✓</div><h2>Uvedeno · stol ${esc(r.tableId)}</h2><p>${esc(split(r.name).sur)} · ${r.party} ${pl(r.party,'osoba','osobe','osoba')}${r.lateMin>5?` · kasnili ${r.lateMin} min`:''}</p><p>${r.guar&&r.guar.state==='released'?`<b>Blokada ${money0(r.guar.eur)} je ukinuta</b> · voditelj vidi da su stigli`:'Voditelj ih već vidi za stolom'}</p><div class="bar"><i></i></div></div>`;
+    render();setTimeout(()=>{if(S.open===id)closeSheet();},1900);
   }catch(e){toast(e&&e.error==='taken'?`Stol ${tid} je zauzet — odaberite drugi.`:e&&e.error==='state'?'Rezervacija se u međuvremenu promijenila.':'Uvođenje nije uspjelo — pokušajte ponovno.');btn&&(btn.disabled=false);await load();if(S.open)openRes(S.open,{keepAlt:true});}
   finally{S.busy=false;}
 }
@@ -3209,9 +3285,18 @@ document.addEventListener('click',e=>{
   const ib=x.closest('[data-in]');if(ib){checkIn(ib.dataset.in,ib);return}
   const al=x.closest('[data-alt]');if(al){S.alt=S.alt===al.dataset.alt?null:al.dataset.alt;buzz(6);openRes(S.open,{keepAlt:true});const b=$('#altBox');if(b)b.hidden=false;return}
   if(x.closest('[data-altt]')){const b=$('#altBox');if(b){b.hidden=!b.hidden;if(!b.hidden)b.scrollIntoView({behavior:'smooth',block:'center'});}return}
-  const tb=x.closest('.seg [data-tab]');if(tb){S.tab=tb.dataset.tab;$$('.seg [data-tab]').forEach(b=>b.setAttribute('aria-pressed',b===tb));$('#tList').hidden=S.tab!=='list';$('#tPlan').hidden=S.tab!=='plan';if(S.tab==='plan')renderPlan();return}
+  const tg=x.closest('[data-tog]');if(tg){const k=tg.dataset.tog==='in'?'showIn':'showOff';S[k]=!S[k];buzz(6);renderList();return}
+  const cq=x.closest('[data-code]');if(cq){const c=cq.dataset.code;clearQ();resolve(c,false);return}
 });
-$('#q').oninput=e=>{S.q=e.target.value;renderList();};
+/* jedno polje: 4 znamenke otvaraju rezervaciju, slova traže po prezimenu */
+let qT=null;
+function clearQ(){S.q='';$('#q').value='';$('#q').blur();renderList();}
+$('#q').oninput=e=>{S.q=e.target.value;renderList();clearTimeout(qT);const v=S.q.trim();
+  if(/^\d{4}$/.test(v)){const r=S.list.find(x=>x.code===v);if(r)qT=setTimeout(()=>{if(S.q.trim()===v){clearQ();buzz(8);openRes(r.id,{via:'code'});}},320);}};
+$('#q').onkeydown=e=>{if(e.key!=='Enter')return;e.preventDefault();const v=S.q.trim();if(!v)return;
+  if(/^\d{4,6}$/.test(v)){clearQ();resolve(v,false);return}
+  const m=S.list.filter(r=>[r.name,r.code,r.tableId].some(x=>String(x||'').toLowerCase().includes(v.toLowerCase())));if(m.length===1){clearQ();openRes(m[0].id);}};
+$('#planBtn').onclick=()=>{buzz(6);openPlan();};
 
 /* ---------- skeniranje ---------- */
 let stream=null,timer=null,det=null,busyScan=false;
@@ -3242,7 +3327,7 @@ function paintDemo(){const box=$('#dm');if(!DEMO){box.innerHTML='';return}
   box.innerHTML=c.length?`<div class="dmh">Demo — kao da gost pokaže ulaznicu</div>`+c.map(([i,t,s,id])=>`<button type="button" data-dscan="${esc(id)}"><i>${i}</i><span><b>${esc(t)}</b><small>${esc(s)}</small></span></button>`).join(''):'';}
 async function openScan(){
   $('#scan').hidden=false;$('#scan').classList.remove('nocam');document.documentElement.classList.add('noscroll');$('#vf').classList.remove('hit');busyScan=false;
-  $('#scanMsg').textContent=MODE==='coat'?'Usmjerite kameru na broj (QR) na mobitelu gosta':'Usmjerite kameru na QR kod na mobitelu gosta';$('#scan .tp b').textContent=MODE==='coat'?'Skeniraj broj':'Skeniraj ulaznicu';$('#scanCode').textContent=MODE==='coat'?'🔢 Upiši broj s garderobe':'⌨️ Upiši kod rezervacije';paintDemo();
+  $('#scanMsg').textContent=MODE==='coat'?'Usmjerite kameru na broj (QR) na mobitelu gosta':'Usmjerite kameru na QR kod na mobitelu gosta';$('#scan .tp b').textContent=MODE==='coat'?'Skeniraj broj':'Skeniraj ulaznicu';$('#scanCode').textContent=MODE==='coat'?'🔢 Upiši broj ili opis':'⌨️ Upiši kod ili prezime';paintDemo();
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){noCam('Kamera nije dostupna u ovom pregledniku — upišite kod rezervacije.');return}
   try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});}
   catch(e){noCam(e&&e.name==='NotAllowedError'?'Dopustite kameru u postavkama preglednika ili upišite kod rezervacije.':'Kamera nije dostupna — upišite kod rezervacije.');return}
@@ -3283,12 +3368,9 @@ async function resolve(txt,scanned){
   try{const x=id?await api('/admin/res?id='+encodeURIComponent(id)):await api('/admin/code?code='+encodeURIComponent(code));upsert(x.reservation);render();openRes(x.reservation.id,{scanned,r:x.reservation,via:id?'qr':'code'});}
   catch(e){openSheet(`<div class="sh"><small>${scanned?'Skenirana ulaznica':'Kod rezervacije'}</small><button class="x" data-close>✕</button></div><div class="vd bad pop"><span class="i">⛔</span><span><b>Rezervacija nije pronađena</b><span>${code?`Kod „${esc(code.toUpperCase())}” ne postoji za danas ni sutra.`:'Ulaznica ne odgovara nijednoj rezervaciji.'} Potražite gosta po prezimenu.</span></span></div><div class="acts2"><button class="btn block" data-close>Zatvori</button></div>`);buzz([60,60,60]);}
 }
-function codeSheet(){closeScan();openSheet(`<div class="sh"><small>Kod rezervacije</small><button class="x" data-close>✕</button></div><p class="small" style="margin:0 0 10px">Gost kaže 4 znamenke s ulaznice ili iz WhatsApp potvrde (npr. ${esc(((S.list.find(r=>r.code)||{}).code)||'4827')}). Bez koda — potražite ga po prezimenu.</p><form id="cf"><input class="codein" id="cin" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" spellcheck="false" aria-label="Kod"><button class="btn gold block" style="margin-top:10px">Provjeri</button></form>`);setTimeout(()=>{const i=$('#cin');i&&i.focus()},250);
-  $('#cf').onsubmit=e=>{e.preventDefault();const c=$('#cin').value.trim();if(c.length<4){toast('Upišite cijeli kod.');return}closeSheet();resolve(c,false);};}
 $('#scanBtn').onclick=()=>{buzz(8);openScan();};
 $('#scanX').onclick=closeScan;
-$('#scanCode').onclick=()=>MODE==='coat'?noSheet():codeSheet();
-$('#codeBtn').onclick=codeSheet;
+$('#scanCode').onclick=()=>{closeScan();const i=$(MODE==='coat'?'#cq':'#q');setTimeout(()=>i&&i.focus(),120);};
 $('#dm').addEventListener('click',e=>{const cb=e.target.closest('[data-cscan]');if(cb){const x=C.list.find(y=>y.id===cb.dataset.cscan);if(x){$('#scanMsg').textContent='Čitam broj…';stopCam();found(guestUrl(x));}return}
   const b=e.target.closest('[data-dscan]');if(!b)return;const id=b.dataset.dscan,my=TT.myRes().find(m=>m.id===id);
   const url=TT.url(V.venue,'rezervacije/')+'?r='+encodeURIComponent(id)+'&k='+encodeURIComponent((my&&my.k)||'demo');
@@ -3308,28 +3390,30 @@ const itemsTxt=it=>(it.items||[]).map(x=>`${(KN[x.t]||KN.ostalo)[1]}${x.n>1?'×'
 const itemsLong=it=>(it.items||[]).map(x=>{const k=KN[x.t]||KN.ostalo;return `${x.n>1?x.n+'× ':''}${k[2]||k[0].toLowerCase()}`}).join(', ');
 const nItems=it=>(it.items||[]).reduce((a,x)=>a+x.n,0);
 const guestUrl=x=>{const u=TT.url(V.venue,'garderoba/')+'?g='+encodeURIComponent(x.id)+'&k='+encodeURIComponent(x.k);return DEMO?TT.keepClock(u+'&d='+TT.demoCoatPack(Object.assign({date:C.date||TT.biz().date},x))):u};   // demo: broj može otvoriti i drugi mobitel
-function setMode(m){MODE=m;$$('#modes [data-mode]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===m));$('#mCoat').hidden=m!=='coat';$('#mRez').hidden=m!=='rez';$('#dl').textContent=(m==='coat'?'Garderoba':'Ulaz')+(S.date||C.date?` · ${dateLbl(S.date||C.date)}`:'');try{sessionStorage.setItem('tt_hm_'+V.venue,m)}catch(e){}if(m==='coat')loadCoat();else if(!S.cfg)load();}
+function setMode(m){MODE=m;$$('#modes [data-mode]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===m));$('#mCoat').hidden=m!=='coat';$('#mRez').hidden=m!=='rez';$('#planBtn').hidden=m!=='rez';$('#dl').textContent=(m==='coat'?'Garderoba':'Ulaz')+(S.date||C.date?` · ${dateLbl(S.date||C.date)}`:'');try{sessionStorage.setItem('tt_hm_'+V.venue,m)}catch(e){}if(m==='coat')loadCoat();else if(!S.cfg)load();}
 async function loadCoat(){try{const d=await capi('/admin/coat');C.list=d.list||[];C.next=d.next;C.date=d.date;renderCoat();}catch(e){if(e&&(e.status===401||e.status===403)){TT.setPin(HK,null);show(false);}}}
 function crow(x){return `<button class="cr ${x.status==='out'?'out':''}${C.flash===x.id?' flash':''}" data-cid="${esc(x.id)}" type="button"><span class="no">${x.no}</span><span class="it">${itemsTxt(x)}<small>${esc([x.desc,x.name].filter(Boolean).join(' · ')||itemsLong(x))}</small></span><span class="tm">${x.status==='out'?'izdano<br>'+fmt(x.outMin||0):fmt(x.atMin||0)}</span></button>`;}
 function renderCoat(){
   if(MODE!=='coat')return;$('#dl').textContent=`Garderoba · ${dateLbl(C.date||TT.biz().date)}`;$('#clk').textContent=fmt(TT.now().min);
   const act=C.list.filter(x=>x.status==='in'),out=C.list.filter(x=>x.status==='out');
-  $('#ckp').innerHTML=`<div class="ok"><b>${act.length}</b><span>${pl(act.length,'broj','broja','brojeva')} na garderobi</span></div><div><b>${act.reduce((a,x)=>a+nItems(x),0)}</b><span>stvari ukupno</span></div><div><b>${out.length}</b><span>izdano večeras</span></div>`;
+  $('#ckp').innerHTML=`<span><b class="ok">${act.length}</b>${pl(act.length,'broj','broja','brojeva')} na garderobi</span><span><b>${act.reduce((a,x)=>a+nItems(x),0)}</b>stvari</span><span><b>${out.length}</b>izdano</span>`;
   const q=C.q.trim().toLowerCase();const f=x=>!q||String(x.no)===q||[x.desc,x.name].some(y=>String(y||'').toLowerCase().includes(q));
   const A=act.filter(f).sort((a,b)=>a.no-b.no),O=out.filter(f).sort((a,b)=>(b.outMin||0)-(a.outMin||0)).slice(0,q?50:10);
-  $('#clist').innerHTML=(A.length?`<div class="sec2"><span>🧥 Na garderobi</span><span class="r">${A.length}</span></div>`+A.map(crow).join(''):'')+(O.length?`<div class="sec2"><span>✓ Izdano</span><span class="r">${out.length}</span></div>`+O.map(crow).join(''):'')||`<p class="empty2">${q?'Nema broja s tim opisom.':'Garderoba je prazna — dodirnite „Primi stvari”.'}</p>`;
+  $('#clist').innerHTML=(A.length?`<div class="sec3"><span>Na garderobi</span><b>${A.length}</b></div>`+A.map(crow).join(''):'')+(O.length?`<div class="sec3"><span>Izdano</span><b>${out.length}</b></div>`+O.map(crow).join(''):'')||`<p class="empty2">${q?'Nema broja s tim opisom.':'Garderoba je prazna — dodirnite „Primi stvari”.'}</p>`;
 }
-function newSheet(){C.draft={items:{},desc:'',name:'',no:C.next||1};C.photo='';drawNew();}
+function newSheet(){C.draft={items:{},desc:'',name:'',no:C.next||1,more:false};C.photo='';drawNew();}
 function drawNew(){const d=C.draft,n=Object.values(d.items).reduce((a,b)=>a+b,0);
-  openSheet(`<div class="sh"><small>Nove stvari na garderobu</small><button class="x" data-close aria-label="Zatvori">✕</button></div>
+  openSheet(`<div class="sh"><small>Primi stvari</small><button class="x" data-close aria-label="Zatvori">✕</button></div>
    <div class="kinds">${KIND_ORDER.map(k=>`<button type="button" class="kind" data-kind="${k}" data-n="${d.items[k]||0}"><i>${KN[k][1]}</i>${KN[k][0]}${d.items[k]?`<b>${d.items[k]}</b><span class="mn" data-kminus="${k}" role="button" aria-label="Manje">−</span>`:''}</button>`).join('')}</div>
-   <label class="lbl" style="margin-top:14px">Opis (pomaže pri izdavanju)</label><input type="text" id="cdesc" maxlength="80" placeholder="npr. crna kožna jakna, crveni šal" value="${esc(d.desc)}">
-   <label class="lbl">Ime gosta (neobavezno)</label><input type="text" id="cname" maxlength="40" placeholder="npr. Ana" value="${esc(d.name)}">
-   <button type="button" class="phbtn" id="cph">${C.photo?`<img src="${C.photo}" alt="">Fotografija je dodana · dodirnite za novu`:'📷 Fotografija stvari (neobavezno) — najsigurnije kod izdavanja'}</button><input type="file" id="cphf" accept="image/*" capture="environment" hidden>
    <div class="nost"><div><span>Broj vješalice</span><br><b>${d.no}</b></div><div class="st2"><button type="button" data-noa="-1" aria-label="Manji broj">−</button><button type="button" data-noa="1" aria-label="Veći broj">+</button></div></div>
-   <div class="acts2"><button class="btn gold block go2" id="csave" ${n?'':'disabled'}>✓ Spremi — broj ${d.no}</button><p class="small" style="margin:0;text-align:center">${n?`${n} ${pl(n,'stvar','stvari','stvari')} · gost zatim skenira QR i broj mu ostaje na mobitelu`:'Dodirnite što gost ostavlja (možete više puta).'}</p></div>`);
-  const de=$('#cdesc'),ne=$('#cname');de.oninput=()=>{d.desc=de.value};ne.oninput=()=>{d.name=ne.value};
-  $('#cph').onclick=()=>$('#cphf').click();$('#cphf').onchange=e=>{const f=e.target.files&&e.target.files[0];if(f)shrink(f).then(u=>{C.photo=u;drawNew()}).catch(()=>toast('Fotografija nije učitana.'));};
+   <div class="acts2"><button class="btn gold block go2" id="csave" ${n?'':'disabled'}>✓ Spremi — broj ${d.no}</button></div>
+   ${d.more?`<label class="lbl" style="margin-top:14px">Opis (pomaže pri izdavanju)</label><input type="text" id="cdesc" maxlength="80" placeholder="npr. crna kožna jakna, crveni šal" value="${esc(d.desc)}">
+   <label class="lbl">Ime gosta</label><input type="text" id="cname" maxlength="40" placeholder="npr. Ana" value="${esc(d.name)}">
+   <button type="button" class="phbtn" id="cph">${C.photo?`<img src="${C.photo}" alt="">Fotografija je dodana · dodirnite za novu`:'📷 Fotografija stvari'}</button><input type="file" id="cphf" accept="image/*" capture="environment" hidden>`
+   :`<button type="button" class="more" id="cmore">＋ Opis, ime ili fotografija</button>`}`);
+  if(d.more){const de=$('#cdesc'),ne=$('#cname');de.oninput=()=>{d.desc=de.value};ne.oninput=()=>{d.name=ne.value};
+    $('#cph').onclick=()=>$('#cphf').click();$('#cphf').onchange=e=>{const f=e.target.files&&e.target.files[0];if(f)shrink(f).then(u=>{C.photo=u;drawNew()}).catch(()=>toast('Fotografija nije učitana.'));};}
+  else $('#cmore').onclick=()=>{d.more=true;drawNew();setTimeout(()=>{const i=$('#cdesc');i&&i.focus()},80);};
   $('#csave').onclick=saveCoat;}
 function shrink(file){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{let q=.72,w=640;for(let i=0;i<4;i++){const sc=Math.min(1,w/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);const u=c.toDataURL('image/jpeg',q);if(u.length<190000)return res(u);q-=.12;w-=100;}rej(new Error('big'))};im.src=r.result};r.readAsDataURL(file)});}
 async function saveCoat(){const d=C.draft;const items=Object.entries(d.items).filter(([,n])=>n>0).map(([t,n])=>({t,n}));if(!items.length)return;const b=$('#csave');b.disabled=true;
@@ -3339,7 +3423,7 @@ function showIssued(t){const u=guestUrl(t);
   openSheet(`<div class="sh"><small>Spremljeno</small><button class="x" data-close aria-label="Zatvori">✕</button></div>
    <div class="bigno"><small>Broj</small><b>${t.no}</b></div><p class="qrgt" style="margin-top:2px">${itemsLong(t)}${t.desc?' · '+esc(t.desc):''}</p>
    <div class="qrg">${typeof qrMatrix==='function'?qrSvg(u):''}</div>
-   <p class="qrgt"><b style="color:var(--text)">Gost skenira ovaj kod kamerom</b> — broj ${t.no} i popis stvari ostaju mu na mobitelu. Bez papirića koji se gube.</p>
+   <p class="qrgt"><b style="color:var(--text)">Gost skenira kod</b> — broj ${t.no} ostaje mu na mobitelu.</p>
    <div class="acts2">${DEMO?`<a class="btn block" href="${esc(u)}">📱 Pogledajte kako gost vidi svoj broj</a>`:''}<button class="btn gold block" data-close>Gotovo</button></div>`);}
 function qrSvg(text){let m;try{m=qrMatrix(text)}catch(e){return ''}const n=m.length,qz=2,sz=n+qz*2;let d='';m.forEach((r,y)=>r.forEach((c,x)=>{if(c)d+=`M${x+qz} ${y+qz}h1v1h-1z`;}));return `<svg viewBox="0 0 ${sz} ${sz}" shape-rendering="crispEdges" aria-label="QR"><rect width="${sz}" height="${sz}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;}
 function openCoat(x,o={}){C.open=x.id;
@@ -3356,13 +3440,17 @@ function openCoat(x,o={}){C.open=x.id;
 async function coatOut(id,btn){btn&&(btn.disabled=true);try{const x=await capi('/admin/coat/out',{id});const t=x.ticket;const i=C.list.findIndex(y=>y.id===t.id);if(i>=0)C.list[i]=t;C.flash=t.id;buzz([20,60,30]);
   $('#sheet').innerHTML=`<div class="sh"><small>Izdano</small><button class="x" data-close aria-label="Zatvori">✕</button></div><div class="done2"><div class="ck">✓</div><h2>Izdano · broj ${t.no}</h2><p>${itemsLong(t)}${t.desc?' · '+esc(t.desc):''}</p><p style="margin-top:4px">Broj ${t.no} je opet slobodan, a gost na mobitelu vidi „preuzeto”.</p></div><div class="acts2"><button class="btn block" data-close>Gotovo</button></div>`;
   renderCoat();setTimeout(()=>{if(C.open===id&&$('#sheet .done2'))closeSheet()},3800);}catch(e){btn&&(btn.disabled=false);toast(e&&e.error==='state'?'Te su stvari već izdane.':'Izdavanje nije uspjelo.');loadCoat();}}
-function noSheet(){closeScan();openSheet(`<div class="sh"><small>Broj s garderobe</small><button class="x" data-close>✕</button></div><p class="small" style="margin:0 0 10px">Ako gost nema mobitel pri ruci, upišite broj koji kaže — i provjerite opis ili fotografiju.</p><form id="nf"><input class="codein" id="nin" inputmode="numeric" maxlength="3" autocomplete="off" aria-label="Broj"><button class="btn gold block" style="margin-top:10px">Pronađi</button></form>`);setTimeout(()=>{const i=$('#nin');i&&i.focus()},250);
-  $('#nf').onsubmit=async e=>{e.preventDefault();const n=+$('#nin').value;if(!n)return;const x=C.list.filter(y=>y.no===n).sort((a,b)=>(a.status==='in'?0:1)-(b.status==='in'?0:1))[0];if(x){openCoat(x)}else{try{const d=await capi('/admin/coat/find?no='+n);openCoat(d.ticket)}catch(err){toast(`Broj ${n} nije na garderobi.`)}}};}
 $('#coatNew').onclick=()=>{buzz(8);newSheet()};
-$('#coatNo').onclick=noSheet;
 $('#coatScan').onclick=()=>{buzz(8);openScan()};
 $('#coatDemo').onclick=()=>{buzz(8);openScan()};
-$('#cq').oninput=e=>{C.q=e.target.value;renderCoat()};
+let cqT=null;
+function clearCq(){C.q='';$('#cq').value='';$('#cq').blur();renderCoat();}
+$('#cq').oninput=e=>{C.q=e.target.value;renderCoat();clearTimeout(cqT);const v=C.q.trim();
+  if(/^\d{1,3}$/.test(v)){const act=C.list.filter(x=>x.status==='in'),hit=act.find(x=>String(x.no)===v),amb=act.some(x=>String(x.no)!==v&&String(x.no).startsWith(v));
+    if(hit&&!amb)cqT=setTimeout(()=>{if(C.q.trim()===v){clearCq();buzz(8);openCoat(hit);}},380);}};
+$('#cq').onkeydown=async e=>{if(e.key!=='Enter')return;e.preventDefault();const v=C.q.trim();if(!/^\d{1,3}$/.test(v))return;const n=+v;
+  const x=C.list.filter(y=>y.no===n).sort((a,b)=>(a.status==='in'?0:1)-(b.status==='in'?0:1))[0];clearCq();
+  if(x)openCoat(x);else{try{const d=await capi('/admin/coat/find?no='+n);openCoat(d.ticket)}catch(err){toast(`Broj ${n} nije na garderobi.`)}}};
 document.addEventListener('click',e=>{const x=e.target;
   const m=x.closest('#modes [data-mode]');if(m){setMode(m.dataset.mode);return}
   const mn=x.closest('[data-kminus]');if(mn){e.stopPropagation();const k=mn.dataset.kminus;C.draft.items[k]=Math.max(0,(C.draft.items[k]||0)-1);buzz(6);drawNew();return}
@@ -3374,7 +3462,7 @@ document.addEventListener('click',e=>{const x=e.target;
 
 /* ---------- osvježavanje ---------- */
 const off=()=>$('#app').hidden||!pin();
-let rq;TT.onChange(m=>{if(off())return;if(m&&m.venue&&m.venue!==V.venue&&m.path!=='?')return;clearTimeout(rq);rq=setTimeout(()=>{if(MODE==='coat'){loadCoat();return}load().then(()=>{if(S.open&&!S.busy&&$('#sheet').classList.contains('on')&&!$('#sheet .done2'))openRes(S.open,{keepAlt:true});});},250)});
+let rq;TT.onChange(m=>{if(off())return;if(m&&m.venue&&m.venue!==V.venue&&m.path!=='?')return;clearTimeout(rq);rq=setTimeout(()=>{if(MODE==='coat'){loadCoat();return}load().then(()=>{if(S.open&&!S.busy&&$('#sheet').classList.contains('on')&&!$('#sheet .done2, #sheet .ok3'))openRes(S.open,{keepAlt:true});});},250)});
 if(TT.mode==='live')setInterval(()=>{if(off()||document.visibilityState!=='visible'||$('#sheet').classList.contains('on'))return;if(MODE==='coat')loadCoat();else if(!S.open)load()},15000);
 setInterval(()=>{if(off())return;if(MODE==='coat'){$('#clk').textContent=fmt(TT.now().min);return}if(S.cfg&&!S.open)render();else if(S.cfg)$('#clk').textContent=fmt(TT.now().min);},30000);
 addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('#scan').hidden)closeScan();else closeSheet();}});
