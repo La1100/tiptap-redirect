@@ -220,7 +220,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   <main id="view"><p class="empty"><span class="spin"></span></p></main>
 </div>
 <script>
-window.TT_CFG={"mode": "demo", "venue": "qclub", "slug": "q-club", "name": "Q Club", "address": "Franje Kuhača 17, 31000 Osijek", "phone": "+385 95 391 7530", "features": {"reservations": true, "preorder": true, "sparkler": true, "tableMode": true, "bill": false, "orders": false, "songs": false, "preorderZones": ["vip", "kat"], "hostess": ["coat"]}, "page": "garderoba", "ev": {"hr": "DJ · turbo folk, trap i remixi", "en": "DJ · turbo folk, trap & remixes", "from": "22:00"}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}};
+window.TT_CFG={"mode": "demo", "venue": "qclub", "slug": "q-club", "name": "Q Club", "address": "Franje Kuhača 17, 31000 Osijek", "phone": "+385 95 391 7530", "features": {"reservations": true, "preorder": true, "sparkler": true, "tableMode": true, "bill": false, "orders": false, "songs": false, "preorderZones": ["vip", "kat"], "hostess": ["rez", "coat"], "door": "waiter"}, "page": "garderoba", "ev": {"hr": "DJ · turbo folk, trap i remixi", "en": "DJ · turbo folk, trap & remixes", "from": "22:00"}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}};
 (function () {
 "use strict";
 const __m = {};
@@ -264,7 +264,24 @@ const QCLUB = {
   zones: [
     { id: 'prizemlje', name: { hr: 'Prizemlje', en: 'Ground floor' }, short: 'Prizemlje' },
     { id: 'kat', name: { hr: 'Kat', en: 'Upstairs' }, short: 'Kat' },
-    { id: 'vip', name: { hr: 'VIP', en: 'VIP' }, short: 'VIP' },
+    { id: 'vip', name: { hr: 'VIP lounge', en: 'VIP lounge' }, short: 'VIP', img: 'vip',
+      // VIP doživljaj (prijedlog — lokal mijenja po želji): gost ga vidi u rezervaciji, konobar VIP-a dobije podsjetnik za doček
+      show: {
+        where: { hr: 'u Q Clubu', en: 'at Q Club' },
+        tag: { hr: 'Lounge na katu samo za vašu ekipu', en: 'An upstairs lounge just for your crew' },
+        one: { hr: 'Jedini VIP lounge u Q Clubu', en: 'The only VIP lounge in Q Club' },
+        perks: [
+          { i: '🎆', hr: 'Boca stiže uz prskalice — ako želite', en: 'Your bottle arrives with sparklers — if you like' },
+          { i: '🎤', hr: 'DJ najavljuje vaše ime — ako želite', en: 'The DJ calls out your name — if you like' },
+          { i: '🧊', hr: 'Stol vas čeka spreman — boca u svjetlećoj kibli s ledom, Red Bull i čaše', en: 'Your table is ready when you arrive — the bottle in a glowing ice bucket, Red Bull and glasses' },
+          { i: '🚪', hr: 'Bez čekanja — konobar VIP-a vas dočeka i odvede gore', en: 'No waiting — the VIP waiter meets you and takes you upstairs' },
+          { i: '🤵', hr: 'Vaš konobar cijelu noć — jedan dodir na mobitelu', en: 'Your own waiter all night — one tap on your phone' }
+        ],
+        choose: { spark: true, dj: true, shots: [] },
+        prep: { min: 15, hr: 'boca u svjetlećoj kibli s ledom, Red Bull, čaše, kartica s imenom', en: 'the bottle in a glowing ice bucket, Red Bull, glasses, a name card' },
+        staff: { hr: 'VIP doček', en: 'VIP welcome' },
+        always: { hr: 'stol spreman prije dolaska (boca u svjetlećoj kibli s ledom, Red Bull i čaše), ulaz bez čekanja i vaš konobar cijelu noć', en: 'your table ready before you arrive (the bottle in a glowing ice bucket, Red Bull and glasses), no queue and your own waiter all night' }
+      } },
     { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
@@ -299,7 +316,7 @@ const QCLUB = {
     hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
     en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
-  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['coat'] }
+  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['rez', 'coat'], door: 'waiter' }
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -319,7 +336,32 @@ const KAFANICA = {
   },
   zones: [
     { id: 'sala', name: { hr: 'Sala', en: 'Main room' }, short: 'Sala' },
-    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP' },
+    { id: 'vip', name: { hr: 'VIP stol', en: 'VIP table' }, short: 'VIP', img: 'vip',
+      // VIP doživljaj (prijedlog — lokal mijenja po želji): bend pozdravlja goste, rakija i plata na drvenoj dasci
+      show: {
+        where: { hr: 'u Kafanici', en: 'at Kafanica' },
+        tag: { hr: 'Vaše društvo u središtu večeri — bend svira za vas', en: 'Your party at the heart of the night — the band plays for you' },
+        one: { hr: 'Samo jedan takav stol u Kafanici', en: 'The only table like it in Kafanica' },
+        act: { hr: 'bend', en: 'the band' },
+        perks: [
+          { i: '🎻', hr: 'Bend vas pozdravlja s bine i svira pjesmu za vaš stol — ako želite', en: 'The band greets you from the stage and plays a song for your table — if you like' },
+          { i: '🥃', hr: 'Rakija dobrodošlice za cijeli stol — šljiva, travarica, dunja ili medica', en: 'A welcome round of rakija for the whole table — plum, herbal, quince or honey' },
+          { i: '🧀', hr: 'Hladna plata na drvenoj dasci čeka na stolu — čvarci, pršut, kulen, kobasica, sirevi, masline, kiseli krastavci, feferoni i lepinjice', en: 'A cold platter on a wooden board waiting at your table — pork cracklings, prosciutto, kulen, sausage, cheeses, olives, pickles, hot peppers and flatbread' },
+          { i: '🔥', hr: 'Topla plata s roštilja za cijelo društvo — po želji', en: 'A hot grill platter for the whole party — on request' },
+          { i: '🎆', hr: 'Boca uz prskalice — ako želite', en: 'Your bottle with sparklers — if you like' },
+          { i: '🚪', hr: 'Bez čekanja — hostesa vas dočeka imenom', en: 'No waiting — the host greets you by name' },
+          { i: '🤵', hr: 'Vaš konobar cijelu večer — jedan dodir na mobitelu', en: 'Your own waiter all evening — one tap on your phone' }
+        ],
+        choose: { spark: true, dj: true, shots: [
+          { id: 'Badel Šljivovica', hr: 'Šljiva', en: 'Plum brandy' },
+          { id: 'Badel Travarica', hr: 'Travarica', en: 'Herbal brandy' },
+          { id: 'Gazdina Dunja', hr: 'Dunja', en: 'Quince brandy' },
+          { id: 'Badel Medica', hr: 'Medica', en: 'Honey brandy' }
+        ] },
+        prep: { min: 15, hr: 'hladna plata na drvenoj dasci, čašice za rakiju, kartica s imenom', en: 'the cold platter on a wooden board, rakija glasses, a name card' },
+        staff: { hr: 'VIP doček', en: 'VIP welcome' },
+        always: { hr: 'stol spreman prije dolaska s hladnom platom na drvenoj dasci, ulaz bez čekanja i vaš konobar cijelu večer', en: 'your table ready before you arrive with a cold platter on a wooden board, no queue and your own waiter all evening' }
+      } },
     { id: 'pusiona', name: { hr: 'Pušiona', en: 'Smoking room' }, short: 'Pušiona' }
   ],
   tables: [
@@ -480,7 +522,7 @@ const BURE = {
     six('27', 1200, 505), six('28', 1203, 613), six('29', 70, 620), six('30', 68, 758),
     { id: '31', zone: 'vip', shape: 'long', x: 880, y: 212, w: 218, h: 52, seats: [7, 7, 1, 1], min: 1, max: 16, vip: true }
   ],
-  hours: { 0: null, 1: H('20:00', '22:00'), 2: H('20:00', '22:00'), 3: H('20:00', '22:00'), 4: H('20:00', '22:00'), 5: H('20:00', '22:00'), 6: H('20:00', '22:00') },
+  hours: { 0: null, 1: null, 2: null, 3: null, 4: H('20:00', '22:00'), 5: H('20:00', '22:00'), 6: H('20:00', '22:00') },
   slotMinutes: 15,
   durationMinutes: 300,          // stol je gostov cijelu večer (dolazak 20:00–22:00)
   leadMinutes: 30,
@@ -721,7 +763,7 @@ function cleanVip(sh, v) {
 function vipLine(v, sh, L = 'hr', pre = []) {
   const hr = L !== 'en', a = [];
   if (v && v.spark) a.push(hr ? 'boca uz prskalice' : 'your bottle with sparklers');
-  if (v && v.dj) a.push(v.djName ? (hr ? `DJ najavljuje „${v.djName}”` : `the DJ calls out “${v.djName}”`) : (hr ? 'DJ najavljuje vaše ime' : 'the DJ calls out your name'));
+  if (v && v.dj) a.push(sh && sh.act ? (v.djName ? (hr ? `${sh.act.hr} pozdravlja „${v.djName}”` : `${sh.act.en} greets “${v.djName}”`) : (hr ? `${sh.act.hr} vas pozdravlja s bine` : `${sh.act.en} greets you from the stage`)) : v.djName ? (hr ? `DJ najavljuje „${v.djName}”` : `the DJ calls out “${v.djName}”`) : (hr ? 'DJ najavljuje vaše ime' : 'the DJ calls out your name'));
   const sh1 = shotOf(sh, v && v.shot);
   if (sh1) a.push(hr ? `rakija dobrodošlice za cijeli stol: ${sh1.hr.toLowerCase()}` : `a welcome round of ${sh1.en.toLowerCase()} for the table`);
   else if (shotsOf(sh).length) a.push(hr ? 'rakija dobrodošlice za cijeli stol' : 'a welcome round for the whole table');
@@ -1404,15 +1446,15 @@ function dlText(r, L) {
   const dl = guarDeadline(r), same = dl.date === r.date;
   return L === 'hr' ? (same ? `do ${fmt(dl.min)} na dan dolaska` : `do ${humanDate(dl.date, L)} u ${fmt(dl.min)}`) : (same ? `until ${fmt(dl.min)} on the day` : `until ${humanDate(dl.date, L)} at ${fmt(dl.min)}`);
 }
-function guarMsg(r, L) {
-  const v = eur(r.guar.eur, L), c = cardLabel(r.guar.card), h = r.guar.hours || 12;
+function guarMsg(r, L, cfg) {
+  const v = eur(r.guar.eur, L), c = cardLabel(r.guar.card), h = r.guar.hours || 12, W = !!(cfg && cfg.features && cfg.features.door === 'waiter');
   // rezervirano kad je rok za besplatni otkaz već prošao (npr. danas za večeras): blokada odmah
   if (r.bookedAt && reached(guarDeadline(r), r.bookedAt)) return L === 'hr'
-    ? `💳 Jamstvo ${v} · ${c}\nDo dolaska je manje od ${h} sati, pa je ${v} odmah blokirano na kartici — ništa nije naplaćeno. Čim hostesa skenira vašu ulaznicu, blokada se ukida. Ako otkažete ili ne dođete, naplaćuje se ${v}.`
-    : `💳 ${v} guarantee · ${c}\nYour arrival is less than ${h} hours away, so ${v} is held on your card now — nothing has been charged. It's released as soon as the host scans your ticket. If you cancel or don't show up, ${v} is charged.`;
+    ? `💳 Jamstvo ${v} · ${c}\nDo dolaska je manje od ${h} sati, pa je ${v} odmah blokirano na kartici — ništa nije naplaćeno. Čim ${W ? 'konobar' : 'hostesa'} skenira vašu ulaznicu, blokada se ukida. Ako otkažete ili ne dođete, naplaćuje se ${v}.`
+    : `💳 ${v} guarantee · ${c}\nYour arrival is less than ${h} hours away, so ${v} is held on your card now — nothing has been charged. It's released as soon as ${W ? 'a waiter' : 'the host'} scans your ticket. If you cancel or don't show up, ${v} is charged.`;
   return L === 'hr'
-    ? `💳 Jamstvo ${v} · ${c} — ništa nije naplaćeno.\nBesplatno otkazivanje ${dlText(r, L)}. Od tada je ${v} blokirano na kartici, a čim hostesa skenira vašu ulaznicu, blokada se ukida.`
-    : `💳 ${v} guarantee · ${c} — nothing has been charged.\nFree cancellation ${dlText(r, L)}. After that ${v} is held on your card and released as soon as the host scans your ticket.`;
+    ? `💳 Jamstvo ${v} · ${c} — ništa nije naplaćeno.\nBesplatno otkazivanje ${dlText(r, L)}. Od tada je ${v} blokirano na kartici, a čim ${W ? 'konobar' : 'hostesa'} skenira vašu ulaznicu, blokada se ukida.`
+    : `💳 ${v} guarantee · ${c} — nothing has been charged.\nFree cancellation ${dlText(r, L)}. After that ${v} is held on your card and released as soon as ${W ? 'a waiter' : 'the host'} scans your ticket.`;
 }
 /** WhatsApp poruke koje gost dobiva: potvrda odmah, podsjetnik dan prije, „vidimo se” 2 h prije (bez gnjavaže — najviše 3). */
 function guestTimeline(r, cfg, site, now = zagrebNow()) {
@@ -1447,9 +1489,14 @@ function guestMessage(r, cfg, site, kind, asOf = null) {
   const depT = r.deposit ? (L === 'hr' ? (r.deposit.paid ? `\n💳 Kapara ${eur(r.deposit.eur, L)} je plaćena i odbija se od računa.` : `\n💳 Za ovaj stol potrebna je kapara ${eur(r.deposit.eur, L)} — uplata na linku ispod.`) : (r.deposit.paid ? `\n💳 Your ${eur(r.deposit.eur, L)} deposit is paid and comes off the bill.` : `\n💳 This table needs a ${eur(r.deposit.eur, L)} deposit — pay via the link below.`)) : '';
   const back = r.guest && r.guest.visits > 0;
   const vsh = vipOf(cfg, r.tableId), vipM = vsh ? `\n👑 ${vipLine(r.vip, vsh, L, r.preorder)}` : '';
+  const WT = !!(cfg.features && cfg.features.door === 'waiter');
+  // garderoba: gost zna unaprijed kako ide (QR na mobitel, bez papirića) — manje zastoja i pitanja na garderobi
+  const coatM = ((cfg.features || {}).hostess || []).includes('coat') ? (L === 'hr'
+    ? '\n🧥 Garderoba: kad predate jaknu, mobitelom skenirajte QR kod koji vam pokaže hostesa — broj vam ostaje na mobitelu, papirić ne treba. Pri odlasku samo pokažite broj. Ključeve, novčanik i mobitel ne ostavljajte u džepovima.'
+    : '\n🧥 Cloakroom: when you hand in your jacket, scan the QR code the attendant shows you — your number stays on your phone, no paper ticket. On the way out just show your number. Please don\'t leave keys, wallet or phone in your pockets.') : '';
   if (r.guar && kind === 'confirmed') return L === 'hr'
-    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${vipM}${pol}\n${guarMsg(r, L)}\n🎟️ Vaša ulaznica s QR kodom (pokažite je na ulazu), promjene i otkaz: ${link}\nStol držimo ${cfg.holdMinutes} min. ${back ? 'Drago nam je što se vraćate — vidimo se! 🙌' : 'Vidimo se!'}`
-    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${vipM}${pol}\n${guarMsg(r, L)}\n🎟️ Your ticket with a QR code (show it at the door), changes or cancellation: ${link}\nWe hold the table for ${cfg.holdMinutes} min. ${back ? 'Great to have you back — see you! 🙌' : 'See you!'}`;
+    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${vipM}${pol}\n${guarMsg(r, L, cfg)}${coatM}\n🎟️ Vaša ulaznica s QR kodom (${WT ? 'pokažite je bilo kojem konobaru' : 'pokažite je na ulazu'}), promjene i otkaz: ${link}\nStol držimo ${cfg.holdMinutes} min. ${back ? 'Drago nam je što se vraćate — vidimo se! 🙌' : 'Vidimo se!'}`
+    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${vipM}${pol}\n${guarMsg(r, L, cfg)}${coatM}\n🎟️ Your ticket with a QR code (${WT ? 'show it to any waiter' : 'show it at the door'}), changes or cancellation: ${link}\nWe hold the table for ${cfg.holdMinutes} min. ${back ? 'Great to have you back — see you! 🙌' : 'See you!'}`;
   if (r.guar && kind === 'remind') {
     // šalje se dan prije (24 h prije dolaska) — riječi „sutra/danas” računamo od trenutka slanja
     const sendAt = asOf || bizNow(), free = !reached(guarDeadline(r), asOf || zagrebNow());
@@ -1459,11 +1506,11 @@ function guestMessage(r, cfg, site, kind, asOf = null) {
       : `Hi from ${cfg.venue}! 👋 Reminder: table ${r.tableId} is waiting for you ${whenR}.\n👥 ${r.party} guests · for ${r.name}\n👉 Coming? Confirm with one tap: ${link}&a=1\n${free ? `Can't make it? Cancel free of charge by ${dlR}: ${link}` : `Can't make it? Let us know at ${cfg.phone}.`}`;
   }
   if (kind === 'soon') return L === 'hr'
-    ? `Vidimo se u ${fmt(r.start)}! 🥂 Stol ${r.tableId} je spreman.\n🎟️ Na ulazu pokažite QR ulaznicu — hostesa vas odmah vodi do stola${r.guar ? `, a blokada ${eur(r.guar.eur, L)} se tada ukida` : ''}: ${link}\nKasnite? Stol držimo ${cfg.holdMinutes} min — javite nam na ${cfg.phone}.`
-    : `See you at ${fmt(r.start)}! 🥂 Table ${r.tableId} is ready.\n🎟️ Show your QR ticket at the door — the host takes you straight to your table${r.guar ? ` and the ${eur(r.guar.eur, L)} hold is released` : ''}: ${link}\nRunning late? We hold the table for ${cfg.holdMinutes} min — call us at ${cfg.phone}.`;
+    ? `Vidimo se u ${fmt(r.start)}! 🥂 Stol ${r.tableId} je spreman.\n🎟️ ${cfg.features && cfg.features.door === 'waiter' ? 'Pokažite QR ulaznicu bilo kojem konobaru — konobar vašeg rajona odvest će vas do stola' : 'Na ulazu pokažite QR ulaznicu — hostesa vas odmah vodi do stola'}${r.guar ? `, a blokada ${eur(r.guar.eur, L)} se tada ukida` : ''}: ${link}${coatM}\nKasnite? Stol držimo ${cfg.holdMinutes} min — javite nam na ${cfg.phone}.`
+    : `See you at ${fmt(r.start)}! 🥂 Table ${r.tableId} is ready.\n🎟️ ${cfg.features && cfg.features.door === 'waiter' ? 'Show your QR ticket to any waiter — the waiter for your section takes you to your table' : 'Show your QR ticket at the door — the host takes you straight to your table'}${r.guar ? ` and the ${eur(r.guar.eur, L)} hold is released` : ''}: ${link}${coatM}\nRunning late? We hold the table for ${cfg.holdMinutes} min — call us at ${cfg.phone}.`;
   if (kind === 'confirmed') return L === 'hr'
-    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${depT}${vipM}${pol}\nStol držimo ${cfg.holdMinutes} min.${rules}\n🔢 Kod rezervacije: ${r.code} (dovoljno je reći ga na ulazu)\n🎟️ Vaša ulaznica s QR kodom, promjene i otkaz: ${link}\n${back ? 'Drago nam je što se vraćate — vidimo se! 🙌' : 'Vidimo se!'}`
-    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${depT}${vipM}${pol}\nWe hold the table for ${cfg.holdMinutes} min.${rules}\n🔢 Reservation code: ${r.code} (just say it at the door)\n🎟️ Your ticket with a QR code, changes or cancellation: ${link}\n${back ? 'Great to have you back — see you! 🙌' : 'See you!'}`;
+    ? `Pozdrav ${F.gen}! Rezervacija na ime ${r.name} je POTVRĐENA ✅\n📅 ${when}\n👥 ${r.party} os. · stol ${r.tableId}${catTxt}${pre}${depT}${vipM}${pol}\nStol držimo ${cfg.holdMinutes} min.${rules}${coatM}\n🔢 Kod rezervacije: ${r.code} (dovoljno je reći ga na ulazu)\n🎟️ Vaša ulaznica s QR kodom, promjene i otkaz: ${link}\n${back ? 'Drago nam je što se vraćate — vidimo se! 🙌' : 'Vidimo se!'}`
+    : `Hi from ${cfg.venue}! The reservation for ${r.name} is CONFIRMED ✅\n📅 ${when}\n👥 ${r.party} guests · table ${r.tableId}${catTxt}${pre}${depT}${vipM}${pol}\nWe hold the table for ${cfg.holdMinutes} min.${rules}${coatM}\n🔢 Reservation code: ${r.code} (just say it at the door)\n🎟️ Your ticket with a QR code, changes or cancellation: ${link}\n${back ? 'Great to have you back — see you! 🙌' : 'See you!'}`;
   if (kind === 'remind') {
     const today = r.date === bizNow().date;
     const whenR = today ? (L === 'hr' ? `večeras u ${fmt(r.start)}` : `tonight at ${fmt(r.start)}`) : (L === 'hr' ? `${humanDate(r.date, L)} u ${fmt(r.start)}` : `${humanDate(r.date, L)} at ${fmt(r.start)}`);
@@ -1791,19 +1838,19 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
   /** VIP doček za osoblje (r = rezervacija, sh = "show" zone stola): što je gost odabrao, što pripremiti prije
       dolaska (kible s ledom, limun, slamke, kartica; kristalne čaše uz premium bocu) i koga javiti. */
   TT.vipStaff = (r, sh) => {
-    const v = r && r.vip, c = (sh && sh.choose) || {}, it = [], n = (r && r.party) || 0;
+    const v = r && r.vip, c = (sh && sh.choose) || {}, it = [], n = (r && r.party) || 0, A = sh && sh.act ? sh.act.hr : '';
     const shots = (c.shots || []).map(x => typeof x === 'string' ? { id: x, hr: x } : x), s1 = v && v.shot ? shots.find(x => x.id === v.shot) : null;
     const cr = ((r && r.preorder) || []).find(x => ((sh && sh.crystal) || []).includes(String(x.id || '').split('@')[0]));
-    if (!v) it.push(['❔', 'pitajte goste: prskalice i DJ najava']);
+    if (!v) it.push(['❔', A ? 'pitajte goste: prskalice i pozdrav s bine' : 'pitajte goste: prskalice i DJ najava']);
     else {
-      if (!v.spark && !v.dj && (c.spark || c.dj)) it.push(['–', 'bez prskalica i DJ najave']);
+      if (!v.spark && !v.dj && (c.spark || c.dj)) it.push(['–', A ? 'bez prskalica i pozdrava s bine' : 'bez prskalica i DJ najave']);
       if (v.spark) it.push(['🎆', 'boca uz prskalice']);
-      if (v.dj) it.push(['🎤', v.djName ? `DJ najavljuje „${v.djName}”` : 'DJ najavljuje ime gosta']);
+      if (v.dj) it.push(['🎤', A ? (v.djName ? `${A} pozdravlja „${v.djName}”` : `${A} pozdravlja goste s bine`) : v.djName ? `DJ najavljuje „${v.djName}”` : 'DJ najavljuje ime gosta']);
     }
     if (s1) it.push(['🥃', `rakija dobrodošlice: ${s1.hr.toLowerCase()} (${s1.id}) × ${n}`]); else if (shots.length) it.push(['🥃', `rakija dobrodošlice × ${n} — biraju za stolom`]);
     if (sh && sh.prep && r) it.push(['🧊', `stol spreman do ${TT.fmt(r.start - (sh.prep.min || 15))}: ${sh.prep.hr || sh.prep}`]);
     if (cr) it.push(['🥂', `kristalne čaše — ${cr.name}`]);
-    return { it, tell: v && !v.dj ? 'Javite šanku čim uvedete goste' : 'Javite šanku i DJ-u čim uvedete goste' };
+    return { it, tell: v && !v.dj ? 'Javite šanku čim uvedete goste' : A ? 'Javite šanku i bendu čim uvedete goste' : 'Javite šanku i DJ-u čim uvedete goste' };
   };
 
   /* ---------- PIN (admin) ---------- */
@@ -1967,6 +2014,16 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
     if (sound) TT.chime(sound); TT.buzz([30, 60, 30]);
     clearTimeout(ntimer); ntimer = setTimeout(() => { if (!el.classList.contains('open')) el.classList.remove('on'); }, ms);
   };
+  try { const q = new URLSearchParams(location.search).get('wa'); if (q) { if (q === 'off') localStorage.removeItem('tt_wa'); else if (/^\+?\d{8,15}:[\w-]{4,}$/.test(q)) localStorage.setItem('tt_wa', q.replace(/^\+/, '')); } } catch (e) { }
+  /** demo: pošalji pravu WhatsApp poruku na broj voditelja dema (CallMeBot); vraća true ako je slanje uključeno */
+  TT.waOn = () => { try { return /^\d{8,15}:/.test(localStorage.getItem('tt_wa') || ''); } catch (e) { return false; } };
+  TT.waSend = text => {
+    let c = ''; try { c = localStorage.getItem('tt_wa') || ''; } catch (e) { }
+    const i = c.indexOf(':'); if (i < 1 || !text) return false;
+    const url = `https://api.callmebot.com/whatsapp.php?phone=%2B${c.slice(0, i)}&text=${encodeURIComponent(text)}&apikey=${encodeURIComponent(c.slice(i + 1))}`;
+    try { fetch(url, { mode: 'no-cors', keepalive: true }).catch(() => { }); } catch (e) { }
+    return true;
+  };
 
   /* ---------- gost: moje rezervacije i zahtjevi (obavijest kad osoblje odgovori) ---------- */
   TT.myRes = () => ls.get('tt_myres', []);
@@ -1998,11 +2055,11 @@ window.TT_DEMO_ITEMS={"qclub": {"top": [{"id": "moet-chandon-ice-imperial", "nam
         if (!['new', 'ack'].includes(x.status) || Date.now() - x.at > 6 * 3600e3) continue;
         try {
           const s = await TT.api(`/live/status?id=${encodeURIComponent(x.id)}&k=${encodeURIComponent(x.k)}`, { venue: x.v, fast: true });
-          if (s.status !== x.status) { const was = x.status; x.status = s.status; if (s.status === 'done' || s.status === 'skip') x.doneAt = Date.now(); evL.push({ item: x, was }); }
+          if (s.status !== x.status) { const was = x.status; x.status = s.status; if (s.status === 'done' || s.status === 'skip') x.doneAt = Date.now(); if (s.status === 'ack') x.ackAt = Date.now(); evL.push({ item: x, was }); }
         } catch (e) { if (e && e.error === 'notfound') { x.status = 'gone'; evL.push(null); } }
       }
       if (evL.length) {
-        const cur = TT.myLive(); LL.forEach(x => { const i = cur.findIndex(c => c.id === x.id); if (i >= 0) { cur[i].status = x.status; if (x.doneAt) cur[i].doneAt = x.doneAt; } }); ls.set('tt_mylive', cur);
+        const cur = TT.myLive(); LL.forEach(x => { const i = cur.findIndex(c => c.id === x.id); if (i >= 0) { cur[i].status = x.status; if (x.doneAt) cur[i].doneAt = x.doneAt; if (x.ackAt) cur[i].ackAt = x.ackAt; } }); ls.set('tt_mylive', cur);
         evL.filter(Boolean).forEach(d => document.dispatchEvent(new CustomEvent('tt:live', { detail: d })));
       }
     } finally { wbusy = false; }
@@ -2089,7 +2146,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
     const NOREZ = { brooklyn: true };   // Brooklyn radi bez rezervacija
     const HOST = { bure: ['🚪', 'Hostesa na ulazu', 'Skenira ulaznicu gosta: stol, kašnjenje i uvjeti · šifra hostese'],
                    kafanica: ['🚪', 'Hostesa · ulaz i garderoba', 'Ulaznice gostiju i garderoba s brojem na mobitelu · šifra hostese'],
-                   qclub: ['🧥', 'Garderoba · hostesa', 'Broj na mobitelu gosta, točno što je ostavio · šifra hostese'] };
+                   qclub: ['🤵', 'Konobari i garderoba', 'Konobar skenira ulaznicu i vodi goste do stola, garderoba s brojem na mobitelu · šifra osoblja'] };
     const VIEWS = v => [
       ['menu', '🍸', 'Gost za stolom', v === 'kafanica' ? 'Cjenik, poziv konobara i pjesma po želji' : v === 'brooklyn' ? 'Cjenik, poziv konobara i račun' : 'Cjenik i poziv konobara jednim dodirom'],
       ...(NOREZ[v] ? [] : [['rez', '📅', 'Rezervacija stola', v === 'qclub' ? 'Gost bira stol na tlocrtu i bocu uz stol' : 'Gost bira stol na tlocrtu i dobiva ulaznicu s QR kodom'],
@@ -2109,7 +2166,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
         h += `<div class="ttd-sub">Ostali lokali</div><div class="ttd-vs">${VORD.filter(x => x !== v).map(x => `<a href="${TT.esc(TT.demoHref(x, viewFor(x, cur)))}">${VNAME[x]}</a>`).join('')}</div>`;
       } else {
         h += `<a class="ttd-it on" href="#" data-ttd-close><span class="ic">👑</span><span class="t"><b>Direktor · BHT</b><small>Sva 4 lokala na jednom ekranu</small></span><em>Ovdje ste</em></a><div class="ttd-sub">Lokali</div>`;
-        h += VORD.map(x => `<div class="ttd-vrow"><b>${VNAME[x]}</b><span><a href="${TT.esc(TT.demoHref(x, 'menu'))}">Gost</a>${NOREZ[x] ? '' : `<a href="${TT.esc(TT.demoHref(x, 'rez'))}">Rezervacija</a>`}${HOST[x] ? `<a href="${TT.esc(TT.demoHref(x, 'host'))}">${x === 'qclub' ? 'Garderoba' : 'Hostesa'}</a>` : ''}<a href="${TT.esc(TT.demoHref(x, 'admin'))}">Voditelj</a></span></div>`).join('');
+        h += VORD.map(x => `<div class="ttd-vrow"><b>${VNAME[x]}</b><span><a href="${TT.esc(TT.demoHref(x, 'menu'))}">Gost</a>${NOREZ[x] ? '' : `<a href="${TT.esc(TT.demoHref(x, 'rez'))}">Rezervacija</a>`}${HOST[x] ? `<a href="${TT.esc(TT.demoHref(x, 'host'))}">${x === 'qclub' ? 'Konobari' : 'Hostesa'}</a>` : ''}<a href="${TT.esc(TT.demoHref(x, 'admin'))}">Voditelj</a></span></div>`).join('');
       }
       return h + `<button type="button" class="ttd-reset" data-ttd-reset>↺ Vrati demo na početak</button>`;
     }
@@ -2229,7 +2286,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
 (function () {
   'use strict';
   const TT = window.TT; if (!TT) return;
-  const VERSION = 'v28';
+  const VERSION = 'v29';
   /** Stolovi za priču prezentacije: na demo dan i dan poslije ostaju slobodni za rezervaciju uživo. */
   const STORY = { qclub: ['VIP', '47'], kafanica: ['35', '15'], bure: ['31', '25'], brooklyn: ['L3'] };
   /** Stolovi koje prezentacija koristi kao "gostov stol" (cjenik za stolom). */
@@ -2352,6 +2409,7 @@ html.ttd-hostesa .scan .tp{padding-top:calc(max(14px,env(safe-area-inset-top,0px
         if (occasion === 'momacka' && party < 5) occasion = 'rodjendan';   // momačka / djevojačka tek za veće društvo
         let note = occasion ? (R() < .55 ? pick(R, OCC_NOTES[occasion] || ['']) : '') : (R() < .3 ? pick(R, NOTES[v] || ['']) : '');
         if (typeof note === 'function') note = note(party);
+        if (v !== 'kafanica' && note === 'Torta u ponoć — donosimo je sami 🎂') note = 'Prskalice u ponoć za slavljenika 🎆';
         const body = { date, start, party, tableId: t.id, name: person(), phone: phone(), status, source: status === 'pending' ? 'web' : pick(R, SRC), occasion, note, _at: iso((1 + R() * 9) * 864e5) };
         if (PRE_OK(t) && !(C.vipOf && C.vipOf(cfg, t.id)) && (isDemo || R() < .8)) mkPre(body, party);
         // poznati gost: dio gostiju je već bio — najviše oni koji stižu oko demo vremena (hostesa ih dočeka imenom)
