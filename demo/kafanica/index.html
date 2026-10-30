@@ -5122,15 +5122,15 @@ renderAll();applyView(true,{first:true});
 .ttf-rail::-webkit-scrollbar{display:none}
 .ttf-card{position:relative;flex:0 0 74%;max-width:310px;scroll-snap-align:start;display:flex;flex-direction:column;padding:0;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--line);color:var(--text);text-align:left;font:inherit;cursor:pointer}
 .ttf-card:active{transform:scale(.985)}
-.ttf-card .ph{aspect-ratio:4/3;background:#2b2621 center/cover no-repeat}
+.ttf-card .ph{height:0;padding-top:75%;background:#2b2621 center/cover no-repeat}
 .ttf-card .tg{position:absolute;left:10px;top:10px;font-size:11.5px;font-weight:800;padding:5px 9px;border-radius:999px;background:rgba(18,16,14,.78);color:var(--gold2);border:1px solid rgba(242,200,114,.35)}
 .ttf-card .tx{display:block;padding:12px 14px 14px}
 .ttf-card .tx b{display:block;font-family:var(--f-display);font-weight:800;font-size:23px;line-height:1.02;letter-spacing:.01em;text-transform:uppercase}
 .ttf-card .tx small{display:block;margin-top:6px;color:var(--muted);font-size:12.5px}
 .ttf-card .tx em{display:block;margin-top:9px;font-style:normal;font-size:13px;font-weight:800;color:var(--gold2)}
-.ttf-board{position:relative;background:linear-gradient(160deg,#8a5a2e,#6b4220 55%,#55341a)!important;display:grid;grid-template-columns:repeat(4,1fr);place-items:center;padding:8% 10%;gap:2%}
+.ttf-board{position:relative;overflow:hidden;background:linear-gradient(160deg,#8a5a2e,#6b4220 55%,#55341a)!important}
 .ttf-board::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 2px,transparent 2px 22px),radial-gradient(120% 90% at 30% 20%,rgba(255,220,170,.18),transparent 60%);pointer-events:none}
-.ttf-board i{position:relative;font-style:normal;font-size:clamp(26px,9vw,40px);filter:drop-shadow(0 4px 4px rgba(0,0,0,.35));transform:rotate(calc((var(--k) - 3) * 6deg))}
+.ttf-board>i{position:absolute;font-style:normal;font-size:clamp(24px,8vw,38px);line-height:1;filter:drop-shadow(0 4px 4px rgba(0,0,0,.35));transform:translate(-50%,-50%) rotate(calc((var(--k) - 3) * 7deg))}
 html.ttf-lock{overflow:hidden}
 .ttf-ov{position:fixed;inset:0;z-index:200;display:flex;align-items:flex-end;justify-content:center;background:rgba(8,5,4,.72);opacity:0;transition:opacity .28s}
 .ttf-ov.on{opacity:1}
@@ -5140,10 +5140,9 @@ html.ttf-lock{overflow:hidden}
 .ttf-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .ttf-top small{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--gold2)}
 .ttf-x{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:var(--text);font-size:16px;cursor:pointer}
-.ttf-plate{width:min(58vw,236px);aspect-ratio:1;margin:6px auto 16px;border-radius:50%;padding:12px;background:radial-gradient(circle at 35% 30%,#ffffff,#efe7dc 60%,#d9cfc1);box-shadow:0 28px 50px -12px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.15),0 0 60px rgba(242,200,114,.18)}
+.ttf-plate{width:min(58vw,236px);height:min(58vw,236px);margin:6px auto 16px;border-radius:50%;padding:12px;background:radial-gradient(circle at 35% 30%,#ffffff,#efe7dc 60%,#d9cfc1);box-shadow:0 28px 50px -12px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.15),0 0 60px rgba(242,200,114,.18)}
 .ttf-ph{width:100%;height:100%;border-radius:50%;background:#2b2621 center/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18),inset 0 6px 14px rgba(0,0,0,.25)}
-.ttf-ph.ttf-board{border-radius:50%;padding:20%}
-.ttf-ph.ttf-board i{font-size:clamp(20px,6vw,30px)}
+.ttf-ph.ttf-board>i{font-size:clamp(20px,6vw,30px)}
 .ttf-box h3{margin:0;text-align:center;font-family:var(--f-display);font-weight:800;font-size:34px;line-height:1;letter-spacing:.01em;text-transform:uppercase;color:#fff6e6}
 .ttf-lead{margin:6px 0 14px;text-align:center;color:var(--muted);font-size:13.5px}
 .ttf-stats{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:8px;margin:0 0 14px}
@@ -5223,7 +5222,7 @@ html.ttf-lock{overflow:hidden}
         ['🥛', 'Yogo-mayo umak', 'Yogurt-mayo dressing', 'preliv', 'dressing', 120, 2, 0],
         ['🍅', 'Cherry rajčica', 'Cherry tomatoes', 'svježe', 'fresh', 10, 0, 0],
         ['🧀', 'Grana Padano', 'Grana Padano', 'listići', 'shavings', 60, 5, 0],
-        ['🫗', 'Aceto balsamico', 'Balsamic vinegar', 'kapi', 'drizzle', 10, 0, 0]
+        ['🍇', 'Aceto balsamico', 'Balsamic vinegar', 'kapi', 'drizzle', 10, 0, 0]
       ] },
     { id: 'hladna-plata', board: true, hr: 'Hladna plata', en: 'Cold platter', tag: { hr: 'Za društvo', en: 'To share' },
       sub: { hr: 'Na drvenoj dasci, za cijeli stol', en: 'On a wooden board, for the whole table' },
@@ -5258,10 +5257,10 @@ html.ttf-lock{overflow:hidden}
   const nm = d => en() ? d.en : d.hr;
   const L = o => o ? (en() ? o.en : o.hr) : '';
   const bz = p => { try { if (window.TT && TT.buzz) TT.buzz(p); } catch (e) { } };
-  const BOARD = '🥓🍖🧀🫒🥒🫑🫓';
+  const BOARD = '🥓🍖🧀🫒🥒🫑🫓', BXY = [[26, 32], [52, 24], [76, 34], [30, 62], [55, 52], [78, 64], [50, 78]];
 
   function photo(d, cls) {
-    if (d.board) return `<div class="${cls} ttf-board" aria-hidden="true">${[...BOARD].map((e, i) => `<i style="--k:${i}">${e}</i>`).join('')}</div>`;
+    if (d.board) return `<div class="${cls} ttf-board" aria-hidden="true">${[...BOARD].map((e, i) => `<i style="--k:${i};left:${BXY[i][0]}%;top:${BXY[i][1]}%">${e}</i>`).join('')}</div>`;
     return `<div class="${cls}" style="background-image:url('${IMG + d.img}')" role="img" aria-label="${esc(nm(d))}"></div>`;
   }
   function chili(n) { return [0, 1, 2].map(i => `<i class="${i < n ? 'on' : ''}">🌶️</i>`).join(''); }
