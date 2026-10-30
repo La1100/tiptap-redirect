@@ -5114,234 +5114,372 @@ renderAll();applyView(true,{first:true});
 
 </script>
 <style id="ttf-css">
-/* ===== Kafanica: jela iz kuhinje ("što je na tanjuru") ===== */
+/* ===== Kafanica · Iz kuhinje: kartice, cjenik Grilla i "Rastavi jelo" (iz Košnice) ===== */
 .ttf{margin:26px 0 8px}
 .ttf .sec-h{margin-bottom:4px}
 .ttf-sub{margin:0 0 12px;color:var(--muted);font-size:13.5px;line-height:1.45}
 .ttf-rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -18px;padding:2px 18px 12px;scrollbar-width:none;overscroll-behavior-x:contain}
 .ttf-rail::-webkit-scrollbar{display:none}
-.ttf-card{position:relative;flex:0 0 74%;max-width:310px;scroll-snap-align:start;display:flex;flex-direction:column;padding:0;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--line);color:var(--text);text-align:left;font:inherit;cursor:pointer}
+.ttf-card{position:relative;flex:0 0 76%;max-width:320px;scroll-snap-align:start;display:flex;flex-direction:column;padding:0;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--line);color:var(--text);text-align:left;font:inherit;cursor:pointer}
 .ttf-card:active{transform:scale(.985)}
-.ttf-card .ph{height:0;padding-top:75%;background:#2b2621 center/cover no-repeat}
+.ttf-card .ph{display:block;height:0;padding-top:72%;background:#2b2621 center/cover no-repeat}
 .ttf-card .tg{position:absolute;left:10px;top:10px;font-size:11.5px;font-weight:800;padding:5px 9px;border-radius:999px;background:rgba(18,16,14,.78);color:var(--gold2);border:1px solid rgba(242,200,114,.35)}
 .ttf-card .tx{display:block;padding:12px 14px 14px}
-.ttf-card .tx b{display:block;font-family:var(--f-display);font-weight:800;font-size:23px;line-height:1.02;letter-spacing:.01em;text-transform:uppercase}
+.ttf-card .nm{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.ttf-card .nm b{font-family:var(--f-display);font-weight:800;font-size:22px;line-height:1.02;letter-spacing:.01em;text-transform:uppercase}
+.ttf-card .nm i{flex:none;font-style:normal;font-weight:800;font-size:15px;color:var(--gold2);white-space:nowrap}
 .ttf-card .tx small{display:block;margin-top:6px;color:var(--muted);font-size:12.5px}
-.ttf-card .tx em{display:block;margin-top:9px;font-style:normal;font-size:13px;font-weight:800;color:var(--gold2)}
-.ttf-board{position:relative;overflow:hidden;background:linear-gradient(160deg,#8a5a2e,#6b4220 55%,#55341a)!important}
-.ttf-board::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 2px,transparent 2px 22px),radial-gradient(120% 90% at 30% 20%,rgba(255,220,170,.18),transparent 60%);pointer-events:none}
-.ttf-board>i{position:absolute;font-style:normal;font-size:clamp(24px,8vw,38px);line-height:1;filter:drop-shadow(0 4px 4px rgba(0,0,0,.35));transform:translate(-50%,-50%) rotate(calc((var(--k) - 3) * 7deg))}
+.ttf-card .tx em{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-style:normal;font-size:13px;font-weight:800;color:var(--gold2)}
+.ttf-card .tx em svg,.ttf-mi em svg{width:16px;height:16px}
+.ttf-menu{margin:8px 0 0;border-radius:18px;background:var(--card);border:1px solid var(--line);overflow:hidden}
+.ttf-mh{display:flex;justify-content:space-between;align-items:baseline;padding:14px 16px 8px}
+.ttf-mh b{font-family:var(--f-display);font-size:20px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:var(--text)}
+.ttf-mh small{font-size:11.5px;color:var(--dim)}
+.ttf-mi{display:flex;width:100%;gap:12px;align-items:flex-start;justify-content:space-between;padding:11px 16px;border:0;border-top:1px solid rgba(255,255,255,.06);background:none;color:var(--text);font:inherit;text-align:left}
+.ttf-mi.x{cursor:pointer}
+.ttf-mi span{min-width:0}
+.ttf-mi b{display:block;font-size:14.5px;font-weight:700;line-height:1.25}
+.ttf-mi small{display:block;margin-top:3px;font-size:12px;line-height:1.35;color:var(--muted)}
+.ttf-mi em{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-style:normal;font-size:12px;font-weight:800;color:var(--gold2)}
+.ttf-mi>i{flex:none;font-style:normal;font-weight:800;font-size:15px;color:var(--gold2);font-variant-numeric:tabular-nums;padding-top:1px}
 html.ttf-lock{overflow:hidden}
-.ttf-ov{position:fixed;inset:0;z-index:200;display:flex;align-items:flex-end;justify-content:center;background:rgba(8,5,4,.72);opacity:0;transition:opacity .28s}
+.ttf-ov{--wax:#f6efe2;--wax3:#b8ad99;--honey2:#f2c872;--honey-rgb:242,200,114;--f-b:var(--f-body);--f-d:var(--f-display);--spring:cubic-bezier(.22,1.18,.36,1);--ease:cubic-bezier(.2,.8,.2,1);
+  position:fixed;inset:0;z-index:200;display:flex;align-items:flex-end;justify-content:center;background:rgba(8,5,4,.74);opacity:0;transition:opacity .28s}
 .ttf-ov.on{opacity:1}
-.ttf-box{position:relative;width:100%;max-width:560px;max-height:94vh;max-height:94dvh;overflow-y:auto;overscroll-behavior:contain;padding:14px 18px calc(22px + env(safe-area-inset-bottom,0px));border-radius:26px 26px 0 0;border-top:1px solid rgba(242,200,114,.4);
-  background:radial-gradient(120% 60% at 50% 0%,#3a1a14 0%,#1d110d 45%,#120c09 100%);box-shadow:0 -30px 80px -20px rgba(216,52,79,.25);transform:translateY(40px);transition:transform .45s cubic-bezier(.2,.9,.25,1)}
+.ttf-box{position:relative;width:100%;max-width:560px;max-height:96vh;max-height:96dvh;overflow-y:auto;overscroll-behavior:contain;border-radius:26px 26px 0 0;border-top:1px solid rgba(242,200,114,.4);background:#100a07;box-shadow:0 -30px 80px -20px rgba(216,52,79,.28);transform:translateY(40px);transition:transform .45s cubic-bezier(.2,.9,.25,1)}
 .ttf-ov.on .ttf-box{transform:none}
-.ttf-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.ttf-top small{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--gold2)}
-.ttf-x{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:var(--text);font-size:16px;cursor:pointer}
-.ttf-plate{width:min(58vw,236px);height:min(58vw,236px);margin:6px auto 16px;border-radius:50%;padding:12px;background:radial-gradient(circle at 35% 30%,#ffffff,#efe7dc 60%,#d9cfc1);box-shadow:0 28px 50px -12px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.15),0 0 60px rgba(242,200,114,.18)}
-.ttf-ph{width:100%;height:100%;border-radius:50%;background:#2b2621 center/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18),inset 0 6px 14px rgba(0,0,0,.25)}
-.ttf-ph.ttf-board>i{font-size:clamp(20px,6vw,30px)}
-.ttf-box h3{margin:0;text-align:center;font-family:var(--f-display);font-weight:800;font-size:34px;line-height:1;letter-spacing:.01em;text-transform:uppercase;color:#fff6e6}
-.ttf-lead{margin:6px 0 14px;text-align:center;color:var(--muted);font-size:13.5px}
-.ttf-stats{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:8px;margin:0 0 14px}
+.ttf-x{position:absolute;right:12px;top:12px;z-index:20;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(16,10,7,.6);color:#fff;font-size:16px;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ttf-ov .stage{position:relative;height:min(58vh,520px);min-height:390px;overflow:hidden;background:#0d0806;transition:height .7s var(--ease)}
+.ttf-ov .stage .glow{position:absolute;inset:0;background:radial-gradient(55% 40% at 50% 48%,rgba(242,200,114,.2),rgba(242,200,114,0) 72%),radial-gradient(120% 80% at 50% 0%,#3a1912,#0d0806 70%)}
+.ttf-ov .stage .glow::after{content:"";position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(90deg,rgba(216,52,79,.10) 0 14px,transparent 14px 28px),repeating-linear-gradient(0deg,rgba(216,52,79,.10) 0 14px,transparent 14px 28px);-webkit-mask:radial-gradient(60% 50% at 50% 52%,#000,transparent 80%);mask:radial-gradient(60% 50% at 50% 52%,#000,transparent 80%)}
+.ttf-ov .stage .ph{position:absolute;left:12px;top:54px;width:calc(100% - 24px);height:280px;transition:transform .9s var(--spring),opacity .45s var(--ease)}
+.ttf-ov .stage .ph img{display:block;width:100%;height:100%;object-fit:cover;border-radius:18px;box-shadow:0 26px 40px -14px rgba(0,0,0,.75),0 0 0 1px rgba(242,200,114,.18)}
+.ttf-ov .stage::after{content:"";position:absolute;inset:auto 0 0 0;height:16%;background:linear-gradient(180deg,rgba(16,10,7,0),#100a07);pointer-events:none;z-index:2;transition:opacity .6s}
+.ttf-ov .stage.open::after{opacity:0}
+.ttf-ov .split{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:9;display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:999px;border:1px solid rgba(242,200,114,.6);background:rgba(20,12,8,.82);color:#ffe7b0;font:800 14.5px/1 var(--f-body);cursor:pointer;box-shadow:0 0 0 6px rgba(242,200,114,.08),0 12px 30px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ttf-ov .split svg{width:18px;height:18px}
+.ttf-ov .stage.open .split{left:12px;top:12px;bottom:auto;transform:none;padding:10px 14px;font-size:13px;background:rgba(242,200,114,.16)}
+/* rastavljeno (Košnica) */
+.ttf-ov .xr{position:absolute;inset:0;z-index:5;pointer-events:none}
+.ttf-ov .stage.open .xr{pointer-events:auto}
+.ttf-ov .xr .kn{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4px 4px 8px;border-radius:18px;background:linear-gradient(180deg,rgba(44,26,18,.86),rgba(30,18,13,.86));border:1px solid rgba(244,232,208,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.03);transition:transform .75s var(--spring),opacity .35s;will-change:transform}
+.ttf-ov .xr .kn::before{content:"";position:absolute;left:10px;top:10px;width:7px;height:7px;border-radius:2px;transform:rotate(45deg);background:var(--gc)}
+.ttf-ov .xr .sp{position:relative;width:64%;height:0;padding-top:64%}
+.ttf-ov .xr .sp>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ttf-ov .xr .sp::after{content:"";position:absolute;left:14%;right:14%;bottom:6%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);z-index:-1}
+.ttf-ov .xr .kn b{display:block;margin-top:auto;font:700 12.5px/1.12 var(--f-b);color:var(--wax);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ttf-ov .xr .kn small{display:block;margin-top:3px;font:700 11px/1.1 var(--f-b);color:var(--honey2);opacity:.9;font-variant-numeric:tabular-nums}
+.ttf-ov .xr .kn em{position:absolute;right:8px;top:8px;font:800 9px/1 var(--f-b);font-style:normal;letter-spacing:.06em;color:var(--wax3)}
+.ttf-ov .xr-cap{position:absolute;left:16px;right:16px;font:800 21px/1.1 var(--f-d);letter-spacing:.02em;text-transform:uppercase;color:var(--wax);opacity:0;transition:opacity .5s}
+.ttf-ov .xr-tot{position:absolute;left:16px;right:16px;text-align:center;font:700 12.5px/1.3 var(--f-b);color:var(--wax3);opacity:0;transition:opacity .5s}
+.ttf-ov .xr-tot.on,.ttf-ov .xr-cap.on{opacity:1}
+.ttf-ov .xr .ly{position:absolute;top:0;transition:transform .85s var(--spring),opacity .35s;will-change:transform;filter:drop-shadow(0 10px 10px rgba(0,0,0,.35))}
+.ttf-ov .xr .ly svg{display:block;width:100%;height:auto}
+.ttf-ov .xr .dip{position:absolute;top:0;z-index:80;transition:transform .7s var(--ease),opacity .5s}
+.ttf-ov .xr .dip svg{width:100%;height:100%;display:block}
+.ttf-ov .xr .xl{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;z-index:70}
+.ttf-ov .xr .xl path{fill:none;stroke:rgba(var(--honey-rgb),.55);stroke-width:1.3;stroke-dasharray:3 4;opacity:0;transition:opacity .45s}
+.ttf-ov .xr .xl circle{fill:var(--honey2);opacity:0;transition:opacity .45s}
+.ttf-ov .xr .xl .on{opacity:1}
+.ttf-ov .xr .lb{position:absolute;z-index:75;padding:2px 0 2px 11px;border-left:2px solid var(--gc);opacity:0;transform:translateX(12px);transition:opacity .45s,transform .6s var(--ease)}
+.ttf-ov .xr .lb.on{opacity:1;transform:none}
+.ttf-ov .xr .lb b{display:block;font:700 13.5px/1.15 var(--f-b);color:var(--wax)}
+.ttf-ov .xr .lb small{display:block;margin-top:3px;font:700 11.5px/1.1 var(--f-b);color:var(--honey2);font-variant-numeric:tabular-nums}
+.ttf-ov .xr .sides{position:absolute;left:14px;right:14px;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .6s var(--ease)}
+.ttf-ov .xr .sides.on{opacity:1;transform:none}
+.ttf-ov .xr .sides>span{display:block;margin:0 0 8px;font:800 18px/1.1 var(--f-d);text-transform:uppercase;color:var(--wax)}
+.ttf-ov .xr .sides>div{display:flex;gap:8px}
+.ttf-ov .xr .sd{flex:0 0 calc((100% - 16px) / 3);display:flex;flex-direction:column;align-items:center;text-align:center;padding:4px 4px 8px;border-radius:16px;background:rgba(30,18,13,.86);border:1px solid rgba(244,232,208,.08)}
+.ttf-ov .xr .sd .sp{width:58%;padding-top:58%}
+.ttf-ov .xr .sd b{font:700 12px/1.15 var(--f-b);color:var(--wax)}
+.ttf-ov .xr .sd small{margin-top:2px;font:700 10.5px/1.1 var(--f-b);color:var(--honey2)}
+.ttf-info{padding:6px 18px calc(22px + env(safe-area-inset-bottom,0px))}
+.ttf-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.ttf-hd h3{margin:0;font-family:var(--f-display);font-weight:800;font-size:32px;line-height:1;letter-spacing:.01em;text-transform:uppercase;color:#fff6e6}
+.ttf-hd>b{flex:none;text-align:right;font-family:var(--f-display);font-weight:800;font-size:26px;line-height:1;color:var(--gold2);white-space:nowrap}
+.ttf-hd>b small{display:block;margin-top:4px;font:700 11px/1 var(--f-body);color:var(--muted);text-transform:none}
+.ttf-lead{margin:8px 0 14px;color:var(--muted);font-size:13.5px;line-height:1.45}
+.ttf-stats{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:8px}
 .ttf-stats>div{padding:12px 8px 10px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(242,200,114,.22);text-align:center}
-.ttf-stats b{display:block;font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1;color:var(--gold2);font-variant-numeric:tabular-nums}
+.ttf-stats b{display:block;font-family:var(--f-display);font-weight:800;font-size:28px;line-height:1;color:var(--gold2);font-variant-numeric:tabular-nums}
 .ttf-stats small{display:block;margin-top:5px;font-size:11.5px;line-height:1.3;color:var(--muted)}
-.ttf-hot .ch{display:flex;justify-content:center;gap:2px;height:30px;align-items:center}
-.ttf-hot .ch i{font-style:normal;font-size:20px;opacity:.18;filter:grayscale(1);transition:opacity .25s,filter .25s,transform .25s}
-.ttf-hot .ch i.on{opacity:1;filter:none;transform:scale(1.12)}
-.ttf-parts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ttf-p{display:flex;gap:9px;align-items:flex-start;padding:10px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}
-.ttf-p.pick{border-style:dashed;border-color:rgba(242,200,114,.35)}
-.ttf-p>i{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:rgba(242,200,114,.13);font-style:normal;font-size:20px}
-.ttf-p>span{display:block;min-width:0;flex:1}
-.ttf-p b{display:block;font-size:13.5px;line-height:1.2;color:var(--text)}
-.ttf-p small{display:block;margin-top:2px;font-size:11.5px;line-height:1.3;color:var(--muted)}
-.ttf-p small.nv{color:var(--gold2);font-weight:700}
-.ttf-p em{display:block;height:4px;margin-top:6px;border-radius:4px;background:rgba(255,255,255,.08);position:relative;overflow:hidden}
-.ttf-p em::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);border-radius:4px;background:linear-gradient(90deg,#d8344f,#f2c872)}
+.ttf-hot .ch{display:flex;justify-content:center;gap:2px;height:28px;align-items:center}
+.ttf-hot .ch i{font-style:normal;font-size:19px;opacity:.18;filter:grayscale(1)}
+.ttf-hot .ch i.on{opacity:1;filter:none}
 .ttf-note{margin:14px 2px 0;font-size:11.5px;line-height:1.4;color:var(--dim);text-align:center}
 .ttf-call{display:block;width:100%;margin-top:12px;padding:15px;border-radius:16px;border:0;background:linear-gradient(180deg,#f2c872,#d4ae5a);color:#2a1a04;font:800 16px/1 var(--f-body);cursor:pointer}
-@media (max-width:360px){.ttf-parts{grid-template-columns:1fr}.ttf-stats b{font-size:26px}}
 @media (prefers-reduced-motion:reduce){.ttf-ov,.ttf-box{transition:none}}
 </style>
+<script src="jela/kart.js"></script>
 <script>
 /* =====================================================================
-   KAFANICA — jela iz kuhinje: "što je na tanjuru"
-   Kartice jela iznad cjenika → dodir otvara jelo koje se "rastavi" na
-   sastojke (kalorije, proteini, ljutina). Vrijednosti su okvirne (po porciji)
-   dok kuhinja ne potvrdi; cijene stižu s cjenikom kuhinje.
+   KAFANICA — Grill: jela s fotografijom i "Rastavi jelo" (kao u Košnici):
+   tanjur se rastavi na ilustrirane sastojke (knoll) ili se lepinja rastvori
+   u slojeve (stack). Cijene iz jelovnika Kafanice; nutritivne vrijednosti
+   su okvirne dok ih kuhinja ne potvrdi.
    ===================================================================== */
 (function () {
   'use strict';
   const IMG = 'jela/';
-  // [ikona, hr, en, količina hr, količina en, kcal, proteini g, ljutina 0–3, po izboru]
-  const SAUCE = ['🥫', 'Umak po izboru', 'Sauce of your choice', 'ajvar blagi ili ljuti, kajmak, urnebes, majoneza, senf, ketchup', 'mild or hot ajvar, kajmak, urnebes, mayo, mustard, ketchup', 90, 1, 0, 1];
-  const ONION = ['🧅', 'Luk', 'Onion', 'svježi', 'fresh', 15, 0, 0];
-  const BREAD = ['🫓', 'Lepinja', 'Lepinja flatbread', '1 kom', '1 piece', 350, 11, 0];
+  const C = (a, sr, en, g, kcal, grp, p, x) => Object.assign({ a, sr, en, g, kcal, grp, p: p || 0 }, x || {});
   const DISHES = [
-    { id: 'grill-plata', img: 'grill-plata.jpg', hr: 'Grill plata za 2 osobe', en: 'Grill platter for two', tag: { hr: 'Za dvoje', en: 'For two' }, people: 2,
-      sub: { hr: 'Sve s roštilja na jednoj dasci', en: 'The whole grill on one board' },
-      parts: [
-        ['🍔', 'Gurmanska pljeskavica', 'Gourmet pljeskavica', '1 kom', '1 piece', 680, 42, 0],
-        ['🍗', 'Piletina (batak i zabatak)', 'Chicken (boneless leg)', '2 kom', '2 pieces', 560, 64, 0],
-        ['🌭', 'Roštilj kobasica', 'Grill sausage', '2 kom', '2 pieces', 600, 28, 0],
-        ['🍢', 'Ražnjići', 'Skewers', '2 kom', '2 pieces', 480, 58, 0],
-        ['🥔', 'Pekarski krumpir', 'Baked potato wedges', 'porcija', 'portion', 300, 6, 0],
-        BREAD, ONION
-      ] },
-    { id: 'cevapi', img: 'cevapi.jpg', hr: 'Ćevapi', en: 'Ćevapi', tag: { hr: '6 ili 12 kom', en: '6 or 12 pieces' },
-      sub: { hr: 'Mali: 6 ćevapa · veliki: 12 ćevapa', en: 'Small: 6 ćevapi · large: 12 ćevapi' },
-      parts: [
-        ['🥩', 'Ćevapi', 'Ćevapi', '6 kom', '6 pieces', 360, 27, 0],
-        BREAD, ONION, SAUCE
-      ] },
-    { id: 'raznjici', img: 'raznjici.jpg', hr: 'Pileći ražnjići', en: 'Chicken skewers',
-      sub: { hr: 'Dva ražnjića, pomfrit i umak', en: 'Two skewers, fries and a sauce' },
-      parts: [
-        ['🍢', 'Pileći ražnjić', 'Chicken skewer', '2 kom', '2 pieces', 420, 66, 0],
-        ['🍟', 'Pommes frites', 'French fries', 'porcija', 'portion', 500, 6, 0],
-        ONION, SAUCE
-      ] },
-    { id: 'batak', img: 'batak.jpg', hr: 'Otkošteni batak i zabatak', en: 'Boneless chicken leg',
-      sub: { hr: 'Piletina s roštilja i pekarski krumpir', en: 'Grilled chicken and baked potatoes' },
-      parts: [
-        ['🍗', 'Piletina (batak i zabatak)', 'Chicken (boneless leg)', '2 kom', '2 pieces', 560, 64, 0],
-        ['🥔', 'Pekarski krumpir', 'Baked potato wedges', 'porcija', 'portion', 300, 6, 0],
-        SAUCE
-      ] },
-    { id: 'grill-salata', img: 'grill-salata.jpg', hr: 'Grill salata', en: 'Grilled chicken salad',
-      sub: { hr: 'Piletina, tjestenina, svježa salata i grana padano', en: 'Chicken, pasta, fresh greens and grana padano' },
-      parts: [
-        ['🍗', 'Pileća prsa, kockice', 'Chicken breast cubes', '120 g', '120 g', 200, 37, 0],
-        ['🍝', 'Tjestenina (fusilli)', 'Pasta (fusilli)', 'porcija', 'portion', 150, 5, 0],
-        ['🍞', 'Tostirani kruh', 'Toasted bread', 'kockice', 'croutons', 80, 3, 0],
-        ['🥬', 'Zelena salata i radič', 'Lettuce and radicchio', 'svježe', 'fresh', 10, 1, 0],
-        ['🥛', 'Yogo-mayo umak', 'Yogurt-mayo dressing', 'preliv', 'dressing', 120, 2, 0],
-        ['🍅', 'Cherry rajčica', 'Cherry tomatoes', 'svježe', 'fresh', 10, 0, 0],
-        ['🧀', 'Grana Padano', 'Grana Padano', 'listići', 'shavings', 60, 5, 0],
-        ['🍇', 'Aceto balsamico', 'Balsamic vinegar', 'kapi', 'drizzle', 10, 0, 0]
-      ] },
-    { id: 'hladna-plata', board: true, hr: 'Hladna plata', en: 'Cold platter', tag: { hr: 'Za društvo', en: 'To share' },
-      sub: { hr: 'Na drvenoj dasci, za cijeli stol', en: 'On a wooden board, for the whole table' },
-      parts: [
-        ['🥓', 'Čvarci', 'Pork cracklings', 'domaći', 'homemade', 300, 15, 0],
-        ['🍖', 'Pršut', 'Prosciutto', 'narezan', 'sliced', 150, 16, 0],
-        ['🌶️', 'Kulen', 'Kulen (spicy sausage)', 'narezan', 'sliced', 220, 12, 1],
-        ['🌭', 'Kobasica', 'Sausage', 'narezana', 'sliced', 200, 11, 0],
-        ['🧀', 'Sirevi', 'Cheeses', '2–3 vrste', '2–3 kinds', 360, 24, 0],
-        ['🫒', 'Masline', 'Olives', 'zdjelica', 'a bowl', 50, 0, 0],
-        ['🥒', 'Kiseli krastavci', 'Pickles', 'zdjelica', 'a bowl', 10, 0, 0],
-        ['🫑', 'Feferoni', 'Hot peppers', 'ljuti', 'hot', 10, 0, 2],
-        ['🫓', 'Lepinjice', 'Small flatbreads', 'tople', 'warm', 320, 10, 0]
-      ] }
+    { id: 'grill-plata', img: 'grill-plata.jpg', eur: '32,40', people: 2, hr: 'Grill plata za 2 osobe', en: 'Grill platter for two', tag: { hr: 'Za dvoje', en: 'For two' },
+      d: { hr: 'Gurmanska pljeskavica, piletina, kobasice i ražnjići s pekarskim krumpirom, lepinjom i lukom.', en: 'Gourmet pljeskavica, chicken, sausages and skewers with baked potatoes, lepinja and onion.' },
+      comps: [C('patty', 'Gurmanska pljeskavica', 'Gourmet pljeskavica', 250, 680, 'meso', 42), C('chicken', 'Piletina, batak i zabatak', 'Chicken, boneless leg', 280, 560, 'meso', 64),
+        C('sausage', 'Roštilj kobasice', 'Grill sausages', 200, 600, 'meso', 28), C('pork', 'Ražnjići', 'Skewers', 240, 480, 'meso', 58),
+        C('potato_sp', 'Pekarski krumpir', 'Baked potatoes', 250, 300, 'povrce', 6, { side: true }), C('lepinja', 'Lepinja', 'Lepinja flatbread', 130, 350, 'testo', 11), C('onion', 'Luk', 'Onion', 40, 15, 'povrce', 0)] },
+    { id: 'cevapi', img: 'cevapi.jpg', eur: '6,90', eur2: '10,40', hr: 'Ćevapi s lepinjom', en: 'Ćevapi in lepinja', tag: { hr: '6 ili 12 kom', en: '6 or 12 pcs' },
+      d: { hr: 'Mali: 6 ćevapa · veliki: 12 ćevapa. U lepinji s lukom i umakom po izboru.', en: 'Small: 6 ćevapi · large: 12. In lepinja with onion and a sauce of your choice.' },
+      comps: [C('cevapi', 'Ćevapi, 6 kom', 'Ćevapi, 6 pcs', 150, 360, 'meso', 27), C('lepinja', 'Lepinja', 'Lepinja', 130, 350, 'testo', 11), C('onion', 'Luk', 'Onion', 40, 15, 'povrce', 0),
+        C('kajmak', 'Umak po izboru (kajmak)', 'Sauce of choice (kajmak)', 40, 130, 'sos', 2, { pick: 1 })] },
+    { id: 'raznjici', img: 'raznjici.jpg', eur: '10,40', hr: 'Pileći ražnjići', en: 'Chicken skewers',
+      d: { hr: 'Pileći ražnjići s prilogom i umakom po izboru.', en: 'Chicken skewers with a side and a sauce of your choice.' },
+      comps: [C('chicken', 'Pileći ražnjići, 2 kom', 'Chicken skewers, 2 pcs', 260, 420, 'meso', 66), C('fries', 'Pomfrit', 'French fries', 180, 500, 'povrce', 6, { side: true }),
+        C('onion', 'Luk', 'Onion', 40, 15, 'povrce', 0), C('ajvar', 'Umak po izboru (ajvar)', 'Sauce of choice (ajvar)', 40, 40, 'sos', 1, { pick: 1 })] },
+    { id: 'batak', img: 'batak.jpg', eur: '10,40', hr: 'Otkošteni batak i zabatak', en: 'Boneless chicken leg',
+      d: { hr: 'S pekarskim krumpirom i umakom po izboru.', en: 'With baked potatoes and a sauce of your choice.' },
+      comps: [C('chicken', 'Piletina, batak i zabatak', 'Chicken, boneless leg', 280, 560, 'meso', 64), C('potato_sp', 'Pekarski krumpir', 'Baked potatoes', 250, 300, 'povrce', 6, { side: true }),
+        C('ajvar', 'Umak po izboru (ajvar)', 'Sauce of choice (ajvar)', 40, 40, 'sos', 1, { pick: 1 })] },
+    { id: 'grill-salata', img: 'grill-salata.jpg', eur: '9,40', hr: 'Grill salata', en: 'Grilled chicken salad',
+      d: { hr: 'S prženim pilećim prsima, tijestom, krastavcima, cherry rajčicom, krutonima, grana padanom i jogurt mayo umakom.', en: 'With fried chicken breast, pasta, cucumber, cherry tomatoes, croutons, grana padano and yogurt-mayo dressing.' },
+      comps: [C('chicken', 'Pržena pileća prsa', 'Fried chicken breast', 120, 260, 'meso', 34), C('pasta', 'Tijesto', 'Pasta', 100, 150, 'testo', 5), C('cucumber', 'Krastavci', 'Cucumber', 60, 9, 'povrce', 0),
+        C('cherry', 'Cherry rajčica', 'Cherry tomatoes', 50, 10, 'povrce', 0), C('croutons', 'Krutoni', 'Croutons', 25, 100, 'testo', 3), C('parmesan', 'Grana padano', 'Grana padano', 15, 60, 'sir', 5),
+        C('lettuce', 'Zelena salata', 'Lettuce', 40, 6, 'povrce', 1), C('white_sauce', 'Jogurt mayo umak', 'Yogurt-mayo dressing', 40, 120, 'sos', 2)] },
+    { id: 'hladna-plata', img: 'hladna-plata.jpg', hr: 'Hladna plata', en: 'Cold platter', tag: { hr: 'Za društvo', en: 'To share' },
+      d: { hr: 'Na drvenoj dasci za cijeli stol: čvarci, pršut, kulen, kobasica, 2–3 vrste sira, masline, kiseli krastavci, feferoni i lepinjice.', en: 'On a wooden board for the whole table: pork cracklings, prosciutto, kulen, sausage, 2–3 cheeses, olives, pickles, hot peppers and flatbreads.' },
+      comps: [C('kulen', 'Kulen', 'Kulen', 60, 260, 'meso', 14, { hot: 1 }), C('prosciutto', 'Pršut', 'Prosciutto', 60, 150, 'meso', 16), C('cvarci', 'Čvarci', 'Pork cracklings', 50, 300, 'meso', 15),
+        C('sausage', 'Kobasica', 'Sausage', 60, 200, 'meso', 11), C('kackavalj', 'Kačkavalj', 'Kashkaval cheese', 50, 180, 'sir', 12), C('smoked_cheese', 'Dimljeni sir', 'Smoked cheese', 50, 170, 'sir', 11),
+        C('olives', 'Masline', 'Olives', 40, 50, 'povrce', 0), C('pickles', 'Kiseli krastavci', 'Pickles', 60, 10, 'povrce', 0), C('feferoni', 'Feferoni', 'Hot peppers', 30, 10, 'povrce', 0, { hot: 2 }),
+        C('lepinja', 'Lepinjice', 'Small flatbreads', 120, 320, 'testo', 10)] }
   ];
-  const T = {
-    hr: { sec: 'Iz kuhinje', sub: 'Dodirnite jelo i pogledajte što je na tanjuru — kalorije, proteini i ljutina.', open: 'Što je na tanjuru', kcal: 'kcal', prot: 'g proteina', hot: 'ljutina',
-      lvl: ['blago', 'pikantno', 'ljuto', 'jako ljuto'], pick: 'ljuto po želji (ajvar ljuti, urnebes)', per: n => `≈ ${n} kcal po osobi`, note: 'Okvirne vrijednosti po porciji — kuhinja ih potvrđuje.',
-      call: '🔔 Pozovite konobara', reason: n => `Jelo: ${n}`, close: 'Zatvori', parts: 'Na tanjuru', g: 'g' },
-    en: { sec: 'From the kitchen', sub: 'Tap a dish to see what’s on the plate — calories, protein and heat.', open: 'What’s on the plate', kcal: 'kcal', prot: 'g protein', hot: 'heat',
-      lvl: ['mild', 'a little spicy', 'spicy', 'very spicy'], pick: 'spicy on request (hot ajvar, urnebes)', per: n => `≈ ${n} kcal per person`, note: 'Approximate values per portion — the kitchen confirms them.',
-      call: '🔔 Call the waiter', reason: n => `Dish: ${n}`, close: 'Close', parts: 'On the plate', g: 'g' }
+  // cijeli Grill iz jelovnika Kafanice (cijene u €)
+  const MENU = [
+    ['cevapi', 'Ćevapi s lepinjom (6 kom)', 'Ćevapi in lepinja (6 pcs)', 'Mali — 6 ćevapa s lepinjom, luk i umak po izboru', 'Small — 6 ćevapi in lepinja, onion and a sauce', '6,90'],
+    ['cevapi', 'Ćevapi s lepinjom (12 kom)', 'Ćevapi in lepinja (12 pcs)', 'Veliki — 12 ćevapa s lepinjom, luk i umak po izboru', 'Large — 12 ćevapi in lepinja, onion and a sauce', '10,40'],
+    ['', 'Gurmanska pljeskavica', 'Gourmet pljeskavica', 'U lepinji s lukom i umakom po izboru', 'In lepinja with onion and a sauce', '10,40'],
+    ['', 'Grill kobasica', 'Grill sausage', 'U lepinji s lukom i umakom po izboru', 'In lepinja with onion and a sauce', '9,40'],
+    ['grill-plata', 'Grill plata za 2 osobe', 'Grill platter for two', 'Kobasice, ćevapi, gurmanska pljeskavica, otkošteni batak i zabatak', 'Sausages, ćevapi, gourmet pljeskavica, boneless chicken leg', '32,40'],
+    ['raznjici', 'Pileći ražnjići', 'Chicken skewers', 'S prilogom i umakom po izboru', 'With a side and a sauce', '10,40'],
+    ['grill-salata', 'Grill salata', 'Grilled chicken salad', 'Pržena pileća prsa, tijesto, krastavci, cherry rajčica, krutoni, grana padano, jogurt mayo', 'Fried chicken breast, pasta, cucumber, cherry tomatoes, croutons, grana padano', '9,40'],
+    ['', 'Pržene lignje', 'Fried squid', 'S tartarom', 'With tartar sauce', '8,00'],
+    ['batak', 'Otkošteni batak i zabatak', 'Boneless chicken leg', 'S pekarskim krumpirom i umakom po izboru', 'With baked potatoes and a sauce', '10,40'],
+    ['', 'Pileća prsa', 'Chicken breast', 'S pekarskim krumpirom i umakom po izboru', 'With baked potatoes and a sauce', '10,40']
+  ];
+  const TX = {
+    hr: { sec: 'Iz kuhinje', sub: 'Dodirnite jelo pa „Rastavi jelo” — vidite od čega je napravljeno.', open: 'Rastavi jelo ›', list: 'Grill — cjenik', eur: 'Cijene u €',
+      made_of: 'Od čega je napravljeno', est_s: 'okvirno', side: 'prilog', with_dish: 'Uz jelo', split: 'Rastavi jelo', join: 'Sastavi',
+      kcal: 'kcal', prot: 'g proteina', hot: ['blago', 'pikantno', 'ljuto', 'jako ljuto'], pick: 'ljuto po želji (ajvar ljuti, urnebes)', per: n => `≈ ${n} kcal po osobi`,
+      note: 'Kalorije i proteini su okvirni — kuhinja ih potvrđuje.', call: '🔔 Pozovite konobara', reason: n => `Jelo: ${n}`, close: 'Zatvori', small: 'mali', big: 'veliki' },
+    en: { sec: 'From the kitchen', sub: 'Tap a dish, then “Take it apart” — see what it’s made of.', open: 'Take it apart ›', list: 'Grill — prices', eur: 'Prices in €',
+      made_of: 'What it’s made of', est_s: 'approx.', side: 'side', with_dish: 'On the side', split: 'Take it apart', join: 'Put back',
+      kcal: 'kcal', prot: 'g protein', hot: ['mild', 'a little spicy', 'spicy', 'very spicy'], pick: 'spicy on request (hot ajvar, urnebes)', per: n => `≈ ${n} kcal per person`,
+      note: 'Calories and protein are approximate — the kitchen confirms them.', call: '🔔 Call the waiter', reason: n => `Dish: ${n}`, close: 'Close', small: 'small', big: 'large' }
   };
   const en = () => document.documentElement.lang === 'en';
-  const tx = k => (en() ? T.en : T.hr)[k];
+  const t = k => TX[en() ? 'en' : 'hr'][k];
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-  const nf = n => Math.round(n).toLocaleString(en() ? 'en-GB' : 'hr-HR');
-  const RM = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } };
-  const sum = (d, i) => d.parts.reduce((a, p) => a + p[i], 0);
-  const hotOf = d => Math.max(0, ...d.parts.map(p => p[7] || 0));
-  const pickHot = d => d.parts.some(p => p[8]);
+  const nf = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const cnm = c => en() ? c.en : c.sr;
   const nm = d => en() ? d.en : d.hr;
   const L = o => o ? (en() ? o.en : o.hr) : '';
+  const curComps = it => it.comps;
+  const curNut = it => ({ kcal: it.comps.reduce((a, c) => a + c.kcal, 0) });
+  const GC = { meso: '#d0683e', riba: '#8fbad3', sir: '#f2d489', povrce: '#93c46a', testo: '#d9b98a', sos: '#f2a93b' };
+  let reduced = false; try { reduced = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { }
+  let XR = null; const hit = () => { };
   const bz = p => { try { if (window.TT && TT.buzz) TT.buzz(p); } catch (e) { } };
-  const BOARD = '🥓🍖🧀🫒🥒🫑🫓', BXY = [[26, 32], [52, 24], [76, 34], [30, 62], [55, 52], [78, 64], [50, 78]];
+  const kcalOf = d => d.comps.reduce((a, c) => a + c.kcal, 0), protOf = d => d.comps.reduce((a, c) => a + (c.p || 0), 0);
+  const hotOf = d => Math.max(0, ...d.comps.map(c => c.hot || 0)), pickOf = d => d.comps.some(c => c.pick);
+  const chili = n => [0, 1, 2].map(i => `<i class="${i < n ? 'on' : ''}">🌶️</i>`).join('');
 
-  function photo(d, cls) {
-    if (d.board) return `<div class="${cls} ttf-board" aria-hidden="true">${[...BOARD].map((e, i) => `<i style="--k:${i};left:${BXY[i][0]}%;top:${BXY[i][1]}%">${e}</i>`).join('')}</div>`;
-    return `<div class="${cls}" style="background-image:url('${IMG + d.img}')" role="img" aria-label="${esc(nm(d))}"></div>`;
+  /* ---------- rastavljanje (iz Košnice) ---------- */
+  function imgRect(st) { // stvarni pravougaonik jela (object-fit: contain), u koordinatama pozornice
+    const ph = $('.ph', st), sr = st.getBoundingClientRect(), b = ph.getBoundingClientRect();
+    const el = $('video.ok', ph) || $('img', ph) || $('svg', ph); let nw = 1, nh = 1;
+    if (el && el.tagName === 'IMG' && el.naturalWidth) { nw = el.naturalWidth; nh = el.naturalHeight; } else if (el && el.tagName === 'VIDEO') { nw = el.videoWidth || 9; nh = el.videoHeight || 16; }
+    const k = Math.min(b.width / nw, b.height / nh), w = nw * k, h = nh * k;
+    return { x: b.left - sr.left + (b.width - w) / 2, y: b.top - sr.top + (b.height - h) / 2, w, h, bx: b.left - sr.left, by: b.top - sr.top };
   }
-  function chili(n) { return [0, 1, 2].map(i => `<i class="${i < n ? 'on' : ''}">🌶️</i>`).join(''); }
+  // pomeri fotografiju tako da centar jela dođe u (cx, cy) uz razmeru s
+  const moveTo = (pr, cx, cy, s) => ({ tx: cx - pr.bx - s * (pr.x + pr.w / 2 - pr.bx), ty: cy - pr.by - s * (pr.y + pr.h / 2 - pr.by), s });
+  const totLine = (it, y) => `<div class="xr-tot" style="top:${y}px">≈ ${nf(curNut(it).kcal)} kcal · ${t('est_s')}</div>`;
+  function placeLabels(lbs, want, gap = 7) { // want = željeni centri; vraća vrhove i tačke vezivanja
+    const hs = lbs.map(e => e.offsetHeight || 34), tops = []; let prev = -1e9;
+    want.forEach((w, i) => { const tp = Math.max(w - Math.min(hs[i] / 2, 18), prev + gap); tops.push(tp); prev = tp + hs[i]; });
+    return { tops, anchors: tops.map((tp, i) => tp + Math.min(hs[i] / 2, 18)), bottom: prev };
+  }
+  const lab = (c, x, y, w) => `<div class="lb" style="left:${f1(x)}px;top:${f1(y)}px;width:${f1(w)}px;--gc:${GC[c.grp] || '#f2a93b'}"><b>${esc(cnm(c))}</b><small>${c.g} g · ${c.kcal} kcal${c.side ? ' · ' + t('side') : ''}</small></div>`;
+  const f1 = n => Math.round(n * 10) / 10;
+  const D_ = () => reduced ? 0 : 1;
 
+  function toggleXR(st, btn, it) {
+    const open = !st.classList.contains('open');
+    btn.setAttribute('aria-pressed', open); btn.querySelector('span').textContent = open ? t('join') : t('split');
+    if (open) { openXR(st, it); hit('split', { id: it.id }); } else closeXR(st);
+  }
+  function openXR(st, it, instant) {
+    const xr = $('#xr', st), ph = $('.ph', st), W = st.clientWidth;
+    if (!st._h0) st._h0 = st.offsetHeight;
+    ph.style.transition = 'none'; ph.style.transform = ''; ph.style.opacity = ''; void ph.offsetWidth; ph.style.transition = '';
+    const pr = imgRect(st), comps = curComps(it);
+    const B = it.mode === 'pizza' ? buildPizza : (it.mode === 'stack' || it.mode === 'cake') ? buildStack : null;
+    let r;
+    if (B) { r = B(xr, it, comps, W, pr, 124); if (r.H < st._h0 - 30) r = B(xr, it, comps, W, pr, 124 + (st._h0 - r.H) / 2); }
+    else r = buildKnoll(xr, it, comps, W, pr);
+    XR = r; st.classList.add('open');
+    st.style.height = Math.max(st._h0, r.H) + 'px';
+    ph.style.transformOrigin = '0 0'; ph.style.transform = `translate(${f1(r.photo.tx)}px,${f1(r.photo.ty)}px) scale(${r.photo.s.toFixed(3)})`; ph.style.opacity = r.photo.op;
+    requestAnimationFrame(() => r.play(instant));
+  }
+  function closeXR(st) {
+    const ph = $('.ph', st), xr = $('#xr', st);
+    st.classList.remove('open'); if (XR && XR.back) XR.back();
+    setTimeout(() => { ph.style.transform = ''; ph.style.opacity = ''; }, XR && XR.delay ? XR.delay : 0);
+    st.style.height = st._h0 + 'px';
+    setTimeout(() => { if (!st.classList.contains('open')) { xr.innerHTML = ''; st.style.height = ''; } }, 900);
+  }
+
+  /* ---------- knoll: uredan raspored sastojaka ---------- */
+  function buildKnoll(xr, it, comps, W, pr) {
+    const n = comps.length, cols = W >= 440 ? 4 : 3, pad = 14, gap = 8, cw = (W - pad * 2 - gap * (cols - 1)) / cols, ch = Math.round(cw * .62 + 64);
+    const top0 = 76, phH = Math.min(168, W * .4), gridY = top0 + phH + 22, rows = Math.ceil(n / cols), H = gridY + rows * (ch + gap) + 70;
+    const s = Math.min(W * .62 / pr.w, phH / pr.h), cx = W / 2, cy = top0 + phH / 2;
+    xr.innerHTML = `<div class="xr-cap" style="top:${f1(gridY - 30)}px">${t('made_of')}</div>` + comps.map((c, i) => `<div class="kn" style="--gc:${GC[c.grp] || '#f2a93b'};width:${f1(cw)}px;height:${ch}px"><div class="sp">${KART.top(c.a, i)}</div><b>${esc(cnm(c))}</b><small>${c.g} g · ${c.kcal} kcal</small>${c.side ? `<em>${t('side')}</em>` : ''}</div>`).join('') + totLine(it, H - 56);
+    const cells = $$('.kn', xr), cap = $('.xr-cap', xr), tot = $('.xr-tot', xr);
+    const pos = comps.map((c, i) => { const row = Math.floor(i / cols), col = i % cols, inRow = Math.min(cols, n - row * cols), off = (cols - inRow) * (cw + gap) / 2; return [pad + off + col * (cw + gap), gridY + row * (ch + gap)]; });
+    const ox = pr.x + pr.w / 2 - cw / 2, oy = pr.y + pr.h / 2 - ch / 2;   // iz centra jela na fotografiji
+    cells.forEach((el, i) => { el.style.transition = 'none'; el.style.opacity = 0; el.style.transform = `translate(${f1(ox)}px,${f1(oy)}px) scale(.28) rotate(${(i % 2 ? 1 : -1) * (14 + (i * 23) % 26)}deg)`; });
+    return {
+      H, photo: Object.assign(moveTo(pr, cx, cy, s), { op: 1 }), delay: 120,
+      play(instant) {
+        void xr.offsetWidth; const D = instant ? 0 : D_();
+        cells.forEach((el, i) => { el.style.transition = ''; el.style.transitionDelay = (D ? 180 + i * 55 : 0) + 'ms'; el.style.opacity = 1; el.style.transform = `translate(${f1(pos[i][0])}px,${f1(pos[i][1])}px)`; });
+        [cap, tot].forEach(e => { e.style.transitionDelay = (D ? 300 + n * 55 : 0) + 'ms'; e.classList.add('on'); });
+      },
+      back() { cap.classList.remove('on'); tot.classList.remove('on'); cells.forEach((el, i) => { el.style.transitionDelay = (i * 18) + 'ms'; el.style.opacity = 0; el.style.transform = `translate(${f1(ox)}px,${f1(oy)}px) scale(.28)`; }); }
+    };
+  }
+
+  /* ---------- stack: slojevi (burger, sendvič, kolač) ---------- */
+  function buildStack(xr, it, comps, W, pr, top0 = 124) {
+    const cake = it.mode === 'cake', main = comps.filter(c => !c.side), sides = comps.filter(c => c.side);
+    const shape = cake ? (it.id === 'karamel-badem' ? 'cube' : 'wedge') : (/sendvic/.test(it.id) ? 'square' : 'round');
+    const Wl = Math.min(W * (cake ? .52 : .5), cake ? 270 : 250), s = Wl / 700, x0 = 14;
+    const Ls = main.map((c, i) => { const o = cake ? KART.cake(c.a, shape) : KART.layer(c.a, { pos: i === 0 ? 'top' : i === main.length - 1 ? 'bottom' : 'mid', shape, seed: i }); return { c, o, h: o.h * s }; });
+    // sklopljeno: svaki sledeći sloj leži na dnu prethodnog
+    const as = [0]; for (let i = 1; i < Ls.length; i++) { const p = Ls[i - 1].o, q = Ls[i].o; as.push(as[i - 1] + (cake ? (p.t || 40) : (p.b - q.c - 6)) * s); }
+    const asH = as[as.length - 1] + Ls[Ls.length - 1].h;
+    // rastavljeno: bez preklapanja, sa razmakom
+    const gp = cake ? 16 : 12, ex = [top0]; for (let i = 1; i < Ls.length; i++) { const p = Ls[i - 1].o, q = Ls[i].o; ex.push(ex[i - 1] + (p.b - (q.top || 0)) * s + gp); }
+    const exEnd = ex[ex.length - 1] + Ls[Ls.length - 1].h;
+    const asTop = top0 + Math.max(0, (Math.min(exEnd - top0, 420) - asH) / 2); const asY = as.map(y => asTop + y);
+    // natpisi desno, poravnati sa centrom gornje površine sloja
+    const lx = x0 + Wl + 26, lw = W - lx - 10; const cyL = (i, base) => base[i] + Ls[i].o.c * s;
+    xr.innerHTML = Ls.map(l => lab(l.c, lx, 0, lw)).join('');
+    const LP = placeLabels($$('.lb', xr), Ls.map((l, i) => cyL(i, ex)));
+    const sideY = Math.max(exEnd, LP.bottom + 10) + 16; let H = sideY + (sides.length ? 150 : 0) + 64;
+    let hh = Ls.map((l, i) => `<div class="ly" style="width:${f1(Wl)}px;left:${x0}px;z-index:${60 - i}">${l.o.svg}</div>`).join('');
+    hh += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${Ls.map((l, i) => { const y0 = cyL(i, ex), x1 = x0 + Wl * (cake ? .86 : .9), y1 = LP.anchors[i]; return `<path d="M${f1(x1)} ${f1(y0)}C${f1(lx - 16)} ${f1(y0)} ${f1(lx - 22)} ${f1(y1)} ${f1(lx - 6)} ${f1(y1)}"/><circle cx="${f1(x1)}" cy="${f1(y0)}" r="2.6"/>`; }).join('')}</svg>`;
+    hh += Ls.map((l, i) => lab(l.c, lx, LP.tops[i], lw)).join('');
+    if (sides.length) hh += `<div class="sides" style="top:${f1(sideY)}px"><span>${t('with_dish')}</span><div>${sides.map((c, i) => `<div class="sd"><div class="sp">${KART.top(c.a, 40 + i)}</div><b>${esc(cnm(c))}</b><small>${c.g} g · ${c.kcal} kcal</small></div>`).join('')}</div></div>`;
+    const dipH = Wl * .44;
+    if ((it.deco || []).includes('dipper')) hh += `<div class="dip" style="left:${f1(x0 + Wl * .5 - dipH * .09)}px;width:${f1(dipH * .19)}px;height:${f1(dipH)}px">${KART.dipper()}</div>`;
+    hh += totLine(it, H - 56);
+    xr.innerHTML = hh;
+    const lys = $$('.ly', xr), lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), sd = $('.sides', xr), dip = $('.dip', xr), tot = $('.xr-tot', xr);
+    if (sd) { H = sideY + sd.offsetHeight + 70; tot.style.top = (H - 52) + 'px'; }
+    lys.forEach((el, i) => { el.style.transition = 'none'; el.style.opacity = 0; el.style.transform = `translateY(${f1(asY[i])}px)`; });
+    if (dip) { dip.style.transition = 'none'; dip.style.opacity = 0; dip.style.transform = `translateY(${f1(asY[0] + Ls[0].h * .55 - dipH)}px)`; }
+    const cxA = x0 + Wl / 2, cyA = asTop + asH / 2, sc = Math.min(1, Wl * 1.25 / pr.w);
+    return {
+      H, photo: Object.assign(moveTo(pr, cxA, cyA, sc), { op: 0 }), delay: 380,
+      play(instant) {
+        void xr.offsetWidth; const D = instant ? 0 : D_();
+        lys.forEach(el => { el.style.transition = 'opacity .35s'; el.style.opacity = 1; });
+        if (dip) { dip.style.transition = 'opacity .35s'; dip.style.opacity = 1; }
+        setTimeout(() => {
+          lys.forEach((el, i) => { el.style.transition = ''; el.style.transitionDelay = (D ? i * 45 : 0) + 'ms'; el.style.transform = `translateY(${f1(ex[i])}px)`; });
+          if (dip) { dip.style.transition = ''; dip.style.transform = `translateY(${f1(ex[0] - dipH * .9)}px)`; dip.style.opacity = 0; }
+          lbs.forEach((el, i) => { el.style.transitionDelay = (D ? 260 + i * 55 : 0) + 'ms'; el.classList.add('on'); });
+          paths.forEach((p, i) => { p.style.transitionDelay = (D ? 300 + Math.floor(i / 2) * 55 : 0) + 'ms'; p.classList.add('on'); });
+          if (sd) { sd.style.transitionDelay = (D ? 420 + lbs.length * 55 : 0) + 'ms'; sd.classList.add('on'); }
+          tot.style.transitionDelay = (D ? 500 + lbs.length * 55 : 0) + 'ms'; tot.classList.add('on');
+        }, D ? 480 : 0);
+      },
+      back() {
+        lbs.forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); }); paths.forEach(p => { p.style.transitionDelay = '0ms'; p.classList.remove('on'); });
+        if (sd) { sd.style.transitionDelay = '0ms'; sd.classList.remove('on'); } tot.classList.remove('on');
+        lys.forEach((el, i) => { el.style.transitionDelay = (i * 25) + 'ms'; el.style.transform = `translateY(${f1(asY[i])}px)`; });
+        if (dip) { dip.style.transform = `translateY(${f1(asY[0] + Ls[0].h * .55 - dipH)}px)`; dip.style.opacity = 1; }
+        setTimeout(() => { lys.forEach(el => { el.style.transition = 'opacity .3s'; el.style.opacity = 0; }); if (dip) dip.style.opacity = 0; }, 420);
+      }
+    };
+  }
+
+  
+  /* ---------- kartice jela i cjenik Grilla ---------- */
+  const SPLIT_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M6 11.5h12M4 16h16"/><path d="M9 3.5 12 1l3 2.5M9 20.5l3 2.5 3-2.5"/></svg>';
+  const price = d => d.eur ? `${d.eur} €${d.eur2 ? ` · ${d.eur2} €` : ''}` : '';
   function card(d) {
-    const k = sum(d, 5), p = sum(d, 6);
-    return `<button type="button" class="ttf-card" data-dish="${d.id}">${photo(d, 'ph')}${d.tag ? `<span class="tg">${esc(L(d.tag))}</span>` : ''}
-      <span class="tx"><b>${esc(nm(d))}</b><small>≈ ${nf(k)} ${tx('kcal')} · ${p} ${tx('prot')}</small><em>${tx('open')} ›</em></span></button>`;
+    return `<button type="button" class="ttf-card" data-dish="${d.id}"><span class="ph" style="background-image:url('${IMG + d.img}')"></span>${d.tag ? `<span class="tg">${esc(L(d.tag))}</span>` : ''}
+      <span class="tx"><span class="nm"><b>${esc(nm(d))}</b>${d.eur ? `<i>${price(d)}</i>` : ''}</span><small>≈ ${nf(kcalOf(d))} ${t('kcal')} · ${protOf(d)} ${t('prot')}</small><em>${SPLIT_IC}${t('open')}</em></span></button>`;
+  }
+  function menuList() {
+    return `<div class="ttf-menu"><div class="ttf-mh"><b>${t('list')}</b><small>${t('eur')}</small></div>${MENU.map(m => {
+      const has = m[0] && DISHES.some(d => d.id === m[0]);
+      return `<${has ? `button type="button" data-dish="${m[0]}"` : 'div'} class="ttf-mi${has ? ' x' : ''}"><span><b>${esc(en() ? m[2] : m[1])}</b><small>${esc(en() ? m[4] : m[3])}</small>${has ? `<em>${SPLIT_IC}${t('split')}</em>` : ''}</span><i>${m[5]}</i></${has ? 'button' : 'div'}>`;
+    }).join('')}</div>`;
   }
   let sec = null, sig = '';
   function paint() {
     const hub = document.getElementById('hub'); if (!hub) return;
-    const s2 = (en() ? 'en' : 'hr');
+    const s2 = en() ? 'en' : 'hr';
     if (sec && sig === s2 && sec.isConnected) return;
     sig = s2;
-    if (!sec) { sec = document.createElement('section'); sec.className = 'ttf'; sec.id = 'ttfood'; sec.setAttribute('aria-labelledby', 'ttfT'); sec.addEventListener('click', e => { const b = e.target.closest('[data-dish]'); if (b) { bz(8); open(b.dataset.dish, b); } }); }
-    sec.innerHTML = `<div class="sec-h"><h2 id="ttfT">${tx('sec')}</h2></div><p class="ttf-sub">${tx('sub')}</p><div class="ttf-rail">${DISHES.map(card).join('')}</div>`;
+    if (!sec) { sec = document.createElement('section'); sec.className = 'ttf'; sec.id = 'ttfood'; sec.addEventListener('click', e => { const b = e.target.closest('[data-dish]'); if (b) { bz(8); open(b.dataset.dish); } }); }
+    sec.innerHTML = `<div class="sec-h"><h2>${t('sec')}</h2></div><p class="ttf-sub">${t('sub')}</p><div class="ttf-rail">${DISHES.map(card).join('')}</div>${menuList()}`;
     if (!sec.isConnected) hub.insertAdjacentElement('beforebegin', sec);
   }
 
-  let ov = null, keyH = null, timers = [];
+  /* ---------- jelo preko cijelog ekrana: fotografija → "Rastavi jelo" ---------- */
+  let ov = null, keyH = null, autoT = 0;
   function close() {
-    if (!ov) return; const o = ov; ov = null;
-    timers.forEach(clearTimeout); timers = [];
+    if (!ov) return; const o = ov; ov = null; XR = null; clearTimeout(autoT);
     if (keyH) { removeEventListener('keydown', keyH); keyH = null; }
     o.classList.remove('on'); document.documentElement.classList.remove('ttf-lock');
-    setTimeout(() => o.remove(), 280);
+    setTimeout(() => o.remove(), 300);
   }
-  function open(id, from) {
-    const d = DISHES.find(x => x.id === id); if (!d) return;
+  function fitPhoto(st, img) {
+    const ph = $('.ph', st), W = st.clientWidth, H0 = st.clientHeight, top = 54, bot = 74, av = Math.max(160, H0 - top - bot);
+    const ar = img.naturalWidth ? img.naturalHeight / img.naturalWidth : .75, w = Math.min(W - 24, av / ar), h = w * ar;
+    Object.assign(ph.style, { left: f1((W - w) / 2) + 'px', width: f1(w) + 'px', top: f1(top + (av - h) / 2) + 'px', height: f1(h) + 'px' });
+  }
+  function open(id) {
+    const it = DISHES.find(x => x.id === id); if (!it) return;
     close();
-    const K = sum(d, 5), P = sum(d, 6), H = hotOf(d), mx = Math.max(...d.parts.map(p => p[6]), 1);
-    const o = document.createElement('div'); o.className = 'ttf-ov'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-label', nm(d));
-    const table = !!(window.TTX && TTX.table && TTX.table());
-    o.innerHTML = `<div class="ttf-box">
-      <div class="ttf-top"><small>${tx('parts')}</small><button type="button" class="ttf-x" aria-label="${tx('close')}">✕</button></div>
-      <div class="ttf-plate">${photo(d, 'ttf-ph')}</div>
-      <h3>${esc(nm(d))}</h3><p class="ttf-lead">${esc(L(d.sub))}</p>
-      <div class="ttf-stats">
-        <div><b data-n="${K}">0</b><small>${tx('kcal')}${d.people ? `<br>${esc(tx('per')(nf(K / d.people)))}` : ''}</small></div>
-        <div><b data-n="${P}">0</b><small>${tx('prot')}</small></div>
-        <div class="ttf-hot"><span class="ch" data-h="${H}">${chili(0)}</span><small>${esc(tx('lvl')[H])}${pickHot(d) ? `<br>${esc(tx('pick'))}` : ''}</small></div>
-      </div>
-      <div class="ttf-parts">${d.parts.map((p, i) => `<div class="ttf-p${p[8] ? ' pick' : ''}"><i>${p[0]}</i><span><b>${esc(en() ? p[2] : p[1])}</b><small>${esc(en() ? p[4] : p[3])}</small><small class="nv">≈ ${nf(p[5])} ${tx('kcal')} · ${p[6]} ${tx('g')}${p[7] ? ` · ${'🌶️'.repeat(p[7])}` : ''}</small><em style="--w:${Math.max(4, Math.round(p[6] / mx * 100))}%"></em></span></div>`).join('')}</div>
-      <p class="ttf-note">${tx('note')}</p>
-      ${table && typeof window.TTF_call === 'function' ? `<button type="button" class="ttf-call">${tx('call')}</button>` : ''}
-    </div>`;
+    const K = kcalOf(it), P = protOf(it), Hh = hotOf(it), canX = !!window.KART && it.comps.length > 1;
+    const table = !!(window.TTX && TTX.table && TTX.table()) && typeof window.TTF_call === 'function';
+    const o = document.createElement('div'); o.className = 'ttf-ov'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-label', nm(it));
+    o.innerHTML = `<div class="ttf-box"><button type="button" class="ttf-x" aria-label="${t('close')}">✕</button>
+      <section class="stage" data-mode="${it.mode || 'knoll'}"><div class="glow"></div><div class="ph"><img src="${IMG + it.img}" alt="${esc(nm(it))}"></div><div class="xr" id="xr"></div>
+        ${canX ? `<button type="button" class="split" aria-pressed="false" aria-controls="xr">${SPLIT_IC}<span>${t('split')}</span></button>` : ''}</section>
+      <div class="ttf-info"><div class="ttf-hd"><h3>${esc(nm(it))}</h3>${it.eur ? `<b>${price(it)}${it.eur2 ? `<small>${t('small')} · ${t('big')}</small>` : ''}</b>` : ''}</div>
+        <p class="ttf-lead">${esc(L(it.d))}</p>
+        <div class="ttf-stats"><div><b>${nf(K)}</b><small>${t('kcal')}${it.people ? `<br>${esc(t('per')(nf(K / it.people)))}` : ''}</small></div><div><b>${P}</b><small>${t('prot')}</small></div>
+          <div class="ttf-hot"><span class="ch">${chili(Hh)}</span><small>${esc(t('hot')[Hh])}${pickOf(it) ? `<br>${esc(t('pick'))}` : ''}</small></div></div>
+        <p class="ttf-note">${t('note')}</p>${table ? `<button type="button" class="ttf-call">${t('call')}</button>` : ''}</div></div>`;
     document.body.appendChild(o); ov = o; document.documentElement.classList.add('ttf-lock');
+    const st = $('.stage', o), img = $('.ph img', o), btn = $('.split', o);
+    const ready = () => { if (ov !== o) return; fitPhoto(st, img); if (btn && !reduced) autoT = setTimeout(() => { if (ov === o && !st.classList.contains('open')) toggleXR(st, btn, it); }, 1000); };
+    if (img.complete && img.naturalWidth) requestAnimationFrame(ready); else { img.onload = ready; img.onerror = () => { if (btn) btn.remove(); }; }
+    if (btn) btn.addEventListener('click', () => { clearTimeout(autoT); bz(10); if (img.naturalWidth) toggleXR(st, btn, it); });
     o.addEventListener('click', e => {
       if (e.target === o || e.target.closest('.ttf-x')) { close(); return; }
-      if (e.target.closest('.ttf-call')) { const r = tx('reason')(nm(d)); close(); bz(8); setTimeout(() => { try { window.TTF_call(r); } catch (er) { } }, 300); }
+      if (e.target.closest('.ttf-call')) { const r = t('reason')(nm(it)); close(); bz(8); setTimeout(() => { try { window.TTF_call(r); } catch (er) { } }, 320); }
     });
     keyH = e => { if (e.key === 'Escape') close(); }; addEventListener('keydown', keyH);
-    requestAnimationFrame(() => requestAnimationFrame(() => { if (ov === o) { o.classList.add('on'); try { o.querySelector('.ttf-x').focus({ preventScroll: true }); } catch (e) { } animate(o, d); } }));
-  }
-
-  /** "razdvajanje": tanjur se pojavi, sastojci izlete iz njega na svoja mjesta, brojke se odbroje, papričice zasvijetle */
-  function animate(o, d) {
-    const nums = [...o.querySelectorAll('.ttf-stats b[data-n]')], ch = o.querySelector('.ch'), H = +ch.dataset.h;
-    const done = () => { nums.forEach(b => { b.textContent = nf(+b.dataset.n); }); ch.innerHTML = chili(H); };
-    if (RM() || !Element.prototype.animate) { done(); return; }
-    const ph = o.querySelector('.ttf-plate'), parts = [...o.querySelectorAll('.ttf-p')];
-    const box = o.querySelector('.ttf-box');
-    ph.animate([{ transform: 'scale(.55) rotate(-8deg)', opacity: 0 }, { transform: 'scale(1.04) rotate(0)', opacity: 1, offset: .7 }, { transform: 'scale(1)', opacity: 1 }], { duration: 620, easing: 'cubic-bezier(.2,.9,.25,1)' });
-    const pr = ph.getBoundingClientRect(), cx = pr.left + pr.width / 2, cy = pr.top + pr.height / 2;
-    timers.push(setTimeout(() => {
-      if (ov !== o) return;
-      ph.animate([{ transform: 'scale(1)' }, { transform: 'scale(.9)' }, { transform: 'scale(1)' }], { duration: 520, easing: 'ease-out' });
-      parts.forEach((el, i) => {
-        const r = el.getBoundingClientRect(), dx = cx - (r.left + r.width / 2), dy = cy - (r.top + r.height / 2) + box.scrollTop * 0;
-        el.animate([{ transform: `translate(${dx.toFixed(0)}px,${dy.toFixed(0)}px) scale(.25)`, opacity: 0 }, { transform: 'translate(0,0) scale(1.04)', opacity: 1, offset: .8 }, { transform: 'none', opacity: 1 }],
-          { duration: 760, delay: i * 75, easing: 'cubic-bezier(.2,.85,.3,1)', fill: 'backwards' });
-      });
-    }, 380));
-    const t0 = 420 + parts.length * 75, dur = 900;
-    timers.push(setTimeout(() => {
-      const s = performance.now();
-      const step = now => { if (ov !== o) return; const k = Math.min(1, (now - s) / dur), e = 1 - Math.pow(1 - k, 3); nums.forEach(b => { b.textContent = nf(+b.dataset.n * e); }); if (k < 1) requestAnimationFrame(step); else done(); };
-      requestAnimationFrame(step);
-      for (let i = 1; i <= H; i++) timers.push(setTimeout(() => { if (ov === o) { ch.innerHTML = chili(i); bz(6); } }, dur * i / (H + 1)));
-    }, t0));
+    requestAnimationFrame(() => requestAnimationFrame(() => { if (ov === o) { o.classList.add('on'); try { $('.ttf-x', o).focus({ preventScroll: true }); } catch (e) { } } }));
   }
 
   function start() {
