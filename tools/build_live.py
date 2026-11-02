@@ -34,6 +34,24 @@ CORE_FIXES = [
 ]
 
 
+# Gumb "Pošalji na WhatsApp" u adminu: na računalu ide izravno na WhatsApp Web
+# (wa.me na računalu bez aplikacije nudi samo instalaciju); mobitel i tablet ostaju na aplikaciji.
+WA_DESKTOP = r'''<script>/* WhatsApp na računalu → WhatsApp Web */
+(function () {
+  var ua = navigator.userAgent || '';
+  if (/Android|iPhone|iPad|iPod|Mobile/i.test(ua) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua))) return;
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="https://wa.me/"]') : null;
+    var m = a && /^https:\/\/wa\.me\/(\d+)(?:\?(.*))?$/.exec(a.getAttribute('href') || '');
+    if (!m) return;
+    var text = new URLSearchParams(m[2] || '').get('text') || '';
+    a.setAttribute('href', 'https://web.whatsapp.com/send?phone=' + m[1] + '&text=' + encodeURIComponent(text));
+  }, true);
+})();
+</script>
+'''
+
+
 def rep(s, old, new, n, what):
     c = s.count(old)
     if c != n:
@@ -82,6 +100,8 @@ def live_page(path, rel):
         s = s[:a] + core + s[b:]
     if rel.startswith('kafanica/') and '"songs": true' in s:
         s = rep(s, '"songs": true', '"songs": false', 1, rel + ' songs')
+    if 'class="btn wa block"' in s:
+        s = rep(s, '</body>', WA_DESKTOP + '</body>', 1, rel + ' whatsapp')
     return s
 
 

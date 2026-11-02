@@ -3989,5 +3989,18 @@ async function start(){$('#login').hidden=true;$('#app').hidden=false;$$('.demoT
 if(TT.pin(V.venue)){TT.api('/admin/login',{admin:true}).then(start).catch(()=>logout())}else logout();
 })();
 </script>
+<script>/* WhatsApp na računalu → WhatsApp Web */
+(function () {
+  var ua = navigator.userAgent || '';
+  if (/Android|iPhone|iPad|iPod|Mobile/i.test(ua) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua))) return;
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="https://wa.me/"]') : null;
+    var m = a && /^https:\/\/wa\.me\/(\d+)(?:\?(.*))?$/.exec(a.getAttribute('href') || '');
+    if (!m) return;
+    var text = new URLSearchParams(m[2] || '').get('text') || '';
+    a.setAttribute('href', 'https://web.whatsapp.com/send?phone=' + m[1] + '&text=' + encodeURIComponent(text));
+  }, true);
+})();
+</script>
 </body>
 </html>
