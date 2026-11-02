@@ -1,4 +1,4 @@
--- TipTap × BHT — baza podataka (Supabase, regija EU/Frankfurt)
+-- TipTap × BHT — baza podataka (Supabase, regija EU/Stockholm; server na Vercelu u istoj regiji: arn1)
 -- Pokrenuti JEDNOM: Supabase → SQL Editor → New query → zalijepi sve → Run.
 -- Jedna tablica ključ → vrijednost (kao u demu): rezervacije, gosti, pozivi sa stolova,
 -- cjenik, poruke upravi, statistika… Pristup ima samo server (service role ključ).
