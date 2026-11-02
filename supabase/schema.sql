@@ -13,3 +13,5 @@ create table if not exists public.tt_kv (
 -- sigurnost: nitko izvana (ni s javnim "anon" ključem) ne može čitati ni pisati
 alter table public.tt_kv enable row level security;
 revoke all on public.tt_kv from anon, authenticated;
+-- server (tajni / service_role ključ) smije čitati i pisati i kad nove tablice nisu automatski izložene
+grant select, insert, update, delete on public.tt_kv to service_role;
