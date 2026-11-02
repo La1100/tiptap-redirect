@@ -1,16 +1,37 @@
 /* TipTap × BHT — API svih lokala: /api/<lokal>/…  i  /api/group/…
    (vercel.json prepisuje te adrese na ovu funkciju s ?__v=<lokal>&__p=<ostatak>).
-   Logika je u lib/tt/core.cjs (ista kao u demu), podaci u Supabaseu (tablica tt_kv). */
+   Logika je u lib/tt/core.cjs (ista kao u demu), podaci u Supabaseu (tablica tt_kv).
+   U Vercelu (Settings → Environment Variables) su samo tajne: SUPABASE_SERVICE_ROLE_KEY i PIN-ovi.
+   Adrese koje nisu tajne zadane su ovdje; Vercel varijabla istog imena ih može zamijeniti. */
 'use strict';
 const TT = require('../lib/tt/core.cjs');
 const { supabaseStore } = require('../lib/tt/store.cjs');
 
+const DEFAULTS = {
+  SUPABASE_URL: 'https://lrnqfgfraziwacxehdrk.supabase.co',   // projekt tiptap-bht (EU, Stockholm)
+  SITE_URL: 'https://tiptapreviews.com/v'                      // za linkove u porukama gostima
+};
+let ENV = null;
+function liveEnv() {   // Vercel varijable bez slučajnih razmaka / novih redova s kopiranja
+  if (ENV) return ENV;
+  const e = Object.assign({}, DEFAULTS);
+  for (const [k, val] of Object.entries(process.env)) if (typeof val === 'string' && val.trim()) e[k] = val.trim();
+  return (ENV = e);
+}
+
 let store = null;
 function getStore() {
   if (store) return store;
-  const url = process.env.SUPABASE_URL, key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return (store = supabaseStore({ url, key }));
+  const env = liveEnv();
+  const key = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_SECRET_KEY;
+  if (!env.SUPABASE_URL || !key) return null;
+  return (store = supabaseStore({ url: env.SUPABASE_URL, key }));
+}
+
+// adresa gosta/osoblja — zaštita PIN-a zaključava samo adresu s koje se pogađa, ne sve korisnike
+function clientIp(req) {
+  const h = req.headers || {};
+  return String(h['x-real-ip'] || String(h['x-forwarded-for'] || '').split(',')[0] || (req.socket && req.socket.remoteAddress) || '').trim().slice(0, 64);
 }
 
 function readBody(req) {
@@ -32,7 +53,8 @@ async function handle(req, res, opt = {}) {
   const body = method === 'POST' ? await readBody(req) : undefined;
   const headers = { 'content-type': 'application/json' };
   const pin = req.headers['x-admin-pin']; if (pin) headers['x-admin-pin'] = String(pin).slice(0, 40);
-  const env = opt.env || process.env;
+  const ip = clientIp(req); if (ip) headers['x-forwarded-for'] = ip;
+  const env = opt.env || liveEnv();
   let out;
   try {
     out = await TT.router.route(new Request(url, { method, headers, body }), { store: S, env });
