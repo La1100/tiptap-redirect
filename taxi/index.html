@@ -16,6 +16,8 @@
 <meta property="og:url" content="https://tiptapreviews.com/taxi">
 <link rel="icon" href="/taxi/assets/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="/taxi/assets/icon-180.png">
+<link rel="preload" href="/taxi/assets/logo.svg" as="image">
+<link rel="preload" href="/taxi/assets/corolla-3d.webp" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -31,7 +33,7 @@ input,textarea{font:inherit;color:inherit}
 /* okvir */
 #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;gap:76px;padding:24px}
 #side{width:330px;flex:none}
-#side .lg{width:150px;display:block}
+#side .lg{width:112px;height:auto;display:block}
 #side h1{font-size:34px;line-height:1.12;letter-spacing:-.02em;margin:24px 0 12px;font-weight:800}
 #side p{font-size:16px;line-height:1.55;color:var(--grey);margin:0 0 24px}
 #side .qr{display:flex;gap:16px;align-items:center;background:#fff;border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(10,20,38,.08)}
@@ -54,7 +56,7 @@ body.m #sbar{display:none}
 #map{position:absolute;left:0;top:0;width:390px;height:844px;transition:transform .8s cubic-bezier(.2,.75,.2,1)}
 #map>img{position:absolute;left:0;top:0;width:390px;height:844px;pointer-events:none;user-select:none;-webkit-user-select:none}
 #ov{position:absolute;left:0;top:0;pointer-events:none}
-.car{position:absolute;left:0;top:0;pointer-events:none;filter:drop-shadow(0 2px 3px rgba(10,20,38,.3));transition:opacity .5s}
+.car{position:absolute;left:0;top:0;pointer-events:none;transition:opacity .5s}
 .mk{position:absolute;pointer-events:none}
 .halo{width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(47,111,235,.16);animation:halo 2.6s ease-in-out infinite}
 @keyframes halo{50%{transform:scale(1.18)}}
@@ -91,6 +93,8 @@ body.m #sbar{display:none}
 .tc{margin:0;text-align:center;font-size:20px;font-weight:700;letter-spacing:-.01em}
 .hr{height:1px;background:var(--line);margin:14px -20px 8px;flex:none}
 .sp{flex:1;min-height:12px}
+.hi{margin:0 0 12px;font-size:22px;font-weight:700;letter-spacing:-.015em}
+.cf{position:absolute;z-index:3;display:block;pointer-events:none}
 /* redovi */
 .list{display:flex;flex-direction:column}
 .row{display:flex;align-items:center;gap:14px;width:100%;min-height:62px;padding:8px 0;border-bottom:1px solid var(--line);text-align:left}
@@ -125,7 +129,8 @@ body.m #sbar{display:none}
 .opt{display:flex;align-items:center;gap:10px;width:100%;padding:8px 14px 8px 2px;border-radius:16px;border:2.5px solid transparent;text-align:left;transition:border-color .15s}
 .opt[aria-checked=true]{border-color:var(--brand)}
 .opt-img{width:108px;flex:none;display:flex;justify-content:center}
-.opt-img img{display:block}
+.opt-img img{display:block;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.opt[aria-checked=true] .opt-img img{transform:scale(1.06)}
 .opt-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .opt-n{display:flex;align-items:center;gap:8px}
 .opt-n b{font-size:18px;font-weight:700}
@@ -151,16 +156,15 @@ body.m #sbar{display:none}
 .note{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border-radius:14px;background:var(--brand-t);font-size:14px;font-weight:500;color:var(--ink)}
 .note svg{color:var(--brand)}
 /* dolazak */
-.cc{margin-top:14px;position:relative;border-radius:18px;background:var(--surf);overflow:hidden;flex:none}
-.cc-l{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px 16px 22px;position:relative;z-index:1}
-.cc img{position:absolute;right:6px;bottom:9px;display:block}
-.chk{height:8px;background:repeating-conic-gradient(var(--brand) 0 25%,#fff 0 50%) 0 0/8px 8px}
-.plate{height:44px;display:flex;align-items:stretch;border-radius:8px;border:2px solid var(--ink);background:#fff;overflow:hidden;flex:none}
-.plate .eu{width:24px;background:#1D4FB8;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4px;gap:3px;font-size:9px;font-weight:800;color:#fff;line-height:1}
-.plate .no{display:flex;align-items:center;gap:7px;padding:0 12px;font-size:22px;font-weight:800;letter-spacing:.04em;font-variant-numeric:tabular-nums}
-.voz{height:36px;padding:0 12px;border-radius:12px;border:1.5px solid var(--gold-bd);background:var(--gold-bg);display:flex;flex-direction:column;justify-content:center;line-height:1.1;color:var(--gold-t);flex:none}
-.voz small{font-size:10.5px;font-weight:600}
-.voz b{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}
+.vc{position:relative;margin-top:22px;border-radius:20px;background:linear-gradient(160deg,#F6F8FA 0%,#ECEFF3 100%);padding:14px 16px 15px;flex:none}
+.vc-t{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:8px;max-width:178px}
+.vc-m{font-size:14.5px;font-weight:500;color:var(--grey);line-height:1.25}
+.vc img{position:absolute;right:-10px;bottom:4px;display:block;pointer-events:none}
+.vno{height:28px;padding:0 10px;border-radius:9px;background:var(--gold-bg);border:1px solid var(--gold-bd);display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--gold-t)}
+.vno b{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.plate{height:38px;display:flex;align-items:stretch;border-radius:7px;border:1.5px solid #C3CAD4;background:#fff;overflow:hidden;flex:none;box-shadow:0 1px 3px rgba(10,20,38,.07)}
+.plate .eu{width:20px;background:#1D4FB8;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4px;gap:2px;font-size:8px;font-weight:800;color:#fff;line-height:1}
+.plate .no{display:flex;align-items:center;gap:6px;padding:0 11px;white-space:nowrap;font-size:20px;font-weight:800;letter-spacing:.035em;font-variant-numeric:tabular-nums}
 .drv{display:flex;align-items:center;gap:12px;margin-top:14px;flex:none}
 .av{width:48px;height:48px;flex:none;border-radius:24px;background:var(--brand-t);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--brand)}
 .drv-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
@@ -172,7 +176,7 @@ body.m #sbar{display:none}
 .paid b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .paid small{font-size:14px;color:var(--grey)}
 .gp{height:28px;padding:0 10px;border-radius:14px;background:var(--gold-bg);display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--gold-t);flex:none}
-.earn{margin-top:8px;padding:10px 16px;border-radius:16px;background:var(--gold-bg);display:flex;align-items:center;gap:12px;flex:none;color:var(--gold-t)}
+.earn{position:relative;margin-top:8px;padding:10px 16px;border-radius:16px;background:var(--gold-bg);display:flex;align-items:center;gap:12px;flex:none;color:var(--gold-t)}
 .earn .coin{width:30px;height:30px;flex:none;border-radius:15px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#fff}
 .earn span{flex:1;font-size:15px}
 .earn b{font-weight:800}
@@ -263,22 +267,20 @@ textarea.inp{height:84px;padding:14px 16px;resize:none;font-weight:500}
 /* obavijest */
 #toast{position:absolute;left:10px;right:10px;top:calc(var(--top) + 4px);z-index:40;background:rgba(255,255,255,.97);border-radius:20px;box-shadow:0 10px 30px rgba(10,20,38,.2);padding:12px 14px;display:flex;gap:12px;align-items:center;transform:translateY(calc(-100% - var(--top) - 24px));transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 #toast.show{transform:none}
-#toast img{width:38px;height:38px;border-radius:10px;flex:none;border:1px solid var(--line)}
+#toast img{width:40px;height:40px;padding:4px;border-radius:11px;flex:none;border:1px solid var(--line);background:#fff;object-fit:contain}
 #toast b{display:block;font-size:15px;font-weight:700}
 #toast span{font-size:14px;color:var(--grey);line-height:1.35}
 /* intro */
-#intro{position:absolute;inset:0;z-index:60;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;cursor:pointer}
-#intro .lg{width:236px;overflow:visible}
-#intro .br path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .75s cubic-bezier(.6,0,.2,1) forwards}
-#intro .dt circle{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop .3s cubic-bezier(.3,1.6,.5,1) .55s forwards}
-#intro .bg{opacity:0;transform:translateY(10px);animation:rise .55s cubic-bezier(.2,.8,.2,1) .3s forwards}
-#intro .s1,#intro .s2,#intro .slog{opacity:0;animation:fade .45s .75s forwards}
-#intro .slog{margin:0;font-size:15px;font-weight:600;color:var(--grey);letter-spacing:.01em}
-#intro .band{position:absolute;left:0;right:0;bottom:calc(var(--bot) + 36px);height:16px;background:repeating-conic-gradient(var(--brand) 0 25%,#fff 0 50%) 0 0/16px 16px;transform:scaleX(0);transform-origin:left;animation:band .8s cubic-bezier(.6,0,.2,1) .5s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes pop{to{transform:scale(1)}}
+#intro{position:absolute;inset:0;z-index:60;background:#fff;cursor:pointer;overflow:hidden}
+#intro .ib{position:absolute;left:0;right:0;top:24%;display:flex;flex-direction:column;align-items:center}
+#intro .lg{width:132px;height:auto;display:block;opacity:0;transform:scale(.86);animation:lgin .75s cubic-bezier(.2,.9,.25,1.12) .05s forwards}
+#intro .gl{display:block;width:56px;height:3px;border-radius:2px;background:var(--gold);margin:22px 0 14px;transform:scaleX(0);animation:band .5s cubic-bezier(.6,0,.2,1) .55s forwards}
+#intro .slog{margin:0;font-size:17px;font-weight:600;letter-spacing:-.005em;opacity:0;transform:translateY(8px);animation:rise .5s cubic-bezier(.2,.8,.2,1) .7s forwards}
+#intro .icar{position:absolute;left:50%;top:59%;width:300px;height:auto;margin-left:-150px;transform:translateX(135%);animation:carin 1.3s cubic-bezier(.16,.84,.24,1) .45s forwards}
+#intro .band{position:absolute;left:0;right:0;bottom:calc(var(--bot) + 36px);height:16px;background:repeating-conic-gradient(var(--brand) 0 25%,#fff 0 50%) 0 0/16px 16px;transform:scaleX(0);transform-origin:left;animation:band .8s cubic-bezier(.6,0,.2,1) .6s forwards}
+@keyframes lgin{to{opacity:1;transform:none}}
+@keyframes carin{to{transform:none}}
 @keyframes rise{to{opacity:1;transform:none}}
-@keyframes fade{to{opacity:1}}
 @keyframes band{to{transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
 </style>
@@ -286,7 +288,7 @@ textarea.inp{height:84px;padding:14px 16px;resize:none;font-weight:500}
 <body>
 <div id="stage">
 <aside id="side" aria-label="O prototipu">
-<svg class="lg" viewBox="0 0 240 140" role="img" aria-label="Osječki Taxi, 031 200 200"><g fill="none" stroke="#004498" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 52V22Q10 12 20 12H80M160 12H220Q230 12 230 22V52M230 88V118Q230 128 220 128H178M62 128H20Q10 128 10 118V88"/></g><g fill="#004498"><circle cx="10" cy="61" r="4.6"/><circle cx="89" cy="12" r="4.6"/><circle cx="151" cy="12" r="4.6"/><circle cx="230" cy="61" r="4.6"/><circle cx="230" cy="79" r="4.6"/><circle cx="169" cy="128" r="4.6"/><circle cx="71" cy="128" r="4.6"/><circle cx="10" cy="79" r="4.6"/></g><g fill="#004498" font-family="Onest, system-ui, sans-serif" text-anchor="middle"><text x="120" y="19" font-size="17" font-weight="700">031</text><text x="120" y="88" font-size="50" font-weight="800" letter-spacing="-1">200 200</text><text x="120" y="132.5" font-size="10.5" font-weight="700" letter-spacing="1.8">OSJEČKI TAXI</text></g></svg>
+<img class="lg" src="/taxi/assets/logo.svg" width="112" height="120" alt="Osječki Taxi, 031 200 200">
 <h1>Nova aplikacija Osječkog taxija</h1>
 <p>Isprobajte kako putnik naručuje taxi, od upisa odredišta do ocjene vožnje. Sve na ekranu je klikabilno.</p>
 <div class="qr"><img src="/taxi/assets/qr.svg" alt="QR kod za otvaranje na mobitelu"><div><b>Otvorite na mobitelu</b><span>Skenirajte kamerom mobitela, aplikacija se otvara preko cijelog ekrana.</span></div></div>
@@ -357,7 +359,7 @@ function ic(n, s = 22, c = 'currentColor', w = 2) {
 }
 const CHEV = `<span class="chev">${ic('chev_r', 18, 'currentColor', 2.2)}</span>`;
 const BR = '<svg width="76" height="46" viewBox="0 0 76 46" aria-hidden="true"><path d="M2 14V5Q2 2 5 2H14M62 2H71Q74 2 74 5V14M74 32V41Q74 44 71 44H62M14 44H5Q2 44 2 41V32" fill="none" stroke="#004498" stroke-width="2" stroke-linecap="round"/><g fill="#004498"><circle cx="2" cy="16" r="2"/><circle cx="16" cy="2" r="2"/><circle cx="60" cy="2" r="2"/><circle cx="74" cy="16" r="2"/><circle cx="74" cy="30" r="2"/><circle cx="60" cy="44" r="2"/><circle cx="16" cy="44" r="2"/><circle cx="2" cy="30" r="2"/></g></svg>';
-const LOGO = `<svg class="lg" viewBox="0 0 240 140" role="img" aria-label="Osječki Taxi, 031 200 200"><g class="br" fill="none" stroke="#004498" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path pathLength="1" d="M10 52V22Q10 12 20 12H80"/><path pathLength="1" d="M160 12H220Q230 12 230 22V52"/><path pathLength="1" d="M230 88V118Q230 128 220 128H178"/><path pathLength="1" d="M62 128H20Q10 128 10 118V88"/></g><g class="dt" fill="#004498"><circle cx="10" cy="61" r="4.6"/><circle cx="89" cy="12" r="4.6"/><circle cx="151" cy="12" r="4.6"/><circle cx="230" cy="61" r="4.6"/><circle cx="230" cy="79" r="4.6"/><circle cx="169" cy="128" r="4.6"/><circle cx="71" cy="128" r="4.6"/><circle cx="10" cy="79" r="4.6"/></g><g fill="#004498" font-family="Onest, system-ui, sans-serif" text-anchor="middle"><text class="s1" x="120" y="19" font-size="17" font-weight="700">031</text><text class="bg" x="120" y="88" font-size="50" font-weight="800" letter-spacing="-1">200 200</text><text class="s2" x="120" y="132.5" font-size="10.5" font-weight="700" letter-spacing="1.8">OSJEČKI TAXI</text></g></svg>`;
+const LOGO = `<img class="lg" src="${A}logo.svg" width="132" height="142" alt="Osječki Taxi, 031 200 200">`;
 const FLAG = '<svg width="30" height="22" viewBox="0 0 30 22" aria-hidden="true" style="flex:none;display:block"><path d="M2 1v20" stroke="#0A1426" stroke-width="2" stroke-linecap="round"/>' + [0, 1, 2].map(r => [0, 1, 2, 3].map(c => `<rect x="${4 + c * 6.5}" y="${1 + r * 4.5}" width="6.5" height="4.5" fill="${(r + c) % 2 ? '#fff' : '#004498'}"/>`).join('')).join('') + '<rect x="4" y="1" width="26" height="13.5" fill="none" stroke="#004498" stroke-width="1"/></svg>';
 const SAH = '<svg width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M1 1h10v7c0 3.5-2.5 5.5-5 6.5C3.5 13.5 1 11.5 1 8z" fill="#fff" stroke="#0A1426" stroke-width=".8"/><g fill="#D2232A"><rect x="1" y="1" width="2" height="2"/><rect x="5" y="1" width="2" height="2"/><rect x="9" y="1" width="2" height="2"/><rect x="3" y="3" width="2" height="2"/><rect x="7" y="3" width="2" height="2"/><rect x="1" y="5" width="2" height="2"/><rect x="5" y="5" width="2" height="2"/><rect x="9" y="5" width="2" height="2"/><rect x="3" y="7" width="2" height="2"/><rect x="7" y="7" width="2" height="2"/><rect x="5" y="9" width="2" height="2"/></g></svg>';
 const EUS = '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><g fill="#F4C430">' + [...Array(8)].map((_, i) => { const a = i * Math.PI / 4 - Math.PI / 2; return `<circle cx="${(7 + 5 * Math.cos(a)).toFixed(1)}" cy="${(6.6 + 5 * Math.sin(a)).toFixed(1)}" r=".9"/>`; }).join('') + '</g></svg>';
@@ -379,8 +381,8 @@ const PLACES = [
 PLACES.forEach(p => { p.van = Math.round(p.taxi * 1.49 * 10) / 10; p.short = p.short || p.name; });
 const byId = id => PLACES.find(p => p.id === id);
 const VEH = {
-  taxi: { model: 'Bijela Toyota Corolla', short: 'Toyota Corolla', plate: 'OS 482-KT', num: '07', driver: 'Petar', acc: 'Petra', dat: 'Petru', rating: '4,9', img: 'corolla-34.svg', iw: 176, ih: 88.7, eta: 2 },
-  van: { model: 'Bijeli Opel kombi', short: 'Opel kombi', plate: 'OS 731-KT', num: '12', driver: 'Marko', acc: 'Marka', dat: 'Marku', rating: '4,8', img: 'kombi-34.svg', iw: 166, ih: 88.9, eta: 6 },
+  taxi: { model: 'Bijela Toyota Corolla', short: 'Toyota Corolla', plate: 'OS 482-KT', num: '07', driver: 'Petar', acc: 'Petra', dat: 'Petru', rating: '4,9', img: 'corolla-3d.webp', iw: 186, ih: 116, eta: 2 },
+  van: { model: 'Bijeli Opel kombi', short: 'Opel kombi', plate: 'OS 731-KT', num: '12', driver: 'Marko', acc: 'Marka', dat: 'Marku', rating: '4,8', img: 'kombi-3d.webp', iw: 186, ih: 128, eta: 6 },
 };
 const AMB = [
   { path: [[400, 268], [96, 304], [-10, 316.2]], kind: 'taxi', speed: 15, t: .62 },
@@ -411,6 +413,7 @@ const norm = s => s.toLowerCase().replace(/đ/g, 'd').normalize('NFD').replace(/
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const at = (x, y) => `left:${x}px;top:${y}px`;
 const ease = p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+const greet = () => { const h = new Date().getHours(); return h >= 5 && h < 11 ? 'Dobro jutro' : h >= 11 && h < 18 ? 'Dobar dan' : 'Dobra večer'; };
 const firstName = () => (S.user && S.user.name ? S.user.name.split(' ')[0] : '');
 function pat(pts, t) {
   const L = []; let tot = 0;
@@ -454,8 +457,8 @@ clk(); setInterval(clk, 15000);
 /* ---------- karta ---------- */
 function carEl(kind) {
   const im = new Image(), van = kind === 'van' || kind === 'bigvan';
-  im.src = A + (van ? 'kombi-odozgo.svg' : 'taxi-odozgo.svg'); im.alt = ''; im.className = 'car';
-  const [w, h] = { taxi: [21, 46.5], van: [22.5, 52.5], big: [25, 55.4], bigvan: [25, 58.3] }[kind];
+  im.src = A + (van ? 'kombi-top.webp' : 'taxi-top.webp'); im.alt = ''; im.className = 'car';
+  const [w, h] = { taxi: [24.6, 52.5], van: [26.2, 55.8], big: [29.1, 62.1], bigvan: [30.8, 65.8] }[kind];
   Object.assign(im.style, { width: w + 'px', height: h + 'px', marginLeft: -w / 2 + 'px', marginTop: -h / 2 + 'px' });
   carsEl.appendChild(im); return im;
 }
@@ -521,7 +524,7 @@ function closeModal(now) {
 }
 let tT = 0;
 function toast(title, text) {
-  toastEl.innerHTML = `<img src="${A}logo.webp" alt=""><div><b>${title}</b><span>${text}</span></div>`;
+  toastEl.innerHTML = `<img src="${A}logo.svg" alt=""><div><b>${title}</b><span>${text}</span></div>`;
   toastEl.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => toastEl.classList.remove('show'), 3200);
 }
 const navHTML = a => `<nav class="nav" aria-label="Glavni izbornik">${[['home', 'Naruči', 'car'], ['rides', 'Vožnje', 'history'], ['account', 'Račun', 'user']].map(([k, l, i]) => `<button data-tab="${k}"${a === k ? ' aria-current="page"' : ''}>${ic(i, 24)}${l}</button>`).join('')}</nav>`;
@@ -547,9 +550,9 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if
 SCR.home = () => {
   cleanupRide(); closePages(); ambOn = true; route(null);
   marks(`<div class="mk halo" style="${at(...P)}"></div><div class="mk me" style="${at(...P)}"></div>`);
-  fl.innerHTML = `<button class="fl logo-b" style="left:20px" data-act="intro" aria-label="Osječki Taxi, ponovi uvod"><img src="${A}logo.webp" alt=""></button><button class="fl fbtn" style="right:20px" data-tab="account" aria-label="Račun">${ic('user')}</button>`;
+  fl.innerHTML = `<button class="fl logo-b" style="left:20px" data-act="intro" aria-label="Osječki Taxi, ponovi uvod"><img src="${A}logo.svg" alt=""></button><button class="fl fbtn" style="right:20px" data-tab="account" aria-label="Račun">${ic('user')}</button>`;
   const sch = S.scheduled ? `<button class="row" data-act="schedinfo"><span class="ci gold">${ic('cal', 20)}</span><span class="rt"><b>Zakazano: ${esc(S.scheduled.dest)}</b><small>${esc(S.scheduled.label)}, ${S.scheduled.opt === 'van' ? 'kombi' : 'taxi'}</small></span>${CHEV}</button>` : '';
-  sheet(`<div class="search"><button data-go="search">${ic('search', 22, 'currentColor', 2.4)}<span>Kamo idete?</span></button><button class="when" data-act="when">${ic('clock', 16, 'currentColor', 2.2)}${S.when ? S.when.label : 'Odmah'}${ic('chev_d', 14, 'currentColor', 2.4)}</button></div>
+  sheet(`<h2 class="hi">${greet()}${firstName() ? ', ' + esc(firstName()) : ''}</h2><div class="search"><button data-go="search">${ic('search', 22, 'currentColor', 2.4)}<span>Kamo idete?</span></button><button class="when" data-act="when">${ic('clock', 16, 'currentColor', 2.2)}${S.when ? S.when.label : 'Odmah'}${ic('chev_d', 14, 'currentColor', 2.4)}</button></div>
 <div class="list" style="margin-top:4px">${sch}
 ${rowHTML('home', 'Kuća', 'Sjenjak, Osijek', 'data-dest="kuca"')}
 ${rowHTML('clock', 'Tvrđa, Trg Svetog Trojstva', 'Tvrđa, Osijek', 'data-dest="tvrdja"')}
@@ -577,7 +580,7 @@ SCR.search = () => {
 
 function optHTML(k) {
   const d = S.dest, v = VEH[k], price = d[k === 'taxi' ? 'taxi' : 'van'], pts = Math.floor(price);
-  const img = k === 'taxi' ? ['corolla-34.svg', 106, 53.4] : ['kombi-34.svg', 104, 55.7];
+  const img = k === 'taxi' ? ['corolla-3d.webp', 100, 62.4] : ['kombi-3d.webp', 104, 71.6];
   const sub = S.when ? `${S.when.day} u ${S.when.time}` : `Stiže za ${v.eta} min`;
   return `<button class="opt" role="radio" aria-checked="${S.opt === k}" data-opt="${k}"><span class="opt-img"><img src="${A + img[0]}" alt="" width="${img[1]}" height="${img[2]}"></span><span class="opt-t"><span class="opt-n"><b>${k === 'taxi' ? 'Taxi' : 'Kombi'}</b><span class="seats">${ic('person', 14)}${k === 'taxi' ? 4 : 8}</span></span><small>${sub}</small><span class="pts">+${pts} ${bod(pts)}</span></span><span class="opt-p"><b>${eur(price)}</b><span class="fix">${ic('lock', 13, '#B08840', 2.4)}Fiksno</span></span></button>`;
 }
@@ -621,8 +624,8 @@ function found() {
 }
 
 function arrivingHTML(v) {
-  return `<button style="text-align:left" data-act="skip"><h2 class="t" id="arrT">Stiže za <em>3 min</em></h2><p class="sub" id="arrS">${v.model}</p></button>
-<div class="cc"><div class="cc-l">${plate(v.plate)}<span class="voz"><small>Vozilo</small><b>${v.num}</b></span></div><img src="${A + v.img}" alt="${v.model} u bojama Osječkog taxija" width="${v.iw}" height="${v.ih}"><div class="chk" aria-hidden="true"></div></div>
+  return `<button style="text-align:left" data-act="skip"><h2 class="t" id="arrT">Stiže za <em>3 min</em></h2><p class="sub" id="arrS">Čekajte na Trgu Ante Starčevića</p></button>
+<div class="vc"><div class="vc-t">${plate(v.plate)}<span class="vc-m">${v.model}</span><span class="vno">Vozilo <b>${v.num}</b></span></div><img src="${A + v.img}" alt="${v.model} u bojama Osječkog taxija" width="${v.iw}" height="${v.ih}"></div>
 <div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}</b><small>${ic('star', 15, '#C9A15A')}${v.rating}</small></span><button class="cbtn" data-act="calldrv" aria-label="Nazovi vozača">${ic('phone', 20, 'currentColor', 2.2)}</button><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
 <div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, '#004498', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="cancel" style="flex:.7">Otkaži</button></div>`;
 }
@@ -631,7 +634,7 @@ SCR.arriving = () => {
   if (assigned) assigned.remove();
   assigned = carEl(S.opt === 'van' ? 'bigvan' : 'big');
   route(PICK);
-  marks(`<div class="mk pk" style="${at(...P)}"></div>${etaHTML(PICK[0][0], PICK[0][1] - 44, '3 min', 'etaB')}`);
+  marks(`<div class="mk pk" style="${at(...P)}"></div>${etaHTML(PICK[0][0], PICK[0][1] - 52, '3 min', 'etaB')}`);
   fl.innerHTML = `<button class="fl fbtn" style="right:20px" data-act="safety" aria-label="Sigurnost">${ic('shield')}</button>`;
   sheet(arrivingHTML(v));
   cam(PICK, [[150, 330]]);
@@ -640,7 +643,7 @@ SCR.arriving = () => {
   anim = now => {
     const p = Math.min(1, (now - t0) / D), e = ease(p), [x, y, r] = pat(PICK, e);
     place(assigned, x, y, r); route(rest(PICK, e));
-    const b = $('#etaB'); if (b) { b.style.left = x + 'px'; b.style.top = (y - 44) + 'px'; }
+    const b = $('#etaB'); if (b) { b.style.left = x + 'px'; b.style.top = (y - 52) + 'px'; }
     const mins = Math.max(1, Math.ceil(3 * (1 - e) - .05)), tt = $('#arrT');
     if (p < 1) { if (tt && !tt.dataset.m || tt && +tt.dataset.m !== mins) { tt.dataset.m = mins; tt.innerHTML = `Stiže za <em>${mins} min</em>`; if (b) b.firstChild.textContent = mins + ' min'; } }
     else arrived(v);
@@ -699,6 +702,7 @@ SCR.done = () => {
 <div class="sp"></div><div class="brow"><button class="btn pri" data-act="finish">Gotovo</button></div>
 <p class="sub" style="text-align:center;font-size:13px;margin-top:10px">Račun smo poslali na vaš e-mail.</p>`);
   cam([end, [end[0], end[1] - 40]]);
+  setTimeout(() => { const c = $('.earn .coin'); if (cur !== 'done' || !c) return; if (!reduce) c.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.32)' }, { transform: 'scale(1)' }], { duration: 560, easing: 'cubic-bezier(.3,1.4,.5,1)' }); burst(c.parentNode, c.offsetLeft + 15, c.offsetTop + 15); }, 650);
   const from = S.points, to = S.points + n, t0 = performance.now();
   anim = now => { const p = Math.min(1, (now - t0 - 500) / 900); if (p < 0) return; const el = $('#tot'); if (el) el.textContent = 'Ukupno ' + Math.round(from + (to - from) * ease(p)); if (p >= 1) anim = null; };
 };
@@ -802,7 +806,7 @@ const ACT = {
   proto: t => say(t.dataset.t),
   google: () => toast('Hvala vam', 'U pravoj aplikaciji ovdje se otvara Google recenzija Osječkog taxija.'),
   found: () => { clearTimeout(T); found(); },
-  skip: () => { if (cur === 'arriving') { anim = null; place(assigned, ...pat(PICK, 1).slice(0, 3)); arrived(VEH[S.opt]); } else if (cur === 'ride') { anim = null; go('done'); } },
+  skip: () => { if (cur === 'arriving' && anim) { anim = null; place(assigned, ...pat(PICK, 1).slice(0, 3)); arrived(VEH[S.opt]); } else if (cur === 'ride') { anim = null; go('done'); } },
   order: () => {
     if (!S.user) return login(() => ACT.order());
     if (S.when) {
@@ -860,15 +864,38 @@ app.addEventListener('click', e => {
 modalEl.addEventListener('keydown', e => { if (e.key === 'Enter') { if (e.target.id === 'ph') ACT.sendcode(); else if (e.target.id === 'nm') ACT.savename(); else if (e.target.id === 'pc') ACT.applypromo(); } });
 addEventListener('keydown', e => { if (e.key === 'Escape' && modalEl.classList.contains('on')) closeModal(); });
 
+function burst(host, x, y) {
+  if (reduce) return;
+  const cols = ['#004498', '#C9A15A', '#004498', '#E6CF9E'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('i'), a = Math.PI * 2 * i / 18 + Math.random() * .3, d = 40 + Math.random() * 44, z = 5 + Math.random() * 4, r = Math.random() * 360;
+    p.className = 'cf'; p.style.cssText = `left:${x}px;top:${y}px;width:${z}px;height:${z}px;background:${cols[i % 4]};border-radius:${i % 3 ? 1.5 : z}px`;
+    host.appendChild(p);
+    p.animate([{ transform: 'translate(-50%,-50%) scale(.3)', opacity: 1 },
+      { transform: `translate(calc(-50% + ${(Math.cos(a) * d).toFixed(1)}px),calc(-50% + ${(Math.sin(a) * d - 12).toFixed(1)}px)) rotate(${r.toFixed(0)}deg)`, opacity: 1, offset: .65 },
+      { transform: `translate(calc(-50% + ${(Math.cos(a) * d * 1.12).toFixed(1)}px),calc(-50% + ${(Math.sin(a) * d + 16).toFixed(1)}px)) rotate(${(r + 160).toFixed(0)}deg)`, opacity: 0 }],
+      { duration: 1100 + Math.random() * 300, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' }).onfinish = () => p.remove();
+  }
+}
+
 /* ---------- uvod ---------- */
 let introT = 0;
 function intro() {
   const el = $('#intro');
-  el.innerHTML = `${LOGO}<p class="slog">Taxi za sve lokacije</p><div class="band"></div>`;
+  el.innerHTML = `<div class="ib">${LOGO}<i class="gl"></i><p class="slog">Taxi za sve lokacije</p></div><img class="icar" src="${A}corolla-3d.webp" width="300" height="187" alt=""><div class="band"></div>`;
   el.style.opacity = ''; el.hidden = false;
-  const end = () => { clearTimeout(introT); if (el.hidden) return; const a = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduce ? 1 : 450, easing: 'ease-out', fill: 'forwards' }); const lg = $('.lg', el); if (lg && !reduce) lg.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }], { duration: 450, easing: 'ease-out', fill: 'forwards' }); a.onfinish = () => { el.hidden = true; a.cancel(); }; };
+  const end = () => {
+    clearTimeout(introT); if (el.hidden || el.dataset.out) return; el.dataset.out = 1;
+    const car = $('.icar', el), lg = $('.lg', el);
+    if (!reduce) {
+      if (car) car.animate([{ transform: 'translateX(-160%)' }], { duration: 650, easing: 'cubic-bezier(.55,0,.8,.2)', fill: 'forwards' });
+      if (lg) lg.animate([{ transform: 'scale(1.06)', opacity: 0 }], { duration: 420, easing: 'ease-out', fill: 'forwards' });
+    }
+    const a = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduce ? 1 : 480, delay: reduce ? 0 : 240, easing: 'ease-out', fill: 'forwards' });
+    a.onfinish = () => { el.hidden = true; delete el.dataset.out; a.cancel(); };
+  };
   el.onclick = end;
-  introT = setTimeout(end, reduce ? 500 : 2300);
+  introT = setTimeout(end, reduce ? 500 : 2650);
 }
 
 go('home');
