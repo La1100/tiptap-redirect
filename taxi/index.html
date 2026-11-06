@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Osječki taxi">
 <title>Osječki taxi: nova aplikacija</title>
@@ -18,14 +19,17 @@
 <link rel="apple-touch-icon" href="/taxi/assets/icon-180.png">
 <link rel="preload" href="/taxi/assets/logo.svg" as="image">
 <link rel="preload" href="/taxi/assets/corolla-3d.webp" as="image">
+<link rel="preload" href="/taxi/assets/taxi-top.webp" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0A1426;--grey:#5D6675;--mute:#8A93A0;--line:#ECEEF1;--surf:#F3F4F6;--brand:#004498;--brand-d:#00347A;--brand-t:#EAF0FA;--gold:#C9A15A;--gold-t:#7A5A14;--gold-bg:#F7EFDD;--gold-bd:#E6CF9E;--loc:#2F6FEB;--s:1;--h:844px;--top:54px;--bot:30px;--ps:1}
+:root{--ink:#0B1730;--grey:#5A6478;--mute:#8A93A3;--line:#E7EAF0;--surf:#F2F4F8;--bg:#FFFFFF;--elev:#FFFFFF;--brand:#0A3D94;--brand-d:#072C6E;--brand-t:#E8EEF9;--acc:#0A3D94;--gold:#C4A062;--gold-t:#75561C;--gold-bg:#F6EFE0;--gold-bd:#E4D0A3;--loc:#2F6FEB;--sh:rgba(10,20,38,.14);--grab:#D5D9DF;--map:#E9ECEF;--stage:#DFE4EA;--md:0;--toast:rgba(255,255,255,.97);--ring:rgba(10,61,148,.32);--ring-bg:rgba(10,61,148,.07);--danger-bg:#FCE9EA;--danger:#B3261E;--pc1:#072C6E;--pc2:#0A3D94;--route:#0A3D94;--route-case:#FFFFFF;--vc1:#F6F8FA;--vc2:#ECEFF3;--scrim:rgba(10,20,38,.4);--s:1;--h:844px;--top:54px;--bot:30px;--ps:1;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--ink:#EEF2F8;--grey:#A2ADC1;--mute:#7A869D;--line:#22304E;--surf:#16223A;--bg:#0C1628;--elev:#18253F;--brand:#2D63D6;--brand-d:#2453B6;--brand-t:#172B52;--acc:#86ABFF;--gold:#D4B271;--gold-t:#E6CB92;--gold-bg:#2A2416;--gold-bd:#5B4B27;--sh:rgba(0,0,0,.5);--grab:#33425F;--map:#0F1A2E;--stage:#070D1A;--md:1;--toast:rgba(24,37,63,.97);--ring:rgba(134,171,255,.45);--ring-bg:rgba(134,171,255,.08);--danger-bg:#3A1C22;--danger:#FF8A80;--pc1:#10285A;--pc2:#1B3F86;--route:#5B8CFF;--route-case:#0C1628;--vc1:#1A2843;--vc2:#121D33;--scrim:rgba(0,0,0,.55);color-scheme:dark}}
+:root[data-theme=dark]{--ink:#EEF2F8;--grey:#A2ADC1;--mute:#7A869D;--line:#22304E;--surf:#16223A;--bg:#0C1628;--elev:#18253F;--brand:#2D63D6;--brand-d:#2453B6;--brand-t:#172B52;--acc:#86ABFF;--gold:#D4B271;--gold-t:#E6CB92;--gold-bg:#2A2416;--gold-bd:#5B4B27;--sh:rgba(0,0,0,.5);--grab:#33425F;--map:#0F1A2E;--stage:#070D1A;--md:1;--toast:rgba(24,37,63,.97);--ring:rgba(134,171,255,.45);--ring-bg:rgba(134,171,255,.08);--danger-bg:#3A1C22;--danger:#FF8A80;--pc1:#10285A;--pc2:#1B3F86;--route:#5B8CFF;--route-case:#0C1628;--vc1:#1A2843;--vc2:#121D33;--scrim:rgba(0,0,0,.55);color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%}
-body{font-family:Onest,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#DFE4EA;overflow:hidden;-webkit-font-smoothing:antialiased;touch-action:manipulation}
+body{font-family:Onest,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--stage);overflow:hidden;-webkit-font-smoothing:antialiased;touch-action:manipulation}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:inherit}
 input,textarea{font:inherit;color:inherit}
 :focus-visible{outline:3px solid rgba(0,68,152,.5);outline-offset:2px}
@@ -36,13 +40,13 @@ input,textarea{font:inherit;color:inherit}
 #side .lg{width:112px;height:auto;display:block}
 #side h1{font-size:34px;line-height:1.12;letter-spacing:-.02em;margin:24px 0 12px;font-weight:800}
 #side p{font-size:16px;line-height:1.55;color:var(--grey);margin:0 0 24px}
-#side .qr{display:flex;gap:16px;align-items:center;background:#fff;border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(10,20,38,.08)}
+#side .qr{display:flex;gap:16px;align-items:center;background:#fff;color:#0B1730;border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(10,20,38,.08)}
 #side .qr img{width:112px;height:112px;display:block;flex:none}
 #side .qr b{display:block;font-size:16px;margin-bottom:4px}
-#side .qr span{font-size:14px;color:var(--grey);line-height:1.45}
+#side .qr span{font-size:14px;color:#5A6478;line-height:1.45}
 #side .pnote{font-size:13px;line-height:1.5;color:var(--mute);margin-top:18px}
 #phone{position:relative;width:390px;height:844px;flex:none;border-radius:54px;box-shadow:0 0 0 11px #0D1118,0 0 0 13px #343C4A,0 40px 90px rgba(10,20,38,.35);transform:scale(var(--ps));transform-origin:center}
-#app{position:absolute;left:0;top:0;width:390px;height:var(--h);transform:scale(var(--s));transform-origin:0 0;overflow:hidden;background:#E9ECEF;border-radius:54px;isolation:isolate}
+#app{position:absolute;left:0;top:0;width:390px;height:var(--h);transform:scale(var(--s));transform-origin:0 0;overflow:hidden;background:var(--map);border-radius:54px;isolation:isolate}
 body.ns #side{display:none}
 body.m #stage{display:block;padding:0}
 body.m #side{display:none}
@@ -55,40 +59,41 @@ body.m #sbar{display:none}
 /* karta */
 #map{position:absolute;left:0;top:0;width:390px;height:844px;transition:transform .8s cubic-bezier(.2,.75,.2,1)}
 #map>img{position:absolute;left:0;top:0;width:390px;height:844px;pointer-events:none;user-select:none;-webkit-user-select:none}
+#map>img.md{opacity:var(--md)}
 #ov{position:absolute;left:0;top:0;pointer-events:none}
 .car{position:absolute;left:0;top:0;pointer-events:none;transition:opacity .5s}
 .mk{position:absolute;pointer-events:none}
 .halo{width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(47,111,235,.16);animation:halo 2.6s ease-in-out infinite}
 @keyframes halo{50%{transform:scale(1.18)}}
 .me{width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:var(--loc);border:3.5px solid #fff;box-shadow:0 2px 8px rgba(10,20,38,.3)}
-.pk{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#fff;border:5px solid var(--brand);box-shadow:0 2px 6px rgba(10,20,38,.25)}
-.dst{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:4px;background:var(--brand);box-shadow:0 2px 6px rgba(10,20,38,.25);display:flex;align-items:center;justify-content:center}
+.pk{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#fff;border:5px solid var(--route);box-shadow:0 2px 6px rgba(10,20,38,.25)}
+.dst{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:4px;background:var(--route);box-shadow:0 2px 6px rgba(10,20,38,.25);display:flex;align-items:center;justify-content:center}
 .dst::after{content:"";width:6px;height:6px;border-radius:1.5px;background:#fff}
-.lbl{transform:translate(calc(-100% - 14px),-50%);white-space:nowrap;height:30px;padding:0 11px;border-radius:15px;background:#fff;box-shadow:0 3px 12px rgba(10,20,38,.15);display:flex;align-items:center;font-size:13px;font-weight:700}
+.lbl{transform:translate(calc(-100% - 14px),-50%);white-space:nowrap;height:30px;padding:0 11px;border-radius:15px;background:var(--elev);box-shadow:0 3px 12px var(--sh);display:flex;align-items:center;font-size:13px;font-weight:700}
 .lbl.r{transform:translate(14px,-50%)}
-.eta{width:76px;height:46px;margin:-23px 0 0 -38px;transition:left .1s linear,top .1s linear}
-.eta-in{position:absolute;left:4px;top:4px;right:4px;bottom:4px;border-radius:10px;background:#fff;box-shadow:0 4px 14px rgba(10,20,38,.16);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap}
+.eta{width:76px;height:46px;margin:-23px 0 0 -38px;color:var(--acc);transition:left .1s linear,top .1s linear}
+.eta-in{position:absolute;left:4px;top:4px;right:4px;bottom:4px;border-radius:10px;background:var(--elev);box-shadow:0 4px 14px var(--sh);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums;white-space:nowrap}
 .eta svg{position:absolute;left:0;top:0}
-.rings i{position:absolute;left:-150px;top:-150px;width:300px;height:300px;border-radius:50%;border:1.5px solid rgba(0,68,152,.35);background:rgba(0,68,152,.07);opacity:0;animation:ring 2.7s ease-out infinite}
+.rings i{position:absolute;left:-150px;top:-150px;width:300px;height:300px;border-radius:50%;border:1.5px solid var(--ring);background:var(--ring-bg);opacity:0;animation:ring 2.7s ease-out infinite}
 .rings i:nth-child(2){animation-delay:.9s}.rings i:nth-child(3){animation-delay:1.8s}
 @keyframes ring{0%{transform:scale(.12);opacity:.95}100%{transform:scale(1);opacity:0}}
 .flag{margin:-24px 0 0 -2px}
 /* plutajući gumbi */
 .fl{position:absolute;z-index:4;top:calc(var(--top) + 6px)}
-.fbtn{width:48px;height:48px;border-radius:24px;background:#fff;box-shadow:0 2px 12px rgba(10,20,38,.14);display:flex;align-items:center;justify-content:center}
-.logo-b{width:48px;height:48px;border-radius:15px;background:#fff;box-shadow:0 2px 12px rgba(10,20,38,.14);display:flex;align-items:center;justify-content:center}
+.fbtn{width:48px;height:48px;border-radius:24px;background:var(--elev);box-shadow:0 2px 12px var(--sh);display:flex;align-items:center;justify-content:center}
+.logo-b{width:48px;height:48px;border-radius:15px;background:#fff;box-shadow:0 2px 12px var(--sh);display:flex;align-items:center;justify-content:center}
 .logo-b img{width:38px;height:38px;display:block}
-.toppill{left:80px;right:80px;height:48px;border-radius:24px;background:#fff;box-shadow:0 2px 12px rgba(10,20,38,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 12px}
+.toppill{left:80px;right:80px;height:48px;border-radius:24px;background:var(--elev);box-shadow:0 2px 12px var(--sh);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 12px}
 .toppill small{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--grey)}
-.toppill small::before{content:"";width:7px;height:7px;border-radius:4px;background:var(--brand)}
+.toppill small::before{content:"";width:7px;height:7px;border-radius:4px;background:var(--acc)}
 .toppill b{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 /* list */
-#sheets>.sheet{position:absolute;left:0;right:0;bottom:0;z-index:5;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -8px 28px rgba(10,20,38,.08);padding:8px 20px var(--bot);display:flex;flex-direction:column;max-height:calc(100% - var(--top) - 24px);overflow-y:auto;transition:transform .42s cubic-bezier(.2,.8,.2,1),opacity .25s}
+#sheets>.sheet{position:absolute;left:0;right:0;bottom:0;z-index:5;background:var(--bg);border-radius:24px 24px 0 0;box-shadow:0 -8px 28px rgba(10,20,38,.08);padding:8px 20px var(--bot);display:flex;flex-direction:column;max-height:calc(100% - var(--top) - 24px);overflow-y:auto;transition:transform .42s cubic-bezier(.2,.8,.2,1),opacity .25s}
 .sheet.in{transform:translateY(100%)}
 .sheet.out{transform:translateY(30px);opacity:0;pointer-events:none}
-.grab{width:36px;height:5px;border-radius:3px;background:#D5D9DF;margin:0 auto 14px;flex:none}
+.grab{width:36px;height:5px;border-radius:3px;background:var(--grab);margin:0 auto 14px;flex:none}
 .t{margin:0;font-size:24px;font-weight:700;letter-spacing:-.015em}
-.t em{font-style:normal;color:var(--brand)}
+.t em{font-style:normal;color:var(--acc)}
 .sub{margin:4px 0 0;font-size:15px;line-height:1.4;color:var(--grey)}
 .tc{margin:0;text-align:center;font-size:20px;font-weight:700;letter-spacing:-.01em}
 .hr{height:1px;background:var(--line);margin:14px -20px 8px;flex:none}
@@ -101,11 +106,11 @@ body.m #sbar{display:none}
 .row:last-child{border-bottom:0}
 .ci{width:40px;height:40px;flex:none;border-radius:20px;background:var(--surf);display:flex;align-items:center;justify-content:center}
 .ci.gold{background:var(--gold-bg);color:var(--gold-t)}
-.ci.blue{background:var(--brand-t);color:var(--brand)}
+.ci.blue{background:var(--brand-t);color:var(--acc)}
 .rt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .rt b{font-size:16px;font-weight:600}
 .rt small{font-size:14px;color:var(--grey);line-height:1.35}
-.chev{color:#9AA2AE;flex:none}
+.chev{color:var(--mute);flex:none}
 /* gumbi */
 .btn{height:56px;flex:1;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:17px;font-weight:700;text-align:center;transition:background .15s,transform .1s}
 .btn:active{transform:scale(.98)}
@@ -113,21 +118,21 @@ body.m #sbar{display:none}
 .btn.pri:active{background:var(--brand-d)}
 .btn.sec{background:var(--surf)}
 .btn.sq{flex:none;width:56px}
-.btn.danger{background:#FCE9EA;color:#B3261E}
+.btn.danger{background:var(--danger-bg);color:var(--danger)}
 .btn.wide{width:100%;flex:none}
 .brow{display:flex;gap:10px;flex:none}
-.link{font-size:15px;font-weight:600;color:var(--brand);text-decoration:underline;text-underline-offset:3px}
+.link{font-size:15px;font-weight:600;color:var(--acc);text-decoration:underline;text-underline-offset:3px}
 /* početna */
 .search{height:56px;flex:none;display:flex;align-items:center;gap:8px;padding:0 8px 0 16px;border-radius:16px;background:var(--surf)}
 .search>button:first-child{flex:1;height:100%;display:flex;align-items:center;gap:12px;font-size:19px;font-weight:700;letter-spacing:-.01em}
-.when{height:40px;padding:0 12px;border-radius:20px;background:#fff;box-shadow:0 1px 3px rgba(10,20,38,.1);display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;white-space:nowrap}
-.nav{flex:none;display:flex;justify-content:space-around;padding-top:8px;margin:6px -20px 0;border-top:1px solid var(--line);background:#fff}
+.when{height:40px;padding:0 12px;border-radius:20px;background:var(--elev);box-shadow:0 1px 3px var(--sh);display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;white-space:nowrap}
+.nav{flex:none;display:flex;justify-content:space-around;padding-top:8px;margin:6px -20px 0;border-top:1px solid var(--line);background:var(--bg)}
 .nav button{width:96px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;color:var(--mute)}
-.nav button[aria-current]{color:var(--brand)}
+.nav button[aria-current]{color:var(--acc)}
 .page .nav{margin:0;padding-bottom:var(--bot)}
 /* odabir */
 .opt{display:flex;align-items:center;gap:10px;width:100%;padding:8px 14px 8px 2px;border-radius:16px;border:2.5px solid transparent;text-align:left;transition:border-color .15s}
-.opt[aria-checked=true]{border-color:var(--brand)}
+.opt[aria-checked=true]{border-color:var(--acc)}
 .opt-img{width:108px;flex:none;display:flex;justify-content:center}
 .opt-img img{display:block;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .opt[aria-checked=true] .opt-img img{transform:scale(1.06)}
@@ -147,26 +152,26 @@ body.m #sbar{display:none}
 @keyframes load{from{width:4%}to{width:96%}}
 .trip{display:flex;align-items:center;gap:12px;margin-top:18px}
 .dots{display:flex;flex-direction:column;align-items:center;gap:3px;flex:none}
-.dots i:first-child{width:10px;height:10px;border-radius:5px;border:3px solid var(--brand)}
-.dots i:nth-child(2){width:2px;height:16px;background:repeating-linear-gradient(#C3C9D2 0 3px,transparent 3px 6px)}
-.dots i:last-child{width:10px;height:10px;border-radius:2px;background:var(--brand)}
+.dots i:first-child{width:10px;height:10px;border-radius:5px;border:3px solid var(--acc)}
+.dots i:nth-child(2){width:2px;height:16px;background:repeating-linear-gradient(var(--grab) 0 3px,transparent 3px 6px)}
+.dots i:last-child{width:10px;height:10px;border-radius:2px;background:var(--acc)}
 .trip-n{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;font-size:15px;font-weight:600}
 .trip-p{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:none}
 .trip-p b{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
 .note{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border-radius:14px;background:var(--brand-t);font-size:14px;font-weight:500;color:var(--ink)}
-.note svg{color:var(--brand)}
+.note svg{color:var(--acc)}
 /* dolazak */
-.vc{position:relative;margin-top:22px;border-radius:20px;background:linear-gradient(160deg,#F6F8FA 0%,#ECEFF3 100%);padding:14px 16px 15px;flex:none}
-.vc-t{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:8px;max-width:178px}
+.vc{position:relative;margin-top:22px;border-radius:20px;background:linear-gradient(160deg,var(--vc1) 0%,var(--vc2) 100%);padding:14px 14px 15px 160px;min-height:120px;flex:none}
+.vc-t{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
 .vc-m{font-size:14.5px;font-weight:500;color:var(--grey);line-height:1.25}
-.vc img{position:absolute;right:-10px;bottom:4px;display:block;pointer-events:none}
+.vc img{position:absolute;left:-12px;bottom:6px;display:block;pointer-events:none}
 .vno{height:28px;padding:0 10px;border-radius:9px;background:var(--gold-bg);border:1px solid var(--gold-bd);display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--gold-t)}
 .vno b{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
-.plate{height:38px;display:flex;align-items:stretch;border-radius:7px;border:1.5px solid #C3CAD4;background:#fff;overflow:hidden;flex:none;box-shadow:0 1px 3px rgba(10,20,38,.07)}
+.plate{height:38px;display:flex;align-items:stretch;border-radius:7px;border:1.5px solid #C3CAD4;background:#fff;color:#16191E;overflow:hidden;flex:none;box-shadow:0 1px 3px rgba(10,20,38,.07)}
 .plate .eu{width:20px;background:#1D4FB8;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4px;gap:2px;font-size:8px;font-weight:800;color:#fff;line-height:1}
-.plate .no{display:flex;align-items:center;gap:6px;padding:0 11px;white-space:nowrap;font-size:20px;font-weight:800;letter-spacing:.035em;font-variant-numeric:tabular-nums}
+.plate .no{display:flex;align-items:center;gap:5px;padding:0 10px;white-space:nowrap;font-size:19px;font-weight:800;letter-spacing:.035em;font-variant-numeric:tabular-nums}
 .drv{display:flex;align-items:center;gap:12px;margin-top:14px;flex:none}
-.av{width:48px;height:48px;flex:none;border-radius:24px;background:var(--brand-t);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--brand)}
+.av{width:48px;height:48px;flex:none;border-radius:24px;background:var(--brand-t);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--acc)}
 .drv-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .drv-t b{font-size:17px;font-weight:700}
 .drv-t small{display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:var(--grey)}
@@ -184,14 +189,14 @@ body.m #sbar{display:none}
 .h2{margin:20px 0 0;font-size:18px;font-weight:700}
 .stars{display:flex;gap:4px;margin-top:6px}
 .stars button{width:46px;height:46px;display:flex;align-items:center;justify-content:center;color:var(--gold);transition:transform .15s}
-.stars button.off{color:#D5D9DF}
+.stars button.off{color:var(--grab)}
 .stars button:active{transform:scale(.88)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .chip{height:38px;padding:0 14px;border-radius:19px;background:var(--surf);border:1.5px solid var(--surf);font-size:14px;font-weight:600}
-.chip[aria-pressed=true]{background:var(--brand-t);border-color:var(--brand);color:var(--brand)}
+.chip[aria-pressed=true]{background:var(--brand-t);border-color:var(--acc);color:var(--acc)}
 /* stranice */
 #pages{position:absolute;inset:0;z-index:20;pointer-events:none}
-.page{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;padding-top:var(--top);pointer-events:auto;transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.page{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;padding-top:var(--top);pointer-events:auto;transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .25s}
 .page.in-up{transform:translateY(100%)}
 .page.in-fade{opacity:0}
 .ph{display:flex;align-items:center;gap:8px;padding:6px 16px 4px 10px;min-height:56px;flex:none}
@@ -201,17 +206,17 @@ body.m #sbar{display:none}
 .ptitle{margin:4px 0 12px;font-size:30px;font-weight:800;letter-spacing:-.02em}
 .fields{display:flex;flex-direction:column;gap:8px;padding:2px 20px 12px;flex:none}
 .field{height:52px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:14px;background:var(--surf)}
-.field.on{background:#fff;box-shadow:inset 0 0 0 2px var(--brand)}
+.field.on{background:var(--elev);box-shadow:inset 0 0 0 2px var(--acc)}
 .field input{flex:1;min-width:0;border:0;background:transparent;font-size:17px;font-weight:600;outline:none}
 .field input::placeholder{color:var(--mute);font-weight:500}
-.fd-p{width:10px;height:10px;flex:none;border-radius:5px;border:3px solid var(--brand)}
-.fd-d{width:10px;height:10px;flex:none;border-radius:2px;background:var(--brand)}
+.fd-p{width:10px;height:10px;flex:none;border-radius:5px;border:3px solid var(--acc)}
+.fd-d{width:10px;height:10px;flex:none;border-radius:2px;background:var(--acc)}
 .sect{margin:14px 0 2px;font-size:13px;font-weight:700;color:var(--mute)}
 .empty{padding:22px 4px;color:var(--grey);font-size:15px}
 /* račun */
 .prof{margin-top:14px;display:flex;align-items:center;gap:14px;width:100%;text-align:left}
 .prof .av{width:56px;height:56px;border-radius:28px;font-size:19px}
-.pc{margin-top:18px;position:relative;height:154px;padding:18px 26px;border-radius:20px;background:linear-gradient(135deg,#00347A,#004498);color:#fff;display:flex;flex-direction:column}
+.pc{margin-top:18px;position:relative;height:154px;padding:18px 26px;border-radius:20px;background:linear-gradient(135deg,var(--pc1),var(--pc2));color:#fff;display:flex;flex-direction:column}
 .pc svg.brk{position:absolute;left:0;top:0;width:100%;height:100%}
 .pc .r1{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:500;color:rgba(255,255,255,.78)}
 .rang{height:26px;padding:0 10px;border-radius:13px;border:1px solid rgba(233,201,138,.6);display:flex;align-items:center;font-size:12px;font-weight:700;color:#E9C98A}
@@ -223,7 +228,7 @@ body.m #sbar{display:none}
 .pc .r3{margin-top:7px;font-size:13px;color:rgba(255,255,255,.78)}
 .tiles{margin-top:12px;display:flex;gap:10px}
 .tile{flex:1;height:84px;border-radius:16px;background:var(--surf);display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:14px;font-size:14px;font-weight:600;white-space:nowrap}
-.tile svg{color:var(--brand)}
+.tile svg{color:var(--acc)}
 .rides .row{min-height:70px}
 .cmp .row{min-height:54px;padding:6px 0}
 .ride-p{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}
@@ -232,9 +237,9 @@ body.m #sbar{display:none}
 /* modal */
 #modal{position:absolute;inset:0;z-index:30;pointer-events:none}
 #modal.on{pointer-events:auto}
-.mb{position:absolute;inset:0;background:rgba(10,20,38,.4);opacity:0;transition:opacity .3s}
+.mb{position:absolute;inset:0;background:var(--scrim);opacity:0;transition:opacity .3s}
 #modal.on .mb{opacity:1}
-.ms{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:8px 20px var(--bot);max-height:88%;overflow-y:auto;transform:translateY(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1)}
+.ms{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:24px 24px 0 0;padding:8px 20px var(--bot);max-height:88%;overflow-y:auto;transform:translateY(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1)}
 #modal.on .ms{transform:none}
 .mt{margin:2px 0 6px;font-size:22px;font-weight:700;letter-spacing:-.01em}
 .msub{margin:0 0 16px;font-size:15px;line-height:1.45;color:var(--grey)}
@@ -245,39 +250,45 @@ body.m #sbar{display:none}
 .err-t{margin:-4px 0 10px;font-size:14px;color:#B3261E}
 .otp{display:flex;gap:10px;margin-bottom:16px}
 .otp span{width:58px;height:64px;border-radius:14px;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;transition:background .2s,box-shadow .2s}
-.otp span.f{background:#fff;box-shadow:inset 0 0 0 2px var(--brand)}
+.otp span.f{background:var(--elev);box-shadow:inset 0 0 0 2px var(--acc)}
 .inp{width:100%;height:56px;padding:0 16px;border-radius:14px;border:0;background:var(--surf);font-size:17px;font-weight:600;outline:none;margin-bottom:12px}
-.inp:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--brand)}
+.inp:focus{background:var(--elev);box-shadow:inset 0 0 0 2px var(--acc)}
 textarea.inp{height:84px;padding:14px 16px;resize:none;font-weight:500}
-.sw{width:51px;height:31px;border-radius:16px;background:#D5D9DF;position:relative;transition:background .2s;flex:none}
+.sw{width:51px;height:31px;border-radius:16px;background:var(--grab);position:relative;transition:background .2s;flex:none}
 .sw::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .2s}
 .sw.on{background:var(--brand)}
 .sw.on::after{transform:translateX(20px)}
 .seg{display:flex;gap:6px;padding:4px;border-radius:14px;background:var(--surf);margin-bottom:14px}
 .seg button{flex:1;height:40px;border-radius:10px;font-size:15px;font-weight:600;text-align:center}
-.seg button[aria-pressed=true]{background:#fff;box-shadow:0 1px 4px rgba(10,20,38,.12)}
+.seg button[aria-pressed=true]{background:var(--elev);box-shadow:0 1px 4px var(--sh)}
 .slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
 .slots button{height:44px;border-radius:12px;background:var(--surf);font-size:15px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
 .slots button[aria-pressed=true]{background:var(--brand);color:#fff}
-.check{color:var(--brand)}
+.check{color:var(--acc)}
 .code{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 18px;border-radius:14px;border:1.5px dashed var(--gold-bd);background:var(--gold-bg);font-size:22px;font-weight:800;letter-spacing:.08em;color:var(--gold-t);margin-bottom:14px}
 .kv{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
 .kv span{color:var(--grey)}
 .kv b{font-weight:600;text-align:right}
 /* obavijest */
-#toast{position:absolute;left:10px;right:10px;top:calc(var(--top) + 4px);z-index:40;background:rgba(255,255,255,.97);border-radius:20px;box-shadow:0 10px 30px rgba(10,20,38,.2);padding:12px 14px;display:flex;gap:12px;align-items:center;transform:translateY(calc(-100% - var(--top) - 24px));transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#toast{position:absolute;left:10px;right:10px;top:calc(var(--top) + 4px);z-index:40;background:var(--toast);border-radius:20px;box-shadow:0 10px 30px rgba(10,20,38,.2);padding:12px 14px;display:flex;gap:12px;align-items:center;transform:translateY(calc(-100% - var(--top) - 24px));transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 #toast.show{transform:none}
 #toast img{width:40px;height:40px;padding:4px;border-radius:11px;flex:none;border:1px solid var(--line);background:#fff;object-fit:contain}
 #toast b{display:block;font-size:15px;font-weight:700}
 #toast span{font-size:14px;color:var(--grey);line-height:1.35}
 /* intro */
-#intro{position:absolute;inset:0;z-index:60;background:#fff;cursor:pointer;overflow:hidden}
-#intro .ib{position:absolute;left:0;right:0;top:24%;display:flex;flex-direction:column;align-items:center}
-#intro .lg{width:132px;height:auto;display:block;opacity:0;transform:scale(.86);animation:lgin .75s cubic-bezier(.2,.9,.25,1.12) .05s forwards}
-#intro .gl{display:block;width:56px;height:3px;border-radius:2px;background:var(--gold);margin:22px 0 14px;transform:scaleX(0);animation:band .5s cubic-bezier(.6,0,.2,1) .55s forwards}
-#intro .slog{margin:0;font-size:17px;font-weight:600;letter-spacing:-.005em;opacity:0;transform:translateY(8px);animation:rise .5s cubic-bezier(.2,.8,.2,1) .7s forwards}
-#intro .icar{position:absolute;left:50%;top:59%;width:300px;height:auto;margin-left:-150px;transform:translateX(135%);animation:carin 1.3s cubic-bezier(.16,.84,.24,1) .45s forwards}
-#intro .band{position:absolute;left:0;right:0;bottom:calc(var(--bot) + 36px);height:16px;background:repeating-conic-gradient(var(--brand) 0 25%,#fff 0 50%) 0 0/16px 16px;transform:scaleX(0);transform-origin:left;animation:band .8s cubic-bezier(.6,0,.2,1) .6s forwards}
+#intro{position:absolute;inset:0;z-index:60;cursor:pointer;overflow:hidden;color:#fff;background:radial-gradient(130% 75% at 50% 36%,#17346B 0%,#0B1A3A 52%,#060E21 100%)}
+#intro .ib{position:absolute;left:0;right:0;top:19%;display:flex;flex-direction:column;align-items:center}
+#intro .lg{width:118px;height:auto;display:block;filter:brightness(0) invert(1);opacity:0;transform:scale(.86);animation:lgin .75s cubic-bezier(.2,.9,.25,1.12) .05s forwards}
+#intro .gl{display:block;width:56px;height:3px;border-radius:2px;background:linear-gradient(90deg,#E8CF95,#B88F48);margin:24px 0 16px;transform:scaleX(0);animation:band .5s cubic-bezier(.6,0,.2,1) .5s forwards}
+#intro .slog{margin:0;font-size:21px;font-weight:700;letter-spacing:-.01em;opacity:0;transform:translateY(8px);animation:rise .55s cubic-bezier(.2,.8,.2,1) .65s forwards}
+#intro .ic{position:absolute;left:35px;top:57%;width:320px;transform:translateX(-430px)}
+#intro .ic-in{position:relative;transform-origin:22% 92%}
+#intro .ic img{display:block;width:320px;height:auto;-webkit-box-reflect:below -16px linear-gradient(transparent 64%,rgba(255,255,255,.14))}
+#intro .glow{position:absolute;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;background:radial-gradient(circle,#fff 0,rgba(226,238,255,.95) 9%,rgba(150,190,255,.42) 28%,rgba(120,170,255,0) 62%);opacity:0;pointer-events:none}
+#intro .glow::after{content:"";position:absolute;left:50%;top:50%;width:230px;height:5px;margin:-2.5px 0 0 -115px;border-radius:3px;background:linear-gradient(90deg,rgba(190,215,255,0),rgba(225,236,255,.95),rgba(190,215,255,0))}
+#intro .glow.far{transform:scale(.62)}
+#intro .beam{position:absolute;left:76%;top:70%;width:250px;height:76px;border-radius:50%;background:radial-gradient(closest-side,rgba(175,205,255,.32),rgba(175,205,255,0));opacity:0;pointer-events:none}
+#intro .band{position:absolute;left:0;right:0;bottom:calc(var(--bot) + 30px);height:14px;background:repeating-conic-gradient(rgba(255,255,255,.88) 0 25%,transparent 0 50%) 0 0/14px 14px;transform:scaleX(0);transform-origin:left;animation:band .8s cubic-bezier(.6,0,.2,1) .6s forwards}
 @keyframes lgin{to{opacity:1;transform:none}}
 @keyframes carin{to{transform:none}}
 @keyframes rise{to{opacity:1;transform:none}}
@@ -295,7 +306,7 @@ textarea.inp{height:84px;padding:14px 16px;resize:none;font-weight:500}
 <p class="pnote">Prototip za pregled. Cijene, vozači i vozila su primjeri.</p>
 </aside>
 <div id="phone"><div id="app">
-<div id="map"><img src="/taxi/assets/karta.svg" alt="" draggable="false"><svg id="ov" width="390" height="844" viewBox="0 0 390 844"></svg><div id="cars"></div><div id="mk"></div></div>
+<div id="map"><img src="/taxi/assets/karta.svg" alt="" draggable="false"><img class="md" src="/taxi/assets/karta-dark.svg" alt="" draggable="false"><svg id="ov" width="390" height="844" viewBox="0 0 390 844"></svg><div id="cars"></div><div id="mk"></div></div>
 <div id="fl"></div>
 <div id="sheets"></div>
 <div id="pages"></div>
@@ -354,13 +365,14 @@ const FI = {
   paw: '<circle cx="6.5" cy="10.5" r="2"/><circle cx="10" cy="6.5" r="2"/><circle cx="14.5" cy="6.5" r="2"/><circle cx="18" cy="10.5" r="2"/><path d="M7.5 17.5c0-3.2 2.1-5.8 4.6-5.8s4.6 2.6 4.6 5.8c0 1.9-2 2.7-4.6 2.7s-4.6-.8-4.6-2.7z"/>',
 };
 function ic(n, s = 22, c = 'currentColor', w = 2) {
-  if (FI[n]) return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}" aria-hidden="true" style="flex:none;display:block">${FI[n]}</svg>`;
-  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;display:block">${I[n]}</svg>`;
+  const st = 'flex:none;display:block' + (c !== 'currentColor' ? ';color:' + c : '');
+  if (FI[n]) return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="${st}">${FI[n]}</svg>`;
+  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="${st}">${I[n]}</svg>`;
 }
 const CHEV = `<span class="chev">${ic('chev_r', 18, 'currentColor', 2.2)}</span>`;
-const BR = '<svg width="76" height="46" viewBox="0 0 76 46" aria-hidden="true"><path d="M2 14V5Q2 2 5 2H14M62 2H71Q74 2 74 5V14M74 32V41Q74 44 71 44H62M14 44H5Q2 44 2 41V32" fill="none" stroke="#004498" stroke-width="2" stroke-linecap="round"/><g fill="#004498"><circle cx="2" cy="16" r="2"/><circle cx="16" cy="2" r="2"/><circle cx="60" cy="2" r="2"/><circle cx="74" cy="16" r="2"/><circle cx="74" cy="30" r="2"/><circle cx="60" cy="44" r="2"/><circle cx="16" cy="44" r="2"/><circle cx="2" cy="30" r="2"/></g></svg>';
+const BR = '<svg width="76" height="46" viewBox="0 0 76 46" aria-hidden="true"><path d="M2 14V5Q2 2 5 2H14M62 2H71Q74 2 74 5V14M74 32V41Q74 44 71 44H62M14 44H5Q2 44 2 41V32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><g fill="currentColor"><circle cx="2" cy="16" r="2"/><circle cx="16" cy="2" r="2"/><circle cx="60" cy="2" r="2"/><circle cx="74" cy="16" r="2"/><circle cx="74" cy="30" r="2"/><circle cx="60" cy="44" r="2"/><circle cx="16" cy="44" r="2"/><circle cx="2" cy="30" r="2"/></g></svg>';
 const LOGO = `<img class="lg" src="${A}logo.svg" width="132" height="142" alt="Osječki Taxi, 031 200 200">`;
-const FLAG = '<svg width="30" height="22" viewBox="0 0 30 22" aria-hidden="true" style="flex:none;display:block"><path d="M2 1v20" stroke="#0A1426" stroke-width="2" stroke-linecap="round"/>' + [0, 1, 2].map(r => [0, 1, 2, 3].map(c => `<rect x="${4 + c * 6.5}" y="${1 + r * 4.5}" width="6.5" height="4.5" fill="${(r + c) % 2 ? '#fff' : '#004498'}"/>`).join('')).join('') + '<rect x="4" y="1" width="26" height="13.5" fill="none" stroke="#004498" stroke-width="1"/></svg>';
+const FLAG = '<svg width="30" height="22" viewBox="0 0 30 22" aria-hidden="true" style="flex:none;display:block"><path d="M2 1v20" style="stroke:var(--ink)" stroke-width="2" stroke-linecap="round"/>' + [0, 1, 2].map(r => [0, 1, 2, 3].map(c => `<rect x="${4 + c * 6.5}" y="${1 + r * 4.5}" width="6.5" height="4.5" style="fill:${(r + c) % 2 ? '#fff' : 'var(--route)'}"/>`).join('')).join('') + '<rect x="4" y="1" width="26" height="13.5" fill="none" style="stroke:var(--route)" stroke-width="1"/></svg>';
 const SAH = '<svg width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M1 1h10v7c0 3.5-2.5 5.5-5 6.5C3.5 13.5 1 11.5 1 8z" fill="#fff" stroke="#0A1426" stroke-width=".8"/><g fill="#D2232A"><rect x="1" y="1" width="2" height="2"/><rect x="5" y="1" width="2" height="2"/><rect x="9" y="1" width="2" height="2"/><rect x="3" y="3" width="2" height="2"/><rect x="7" y="3" width="2" height="2"/><rect x="1" y="5" width="2" height="2"/><rect x="5" y="5" width="2" height="2"/><rect x="9" y="5" width="2" height="2"/><rect x="3" y="7" width="2" height="2"/><rect x="7" y="7" width="2" height="2"/><rect x="5" y="9" width="2" height="2"/></g></svg>';
 const EUS = '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><g fill="#F4C430">' + [...Array(8)].map((_, i) => { const a = i * Math.PI / 4 - Math.PI / 2; return `<circle cx="${(7 + 5 * Math.cos(a)).toFixed(1)}" cy="${(6.6 + 5 * Math.sin(a)).toFixed(1)}" r=".9"/>`; }).join('') + '</g></svg>';
 const plate = p => { const [a, b] = p.split(' '); return `<div class="plate" role="img" aria-label="Registracija ${p}"><span class="eu">${EUS}HR</span><span class="no">${a}${SAH}${b}</span></div>`; };
@@ -381,8 +393,8 @@ const PLACES = [
 PLACES.forEach(p => { p.van = Math.round(p.taxi * 1.49 * 10) / 10; p.short = p.short || p.name; });
 const byId = id => PLACES.find(p => p.id === id);
 const VEH = {
-  taxi: { model: 'Bijela Toyota Corolla', short: 'Toyota Corolla', plate: 'OS 482-KT', num: '07', driver: 'Petar', acc: 'Petra', dat: 'Petru', rating: '4,9', img: 'corolla-3d.webp', iw: 186, ih: 116, eta: 2 },
-  van: { model: 'Bijeli Opel kombi', short: 'Opel kombi', plate: 'OS 731-KT', num: '12', driver: 'Marko', acc: 'Marka', dat: 'Marku', rating: '4,8', img: 'kombi-3d.webp', iw: 186, ih: 128, eta: 6 },
+  taxi: { model: 'Bijela Toyota Corolla', short: 'Toyota Corolla', plate: 'OS 482-KT', num: '07', driver: 'Petar', acc: 'Petra', dat: 'Petru', rating: '4,9', img: 'corolla-3d.webp', iw: 164, ih: 100, eta: 2 },
+  van: { model: 'Bijeli Opel kombi', short: 'Opel kombi', plate: 'OS 731-KT', num: '12', driver: 'Marko', acc: 'Marka', dat: 'Marku', rating: '4,8', img: 'kombi-3d.webp', iw: 164, ih: 113, eta: 6 },
 };
 const AMB = [
   { path: [[400, 268], [96, 304], [-10, 316.2]], kind: 'taxi', speed: 15, t: .62 },
@@ -401,7 +413,11 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('otx_' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('otx_' + k, JSON.stringify(v)); } catch (e) {} },
 };
-const S = { dest: byId('tvrdja'), opt: 'taxi', extras: { seat: false, pet: false, bag: false, note: '' }, pay: 'Gotovina', when: null, scheduled: store.get('sched', null), user: store.get('user', null), points: store.get('points', 320), rides: store.get('rides', []), rating: 5, chips: ['Točan dolazak', 'Ugodna vožnja'] };
+const S = { dest: byId('tvrdja'), opt: 'taxi', extras: { seat: false, pet: false, bag: false, note: '' }, pay: 'Gotovina', when: null, scheduled: store.get('sched', null), user: store.get('user', null), points: store.get('points', 320), rides: store.get('rides', []), rating: 5, chips: ['Točan dolazak', 'Ugodna vožnja'], theme: store.get('theme', 'auto') };
+const mqDark = matchMedia('(prefers-color-scheme: dark)');
+function applyTheme() { const r = document.documentElement, t = S.theme; if (t === 'auto') delete r.dataset.theme; else r.dataset.theme = t; const dk = t === 'dark' || (t === 'auto' && mqDark.matches), m = document.querySelector('meta[name=theme-color]'); if (m) m.content = dk ? '#0C1628' : '#FFFFFF'; }
+if (mqDark.addEventListener) mqDark.addEventListener('change', applyTheme); else if (mqDark.addListener) mqDark.addListener(applyTheme);
+applyTheme();
 let cur = null, anim = null, T = 0, assigned = null, lastCam = null, M = {};
 
 /* ---------- pomoćne ---------- */
@@ -458,7 +474,7 @@ clk(); setInterval(clk, 15000);
 function carEl(kind) {
   const im = new Image(), van = kind === 'van' || kind === 'bigvan';
   im.src = A + (van ? 'kombi-top.webp' : 'taxi-top.webp'); im.alt = ''; im.className = 'car';
-  const [w, h] = { taxi: [24.6, 52.5], van: [26.2, 55.8], big: [29.1, 62.1], bigvan: [30.8, 65.8] }[kind];
+  const [w, h] = { taxi: [23.2, 48.5], van: [25.8, 54.6], big: [27.5, 57.3], bigvan: [30.4, 64.5] }[kind];
   Object.assign(im.style, { width: w + 'px', height: h + 'px', marginLeft: -w / 2 + 'px', marginTop: -h / 2 + 'px' });
   carsEl.appendChild(im); return im;
 }
@@ -468,7 +484,7 @@ let ambOn = true;
 function route(pts, faded) {
   if (!pts) { ov.innerHTML = ''; return; }
   const d = 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L'), o = faded ? ' opacity=".4"' : '';
-  ov.innerHTML = `<path d="${d}" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"${o}/><path d="${d}" fill="none" stroke="#004498" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"${o}/>`;
+  ov.innerHTML = `<path d="${d}" fill="none" style="stroke:var(--route-case)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"${o}/><path d="${d}" fill="none" style="stroke:var(--route)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"${o}/>`;
 }
 const marks = h => { mk.innerHTML = h; };
 const etaHTML = (x, y, t, id) => `<div class="mk eta"${id ? ` id="${id}"` : ''} style="${at(x, y)}"><div class="eta-in">${t}</div>${BR}</div>`;
@@ -580,9 +596,9 @@ SCR.search = () => {
 
 function optHTML(k) {
   const d = S.dest, v = VEH[k], price = d[k === 'taxi' ? 'taxi' : 'van'], pts = Math.floor(price);
-  const img = k === 'taxi' ? ['corolla-3d.webp', 100, 62.4] : ['kombi-3d.webp', 104, 71.6];
+  const img = k === 'taxi' ? ['corolla-3d.webp', 100, 61] : ['kombi-3d.webp', 108, 74.4];
   const sub = S.when ? `${S.when.day} u ${S.when.time}` : `Stiže za ${v.eta} min`;
-  return `<button class="opt" role="radio" aria-checked="${S.opt === k}" data-opt="${k}"><span class="opt-img"><img src="${A + img[0]}" alt="" width="${img[1]}" height="${img[2]}"></span><span class="opt-t"><span class="opt-n"><b>${k === 'taxi' ? 'Taxi' : 'Kombi'}</b><span class="seats">${ic('person', 14)}${k === 'taxi' ? 4 : 8}</span></span><small>${sub}</small><span class="pts">+${pts} ${bod(pts)}</span></span><span class="opt-p"><b>${eur(price)}</b><span class="fix">${ic('lock', 13, '#B08840', 2.4)}Fiksno</span></span></button>`;
+  return `<button class="opt" role="radio" aria-checked="${S.opt === k}" data-opt="${k}"><span class="opt-img"><img src="${A + img[0]}" alt="" width="${img[1]}" height="${img[2]}"></span><span class="opt-t"><span class="opt-n"><b>${k === 'taxi' ? 'Taxi' : 'Kombi'}</b><span class="seats">${ic('person', 14)}${k === 'taxi' ? 4 : 8}</span></span><small>${sub}</small><span class="pts">+${pts} ${bod(pts)}</span></span><span class="opt-p"><b>${eur(price)}</b><span class="fix">${ic('lock', 13, 'var(--gold-t)', 2.4)}Fiksno</span></span></button>`;
 }
 const extrasLabel = () => { const e = S.extras, a = []; if (e.seat) a.push('dječja sjedalica'); if (e.pet) a.push('ljubimac'); if (e.bag) a.push('veća prtljaga'); return a.length ? a.join(', ').replace(/^./, c => c.toUpperCase()) : 'Dječja sjedalica, ljubimac, prtljaga'; };
 function chooseHTML() {
@@ -612,7 +628,7 @@ SCR.searching = () => {
   fl.innerHTML = '';
   sheet(`<button style="text-align:left" data-act="found"><h2 class="t">Tražimo vam ${S.opt === 'taxi' ? 'taxi' : 'kombi'}</h2><p class="sub">Najbliži slobodan auto obično se javi za manje od minute.</p></button>
 <div class="prog load"><i></i></div>
-<div class="trip"><span class="dots"><i></i><i></i><i></i></span><span class="trip-n"><span>Trg Ante Starčevića</span><span>${esc(d.name)}</span></span><span class="trip-p"><b>${eur(price)}</b><span class="fix">${ic('lock', 13, '#B08840', 2.4)}Fiksno, ${S.pay.toLowerCase()}</span></span></div>
+<div class="trip"><span class="dots"><i></i><i></i><i></i></span><span class="trip-n"><span>Trg Ante Starčevića</span><span>${esc(d.name)}</span></span><span class="trip-p"><b>${eur(price)}</b><span class="fix">${ic('lock', 13, 'var(--gold-t)', 2.4)}Fiksno, ${S.pay.toLowerCase()}</span></span></div>
 <div class="note">${ic('headset', 20)}<span>Narudžbu prati i naša centrala, 0–24 h.</span></div>
 <div class="sp"></div><div class="brow"><button class="btn sec" data-act="cancel">Otkaži narudžbu</button></div>`);
   cam([[P[0], P[1] - 100], [P[0], P[1] + 100]]);
@@ -626,8 +642,8 @@ function found() {
 function arrivingHTML(v) {
   return `<button style="text-align:left" data-act="skip"><h2 class="t" id="arrT">Stiže za <em>3 min</em></h2><p class="sub" id="arrS">Čekajte na Trgu Ante Starčevića</p></button>
 <div class="vc"><div class="vc-t">${plate(v.plate)}<span class="vc-m">${v.model}</span><span class="vno">Vozilo <b>${v.num}</b></span></div><img src="${A + v.img}" alt="${v.model} u bojama Osječkog taxija" width="${v.iw}" height="${v.ih}"></div>
-<div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}</b><small>${ic('star', 15, '#C9A15A')}${v.rating}</small></span><button class="cbtn" data-act="calldrv" aria-label="Nazovi vozača">${ic('phone', 20, 'currentColor', 2.2)}</button><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
-<div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, '#004498', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="cancel" style="flex:.7">Otkaži</button></div>`;
+<div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}</b><small>${ic('star', 15, 'var(--gold)')}${v.rating}</small></span><button class="cbtn" data-act="calldrv" aria-label="Nazovi vozača">${ic('phone', 20, 'currentColor', 2.2)}</button><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
+<div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, 'var(--acc)', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="cancel" style="flex:.7">Otkaži</button></div>`;
 }
 SCR.arriving = () => {
   ambOn = false; const v = VEH[S.opt];
@@ -672,7 +688,7 @@ SCR.ride = () => {
 <div class="prog"><i id="rideP"></i></div>
 <div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}, vozilo ${v.num}</b><small>${v.short}, ${v.plate}</small></span><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
 <div class="note">${ic('lock', 20)}<span>Cijena je zaključana na ${eur(d[S.opt === 'taxi' ? 'taxi' : 'van'])}, bez obzira na promet.</span></div>
-<div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, '#004498', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="safety" style="flex:.8">${ic('shield', 19, '#004498', 2.2)}Sigurnost</button></div>`);
+<div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, 'var(--acc)', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="safety" style="flex:.8">${ic('shield', 19, 'var(--acc)', 2.2)}Sigurnost</button></div>`);
   cam(trip);
   const t0 = performance.now(), D = reduce ? 1200 : 10000;
   anim = now => {
@@ -693,7 +709,7 @@ SCR.done = () => {
   S.rating = 5; S.chips = ['Točan dolazak', 'Ugodna vožnja'];
   sheet(`<div style="display:flex;align-items:center;gap:10px"><h2 class="t" style="font-size:28px">Stigli ste</h2>${FLAG}</div>
 <p class="sub">${esc(d.name)}, u ${hm(new Date())}</p>
-<div class="paid"><span><b>${eur(price)}</b><small>Plaćeno: ${S.pay.toLowerCase()}</small></span><span class="gp">${ic('lock', 14, '#B08840', 2.4)}Fiksna cijena</span></div>
+<div class="paid"><span><b>${eur(price)}</b><small>Plaćeno: ${S.pay.toLowerCase()}</small></span><span class="gp">${ic('lock', 14, 'var(--gold-t)', 2.4)}Fiksna cijena</span></div>
 <div class="earn"><span class="coin">${ic('star', 16, '#fff')}</span><span><b>+${n} ${bod(n)}</b> za ovu vožnju</span><small id="tot">Ukupno ${S.points}</small></div>
 <h3 class="h2">Kako je bilo s ${v.driver === 'Petar' ? 'Petrom' : 'Markom'}?</h3>
 <div class="stars" role="radiogroup" aria-label="Ocjena vožnje">${[1, 2, 3, 4, 5].map(i => `<button role="radio" aria-checked="${i === 5}" aria-label="${i} od 5" data-star="${i}">${ic('star', 38)}</button>`).join('')}</div>
@@ -786,12 +802,12 @@ MOD.calldrv = () => { const v = VEH[S.opt]; modal(`<h2 class="mt">Nazovi ${v.acc
 MOD.msgdrv = () => { const v = VEH[S.opt]; modal(`<h2 class="mt">Poruka za ${v.acc}</h2><div class="list">${['Stižem za minutu', 'Čekam ispred', 'Imam veću prtljagu', 'Nazovite me kad stignete'].map(t => `<button class="row" data-msg="${t}"><span class="ci">${ic('msg', 20)}</span><span class="rt"><b>${t}</b></span></button>`).join('')}</div>`); };
 MOD.safety = () => modal(`<h2 class="mt">Sigurnost</h2><p class="msub">Vožnju prati naša centrala od polaska do cilja.</p><div class="list">${rowHTML('share', 'Podijeli vožnju', 'Obitelj vidi gdje ste i kad stižete', 'data-act="share"')}${rowHTML('headset', 'Nazovi centralu', '031 200 200, 0–24 h', 'data-act="proto" data-t="U pravoj aplikaciji ovdje se zove centrala."')}${rowHTML('sos', 'Hitni poziv 112', 'Za hitne slučajeve', 'data-act="proto" data-t="U pravoj aplikaciji ovdje se zove 112. Prototip ne zove."')}</div>`);
 MOD.cancel = () => { const v = VEH[S.opt]; modal(`<h2 class="mt">Otkazati narudžbu?</h2><p class="msub">${cur === 'searching' ? 'Još tražimo najbliži slobodan auto.' : `${v.driver} je već na putu prema vama.`}</p><div class="brow"><button class="btn sec" data-act="close">Ne, ostavi</button><button class="btn danger" data-act="docancel">Otkaži</button></div>`); };
-MOD.receipt = r => modal(`<h2 class="mt">Račun za vožnju</h2><p class="msub">${r.date}, ${r.time}</p><div class="kv"><span>Od</span><b>${esc(r.from)}</b></div><div class="kv"><span>Do</span><b>${esc(r.dest)}</b></div><div class="kv"><span>Vozilo</span><b>${esc(r.veh)}</b></div><div class="kv"><span>Vozač</span><b>${esc(r.driver)}</b></div><div class="kv"><span>Plaćanje</span><b>${esc(r.pay)}</b></div><div class="kv" style="border:0"><span>Iznos, fiksna cijena</span><b style="font-size:18px">${eur(r.price)}</b></div><button class="btn sec wide" data-act="proto" data-t="U pravoj aplikaciji račun stiže na e-mail kao PDF." style="margin-top:8px">${ic('doc', 20, '#004498', 2)}Pošalji račun na e-mail</button>`);
+MOD.receipt = r => modal(`<h2 class="mt">Račun za vožnju</h2><p class="msub">${r.date}, ${r.time}</p><div class="kv"><span>Od</span><b>${esc(r.from)}</b></div><div class="kv"><span>Do</span><b>${esc(r.dest)}</b></div><div class="kv"><span>Vozilo</span><b>${esc(r.veh)}</b></div><div class="kv"><span>Vozač</span><b>${esc(r.driver)}</b></div><div class="kv"><span>Plaćanje</span><b>${esc(r.pay)}</b></div><div class="kv" style="border:0"><span>Iznos, fiksna cijena</span><b style="font-size:18px">${eur(r.price)}</b></div><button class="btn sec wide" data-act="proto" data-t="U pravoj aplikaciji račun stiže na e-mail kao PDF." style="margin-top:8px">${ic('doc', 20, 'var(--acc)', 2)}Pošalji račun na e-mail</button>`);
 MOD.wallet = () => modal(`<h2 class="mt">Novčanik</h2><div class="list">${rowHTML('cash', 'Gotovina', 'Zadani način plaćanja', '', '', false)}${rowHTML('card', 'Kartica u vozilu', 'Plaćanje karticom na kraju vožnje', '', '', false)}${rowHTML('gift', 'Stanje bonova', '0,00 €', '', 'gold', false)}</div>`);
 MOD.promo = () => modal(`<h2 class="mt">Popusti</h2><p class="msub">Upišite promo kod ili poklon bon.</p><input class="inp" id="pc" placeholder="Npr. OSIJEK10" autocapitalize="characters" aria-label="Promo kod"><button class="btn pri wide" data-act="applypromo">Primijeni</button>`, m => { const i = $('#pc', m); if (i) i.focus({ preventScroll: true }); });
-MOD.refer = () => { const c = ((firstName() || 'PUTNIK').toUpperCase().replace(/[^A-ZČĆŽŠĐ]/g, '') + '-200'); modal(`<h2 class="mt">Preporuči prijatelju</h2><p class="msub">Pošaljite kod prijatelju. Kad se prvi put provoza, oboje dobivate bodove.</p><div class="code"><span>${esc(c)}</span>${ic('gift', 22, '#7A5A14')}</div><button class="btn pri wide" data-act="share" data-code="${esc(c)}">${ic('share', 19, '#fff', 2.2)}Podijeli kod</button>`); };
+MOD.refer = () => { const c = ((firstName() || 'PUTNIK').toUpperCase().replace(/[^A-ZČĆŽŠĐ]/g, '') + '-200'); modal(`<h2 class="mt">Preporuči prijatelju</h2><p class="msub">Pošaljite kod prijatelju. Kad se prvi put provoza, oboje dobivate bodove.</p><div class="code"><span>${esc(c)}</span>${ic('gift', 22, 'var(--gold-t)')}</div><button class="btn pri wide" data-act="share" data-code="${esc(c)}">${ic('share', 19, '#fff', 2.2)}Podijeli kod</button>`); };
 MOD.places = () => modal(`<h2 class="mt">Spremljena mjesta</h2><div class="list">${rowHTML('home', 'Kuća', 'Sjenjak, Osijek', 'data-dest="kuca"')}${rowHTML('pin', 'Posao', 'Dodajte adresu', 'data-act="proto" data-t="U pravoj aplikaciji ovdje upisujete adresu posla."')}${rowHTML('pin', 'Dodaj mjesto', 'Teretana, škola, roditelji…', 'data-act="proto" data-t="U pravoj aplikaciji ovdje dodajete svoja mjesta."')}</div>`);
-MOD.settings = () => modal(`<h2 class="mt">Postavke i privatnost</h2><div class="list"><div class="row"><span class="ci">${ic('bell', 20)}</span><span class="rt"><b>Obavijesti o vožnji</b><small>Kad vozač krene i kad stigne</small></span><button class="sw on" role="switch" aria-checked="true" aria-label="Obavijesti o vožnji" data-sw="n1"></button></div><div class="row"><span class="ci">${ic('gift', 20)}</span><span class="rt"><b>Ponude i novosti</b><small>Popusti i nagrade</small></span><button class="sw" role="switch" aria-checked="false" aria-label="Ponude i novosti" data-sw="n2"></button></div>${rowHTML('globe', 'Jezik', 'Hrvatski', 'data-act="proto" data-t="Aplikacija može biti i na engleskom, za turiste."')}${rowHTML('refresh', 'Pokreni demo ispočetka', 'Briše prijavu, bodove i vožnje iz prototipa', 'data-act="reset"', '', false)}</div>`);
+MOD.settings = () => modal(`<h2 class="mt">Postavke i privatnost</h2><p class="sect" style="margin:6px 0 8px">Izgled</p><div class="seg" role="group" aria-label="Izgled aplikacije">${[['auto', 'Automatski'], ['light', 'Svijetlo'], ['dark', 'Tamno']].map(([k, l]) => `<button data-thm="${k}" aria-pressed="${S.theme === k}">${l}</button>`).join('')}</div><div class="list"><div class="row"><span class="ci">${ic('bell', 20)}</span><span class="rt"><b>Obavijesti o vožnji</b><small>Kad vozač krene i kad stigne</small></span><button class="sw on" role="switch" aria-checked="true" aria-label="Obavijesti o vožnji" data-sw="n1"></button></div><div class="row"><span class="ci">${ic('gift', 20)}</span><span class="rt"><b>Ponude i novosti</b><small>Popusti i nagrade</small></span><button class="sw" role="switch" aria-checked="false" aria-label="Ponude i novosti" data-sw="n2"></button></div>${rowHTML('globe', 'Jezik', 'Hrvatski', 'data-act="proto" data-t="Aplikacija može biti i na engleskom, za turiste."')}${rowHTML('refresh', 'Pokreni demo ispočetka', 'Briše prijavu, bodove i vožnje iz prototipa', 'data-act="reset"', '', false)}</div>`);
 MOD.help = () => modal(`<h2 class="mt">Pomoć i centrala</h2><div class="list">${rowHTML('headset', 'Nazovi centralu', '031 200 200, 0–24 h', 'data-act="proto" data-t="U pravoj aplikaciji ovdje se zove centrala."')}${rowHTML('help', 'Kako naručiti taxi', 'Tri dodira: odredište, vožnja, naruči', 'data-act="proto" data-t="Ovdje dolaze kratki odgovori na česta pitanja."')}${rowHTML('cash', 'Plaćanje i računi', 'Gotovina, kartica, računi na e-mail', 'data-act="proto" data-t="Ovdje dolaze kratki odgovori na česta pitanja."')}${rowHTML('bag', 'Izgubljene stvari', 'Javite nam se, vozač provjerava auto', 'data-act="proto" data-t="Ovdje se prijavljuje izgubljena stvar."')}</div>`);
 MOD.schedinfo = () => modal(`<h2 class="mt">Zakazana vožnja</h2><p class="msub">${esc(S.scheduled.dest)}, ${esc(S.scheduled.label)}. Podsjetit ćemo vas 15 minuta prije, a vozač kreće na vrijeme.</p><div class="brow"><button class="btn sec" data-act="close">U redu</button><button class="btn danger" data-act="unsched">Otkaži vožnju</button></div>`);
 
@@ -844,7 +860,7 @@ const ACT = {
 };
 
 app.addEventListener('click', e => {
-  const t = e.target.closest('[data-act],[data-go],[data-tab],[data-dest],[data-opt],[data-star],[data-chip],[data-ride],[data-sw],[data-pay],[data-day],[data-time],[data-msg]');
+  const t = e.target.closest('[data-act],[data-go],[data-tab],[data-dest],[data-opt],[data-star],[data-chip],[data-ride],[data-sw],[data-pay],[data-day],[data-time],[data-msg],[data-thm]');
   if (!t || !app.contains(t)) return;
   const d = t.dataset;
   if (d.act && ACT[d.act]) return ACT[d.act](t);
@@ -857,6 +873,7 @@ app.addEventListener('click', e => {
   if (d.ride) return MOD.receipt(S.rides.concat(SAMPLE)[+d.ride]);
   if (d.sw) { const on = !t.classList.contains('on'); t.classList.toggle('on', on); t.setAttribute('aria-checked', on); if (d.sw in S.extras) S.extras[d.sw] = on; return; }
   if (d.pay) { S.pay = d.pay; closeModal(); if (cur === 'choose') refreshChoose(); return; }
+  if (d.thm) { S.theme = d.thm; store.set('theme', d.thm); applyTheme(); t.parentNode.querySelectorAll('[data-thm]').forEach(b => b.setAttribute('aria-pressed', b === t)); return; }
   if (d.day) { M.day = d.day; M.time = null; return M.redraw(); }
   if (d.time) { M.time = d.time; return M.redraw(); }
   if (d.msg) { const v = VEH[S.opt]; closeModal(); toast(`Poruka je poslana ${v.dat}`, `„${d.msg}”`); }
@@ -866,7 +883,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && modalEl.classList.c
 
 function burst(host, x, y) {
   if (reduce) return;
-  const cols = ['#004498', '#C9A15A', '#004498', '#E6CF9E'];
+  const cols = ['#0A3D94', '#C4A062', '#3D6FD0', '#E4D0A3'];
   for (let i = 0; i < 18; i++) {
     const p = document.createElement('i'), a = Math.PI * 2 * i / 18 + Math.random() * .3, d = 40 + Math.random() * 44, z = 5 + Math.random() * 4, r = Math.random() * 360;
     p.className = 'cf'; p.style.cssText = `left:${x}px;top:${y}px;width:${z}px;height:${z}px;background:${cols[i % 4]};border-radius:${i % 3 ? 1.5 : z}px`;
@@ -880,22 +897,26 @@ function burst(host, x, y) {
 
 /* ---------- uvod ---------- */
 let introT = 0;
+const SLOGAN = 'Osijek se vozi s nama.';
 function intro() {
   const el = $('#intro');
-  el.innerHTML = `<div class="ib">${LOGO}<i class="gl"></i><p class="slog">Taxi za sve lokacije</p></div><img class="icar" src="${A}corolla-3d.webp" width="300" height="187" alt=""><div class="band"></div>`;
-  el.style.opacity = ''; el.hidden = false;
+  el.innerHTML = `<div class="ib">${LOGO}<i class="gl"></i><p class="slog">${SLOGAN}</p></div><div class="ic"><div class="ic-in"><i class="beam"></i><img src="${A}corolla-3d.webp" width="320" height="195" alt=""><i class="glow far" style="left:95.5%;top:55.5%"></i><i class="glow" style="left:71.4%;top:66%"></i></div></div><div class="band"></div>`;
+  el.style.opacity = ''; el.hidden = false; delete el.dataset.out;
+  const car = $('.ic', el), inn = $('.ic-in', el);
+  if (reduce) car.style.transform = 'none';
+  else {
+    car.animate([{ transform: 'translateX(-430px)' }, { transform: 'translateX(0)' }], { duration: 1150, delay: 250, easing: 'cubic-bezier(.12,.7,.2,1)', fill: 'both' });
+    inn.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(.8deg)', offset: .4 }, { transform: 'rotate(0)' }], { duration: 520, delay: 1250, easing: 'ease-out' });
+    el.querySelectorAll('.glow,.beam').forEach(g => g.animate([{ opacity: 0 }, { opacity: 1, offset: .16 }, { opacity: .1, offset: .38 }, { opacity: 1, offset: .58 }, { opacity: 0 }], { duration: 820, delay: 1650, easing: 'ease-out', fill: 'both' }));
+  }
   const end = () => {
     clearTimeout(introT); if (el.hidden || el.dataset.out) return; el.dataset.out = 1;
-    const car = $('.icar', el), lg = $('.lg', el);
-    if (!reduce) {
-      if (car) car.animate([{ transform: 'translateX(-160%)' }], { duration: 650, easing: 'cubic-bezier(.55,0,.8,.2)', fill: 'forwards' });
-      if (lg) lg.animate([{ transform: 'scale(1.06)', opacity: 0 }], { duration: 420, easing: 'ease-out', fill: 'forwards' });
-    }
-    const a = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduce ? 1 : 480, delay: reduce ? 0 : 240, easing: 'ease-out', fill: 'forwards' });
+    if (!reduce) car.animate([{ transform: 'translateX(470px)' }], { duration: 700, easing: 'cubic-bezier(.5,0,.85,.25)', fill: 'forwards' });
+    const a = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduce ? 1 : 420, delay: reduce ? 0 : 380, easing: 'ease-out', fill: 'forwards' });
     a.onfinish = () => { el.hidden = true; delete el.dataset.out; a.cancel(); };
   };
   el.onclick = end;
-  introT = setTimeout(end, reduce ? 500 : 2650);
+  introT = setTimeout(end, reduce ? 500 : 2700);
 }
 
 go('home');
