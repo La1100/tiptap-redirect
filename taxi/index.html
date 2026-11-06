@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Osječki taxi">
+<title>Osječki taxi: nova aplikacija</title>
+<meta name="description" content="Prototip nove putničke aplikacije Osječkog taxija: od upisa odredišta do ocjene vožnje.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Osječki taxi: nova aplikacija">
+<meta property="og:description" content="Isprobajte prototip: od upisa odredišta do ocjene vožnje.">
+<meta property="og:image" content="https://tiptapreviews.com/taxi/assets/og.png">
+<meta property="og:url" content="https://tiptapreviews.com/taxi">
+<link rel="icon" href="/taxi/assets/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="/taxi/assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A1426;--grey:#5D6675;--mute:#8A93A0;--line:#ECEEF1;--surf:#F3F4F6;--brand:#004498;--brand-d:#00347A;--brand-t:#EAF0FA;--gold:#C9A15A;--gold-t:#7A5A14;--gold-bg:#F7EFDD;--gold-bd:#E6CF9E;--loc:#2F6FEB;--s:1;--h:844px;--top:54px;--bot:30px;--ps:1}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:Onest,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#DFE4EA;overflow:hidden;-webkit-font-smoothing:antialiased;touch-action:manipulation}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:inherit}
+input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid rgba(0,68,152,.5);outline-offset:2px}
+[hidden]{display:none!important}
+/* okvir */
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;gap:76px;padding:24px}
+#side{width:330px;flex:none}
+#side .lg{width:150px;display:block}
+#side h1{font-size:34px;line-height:1.12;letter-spacing:-.02em;margin:24px 0 12px;font-weight:800}
+#side p{font-size:16px;line-height:1.55;color:var(--grey);margin:0 0 24px}
+#side .qr{display:flex;gap:16px;align-items:center;background:#fff;border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(10,20,38,.08)}
+#side .qr img{width:112px;height:112px;display:block;flex:none}
+#side .qr b{display:block;font-size:16px;margin-bottom:4px}
+#side .qr span{font-size:14px;color:var(--grey);line-height:1.45}
+#side .pnote{font-size:13px;line-height:1.5;color:var(--mute);margin-top:18px}
+#phone{position:relative;width:390px;height:844px;flex:none;border-radius:54px;box-shadow:0 0 0 11px #0D1118,0 0 0 13px #343C4A,0 40px 90px rgba(10,20,38,.35);transform:scale(var(--ps));transform-origin:center}
+#app{position:absolute;left:0;top:0;width:390px;height:var(--h);transform:scale(var(--s));transform-origin:0 0;overflow:hidden;background:#E9ECEF;border-radius:54px;isolation:isolate}
+body.ns #side{display:none}
+body.m #stage{display:block;padding:0}
+body.m #side{display:none}
+body.m #phone{width:100%;height:100%;border-radius:0;box-shadow:none;transform:none}
+body.m #app{border-radius:0}
+body.m #sbar{display:none}
+#sbar{position:absolute;left:0;right:0;top:0;height:54px;z-index:45;padding:6px 28px 0 42px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}
+#sbar b{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+#sbar i{position:absolute;left:132px;top:11px;width:126px;height:37px;border-radius:19px;background:#000}
+/* karta */
+#map{position:absolute;left:0;top:0;width:390px;height:844px;transition:transform .8s cubic-bezier(.2,.75,.2,1)}
+#map>img{position:absolute;left:0;top:0;width:390px;height:844px;pointer-events:none;user-select:none;-webkit-user-select:none}
+#ov{position:absolute;left:0;top:0;pointer-events:none}
+.car{position:absolute;left:0;top:0;pointer-events:none;filter:drop-shadow(0 2px 3px rgba(10,20,38,.3));transition:opacity .5s}
+.mk{position:absolute;pointer-events:none}
+.halo{width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(47,111,235,.16);animation:halo 2.6s ease-in-out infinite}
+@keyframes halo{50%{transform:scale(1.18)}}
+.me{width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:var(--loc);border:3.5px solid #fff;box-shadow:0 2px 8px rgba(10,20,38,.3)}
+.pk{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#fff;border:5px solid var(--brand);box-shadow:0 2px 6px rgba(10,20,38,.25)}
+.dst{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:4px;background:var(--brand);box-shadow:0 2px 6px rgba(10,20,38,.25);display:flex;align-items:center;justify-content:center}
+.dst::after{content:"";width:6px;height:6px;border-radius:1.5px;background:#fff}
+.lbl{transform:translate(calc(-100% - 14px),-50%);white-space:nowrap;height:30px;padding:0 11px;border-radius:15px;background:#fff;box-shadow:0 3px 12px rgba(10,20,38,.15);display:flex;align-items:center;font-size:13px;font-weight:700}
+.lbl.r{transform:translate(14px,-50%)}
+.eta{width:76px;height:46px;margin:-23px 0 0 -38px;transition:left .1s linear,top .1s linear}
+.eta-in{position:absolute;left:4px;top:4px;right:4px;bottom:4px;border-radius:10px;background:#fff;box-shadow:0 4px 14px rgba(10,20,38,.16);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap}
+.eta svg{position:absolute;left:0;top:0}
+.rings i{position:absolute;left:-150px;top:-150px;width:300px;height:300px;border-radius:50%;border:1.5px solid rgba(0,68,152,.35);background:rgba(0,68,152,.07);opacity:0;animation:ring 2.7s ease-out infinite}
+.rings i:nth-child(2){animation-delay:.9s}.rings i:nth-child(3){animation-delay:1.8s}
+@keyframes ring{0%{transform:scale(.12);opacity:.95}100%{transform:scale(1);opacity:0}}
+.flag{margin:-24px 0 0 -2px}
+/* plutajući gumbi */
+.fl{position:absolute;z-index:4;top:calc(var(--top) + 6px)}
+.fbtn{width:48px;height:48px;border-radius:24px;background:#fff;box-shadow:0 2px 12px rgba(10,20,38,.14);display:flex;align-items:center;justify-content:center}
+.logo-b{width:48px;height:48px;border-radius:15px;background:#fff;box-shadow:0 2px 12px rgba(10,20,38,.14);display:flex;align-items:center;justify-content:center}
+.logo-b img{width:38px;height:38px;display:block}
+.toppill{left:80px;right:80px;height:48px;border-radius:24px;background:#fff;box-shadow:0 2px 12px rgba(10,20,38,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 12px}
+.toppill small{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--grey)}
+.toppill small::before{content:"";width:7px;height:7px;border-radius:4px;background:var(--brand)}
+.toppill b{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+/* list */
+#sheets>.sheet{position:absolute;left:0;right:0;bottom:0;z-index:5;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -8px 28px rgba(10,20,38,.08);padding:8px 20px var(--bot);display:flex;flex-direction:column;max-height:calc(100% - var(--top) - 24px);overflow-y:auto;transition:transform .42s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.sheet.in{transform:translateY(100%)}
+.sheet.out{transform:translateY(30px);opacity:0;pointer-events:none}
+.grab{width:36px;height:5px;border-radius:3px;background:#D5D9DF;margin:0 auto 14px;flex:none}
+.t{margin:0;font-size:24px;font-weight:700;letter-spacing:-.015em}
+.t em{font-style:normal;color:var(--brand)}
+.sub{margin:4px 0 0;font-size:15px;line-height:1.4;color:var(--grey)}
+.tc{margin:0;text-align:center;font-size:20px;font-weight:700;letter-spacing:-.01em}
+.hr{height:1px;background:var(--line);margin:14px -20px 8px;flex:none}
+.sp{flex:1;min-height:12px}
+/* redovi */
+.list{display:flex;flex-direction:column}
+.row{display:flex;align-items:center;gap:14px;width:100%;min-height:62px;padding:8px 0;border-bottom:1px solid var(--line);text-align:left}
+.row:last-child{border-bottom:0}
+.ci{width:40px;height:40px;flex:none;border-radius:20px;background:var(--surf);display:flex;align-items:center;justify-content:center}
+.ci.gold{background:var(--gold-bg);color:var(--gold-t)}
+.ci.blue{background:var(--brand-t);color:var(--brand)}
+.rt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rt b{font-size:16px;font-weight:600}
+.rt small{font-size:14px;color:var(--grey);line-height:1.35}
+.chev{color:#9AA2AE;flex:none}
+/* gumbi */
+.btn{height:56px;flex:1;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:17px;font-weight:700;text-align:center;transition:background .15s,transform .1s}
+.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--brand);color:#fff}
+.btn.pri:active{background:var(--brand-d)}
+.btn.sec{background:var(--surf)}
+.btn.sq{flex:none;width:56px}
+.btn.danger{background:#FCE9EA;color:#B3261E}
+.btn.wide{width:100%;flex:none}
+.brow{display:flex;gap:10px;flex:none}
+.link{font-size:15px;font-weight:600;color:var(--brand);text-decoration:underline;text-underline-offset:3px}
+/* početna */
+.search{height:56px;flex:none;display:flex;align-items:center;gap:8px;padding:0 8px 0 16px;border-radius:16px;background:var(--surf)}
+.search>button:first-child{flex:1;height:100%;display:flex;align-items:center;gap:12px;font-size:19px;font-weight:700;letter-spacing:-.01em}
+.when{height:40px;padding:0 12px;border-radius:20px;background:#fff;box-shadow:0 1px 3px rgba(10,20,38,.1);display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;white-space:nowrap}
+.nav{flex:none;display:flex;justify-content:space-around;padding-top:8px;margin:6px -20px 0;border-top:1px solid var(--line);background:#fff}
+.nav button{width:96px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;color:var(--mute)}
+.nav button[aria-current]{color:var(--brand)}
+.page .nav{margin:0;padding-bottom:var(--bot)}
+/* odabir */
+.opt{display:flex;align-items:center;gap:10px;width:100%;padding:8px 14px 8px 2px;border-radius:16px;border:2.5px solid transparent;text-align:left;transition:border-color .15s}
+.opt[aria-checked=true]{border-color:var(--brand)}
+.opt-img{width:108px;flex:none;display:flex;justify-content:center}
+.opt-img img{display:block}
+.opt-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.opt-n{display:flex;align-items:center;gap:8px}
+.opt-n b{font-size:18px;font-weight:700}
+.seats{display:flex;align-items:center;gap:1px;font-size:13px;font-weight:600;color:var(--grey)}
+.opt-t small{font-size:14px;color:var(--grey)}
+.pts{align-self:flex-start;margin-top:2px;height:22px;padding:0 7px;border-radius:6px;background:var(--gold-bg);display:flex;align-items:center;font-size:12px;font-weight:700;color:var(--gold-t)}
+.opt-p{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.opt-p b{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.fix{display:flex;align-items:center;gap:3px;font-size:12px;font-weight:600;color:var(--gold-t)}
+/* traženje i vožnja */
+.prog{height:4px;border-radius:2px;background:var(--surf);margin-top:16px;overflow:hidden;flex:none}
+.prog i{display:block;height:100%;width:0;border-radius:2px;background:var(--brand);transition:width .3s linear}
+.prog.load i{animation:load 3.4s cubic-bezier(.3,.6,.4,1) forwards}
+@keyframes load{from{width:4%}to{width:96%}}
+.trip{display:flex;align-items:center;gap:12px;margin-top:18px}
+.dots{display:flex;flex-direction:column;align-items:center;gap:3px;flex:none}
+.dots i:first-child{width:10px;height:10px;border-radius:5px;border:3px solid var(--brand)}
+.dots i:nth-child(2){width:2px;height:16px;background:repeating-linear-gradient(#C3C9D2 0 3px,transparent 3px 6px)}
+.dots i:last-child{width:10px;height:10px;border-radius:2px;background:var(--brand)}
+.trip-n{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;font-size:15px;font-weight:600}
+.trip-p{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:none}
+.trip-p b{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.note{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border-radius:14px;background:var(--brand-t);font-size:14px;font-weight:500;color:var(--ink)}
+.note svg{color:var(--brand)}
+/* dolazak */
+.cc{margin-top:14px;position:relative;border-radius:18px;background:var(--surf);overflow:hidden;flex:none}
+.cc-l{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px 16px 22px;position:relative;z-index:1}
+.cc img{position:absolute;right:6px;bottom:9px;display:block}
+.chk{height:8px;background:repeating-conic-gradient(var(--brand) 0 25%,#fff 0 50%) 0 0/8px 8px}
+.plate{height:44px;display:flex;align-items:stretch;border-radius:8px;border:2px solid var(--ink);background:#fff;overflow:hidden;flex:none}
+.plate .eu{width:24px;background:#1D4FB8;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4px;gap:3px;font-size:9px;font-weight:800;color:#fff;line-height:1}
+.plate .no{display:flex;align-items:center;gap:7px;padding:0 12px;font-size:22px;font-weight:800;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.voz{height:36px;padding:0 12px;border-radius:12px;border:1.5px solid var(--gold-bd);background:var(--gold-bg);display:flex;flex-direction:column;justify-content:center;line-height:1.1;color:var(--gold-t);flex:none}
+.voz small{font-size:10.5px;font-weight:600}
+.voz b{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}
+.drv{display:flex;align-items:center;gap:12px;margin-top:14px;flex:none}
+.av{width:48px;height:48px;flex:none;border-radius:24px;background:var(--brand-t);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--brand)}
+.drv-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.drv-t b{font-size:17px;font-weight:700}
+.drv-t small{display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:var(--grey)}
+.cbtn{width:48px;height:48px;flex:none;border-radius:24px;background:var(--surf);display:flex;align-items:center;justify-content:center}
+/* kraj */
+.paid{margin-top:16px;padding:14px 16px;border-radius:18px;background:var(--surf);display:flex;align-items:center;justify-content:space-between;flex:none}
+.paid b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.paid small{font-size:14px;color:var(--grey)}
+.gp{height:28px;padding:0 10px;border-radius:14px;background:var(--gold-bg);display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--gold-t);flex:none}
+.earn{margin-top:8px;padding:10px 16px;border-radius:16px;background:var(--gold-bg);display:flex;align-items:center;gap:12px;flex:none;color:var(--gold-t)}
+.earn .coin{width:30px;height:30px;flex:none;border-radius:15px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#fff}
+.earn span{flex:1;font-size:15px}
+.earn b{font-weight:800}
+.earn small{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.h2{margin:20px 0 0;font-size:18px;font-weight:700}
+.stars{display:flex;gap:4px;margin-top:6px}
+.stars button{width:46px;height:46px;display:flex;align-items:center;justify-content:center;color:var(--gold);transition:transform .15s}
+.stars button.off{color:#D5D9DF}
+.stars button:active{transform:scale(.88)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{height:38px;padding:0 14px;border-radius:19px;background:var(--surf);border:1.5px solid var(--surf);font-size:14px;font-weight:600}
+.chip[aria-pressed=true]{background:var(--brand-t);border-color:var(--brand);color:var(--brand)}
+/* stranice */
+#pages{position:absolute;inset:0;z-index:20;pointer-events:none}
+.page{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;padding-top:var(--top);pointer-events:auto;transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.page.in-up{transform:translateY(100%)}
+.page.in-fade{opacity:0}
+.ph{display:flex;align-items:center;gap:8px;padding:6px 16px 4px 10px;min-height:56px;flex:none}
+.ph .fbtn{box-shadow:none;background:var(--surf);width:44px;height:44px}
+.ph h1{margin:0;font-size:20px;font-weight:700}
+.pb{flex:1;overflow-y:auto;padding:4px 20px 20px;-webkit-overflow-scrolling:touch}
+.ptitle{margin:4px 0 12px;font-size:30px;font-weight:800;letter-spacing:-.02em}
+.fields{display:flex;flex-direction:column;gap:8px;padding:2px 20px 12px;flex:none}
+.field{height:52px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:14px;background:var(--surf)}
+.field.on{background:#fff;box-shadow:inset 0 0 0 2px var(--brand)}
+.field input{flex:1;min-width:0;border:0;background:transparent;font-size:17px;font-weight:600;outline:none}
+.field input::placeholder{color:var(--mute);font-weight:500}
+.fd-p{width:10px;height:10px;flex:none;border-radius:5px;border:3px solid var(--brand)}
+.fd-d{width:10px;height:10px;flex:none;border-radius:2px;background:var(--brand)}
+.sect{margin:14px 0 2px;font-size:13px;font-weight:700;color:var(--mute)}
+.empty{padding:22px 4px;color:var(--grey);font-size:15px}
+/* račun */
+.prof{margin-top:14px;display:flex;align-items:center;gap:14px;width:100%;text-align:left}
+.prof .av{width:56px;height:56px;border-radius:28px;font-size:19px}
+.pc{margin-top:18px;position:relative;height:154px;padding:18px 26px;border-radius:20px;background:linear-gradient(135deg,#00347A,#004498);color:#fff;display:flex;flex-direction:column}
+.pc svg.brk{position:absolute;left:0;top:0;width:100%;height:100%}
+.pc .r1{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:500;color:rgba(255,255,255,.78)}
+.rang{height:26px;padding:0 10px;border-radius:13px;border:1px solid rgba(233,201,138,.6);display:flex;align-items:center;font-size:12px;font-weight:700;color:#E9C98A}
+.pc .r2{margin-top:6px;display:flex;align-items:baseline;gap:6px}
+.pc .r2 b{font-size:40px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pc .r2 span{font-size:16px;font-weight:600}
+.pbar{height:6px;border-radius:3px;background:rgba(255,255,255,.2);margin-top:auto;display:flex}
+.pbar i{border-radius:3px;background:var(--gold)}
+.pc .r3{margin-top:7px;font-size:13px;color:rgba(255,255,255,.78)}
+.tiles{margin-top:12px;display:flex;gap:10px}
+.tile{flex:1;height:84px;border-radius:16px;background:var(--surf);display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:14px;font-size:14px;font-weight:600;white-space:nowrap}
+.tile svg{color:var(--brand)}
+.rides .row{min-height:70px}
+.cmp .row{min-height:54px;padding:6px 0}
+.ride-p{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}
+.ride-p b{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.ride-p small{font-size:13px;color:var(--grey)}
+/* modal */
+#modal{position:absolute;inset:0;z-index:30;pointer-events:none}
+#modal.on{pointer-events:auto}
+.mb{position:absolute;inset:0;background:rgba(10,20,38,.4);opacity:0;transition:opacity .3s}
+#modal.on .mb{opacity:1}
+.ms{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:8px 20px var(--bot);max-height:88%;overflow-y:auto;transform:translateY(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1)}
+#modal.on .ms{transform:none}
+.mt{margin:2px 0 6px;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.msub{margin:0 0 16px;font-size:15px;line-height:1.45;color:var(--grey)}
+.tel{display:flex;align-items:center;gap:10px;height:56px;padding:0 16px;border-radius:14px;background:var(--surf);margin-bottom:12px}
+.tel span{font-size:18px;font-weight:700;flex:none}
+.tel input{flex:1;min-width:0;border:0;background:transparent;font-size:18px;font-weight:600;outline:none}
+.tel.err{box-shadow:inset 0 0 0 2px #D93025}
+.err-t{margin:-4px 0 10px;font-size:14px;color:#B3261E}
+.otp{display:flex;gap:10px;margin-bottom:16px}
+.otp span{width:58px;height:64px;border-radius:14px;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;transition:background .2s,box-shadow .2s}
+.otp span.f{background:#fff;box-shadow:inset 0 0 0 2px var(--brand)}
+.inp{width:100%;height:56px;padding:0 16px;border-radius:14px;border:0;background:var(--surf);font-size:17px;font-weight:600;outline:none;margin-bottom:12px}
+.inp:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--brand)}
+textarea.inp{height:84px;padding:14px 16px;resize:none;font-weight:500}
+.sw{width:51px;height:31px;border-radius:16px;background:#D5D9DF;position:relative;transition:background .2s;flex:none}
+.sw::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .2s}
+.sw.on{background:var(--brand)}
+.sw.on::after{transform:translateX(20px)}
+.seg{display:flex;gap:6px;padding:4px;border-radius:14px;background:var(--surf);margin-bottom:14px}
+.seg button{flex:1;height:40px;border-radius:10px;font-size:15px;font-weight:600;text-align:center}
+.seg button[aria-pressed=true]{background:#fff;box-shadow:0 1px 4px rgba(10,20,38,.12)}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.slots button{height:44px;border-radius:12px;background:var(--surf);font-size:15px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
+.slots button[aria-pressed=true]{background:var(--brand);color:#fff}
+.check{color:var(--brand)}
+.code{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 18px;border-radius:14px;border:1.5px dashed var(--gold-bd);background:var(--gold-bg);font-size:22px;font-weight:800;letter-spacing:.08em;color:var(--gold-t);margin-bottom:14px}
+.kv{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.kv span{color:var(--grey)}
+.kv b{font-weight:600;text-align:right}
+/* obavijest */
+#toast{position:absolute;left:10px;right:10px;top:calc(var(--top) + 4px);z-index:40;background:rgba(255,255,255,.97);border-radius:20px;box-shadow:0 10px 30px rgba(10,20,38,.2);padding:12px 14px;display:flex;gap:12px;align-items:center;transform:translateY(calc(-100% - var(--top) - 24px));transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#toast.show{transform:none}
+#toast img{width:38px;height:38px;border-radius:10px;flex:none;border:1px solid var(--line)}
+#toast b{display:block;font-size:15px;font-weight:700}
+#toast span{font-size:14px;color:var(--grey);line-height:1.35}
+/* intro */
+#intro{position:absolute;inset:0;z-index:60;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;cursor:pointer}
+#intro .lg{width:236px;overflow:visible}
+#intro .br path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .75s cubic-bezier(.6,0,.2,1) forwards}
+#intro .dt circle{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop .3s cubic-bezier(.3,1.6,.5,1) .55s forwards}
+#intro .bg{opacity:0;transform:translateY(10px);animation:rise .55s cubic-bezier(.2,.8,.2,1) .3s forwards}
+#intro .s1,#intro .s2,#intro .slog{opacity:0;animation:fade .45s .75s forwards}
+#intro .slog{margin:0;font-size:15px;font-weight:600;color:var(--grey);letter-spacing:.01em}
+#intro .band{position:absolute;left:0;right:0;bottom:calc(var(--bot) + 36px);height:16px;background:repeating-conic-gradient(var(--brand) 0 25%,#fff 0 50%) 0 0/16px 16px;transform:scaleX(0);transform-origin:left;animation:band .8s cubic-bezier(.6,0,.2,1) .5s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:scale(1)}}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes fade{to{opacity:1}}
+@keyframes band{to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="stage">
+<aside id="side" aria-label="O prototipu">
+<svg class="lg" viewBox="0 0 240 140" role="img" aria-label="Osječki Taxi, 031 200 200"><g fill="none" stroke="#004498" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 52V22Q10 12 20 12H80M160 12H220Q230 12 230 22V52M230 88V118Q230 128 220 128H178M62 128H20Q10 128 10 118V88"/></g><g fill="#004498"><circle cx="10" cy="61" r="4.6"/><circle cx="89" cy="12" r="4.6"/><circle cx="151" cy="12" r="4.6"/><circle cx="230" cy="61" r="4.6"/><circle cx="230" cy="79" r="4.6"/><circle cx="169" cy="128" r="4.6"/><circle cx="71" cy="128" r="4.6"/><circle cx="10" cy="79" r="4.6"/></g><g fill="#004498" font-family="Onest, system-ui, sans-serif" text-anchor="middle"><text x="120" y="19" font-size="17" font-weight="700">031</text><text x="120" y="88" font-size="50" font-weight="800" letter-spacing="-1">200 200</text><text x="120" y="132.5" font-size="10.5" font-weight="700" letter-spacing="1.8">OSJEČKI TAXI</text></g></svg>
+<h1>Nova aplikacija Osječkog taxija</h1>
+<p>Isprobajte kako putnik naručuje taxi, od upisa odredišta do ocjene vožnje. Sve na ekranu je klikabilno.</p>
+<div class="qr"><img src="/taxi/assets/qr.svg" alt="QR kod za otvaranje na mobitelu"><div><b>Otvorite na mobitelu</b><span>Skenirajte kamerom mobitela, aplikacija se otvara preko cijelog ekrana.</span></div></div>
+<p class="pnote">Prototip za pregled. Cijene, vozači i vozila su primjeri.</p>
+</aside>
+<div id="phone"><div id="app">
+<div id="map"><img src="/taxi/assets/karta.svg" alt="" draggable="false"><svg id="ov" width="390" height="844" viewBox="0 0 390 844"></svg><div id="cars"></div><div id="mk"></div></div>
+<div id="fl"></div>
+<div id="sheets"></div>
+<div id="pages"></div>
+<div id="modal"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="sbar" aria-hidden="true"><b id="clock">16:31</b><i></i><svg width="70" height="13" viewBox="0 0 70 13"><g fill="#0A1426"><rect x="0" y="7.5" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6" rx="1"/><rect x="10" y="3" width="3" height="8.5" rx="1"/><rect x="15" y=".5" width="3" height="11" rx="1"/></g><g fill="none" stroke="#0A1426" stroke-width="1.8" stroke-linecap="round"><path d="M24.5 4.6a9.5 9.5 0 0 1 13 0M27 7.3a6 6 0 0 1 8 0"/></g><circle cx="31" cy="10.2" r="1.2" fill="#0A1426"/><rect x="42.5" y=".5" width="24" height="12" rx="3.5" fill="none" stroke="#0A1426" stroke-opacity=".4"/><rect x="44.5" y="2.5" width="17" height="8" rx="2" fill="#0A1426"/><rect x="67.6" y="4.5" width="1.8" height="4" rx=".9" fill="#0A1426" fill-opacity=".45"/></svg></div>
+<div id="intro" hidden></div>
+</div></div>
+</div>
+<div id="probe" style="position:fixed;top:0;left:0;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);visibility:hidden;pointer-events:none"></div>
+<script>
+(() => {
+'use strict';
+const A = '/taxi/assets/';
+const $ = (s, r = document) => r.querySelector(s);
+const app = $('#app'), mapEl = $('#map'), ov = $('#ov'), carsEl = $('#cars'), mk = $('#mk'), fl = $('#fl'), sheetsEl = $('#sheets'), pagesEl = $('#pages'), modalEl = $('#modal'), toastEl = $('#toast');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- ikone ---------- */
+const I = {
+  search: '<circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  home: '<path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>',
+  plane: '<path d="M3 13.5l7.5-2.2V5.5a1.5 1.5 0 0 1 3 0v5.8l7.5 2.2v2l-7.5-1.7v4.4l2.2 1.6V21L12 20l-3.7 1v-1.2l2.2-1.6v-4.4L3 15.5z"/>',
+  bus: '<rect x="5" y="3" width="14" height="15" rx="3"/><path d="M5 11h14M8 21v-3M16 21v-3"/><circle cx="8.5" cy="14.5" r=".6"/><circle cx="15.5" cy="14.5" r=".6"/>',
+  train: '<rect x="6" y="3" width="12" height="14" rx="3"/><path d="M6 10h12M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9.5" cy="13.5" r=".6"/><circle cx="14.5" cy="13.5" r=".6"/>',
+  pin: '<path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  chev_r: '<path d="M9 6l6 6-6 6"/>', chev_d: '<path d="M6 9l6 6 6-6"/>', back: '<path d="M19 12H5M11 18l-6-6 6-6"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+  msg: '<path d="M4 5h16v11H9l-5 4z"/>',
+  share: '<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/>',
+  shield: '<path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',
+  cash: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+  card: '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/>',
+  cal: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  seat: '<path d="M9 4h4a3 3 0 0 1 3 3v5H9z"/><path d="M6 12h12l-1.5 6h-9z"/><path d="M8.5 18v3M15.5 18v3"/>',
+  bag: '<rect x="6" y="7" width="12" height="13" rx="2"/><path d="M9.5 7V4h5v3M10 11v5M14 11v5"/>',
+  sliders: '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+  headset: '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>',
+  wallet: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 14.5h2"/>',
+  gift: '<rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M3 7h18v3H3zM12 7v13"/><path d="M12 7C10 3 6.5 3.5 7 5.5S10 7 12 7c2 0 4.5 0 5-1.5S14 3 12 7"/>',
+  userplus: '<circle cx="10" cy="8" r="4"/><path d="M3 21c1.2-3.6 3.8-5.5 7-5.5s5.2 1.4 6 3M18 12v6M15 15h6"/>',
+  history: '<path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"/><path d="M3.5 3.5v5h5M12 8v4.5l3 2"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.3 2.4c-.6.3-.9.8-.9 1.4v.6M12 17h.01"/>',
+  car: '<path d="M10 3.5h4v2.5h-4z"/><path d="M4 13l1.8-5a2 2 0 0 1 1.9-1.4h8.6a2 2 0 0 1 1.9 1.4L20 13v5a1 1 0 0 1-1 1h-1.5a1 1 0 0 1-1-1v-1h-9v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 13h16"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>', bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/>',
+  out: '<path d="M14 5h4a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-4M10 16l-4-4 4-4M6 12h10"/>', refresh: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>',
+  sos: '<path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/>', doc: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>',
+};
+const FI = {
+  person: '<circle cx="12" cy="7.5" r="3.6"/><path d="M5 20.5c.6-4.3 3.4-7 7-7s6.4 2.7 7 7z"/>',
+  star: '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>',
+  paw: '<circle cx="6.5" cy="10.5" r="2"/><circle cx="10" cy="6.5" r="2"/><circle cx="14.5" cy="6.5" r="2"/><circle cx="18" cy="10.5" r="2"/><path d="M7.5 17.5c0-3.2 2.1-5.8 4.6-5.8s4.6 2.6 4.6 5.8c0 1.9-2 2.7-4.6 2.7s-4.6-.8-4.6-2.7z"/>',
+};
+function ic(n, s = 22, c = 'currentColor', w = 2) {
+  if (FI[n]) return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}" aria-hidden="true" style="flex:none;display:block">${FI[n]}</svg>`;
+  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;display:block">${I[n]}</svg>`;
+}
+const CHEV = `<span class="chev">${ic('chev_r', 18, 'currentColor', 2.2)}</span>`;
+const BR = '<svg width="76" height="46" viewBox="0 0 76 46" aria-hidden="true"><path d="M2 14V5Q2 2 5 2H14M62 2H71Q74 2 74 5V14M74 32V41Q74 44 71 44H62M14 44H5Q2 44 2 41V32" fill="none" stroke="#004498" stroke-width="2" stroke-linecap="round"/><g fill="#004498"><circle cx="2" cy="16" r="2"/><circle cx="16" cy="2" r="2"/><circle cx="60" cy="2" r="2"/><circle cx="74" cy="16" r="2"/><circle cx="74" cy="30" r="2"/><circle cx="60" cy="44" r="2"/><circle cx="16" cy="44" r="2"/><circle cx="2" cy="30" r="2"/></g></svg>';
+const LOGO = `<svg class="lg" viewBox="0 0 240 140" role="img" aria-label="Osječki Taxi, 031 200 200"><g class="br" fill="none" stroke="#004498" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path pathLength="1" d="M10 52V22Q10 12 20 12H80"/><path pathLength="1" d="M160 12H220Q230 12 230 22V52"/><path pathLength="1" d="M230 88V118Q230 128 220 128H178"/><path pathLength="1" d="M62 128H20Q10 128 10 118V88"/></g><g class="dt" fill="#004498"><circle cx="10" cy="61" r="4.6"/><circle cx="89" cy="12" r="4.6"/><circle cx="151" cy="12" r="4.6"/><circle cx="230" cy="61" r="4.6"/><circle cx="230" cy="79" r="4.6"/><circle cx="169" cy="128" r="4.6"/><circle cx="71" cy="128" r="4.6"/><circle cx="10" cy="79" r="4.6"/></g><g fill="#004498" font-family="Onest, system-ui, sans-serif" text-anchor="middle"><text class="s1" x="120" y="19" font-size="17" font-weight="700">031</text><text class="bg" x="120" y="88" font-size="50" font-weight="800" letter-spacing="-1">200 200</text><text class="s2" x="120" y="132.5" font-size="10.5" font-weight="700" letter-spacing="1.8">OSJEČKI TAXI</text></g></svg>`;
+const FLAG = '<svg width="30" height="22" viewBox="0 0 30 22" aria-hidden="true" style="flex:none;display:block"><path d="M2 1v20" stroke="#0A1426" stroke-width="2" stroke-linecap="round"/>' + [0, 1, 2].map(r => [0, 1, 2, 3].map(c => `<rect x="${4 + c * 6.5}" y="${1 + r * 4.5}" width="6.5" height="4.5" fill="${(r + c) % 2 ? '#fff' : '#004498'}"/>`).join('')).join('') + '<rect x="4" y="1" width="26" height="13.5" fill="none" stroke="#004498" stroke-width="1"/></svg>';
+const SAH = '<svg width="12" height="15" viewBox="0 0 12 15" aria-hidden="true"><path d="M1 1h10v7c0 3.5-2.5 5.5-5 6.5C3.5 13.5 1 11.5 1 8z" fill="#fff" stroke="#0A1426" stroke-width=".8"/><g fill="#D2232A"><rect x="1" y="1" width="2" height="2"/><rect x="5" y="1" width="2" height="2"/><rect x="9" y="1" width="2" height="2"/><rect x="3" y="3" width="2" height="2"/><rect x="7" y="3" width="2" height="2"/><rect x="1" y="5" width="2" height="2"/><rect x="5" y="5" width="2" height="2"/><rect x="9" y="5" width="2" height="2"/><rect x="3" y="7" width="2" height="2"/><rect x="7" y="7" width="2" height="2"/><rect x="5" y="9" width="2" height="2"/></g></svg>';
+const EUS = '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><g fill="#F4C430">' + [...Array(8)].map((_, i) => { const a = i * Math.PI / 4 - Math.PI / 2; return `<circle cx="${(7 + 5 * Math.cos(a)).toFixed(1)}" cy="${(6.6 + 5 * Math.sin(a)).toFixed(1)}" r=".9"/>`; }).join('') + '</g></svg>';
+const plate = p => { const [a, b] = p.split(' '); return `<div class="plate" role="img" aria-label="Registracija ${p}"><span class="eu">${EUS}HR</span><span class="no">${a}${SAH}${b}</span></div>`; };
+
+/* ---------- podaci ---------- */
+const P = [96, 304];
+const PICK = [[200, 388.3], [99.8, 400], [96.7, 322]];
+const PLACES = [
+  { id: 'kuca', name: 'Kuća', sub: 'Sjenjak, Osijek', icon: 'home', route: [[96, 304], [99.8, 400], [250, 382.5], [252.6, 470]], km: '2,6', min: 8, taxi: 6.9, saved: true },
+  { id: 'tvrdja', name: 'Tvrđa, Trg Svetog Trojstva', short: 'Tvrđa, Trg Sv. Trojstva', sub: 'Tvrđa, Osijek', icon: 'clock', route: [[96, 304], [276, 283.3], [278, 261], [292, 258]], km: '2,1', min: 7, taxi: 6.3, recent: true },
+  { id: 'zracna', name: 'Zračna luka Osijek', sub: 'Klisa', icon: 'plane', route: [[96, 304], [99.8, 400], [376, 367.7]], km: '20', min: 22, taxi: 31, edge: 'Klisa, 20 km', recent: true },
+  { id: 'kolodvor', name: 'Autobusni kolodvor', sub: 'Trg Lavoslava Ružičke', icon: 'bus', route: [[96, 304], [99.8, 400], [102.6, 470]], km: '1,6', min: 5, taxi: 5.6 },
+  { id: 'vlak', name: 'Željeznički kolodvor', sub: 'Trg Lavoslava Ružičke', icon: 'train', route: [[96, 304], [99.8, 400], [102.6, 470]], km: '1,6', min: 5, taxi: 5.6 },
+  { id: 'copacabana', name: 'Copacabana', sub: 'Lijeva obala Drave', icon: 'pin', route: [[96, 304], [338, 276.2], [343, 250], [353, 210], [358, 166], [362.6, 128]], km: '3,2', min: 9, taxi: 7.4 },
+  { id: 'kbc', name: 'KBC Osijek', sub: 'Ulica Josipa Huttlera 4', icon: 'pin', route: [[96, 304], [99.8, 400], [30, 449.6]], km: '2,8', min: 8, taxi: 7.1 },
+  { id: 'portanova', name: 'Portanova', sub: 'Trgovački centar, Svilajska', icon: 'pin', route: [[96, 304], [99.8, 400], [14, 460.9]], km: '6,4', min: 14, taxi: 12.4, edge: 'Portanova, 6 km', edgeR: true },
+];
+PLACES.forEach(p => { p.van = Math.round(p.taxi * 1.49 * 10) / 10; p.short = p.short || p.name; });
+const byId = id => PLACES.find(p => p.id === id);
+const VEH = {
+  taxi: { model: 'Bijela Toyota Corolla', short: 'Toyota Corolla', plate: 'OS 482-KT', num: '07', driver: 'Petar', acc: 'Petra', dat: 'Petru', rating: '4,9', img: 'corolla-34.svg', iw: 176, ih: 88.7, eta: 2 },
+  van: { model: 'Bijeli Opel kombi', short: 'Opel kombi', plate: 'OS 731-KT', num: '12', driver: 'Marko', acc: 'Marka', dat: 'Marku', rating: '4,8', img: 'kombi-34.svg', iw: 166, ih: 88.9, eta: 6 },
+};
+const AMB = [
+  { path: [[400, 268], [96, 304], [-10, 316.2]], kind: 'taxi', speed: 15, t: .62 },
+  { path: [[104.6, 520], [99.8, 400], [96, 304], [94.3, 262], [60, 258], [-10, 251]], kind: 'taxi', speed: 12, t: .2 },
+  { path: [[-10, 412.9], [400, 364.9]], kind: 'taxi', speed: 14, t: .82 },
+  { path: [[-10, 251], [60, 258], [140, 260], [210, 252], [250, 240], [300, 228], [352, 211], [410, 190]], kind: 'van', speed: 11, t: .5 },
+  { path: [[-10, 251], [60, 258], [140, 260], [178, 259], [181, 330], [186, 520]], kind: 'taxi', speed: 11, t: .55 },
+];
+const SAMPLE = [
+  { date: '3. stu', time: '07:12', from: 'Sjenjak', dest: 'Zračna luka Osijek', price: 31, pay: 'Kartica u vozilu', veh: 'Vozilo 15, OS 205-KT', driver: 'Ivan' },
+  { date: '28. lis', time: '19:40', from: 'Trg Ante Starčevića', dest: 'KBC Osijek', price: 7.1, pay: 'Gotovina', veh: 'Vozilo 07, OS 482-KT', driver: 'Petar' },
+];
+
+/* ---------- stanje ---------- */
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('otx_' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('otx_' + k, JSON.stringify(v)); } catch (e) {} },
+};
+const S = { dest: byId('tvrdja'), opt: 'taxi', extras: { seat: false, pet: false, bag: false, note: '' }, pay: 'Gotovina', when: null, scheduled: store.get('sched', null), user: store.get('user', null), points: store.get('points', 320), rides: store.get('rides', []), rating: 5, chips: ['Točan dolazak', 'Ugodna vožnja'] };
+let cur = null, anim = null, T = 0, assigned = null, lastCam = null, M = {};
+
+/* ---------- pomoćne ---------- */
+const eur = v => v.toFixed(2).replace('.', ',') + ' €';
+const hm = d => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+const MJ = ['sij', 'velj', 'ožu', 'tra', 'svi', 'lip', 'srp', 'kol', 'ruj', 'lis', 'stu', 'pro'];
+const bod = n => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? 'bod' : a >= 2 && a <= 4 && (b < 12 || b > 14) ? 'boda' : 'bodova'; };
+const norm = s => s.toLowerCase().replace(/đ/g, 'd').normalize('NFD').replace(/[̀-ͯ]/g, '');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const at = (x, y) => `left:${x}px;top:${y}px`;
+const ease = p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+const firstName = () => (S.user && S.user.name ? S.user.name.split(' ')[0] : '');
+function pat(pts, t) {
+  const L = []; let tot = 0;
+  for (let i = 1; i < pts.length; i++) { const l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); L.push(l); tot += l; }
+  let d = Math.max(0, Math.min(1, t)) * tot;
+  for (let i = 0; i < L.length; i++) {
+    if (d <= L[i] || i === L.length - 1) {
+      const a = pts[i], b = pts[i + 1], k = L[i] ? Math.min(1, d / L[i]) : 0;
+      return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, Math.atan2(b[0] - a[0], -(b[1] - a[1])) * 180 / Math.PI, i];
+    }
+    d -= L[i];
+  }
+}
+const rest = (pts, t) => { const [x, y, , i] = pat(pts, t); return [[x, y]].concat(pts.slice(i + 1)); };
+function plen(pts) { let t = 0; for (let i = 1; i < pts.length; i++) t += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); return t; }
+
+/* ---------- veličina i okvir ---------- */
+let TOP = 54, BOT = 30, camExtra = [];
+function layout() {
+  const mob = innerWidth < 700;
+  document.body.classList.toggle('m', mob);
+  document.body.classList.toggle('ns', !mob && innerWidth < 900);
+  const st = app.style;
+  if (mob) {
+    const s = innerWidth / 390, pr = getComputedStyle($('#probe'));
+    const sat = parseFloat(pr.paddingTop) || 0, sab = parseFloat(pr.paddingBottom) || 0;
+    TOP = Math.round(sat / s + 10); BOT = Math.round(sab / s + 16);
+    st.setProperty('--s', s); st.setProperty('--h', (innerHeight / s) + 'px');
+  } else {
+    TOP = 54; BOT = 30;
+    st.setProperty('--s', 1); st.setProperty('--h', '844px');
+    document.documentElement.style.setProperty('--ps', Math.min(1, (innerHeight - 48) / 870));
+  }
+  st.setProperty('--top', TOP + 'px'); st.setProperty('--bot', BOT + 'px');
+}
+addEventListener('resize', () => { layout(); if (lastCam) cam(lastCam, null); });
+layout();
+const clk = () => { const c = $('#clock'); if (c) c.textContent = hm(new Date()); };
+clk(); setInterval(clk, 15000);
+
+/* ---------- karta ---------- */
+function carEl(kind) {
+  const im = new Image(), van = kind === 'van' || kind === 'bigvan';
+  im.src = A + (van ? 'kombi-odozgo.svg' : 'taxi-odozgo.svg'); im.alt = ''; im.className = 'car';
+  const [w, h] = { taxi: [21, 46.5], van: [22.5, 52.5], big: [25, 55.4], bigvan: [25, 58.3] }[kind];
+  Object.assign(im.style, { width: w + 'px', height: h + 'px', marginLeft: -w / 2 + 'px', marginTop: -h / 2 + 'px' });
+  carsEl.appendChild(im); return im;
+}
+const place = (el, x, y, r) => { el.style.transform = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px) rotate(${r.toFixed(1)}deg)`; };
+AMB.forEach(a => { a.el = carEl(a.kind); a.L = plen(a.path); });
+let ambOn = true;
+function route(pts, faded) {
+  if (!pts) { ov.innerHTML = ''; return; }
+  const d = 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L'), o = faded ? ' opacity=".4"' : '';
+  ov.innerHTML = `<path d="${d}" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"${o}/><path d="${d}" fill="none" stroke="#004498" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"${o}/>`;
+}
+const marks = h => { mk.innerHTML = h; };
+const etaHTML = (x, y, t, id) => `<div class="mk eta"${id ? ` id="${id}"` : ''} style="${at(x, y)}"><div class="eta-in">${t}</div>${BR}</div>`;
+function cam(pts, extra) {
+  lastCam = pts; if (extra) camExtra = extra; else if (extra === undefined) camExtra = [];
+  const H = app.offsetHeight, sh = sheetsEl.lastElementChild;
+  const top = TOP + 68, bottom = H - (sh ? sh.offsetHeight : 0) - 34, win = bottom - top;
+  const all = pts.concat(camExtra), span = a => Math.max(...a.map(p => p[1])) - Math.min(...a.map(p => p[1]));
+  const use = span(all) <= win ? all : pts;
+  const ys = use.map(p => p[1]), mn = Math.min(...ys), mx = Math.max(...ys);
+  let y = mx - mn <= win ? top + (win - (mx - mn)) / 2 - mn : top - mn;
+  y = Math.min(0, Math.max(y, bottom - 844));
+  mapEl.style.transform = `translateY(${y.toFixed(1)}px)`;
+}
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  for (const a of AMB) {
+    if (!reduce) { a.t += a.speed * dt / a.L; if (a.t > 1) a.t -= 1; }
+    const [x, y, r] = pat(a.path, a.t); place(a.el, x, y, r); a.el.style.opacity = ambOn ? 1 : 0;
+  }
+  if (anim) anim(now);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ---------- slojevi ---------- */
+function sheet(html) {
+  [...sheetsEl.children].forEach(o => { o.classList.add('out'); setTimeout(() => o.remove(), 320); });
+  const el = document.createElement('div'); el.className = 'sheet in'; el.innerHTML = '<div class="grab"></div>' + html;
+  sheetsEl.appendChild(el); el.getBoundingClientRect();
+  requestAnimationFrame(() => el.classList.remove('in'));
+  return el;
+}
+const curSheet = () => sheetsEl.lastElementChild;
+function page(html, how = 'fade') {
+  const old = [...pagesEl.children];
+  const el = document.createElement('div'); el.className = 'page in-' + how; el.innerHTML = html;
+  pagesEl.appendChild(el); el.getBoundingClientRect();
+  requestAnimationFrame(() => el.classList.remove('in-' + how));
+  old.forEach(o => setTimeout(() => o.remove(), 400));
+  return el;
+}
+function closePages() { [...pagesEl.children].forEach(o => { o.classList.add('in-up'); setTimeout(() => o.remove(), 380); }); }
+function modal(html, onMount) {
+  modalEl.innerHTML = `<div class="mb" data-act="close"></div><div class="ms" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;
+  modalEl.getBoundingClientRect(); modalEl.classList.add('on');
+  if (onMount) setTimeout(() => onMount(modalEl), 30);
+}
+function closeModal(now) {
+  modalEl.classList.remove('on');
+  if (now) modalEl.innerHTML = ''; else setTimeout(() => { if (!modalEl.classList.contains('on')) modalEl.innerHTML = ''; }, 400);
+}
+let tT = 0;
+function toast(title, text) {
+  toastEl.innerHTML = `<img src="${A}logo.webp" alt=""><div><b>${title}</b><span>${text}</span></div>`;
+  toastEl.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => toastEl.classList.remove('show'), 3200);
+}
+const navHTML = a => `<nav class="nav" aria-label="Glavni izbornik">${[['home', 'Naruči', 'car'], ['rides', 'Vožnje', 'history'], ['account', 'Račun', 'user']].map(([k, l, i]) => `<button data-tab="${k}"${a === k ? ' aria-current="page"' : ''}>${ic(i, 24)}${l}</button>`).join('')}</nav>`;
+const rowHTML = (icon, title, sub, attrs = '', cls = '', chev = true) => `<button class="row" ${attrs}><span class="ci ${cls}">${ic(icon, 20)}</span><span class="rt"><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</span>${chev ? CHEV : ''}</button>`;
+function cleanupRide() { anim = null; clearTimeout(T); if (assigned) { assigned.remove(); assigned = null; } }
+
+/* ---------- ekrani ---------- */
+const SCR = {};
+const FLOW = ['searching', 'arriving', 'ride', 'done'];
+function go(name, o = {}, fromPop) {
+  closeModal(true); clearTimeout(T); anim = null;
+  if (!fromPop && name !== 'home' && !FLOW.includes(name) && !FLOW.includes(cur)) { try { history.pushState({ s: name }, ''); } catch (e) {} }
+  cur = name; SCR[name](o);
+  setTimeout(() => { if (lastCam) cam(lastCam, null); }, 160);
+}
+addEventListener('popstate', () => {
+  if (modalEl.classList.contains('on')) { closeModal(); return; }
+  if (FLOW.includes(cur)) { if (cur === 'searching' || cur === 'arriving') MOD.cancel(); return; }
+  if (cur !== 'home') go('home', {}, true);
+});
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (lastCam) cam(lastCam, null); });
+
+SCR.home = () => {
+  cleanupRide(); closePages(); ambOn = true; route(null);
+  marks(`<div class="mk halo" style="${at(...P)}"></div><div class="mk me" style="${at(...P)}"></div>`);
+  fl.innerHTML = `<button class="fl logo-b" style="left:20px" data-act="intro" aria-label="Osječki Taxi, ponovi uvod"><img src="${A}logo.webp" alt=""></button><button class="fl fbtn" style="right:20px" data-tab="account" aria-label="Račun">${ic('user')}</button>`;
+  const sch = S.scheduled ? `<button class="row" data-act="schedinfo"><span class="ci gold">${ic('cal', 20)}</span><span class="rt"><b>Zakazano: ${esc(S.scheduled.dest)}</b><small>${esc(S.scheduled.label)}, ${S.scheduled.opt === 'van' ? 'kombi' : 'taxi'}</small></span>${CHEV}</button>` : '';
+  sheet(`<div class="search"><button data-go="search">${ic('search', 22, 'currentColor', 2.4)}<span>Kamo idete?</span></button><button class="when" data-act="when">${ic('clock', 16, 'currentColor', 2.2)}${S.when ? S.when.label : 'Odmah'}${ic('chev_d', 14, 'currentColor', 2.4)}</button></div>
+<div class="list" style="margin-top:4px">${sch}
+${rowHTML('home', 'Kuća', 'Sjenjak, Osijek', 'data-dest="kuca"')}
+${rowHTML('clock', 'Tvrđa, Trg Svetog Trojstva', 'Tvrđa, Osijek', 'data-dest="tvrdja"')}
+${rowHTML('plane', 'Zračna luka Osijek', 'Klisa', 'data-dest="zracna"')}
+${rowHTML('phone', 'Radije telefonom?', 'Centrala 031 200 200, 0–24 h', 'data-act="central"', 'gold', false)}
+</div><div class="sp"></div>${navHTML('home')}`);
+  cam([[P[0], P[1] - 60], [P[0], P[1] + 60]]);
+};
+
+function suggHTML(q) {
+  const n = norm(q.trim());
+  const list = PLACES.filter(p => !n || norm(p.name + ' ' + p.sub).includes(n));
+  if (!list.length) return `<p class="empty">Nema rezultata za „${esc(q)}”. U pravoj aplikaciji ovdje se pretražuju sve adrese u Osijeku.</p>`;
+  const saved = list.filter(p => p.saved), rec = list.filter(p => p.recent), other = list.filter(p => !p.saved && !p.recent);
+  const grp = (t, a) => a.length ? `<p class="sect">${t}</p>` + a.map(p => rowHTML(p.icon === 'clock' && !p.recent ? 'pin' : p.icon, p.name, p.sub, `data-dest="${p.id}"`)).join('') : '';
+  return n ? list.map(p => rowHTML(p.icon, p.name, p.sub, `data-dest="${p.id}"`)).join('') : grp('Spremljeno', saved) + grp('Nedavno', rec) + grp('Popularno u Osijeku', other);
+}
+SCR.search = () => {
+  const el = page(`<div class="ph"><button class="fbtn" data-tab="home" aria-label="Natrag">${ic('back')}</button><h1>Kamo idete?</h1></div>
+<div class="fields"><label class="field"><span class="fd-p"></span><input value="Trg Ante Starčevića" aria-label="Polazište"></label><label class="field on"><span class="fd-d"></span><input id="q" placeholder="Upišite odredište" autocomplete="off" aria-label="Odredište"></label></div>
+<div class="pb"><div class="list" id="sugg">${suggHTML('')}</div></div>`, 'up');
+  const q = $('#q', el); q.focus({ preventScroll: true });
+  q.addEventListener('input', () => { $('#sugg', el).innerHTML = suggHTML(q.value); });
+};
+
+function optHTML(k) {
+  const d = S.dest, v = VEH[k], price = d[k === 'taxi' ? 'taxi' : 'van'], pts = Math.floor(price);
+  const img = k === 'taxi' ? ['corolla-34.svg', 106, 53.4] : ['kombi-34.svg', 104, 55.7];
+  const sub = S.when ? `${S.when.day} u ${S.when.time}` : `Stiže za ${v.eta} min`;
+  return `<button class="opt" role="radio" aria-checked="${S.opt === k}" data-opt="${k}"><span class="opt-img"><img src="${A + img[0]}" alt="" width="${img[1]}" height="${img[2]}"></span><span class="opt-t"><span class="opt-n"><b>${k === 'taxi' ? 'Taxi' : 'Kombi'}</b><span class="seats">${ic('person', 14)}${k === 'taxi' ? 4 : 8}</span></span><small>${sub}</small><span class="pts">+${pts} ${bod(pts)}</span></span><span class="opt-p"><b>${eur(price)}</b><span class="fix">${ic('lock', 13, '#B08840', 2.4)}Fiksno</span></span></button>`;
+}
+const extrasLabel = () => { const e = S.extras, a = []; if (e.seat) a.push('dječja sjedalica'); if (e.pet) a.push('ljubimac'); if (e.bag) a.push('veća prtljaga'); return a.length ? a.join(', ').replace(/^./, c => c.toUpperCase()) : 'Dječja sjedalica, ljubimac, prtljaga'; };
+function chooseHTML() {
+  const cta = S.when ? `Zakaži za ${S.when.time}` : `Naruči ${S.opt === 'taxi' ? 'taxi' : 'kombi'}`;
+  return `<h2 class="tc">Odaberite vožnju</h2><div class="hr"></div>
+<div role="radiogroup" aria-label="Vrsta vožnje" style="display:flex;flex-direction:column;gap:2px">${optHTML('taxi')}${optHTML('van')}</div>
+<div class="list cmp" style="margin-top:4px">${rowHTML('sliders', 'Dodaci', extrasLabel(), 'data-act="extras"', (S.extras.seat || S.extras.pet || S.extras.bag) ? 'blue' : '')}${rowHTML(S.pay === 'Gotovina' ? 'cash' : 'card', S.pay, null, 'data-act="pay"')}</div>
+<div class="sp"></div><div class="brow"><button class="btn pri" data-act="order">${cta}</button><button class="btn sec sq" data-act="when" aria-label="Zakaži za kasnije">${ic('cal', 22)}</button></div>`;
+}
+function chooseMarks() {
+  const d = S.dest, end = d.route[d.route.length - 1];
+  const lab = d.edge ? `<div class="mk lbl${d.edgeR ? ' r' : ''}" style="${at(...end)}">${d.edge}</div>` : '';
+  marks(`<div class="mk pk" style="${at(...P)}"></div><div class="mk dst" style="${at(...end)}"></div>${lab}${S.when ? '' : etaHTML(P[0] + 46, P[1] - 46, VEH[S.opt].eta + ' min')}`);
+}
+SCR.choose = () => {
+  cleanupRide(); closePages(); ambOn = true;
+  const d = S.dest; route(d.route); chooseMarks();
+  fl.innerHTML = `<button class="fl fbtn" style="left:20px" data-tab="home" aria-label="Natrag">${ic('back')}</button><div class="fl toppill"><small>Trg Ante Starčevića</small><b>${esc(d.short)}</b></div>`;
+  sheet(chooseHTML());
+  cam(d.route, S.when ? [] : [[P[0], P[1] - 70]]);
+};
+const refreshChoose = () => { const s = curSheet(); if (s) s.innerHTML = '<div class="grab"></div>' + chooseHTML(); chooseMarks(); };
+
+SCR.searching = () => {
+  ambOn = true; route(null); const d = S.dest, price = d[S.opt === 'taxi' ? 'taxi' : 'van'];
+  marks(`<div class="mk rings" style="${at(...P)}"><i></i><i></i><i></i></div><div class="mk pk" style="${at(...P)}"></div>`);
+  fl.innerHTML = '';
+  sheet(`<button style="text-align:left" data-act="found"><h2 class="t">Tražimo vam ${S.opt === 'taxi' ? 'taxi' : 'kombi'}</h2><p class="sub">Najbliži slobodan auto obično se javi za manje od minute.</p></button>
+<div class="prog load"><i></i></div>
+<div class="trip"><span class="dots"><i></i><i></i><i></i></span><span class="trip-n"><span>Trg Ante Starčevića</span><span>${esc(d.name)}</span></span><span class="trip-p"><b>${eur(price)}</b><span class="fix">${ic('lock', 13, '#B08840', 2.4)}Fiksno, ${S.pay.toLowerCase()}</span></span></div>
+<div class="note">${ic('headset', 20)}<span>Narudžbu prati i naša centrala, 0–24 h.</span></div>
+<div class="sp"></div><div class="brow"><button class="btn sec" data-act="cancel">Otkaži narudžbu</button></div>`);
+  cam([[P[0], P[1] - 100], [P[0], P[1] + 100]]);
+  T = setTimeout(found, reduce ? 800 : 3400);
+};
+function found() {
+  if (cur !== 'searching') return;
+  const v = VEH[S.opt]; toast(`${v.driver} stiže za 3 min`, `${v.model}, ${v.plate}, vozilo ${v.num}`); go('arriving');
+}
+
+function arrivingHTML(v) {
+  return `<button style="text-align:left" data-act="skip"><h2 class="t" id="arrT">Stiže za <em>3 min</em></h2><p class="sub" id="arrS">${v.model}</p></button>
+<div class="cc"><div class="cc-l">${plate(v.plate)}<span class="voz"><small>Vozilo</small><b>${v.num}</b></span></div><img src="${A + v.img}" alt="${v.model} u bojama Osječkog taxija" width="${v.iw}" height="${v.ih}"><div class="chk" aria-hidden="true"></div></div>
+<div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}</b><small>${ic('star', 15, '#C9A15A')}${v.rating}</small></span><button class="cbtn" data-act="calldrv" aria-label="Nazovi vozača">${ic('phone', 20, 'currentColor', 2.2)}</button><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
+<div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, '#004498', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="cancel" style="flex:.7">Otkaži</button></div>`;
+}
+SCR.arriving = () => {
+  ambOn = false; const v = VEH[S.opt];
+  if (assigned) assigned.remove();
+  assigned = carEl(S.opt === 'van' ? 'bigvan' : 'big');
+  route(PICK);
+  marks(`<div class="mk pk" style="${at(...P)}"></div>${etaHTML(PICK[0][0], PICK[0][1] - 44, '3 min', 'etaB')}`);
+  fl.innerHTML = `<button class="fl fbtn" style="right:20px" data-act="safety" aria-label="Sigurnost">${ic('shield')}</button>`;
+  sheet(arrivingHTML(v));
+  cam(PICK, [[150, 330]]);
+  const t0 = performance.now(), D = reduce ? 1200 : 9000;
+  place(assigned, ...pat(PICK, 0).slice(0, 3));
+  anim = now => {
+    const p = Math.min(1, (now - t0) / D), e = ease(p), [x, y, r] = pat(PICK, e);
+    place(assigned, x, y, r); route(rest(PICK, e));
+    const b = $('#etaB'); if (b) { b.style.left = x + 'px'; b.style.top = (y - 44) + 'px'; }
+    const mins = Math.max(1, Math.ceil(3 * (1 - e) - .05)), tt = $('#arrT');
+    if (p < 1) { if (tt && !tt.dataset.m || tt && +tt.dataset.m !== mins) { tt.dataset.m = mins; tt.innerHTML = `Stiže za <em>${mins} min</em>`; if (b) b.firstChild.textContent = mins + ' min'; } }
+    else arrived(v);
+  };
+};
+function arrived(v) {
+  anim = null; route(null);
+  const tt = $('#arrT'), ss = $('#arrS'), b = $('#etaB');
+  if (tt) tt.innerHTML = `${v.driver} je <em>stigao</em>`;
+  if (ss) ss.textContent = `${v.model} vas čeka na Trgu Ante Starčevića.`;
+  if (b) b.firstChild.textContent = 'Tu je';
+  toast(`${v.driver} je stigao`, `${v.short}, ${v.plate}. Vozilo ${v.num} vas čeka.`);
+  T = setTimeout(() => { if (cur === 'arriving') go('ride'); }, reduce ? 800 : 3800);
+}
+
+SCR.ride = () => {
+  ambOn = false; const d = S.dest, v = VEH[S.opt];
+  if (!assigned) assigned = carEl(S.opt === 'van' ? 'bigvan' : 'big');
+  const trip = [[96.7, 322]].concat(d.route), end = d.route[d.route.length - 1];
+  const lab = d.edge ? `<div class="mk lbl${d.edgeR ? ' r' : ''}" style="${at(...end)}">${d.edge}</div>` : '';
+  marks(`<div class="mk dst" style="${at(...end)}"></div>${lab}`);
+  route(trip);
+  fl.innerHTML = `<button class="fl fbtn" style="right:20px" data-act="safety" aria-label="Sigurnost">${ic('shield')}</button>`;
+  const arr = new Date(Date.now() + d.min * 60000);
+  sheet(`<button style="text-align:left" data-act="skip"><h2 class="t">Stižete u <em>${hm(arr)}</em></h2><p class="sub" id="rideS">Još ${d.min} min do odredišta: ${esc(d.name)}</p></button>
+<div class="prog"><i id="rideP"></i></div>
+<div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}, vozilo ${v.num}</b><small>${v.short}, ${v.plate}</small></span><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
+<div class="note">${ic('lock', 20)}<span>Cijena je zaključana na ${eur(d[S.opt === 'taxi' ? 'taxi' : 'van'])}, bez obzira na promet.</span></div>
+<div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, '#004498', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="safety" style="flex:.8">${ic('shield', 19, '#004498', 2.2)}Sigurnost</button></div>`);
+  cam(trip);
+  const t0 = performance.now(), D = reduce ? 1200 : 10000;
+  anim = now => {
+    const p = Math.min(1, (now - t0) / D), e = ease(p), [x, y, r] = pat(trip, e);
+    place(assigned, x, y, r); route(rest(trip, e));
+    const bar = $('#rideP'); if (bar) bar.style.width = (e * 100).toFixed(1) + '%';
+    const sEl = $('#rideS'), left = Math.max(1, Math.ceil(d.min * (1 - e)));
+    if (sEl && sEl.dataset.m != left) { sEl.dataset.m = left; sEl.textContent = `Još ${left} min do odredišta: ${d.name}`; }
+    if (p >= 1) { anim = null; T = setTimeout(() => cur === 'ride' && go('done'), 500); }
+  };
+};
+
+SCR.done = () => {
+  ambOn = false; const d = S.dest, v = VEH[S.opt], price = d[S.opt === 'taxi' ? 'taxi' : 'van'], n = Math.floor(price), end = d.route[d.route.length - 1];
+  route([[96.7, 322]].concat(d.route), true);
+  marks(`<div class="mk flag" style="${at(...end)}">${FLAG}</div>`);
+  fl.innerHTML = '';
+  S.rating = 5; S.chips = ['Točan dolazak', 'Ugodna vožnja'];
+  sheet(`<div style="display:flex;align-items:center;gap:10px"><h2 class="t" style="font-size:28px">Stigli ste</h2>${FLAG}</div>
+<p class="sub">${esc(d.name)}, u ${hm(new Date())}</p>
+<div class="paid"><span><b>${eur(price)}</b><small>Plaćeno: ${S.pay.toLowerCase()}</small></span><span class="gp">${ic('lock', 14, '#B08840', 2.4)}Fiksna cijena</span></div>
+<div class="earn"><span class="coin">${ic('star', 16, '#fff')}</span><span><b>+${n} ${bod(n)}</b> za ovu vožnju</span><small id="tot">Ukupno ${S.points}</small></div>
+<h3 class="h2">Kako je bilo s ${v.driver === 'Petar' ? 'Petrom' : 'Markom'}?</h3>
+<div class="stars" role="radiogroup" aria-label="Ocjena vožnje">${[1, 2, 3, 4, 5].map(i => `<button role="radio" aria-checked="${i === 5}" aria-label="${i} od 5" data-star="${i}">${ic('star', 38)}</button>`).join('')}</div>
+<div class="chips">${['Točan dolazak', 'Čist auto', 'Ugodna vožnja', 'Siguran vozač'].map(c => `<button class="chip" data-chip="${c}" aria-pressed="${S.chips.includes(c)}">${c}</button>`).join('')}</div>
+<p style="margin:14px 0 0"><button class="link" data-act="google">Ocijenite nas i na Googleu</button></p>
+<div class="sp"></div><div class="brow"><button class="btn pri" data-act="finish">Gotovo</button></div>
+<p class="sub" style="text-align:center;font-size:13px;margin-top:10px">Račun smo poslali na vaš e-mail.</p>`);
+  cam([end, [end[0], end[1] - 40]]);
+  const from = S.points, to = S.points + n, t0 = performance.now();
+  anim = now => { const p = Math.min(1, (now - t0 - 500) / 900); if (p < 0) return; const el = $('#tot'); if (el) el.textContent = 'Ukupno ' + Math.round(from + (to - from) * ease(p)); if (p >= 1) anim = null; };
+};
+function finishRide() {
+  const d = S.dest, v = VEH[S.opt], price = d[S.opt === 'taxi' ? 'taxi' : 'van'], now = new Date();
+  S.points += Math.floor(price); store.set('points', S.points);
+  S.rides.unshift({ date: `${now.getDate()}. ${MJ[now.getMonth()]}`, time: hm(now), from: 'Trg Ante Starčevića', dest: d.name, price, pay: S.pay, veh: `Vozilo ${v.num}, ${v.plate}`, driver: v.driver, rating: S.rating });
+  S.rides = S.rides.slice(0, 20); store.set('rides', S.rides);
+  go('home');
+}
+
+function ridesHTML() {
+  const all = S.rides.concat(SAMPLE);
+  return `<div class="pb"><h1 class="ptitle">Vožnje</h1><div class="list rides">${all.map((r, i) => `<button class="row" data-ride="${i}"><span class="ci">${ic('car', 20)}</span><span class="rt"><b>${esc(r.dest)}</b><small>${r.date}, ${r.time}</small></span><span class="ride-p"><b>${eur(r.price)}</b><small>${esc(r.pay)}</small></span></button>`).join('')}</div></div>${navHTML('rides')}`;
+}
+SCR.rides = () => { cleanupRide(); page(ridesHTML()); };
+function accountHTML() {
+  const u = S.user, nm = u && u.name ? u.name : (u ? 'Putnik' : 'Gost'), init = nm.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  const next = 500, pct = Math.min(100, S.points / next * 100);
+  const brk = '<svg class="brk" viewBox="0 0 350 154" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="#C9A15A" stroke-width="2" stroke-linecap="round" opacity=".9"><path d="M8 20V11Q8 8 11 8H20M330 8H339Q342 8 342 11V20M342 134V143Q342 146 339 146H330M20 146H11Q8 146 8 143V134"/></g></svg>';
+  return `<div class="pb"><h1 class="ptitle">Račun</h1>
+<button class="prof" data-act="${u ? 'profile' : 'login'}"><span class="av">${init}</span><span class="rt"><b style="font-size:19px;font-weight:700">${esc(nm)}</b><small>${u ? esc(u.phone) : 'Prijavite se brojem mobitela'}</small></span>${CHEV}</button>
+<div class="pc">${brk}<div class="r1"><span>Vaši bodovi</span><span class="rang">Rang Start</span></div><div class="r2"><b>${S.points}</b><span>${bod(S.points)}</span></div><div class="pbar"><i style="width:${pct}%"></i></div><div class="r3">Do sljedećeg ranga: ${Math.max(0, next - S.points)} ${bod(Math.max(0, next - S.points))}</div></div>
+<div class="tiles"><button class="tile" data-act="wallet">${ic('wallet', 22)}Novčanik</button><button class="tile" data-act="promo">${ic('gift', 22)}Popusti</button><button class="tile" data-act="refer">${ic('userplus', 22)}Preporuči</button></div>
+<div class="list" style="margin-top:6px">${rowHTML('pin', 'Spremljena mjesta', null, 'data-act="places"')}${rowHTML('history', 'Moje vožnje', null, 'data-tab="rides"')}${rowHTML('sliders', 'Postavke i privatnost', null, 'data-act="settings"')}${rowHTML('headset', 'Pomoć i centrala', '031 200 200, 0–24 h', 'data-act="help"')}${u ? rowHTML('out', 'Odjava', null, 'data-act="logout"', '', false) : ''}</div></div>${navHTML('account')}`;
+}
+SCR.account = () => { cleanupRide(); page(accountHTML()); };
+const refreshAccount = () => { const p = pagesEl.lastElementChild; if (p && cur === 'account') p.innerHTML = accountHTML(); };
+
+/* ---------- listovi (modali) ---------- */
+const MOD = {};
+MOD.when = () => {
+  M.day = S.when ? S.when.day : 'Odmah'; M.time = S.when ? S.when.time : null;
+  const draw = () => {
+    const now = new Date(), base = new Date(now); base.setMinutes(now.getMinutes() < 30 ? 30 : 60, 0, 0); if (M.day === 'Danas') base.setMinutes(base.getMinutes() + 30);
+    const slots = M.day === 'Sutra' ? ['06:00', '07:00', '08:00', '09:00', '12:00', '15:00', '18:00', '20:00'] : [...Array(8)].map((_, i) => hm(new Date(base.getTime() + i * 30 * 60000)));
+    return `<h2 class="mt">Kada vam treba taxi?</h2><p class="msub">Zakažite vožnju unaprijed. Podsjetit ćemo vas 15 minuta prije.</p>
+<div class="seg">${['Odmah', 'Danas', 'Sutra'].map(d => `<button data-day="${d}" aria-pressed="${M.day === d}">${d}</button>`).join('')}</div>
+${M.day === 'Odmah' ? '' : `<div class="slots">${slots.map(t => `<button data-time="${t}" aria-pressed="${M.time === t}">${t}</button>`).join('')}</div>`}
+<button class="btn pri wide" data-act="setwhen">${M.day === 'Odmah' ? 'Naruči odmah' : M.time ? `Potvrdi: ${M.day.toLowerCase()} u ${M.time}` : 'Odaberite vrijeme'}</button>`;
+  };
+  M.redraw = () => { const ms = $('.ms', modalEl); if (ms) ms.innerHTML = '<div class="grab"></div>' + draw(); };
+  modal(draw());
+};
+MOD.extras = () => {
+  const e = S.extras;
+  const r = (k, icon, t, s) => `<div class="row"><span class="ci">${ic(icon, 20)}</span><span class="rt"><b>${t}</b><small>${s}</small></span><button class="sw${e[k] ? ' on' : ''}" role="switch" aria-checked="${!!e[k]}" aria-label="${t}" data-sw="${k}"></button></div>`;
+  modal(`<h2 class="mt">Dodaci za vožnju</h2><p class="msub">Vozač će ih vidjeti prije nego što krene po vas.</p>
+<div class="list">${r('seat', 'seat', 'Dječja sjedalica', 'Vozač donosi sjedalicu za dijete')}${r('pet', 'paw', 'Kućni ljubimac', 'Putujete s psom ili mačkom')}${r('bag', 'bag', 'Veća prtljaga', 'Koferi, kolica ili bicikl')}</div>
+<textarea class="inp" id="note" placeholder="Napomena vozaču (nije obavezno)" style="margin-top:10px">${esc(e.note)}</textarea>
+<button class="btn pri wide" data-act="saveextras">Spremi</button>`);
+};
+MOD.pay = () => {
+  const r = (v, icon, s) => `<button class="row" data-pay="${v}"><span class="ci">${ic(icon, 20)}</span><span class="rt"><b>${v}</b><small>${s}</small></span>${S.pay === v ? `<span class="check">${ic('check', 22, 'currentColor', 2.6)}</span>` : ''}</button>`;
+  modal(`<h2 class="mt">Način plaćanja</h2><div class="list">${r('Gotovina', 'cash', 'Plaćate vozaču na kraju vožnje')}${r('Kartica u vozilu', 'card', 'Svi naši auti imaju uređaj za kartice')}</div>`);
+};
+function login(next) {
+  M.next = next;
+  modal(`<h2 class="mt">Potvrdite broj mobitela</h2><p class="msub">Poslat ćemo vam kod u SMS-u. Lozinka vam ne treba.</p>
+<label class="tel" id="telL"><span>+385</span><input id="ph" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98 123 4567" maxlength="13" aria-label="Broj mobitela"></label><p class="err-t" id="phE" hidden>Upišite broj mobitela, na primjer 98 123 4567.</p>
+<button class="btn pri wide" data-act="sendcode">Pošalji kod</button>`, m => { const i = $('#ph', m); if (i) i.focus({ preventScroll: true }); });
+}
+MOD.code = () => {
+  const ph = M.phone;
+  modal(`<h2 class="mt">Upišite kod</h2><p class="msub">Poslali smo ga na ${ph}. Kod se upisuje sam kad stigne poruka.</p><div class="otp" aria-label="Kod iz SMS-a"><span></span><span></span><span></span><span></span></div><button class="btn sec wide" data-act="resend">Pošalji ponovno</button>`);
+  const code = '4826'; let i = 0;
+  const tick = () => { const sp = modalEl.querySelectorAll('.otp span'); if (!sp.length) return; if (i < 4) { sp[i].textContent = code[i]; sp[i].classList.add('f'); i++; T = setTimeout(tick, 230); } else T = setTimeout(MOD.name, 450); };
+  T = setTimeout(tick, reduce ? 200 : 1100);
+};
+MOD.name = () => {
+  modal(`<h2 class="mt">Kako se zovete?</h2><p class="msub">Vozač vas tako lakše pronađe. Možete preskočiti.</p><input class="inp" id="nm" placeholder="Ime i prezime" autocomplete="name" aria-label="Ime i prezime"><div class="brow"><button class="btn sec" data-act="skipname">Preskoči</button><button class="btn pri" data-act="savename">Nastavi</button></div>`, m => { const i = $('#nm', m); if (i) i.focus({ preventScroll: true }); });
+};
+function loggedIn(name) {
+  S.user = { name: (name || '').trim(), phone: M.phone }; store.set('user', S.user);
+  closeModal(); toast(S.user.name ? `Dobro došli, ${esc(S.user.name.split(' ')[0])}` : 'Prijavljeni ste', 'Možete naručiti taxi.');
+  const n = M.next; M.next = null; if (n) setTimeout(n, 350); else refreshAccount();
+}
+const say = t => { closeModal(); toast('Prototip', t); };
+MOD.central = () => modal(`<h2 class="mt">Naruči telefonom</h2><p class="msub">Centrala 031 200 200 radi 0–24 h. Dispečer vam šalje najbliži slobodan taxi.</p><button class="btn pri wide" data-act="proto" data-t="U pravoj aplikaciji ovdje se zove centrala.">${ic('phone', 20, '#fff', 2.2)}Nazovi 031 200 200</button>`);
+MOD.calldrv = () => { const v = VEH[S.opt]; modal(`<h2 class="mt">Nazovi ${v.acc}</h2><p class="msub">Poziv ide preko centrale, pa vaš broj ostaje skriven.</p><div class="brow"><button class="btn sec" data-act="close">Odustani</button><button class="btn pri" data-act="proto" data-t="U pravoj aplikaciji ovdje se spaja poziv s vozačem.">${ic('phone', 20, '#fff', 2.2)}Nazovi</button></div>`); };
+MOD.msgdrv = () => { const v = VEH[S.opt]; modal(`<h2 class="mt">Poruka za ${v.acc}</h2><div class="list">${['Stižem za minutu', 'Čekam ispred', 'Imam veću prtljagu', 'Nazovite me kad stignete'].map(t => `<button class="row" data-msg="${t}"><span class="ci">${ic('msg', 20)}</span><span class="rt"><b>${t}</b></span></button>`).join('')}</div>`); };
+MOD.safety = () => modal(`<h2 class="mt">Sigurnost</h2><p class="msub">Vožnju prati naša centrala od polaska do cilja.</p><div class="list">${rowHTML('share', 'Podijeli vožnju', 'Obitelj vidi gdje ste i kad stižete', 'data-act="share"')}${rowHTML('headset', 'Nazovi centralu', '031 200 200, 0–24 h', 'data-act="proto" data-t="U pravoj aplikaciji ovdje se zove centrala."')}${rowHTML('sos', 'Hitni poziv 112', 'Za hitne slučajeve', 'data-act="proto" data-t="U pravoj aplikaciji ovdje se zove 112. Prototip ne zove."')}</div>`);
+MOD.cancel = () => { const v = VEH[S.opt]; modal(`<h2 class="mt">Otkazati narudžbu?</h2><p class="msub">${cur === 'searching' ? 'Još tražimo najbliži slobodan auto.' : `${v.driver} je već na putu prema vama.`}</p><div class="brow"><button class="btn sec" data-act="close">Ne, ostavi</button><button class="btn danger" data-act="docancel">Otkaži</button></div>`); };
+MOD.receipt = r => modal(`<h2 class="mt">Račun za vožnju</h2><p class="msub">${r.date}, ${r.time}</p><div class="kv"><span>Od</span><b>${esc(r.from)}</b></div><div class="kv"><span>Do</span><b>${esc(r.dest)}</b></div><div class="kv"><span>Vozilo</span><b>${esc(r.veh)}</b></div><div class="kv"><span>Vozač</span><b>${esc(r.driver)}</b></div><div class="kv"><span>Plaćanje</span><b>${esc(r.pay)}</b></div><div class="kv" style="border:0"><span>Iznos, fiksna cijena</span><b style="font-size:18px">${eur(r.price)}</b></div><button class="btn sec wide" data-act="proto" data-t="U pravoj aplikaciji račun stiže na e-mail kao PDF." style="margin-top:8px">${ic('doc', 20, '#004498', 2)}Pošalji račun na e-mail</button>`);
+MOD.wallet = () => modal(`<h2 class="mt">Novčanik</h2><div class="list">${rowHTML('cash', 'Gotovina', 'Zadani način plaćanja', '', '', false)}${rowHTML('card', 'Kartica u vozilu', 'Plaćanje karticom na kraju vožnje', '', '', false)}${rowHTML('gift', 'Stanje bonova', '0,00 €', '', 'gold', false)}</div>`);
+MOD.promo = () => modal(`<h2 class="mt">Popusti</h2><p class="msub">Upišite promo kod ili poklon bon.</p><input class="inp" id="pc" placeholder="Npr. OSIJEK10" autocapitalize="characters" aria-label="Promo kod"><button class="btn pri wide" data-act="applypromo">Primijeni</button>`, m => { const i = $('#pc', m); if (i) i.focus({ preventScroll: true }); });
+MOD.refer = () => { const c = ((firstName() || 'PUTNIK').toUpperCase().replace(/[^A-ZČĆŽŠĐ]/g, '') + '-200'); modal(`<h2 class="mt">Preporuči prijatelju</h2><p class="msub">Pošaljite kod prijatelju. Kad se prvi put provoza, oboje dobivate bodove.</p><div class="code"><span>${esc(c)}</span>${ic('gift', 22, '#7A5A14')}</div><button class="btn pri wide" data-act="share" data-code="${esc(c)}">${ic('share', 19, '#fff', 2.2)}Podijeli kod</button>`); };
+MOD.places = () => modal(`<h2 class="mt">Spremljena mjesta</h2><div class="list">${rowHTML('home', 'Kuća', 'Sjenjak, Osijek', 'data-dest="kuca"')}${rowHTML('pin', 'Posao', 'Dodajte adresu', 'data-act="proto" data-t="U pravoj aplikaciji ovdje upisujete adresu posla."')}${rowHTML('pin', 'Dodaj mjesto', 'Teretana, škola, roditelji…', 'data-act="proto" data-t="U pravoj aplikaciji ovdje dodajete svoja mjesta."')}</div>`);
+MOD.settings = () => modal(`<h2 class="mt">Postavke i privatnost</h2><div class="list"><div class="row"><span class="ci">${ic('bell', 20)}</span><span class="rt"><b>Obavijesti o vožnji</b><small>Kad vozač krene i kad stigne</small></span><button class="sw on" role="switch" aria-checked="true" aria-label="Obavijesti o vožnji" data-sw="n1"></button></div><div class="row"><span class="ci">${ic('gift', 20)}</span><span class="rt"><b>Ponude i novosti</b><small>Popusti i nagrade</small></span><button class="sw" role="switch" aria-checked="false" aria-label="Ponude i novosti" data-sw="n2"></button></div>${rowHTML('globe', 'Jezik', 'Hrvatski', 'data-act="proto" data-t="Aplikacija može biti i na engleskom, za turiste."')}${rowHTML('refresh', 'Pokreni demo ispočetka', 'Briše prijavu, bodove i vožnje iz prototipa', 'data-act="reset"', '', false)}</div>`);
+MOD.help = () => modal(`<h2 class="mt">Pomoć i centrala</h2><div class="list">${rowHTML('headset', 'Nazovi centralu', '031 200 200, 0–24 h', 'data-act="proto" data-t="U pravoj aplikaciji ovdje se zove centrala."')}${rowHTML('help', 'Kako naručiti taxi', 'Tri dodira: odredište, vožnja, naruči', 'data-act="proto" data-t="Ovdje dolaze kratki odgovori na česta pitanja."')}${rowHTML('cash', 'Plaćanje i računi', 'Gotovina, kartica, računi na e-mail', 'data-act="proto" data-t="Ovdje dolaze kratki odgovori na česta pitanja."')}${rowHTML('bag', 'Izgubljene stvari', 'Javite nam se, vozač provjerava auto', 'data-act="proto" data-t="Ovdje se prijavljuje izgubljena stvar."')}</div>`);
+MOD.schedinfo = () => modal(`<h2 class="mt">Zakazana vožnja</h2><p class="msub">${esc(S.scheduled.dest)}, ${esc(S.scheduled.label)}. Podsjetit ćemo vas 15 minuta prije, a vozač kreće na vrijeme.</p><div class="brow"><button class="btn sec" data-act="close">U redu</button><button class="btn danger" data-act="unsched">Otkaži vožnju</button></div>`);
+
+/* ---------- radnje ---------- */
+const ACT = {
+  close: () => closeModal(),
+  intro: () => intro(),
+  when: () => MOD.when(), extras: () => MOD.extras(), pay: () => MOD.pay(), central: () => MOD.central(),
+  calldrv: () => MOD.calldrv(), msgdrv: () => MOD.msgdrv(), safety: () => MOD.safety(), cancel: () => MOD.cancel(),
+  wallet: () => MOD.wallet(), promo: () => MOD.promo(), refer: () => MOD.refer(), places: () => MOD.places(), settings: () => MOD.settings(), help: () => MOD.help(), schedinfo: () => MOD.schedinfo(),
+  login: () => login(null), profile: () => MOD.name(),
+  proto: t => say(t.dataset.t),
+  google: () => toast('Hvala vam', 'U pravoj aplikaciji ovdje se otvara Google recenzija Osječkog taxija.'),
+  found: () => { clearTimeout(T); found(); },
+  skip: () => { if (cur === 'arriving') { anim = null; place(assigned, ...pat(PICK, 1).slice(0, 3)); arrived(VEH[S.opt]); } else if (cur === 'ride') { anim = null; go('done'); } },
+  order: () => {
+    if (!S.user) return login(() => ACT.order());
+    if (S.when) {
+      S.scheduled = { dest: S.dest.name, label: `${S.when.day.toLowerCase()} u ${S.when.time}`, opt: S.opt }; store.set('sched', S.scheduled);
+      S.when = null; go('home'); toast('Vožnja je zakazana', `${S.scheduled.dest}, ${S.scheduled.label}.`); return;
+    }
+    go('searching');
+  },
+  docancel: () => { cleanupRide(); go('home'); toast('Narudžba je otkazana', 'Možete naručiti novu kad god želite.'); },
+  unsched: () => { S.scheduled = null; store.set('sched', null); closeModal(); SCR.home(); toast('Zakazana vožnja je otkazana', 'Nema troškova.'); },
+  share: t => {
+    const v = VEH[S.opt], code = t.dataset.code;
+    const text = code ? `Naruči Osječki taxi preko aplikacije i upiši moj kod ${code}.` : `Pratite moju vožnju: ${v.model}, ${v.plate}, vozilo ${v.num}.`;
+    if (navigator.share) navigator.share({ title: 'Osječki taxi', text, url: location.href }).catch(() => {});
+    else { try { navigator.clipboard.writeText(text + ' ' + location.href); } catch (e) {} closeModal(); toast('Poveznica je kopirana', 'Pošaljite je kome želite.'); }
+  },
+  setwhen: () => {
+    if (M.day === 'Odmah') { S.when = null; closeModal(); }
+    else if (!M.time) return;
+    else { S.when = { day: M.day, time: M.time, label: `${M.day} ${M.time}` }; closeModal(); }
+    if (cur === 'choose') refreshChoose(); else if (cur === 'home') SCR.home();
+  },
+  saveextras: () => { const n = $('#note'); S.extras.note = n ? n.value : ''; closeModal(); if (cur === 'choose') refreshChoose(); },
+  sendcode: () => {
+    const i = $('#ph'), v = (i ? i.value : '').replace(/\D/g, '').replace(/^0/, '');
+    if (v.length < 8) { $('#telL').classList.add('err'); $('#phE').hidden = false; i.focus(); return; }
+    M.phone = '+385 ' + v.replace(/^(\d{2})(\d{3})(\d+)$/, '$1 $2 $3'); MOD.code();
+  },
+  resend: () => toast('Kod je poslan ponovno', 'Stiže za nekoliko sekundi.'),
+  skipname: () => loggedIn(''), savename: () => { const i = $('#nm'); loggedIn(i ? i.value : ''); },
+  logout: () => { S.user = null; store.set('user', null); refreshAccount(); toast('Odjavljeni ste', 'Prijava traje samo nekoliko sekundi.'); },
+  applypromo: () => { const i = $('#pc'), c = (i ? i.value : '').trim().toUpperCase(); if (!c) { i && i.focus(); return; } closeModal(); toast(`Kod ${esc(c)} je spremljen`, 'Popust se obračunava na sljedećoj vožnji.'); },
+  reset: () => { try { Object.keys(localStorage).filter(k => k.startsWith('otx_')).forEach(k => localStorage.removeItem(k)); } catch (e) {} location.reload(); },
+  finish: () => finishRide(),
+};
+
+app.addEventListener('click', e => {
+  const t = e.target.closest('[data-act],[data-go],[data-tab],[data-dest],[data-opt],[data-star],[data-chip],[data-ride],[data-sw],[data-pay],[data-day],[data-time],[data-msg]');
+  if (!t || !app.contains(t)) return;
+  const d = t.dataset;
+  if (d.act && ACT[d.act]) return ACT[d.act](t);
+  if (d.go) return go(d.go);
+  if (d.tab) { if (d.tab === 'home') return go('home'); return go(d.tab); }
+  if (d.dest) { S.dest = byId(d.dest); S.opt = S.opt || 'taxi'; return go('choose'); }
+  if (d.opt) { S.opt = d.opt; return refreshChoose(); }
+  if (d.star) { S.rating = +d.star; curSheet().querySelectorAll('[data-star]').forEach(b => { const on = +b.dataset.star <= S.rating; b.classList.toggle('off', !on); b.setAttribute('aria-checked', +b.dataset.star === S.rating); }); return; }
+  if (d.chip) { const on = t.getAttribute('aria-pressed') !== 'true'; t.setAttribute('aria-pressed', on); S.chips = on ? S.chips.concat(d.chip) : S.chips.filter(c => c !== d.chip); return; }
+  if (d.ride) return MOD.receipt(S.rides.concat(SAMPLE)[+d.ride]);
+  if (d.sw) { const on = !t.classList.contains('on'); t.classList.toggle('on', on); t.setAttribute('aria-checked', on); if (d.sw in S.extras) S.extras[d.sw] = on; return; }
+  if (d.pay) { S.pay = d.pay; closeModal(); if (cur === 'choose') refreshChoose(); return; }
+  if (d.day) { M.day = d.day; M.time = null; return M.redraw(); }
+  if (d.time) { M.time = d.time; return M.redraw(); }
+  if (d.msg) { const v = VEH[S.opt]; closeModal(); toast(`Poruka je poslana ${v.dat}`, `„${d.msg}”`); }
+});
+modalEl.addEventListener('keydown', e => { if (e.key === 'Enter') { if (e.target.id === 'ph') ACT.sendcode(); else if (e.target.id === 'nm') ACT.savename(); else if (e.target.id === 'pc') ACT.applypromo(); } });
+addEventListener('keydown', e => { if (e.key === 'Escape' && modalEl.classList.contains('on')) closeModal(); });
+
+/* ---------- uvod ---------- */
+let introT = 0;
+function intro() {
+  const el = $('#intro');
+  el.innerHTML = `${LOGO}<p class="slog">Taxi za sve lokacije</p><div class="band"></div>`;
+  el.style.opacity = ''; el.hidden = false;
+  const end = () => { clearTimeout(introT); if (el.hidden) return; const a = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduce ? 1 : 450, easing: 'ease-out', fill: 'forwards' }); const lg = $('.lg', el); if (lg && !reduce) lg.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }], { duration: 450, easing: 'ease-out', fill: 'forwards' }); a.onfinish = () => { el.hidden = true; a.cancel(); }; };
+  el.onclick = end;
+  introT = setTimeout(end, reduce ? 500 : 2300);
+}
+
+go('home');
+intro();
+})();
+</script>
+</body>
+</html>
