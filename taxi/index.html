@@ -19,6 +19,7 @@
 <link rel="apple-touch-icon" href="/taxi/assets/icon-180.png">
 <link rel="preload" href="/taxi/assets/logo.svg" as="image">
 <link rel="preload" href="/taxi/assets/corolla-3d.webp" as="image">
+<link rel="preload" href="/taxi/assets/corolla-3d-m.webp" as="image">
 <link rel="preload" href="/taxi/assets/taxi-top.webp" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -161,12 +162,10 @@ body.m #sbar{display:none}
 .note{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border-radius:14px;background:var(--brand-t);font-size:14px;font-weight:500;color:var(--ink)}
 .note svg{color:var(--acc)}
 /* dolazak */
-.vc{position:relative;margin-top:22px;border-radius:20px;background:linear-gradient(160deg,var(--vc1) 0%,var(--vc2) 100%);padding:14px 14px 15px 160px;min-height:120px;flex:none}
+.vc{position:relative;margin-top:22px;border-radius:20px;background:linear-gradient(160deg,var(--vc1) 0%,var(--vc2) 100%);padding:14px 14px 15px 160px;min-height:120px;flex:none;display:flex;align-items:center}
 .vc-t{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
-.vc-m{font-size:14.5px;font-weight:500;color:var(--grey);line-height:1.25}
+.vc-m{font-size:15px;font-weight:500;color:var(--grey);line-height:1.25}
 .vc img{position:absolute;left:-12px;bottom:6px;display:block;pointer-events:none}
-.vno{height:28px;padding:0 10px;border-radius:9px;background:var(--gold-bg);border:1px solid var(--gold-bd);display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--gold-t)}
-.vno b{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
 .plate{height:38px;display:flex;align-items:stretch;border-radius:7px;border:1.5px solid #C3CAD4;background:#fff;color:#16191E;overflow:hidden;flex:none;box-shadow:0 1px 3px rgba(10,20,38,.07)}
 .plate .eu{width:20px;background:#1D4FB8;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4px;gap:2px;font-size:8px;font-weight:800;color:#fff;line-height:1}
 .plate .no{display:flex;align-items:center;gap:5px;padding:0 10px;white-space:nowrap;font-size:19px;font-weight:800;letter-spacing:.035em;font-variant-numeric:tabular-nums}
@@ -281,9 +280,11 @@ textarea.inp{height:84px;padding:14px 16px;resize:none;font-weight:500}
 #intro .lg{width:118px;height:auto;display:block;filter:brightness(0) invert(1);opacity:0;transform:scale(.86);animation:lgin .75s cubic-bezier(.2,.9,.25,1.12) .05s forwards}
 #intro .gl{display:block;width:56px;height:3px;border-radius:2px;background:linear-gradient(90deg,#E8CF95,#B88F48);margin:24px 0 16px;transform:scaleX(0);animation:band .5s cubic-bezier(.6,0,.2,1) .5s forwards}
 #intro .slog{margin:0;font-size:21px;font-weight:700;letter-spacing:-.01em;opacity:0;transform:translateY(8px);animation:rise .55s cubic-bezier(.2,.8,.2,1) .65s forwards}
-#intro .ic{position:absolute;left:35px;top:57%;width:320px;transform:translateX(-430px)}
-#intro .ic-in{position:relative;transform-origin:22% 92%}
-#intro .ic img{display:block;width:320px;height:auto;-webkit-box-reflect:below -16px linear-gradient(transparent 64%,rgba(255,255,255,.14))}
+#intro .ic{position:absolute;left:35px;top:57%;width:320px;transform:translate(-390px,-181px) scale(.6);transform-origin:50% 80%}
+#intro .ic-in{position:relative;transform-origin:18% 86%}
+#intro .ic-b{position:relative;-webkit-box-reflect:below -16px linear-gradient(transparent 64%,rgba(255,255,255,.14))}
+#intro .ic img{display:block;width:320px;height:auto}
+#intro .ic .cm{position:absolute;left:0;top:0}
 #intro .glow{position:absolute;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;background:radial-gradient(circle,#fff 0,rgba(226,238,255,.95) 9%,rgba(150,190,255,.42) 28%,rgba(120,170,255,0) 62%);opacity:0;pointer-events:none}
 #intro .glow::after{content:"";position:absolute;left:50%;top:50%;width:230px;height:5px;margin:-2.5px 0 0 -115px;border-radius:3px;background:linear-gradient(90deg,rgba(190,215,255,0),rgba(225,236,255,.95),rgba(190,215,255,0))}
 #intro .glow.far{transform:scale(.62)}
@@ -393,8 +394,8 @@ const PLACES = [
 PLACES.forEach(p => { p.van = Math.round(p.taxi * 1.49 * 10) / 10; p.short = p.short || p.name; });
 const byId = id => PLACES.find(p => p.id === id);
 const VEH = {
-  taxi: { model: 'Bijela Toyota Corolla', short: 'Toyota Corolla', plate: 'OS 482-KT', num: '07', driver: 'Petar', acc: 'Petra', dat: 'Petru', rating: '4,9', img: 'corolla-3d.webp', iw: 164, ih: 100, eta: 2 },
-  van: { model: 'Bijeli Opel kombi', short: 'Opel kombi', plate: 'OS 731-KT', num: '12', driver: 'Marko', acc: 'Marka', dat: 'Marku', rating: '4,8', img: 'kombi-3d.webp', iw: 164, ih: 113, eta: 6 },
+  taxi: { model: 'Bijela Toyota Corolla', short: 'Toyota Corolla', plate: 'OS 482-KT', num: '07', driver: 'Niko', acc: 'Niku', dat: 'Niki', ins: 'Nikom', rating: '4,9', img: 'corolla-3d.webp', iw: 164, ih: 100, eta: 2 },
+  van: { model: 'Bijeli Opel kombi', short: 'Opel kombi', plate: 'OS 731-KT', num: '12', driver: 'Marko', acc: 'Marka', dat: 'Marku', ins: 'Markom', rating: '4,8', img: 'kombi-3d.webp', iw: 164, ih: 113, eta: 6 },
 };
 const AMB = [
   { path: [[400, 268], [96, 304], [-10, 316.2]], kind: 'taxi', speed: 15, t: .62 },
@@ -404,8 +405,8 @@ const AMB = [
   { path: [[-10, 251], [60, 258], [140, 260], [178, 259], [181, 330], [186, 520]], kind: 'taxi', speed: 11, t: .55 },
 ];
 const SAMPLE = [
-  { date: '3. stu', time: '07:12', from: 'Sjenjak', dest: 'Zračna luka Osijek', price: 31, pay: 'Kartica u vozilu', veh: 'Vozilo 15, OS 205-KT', driver: 'Ivan' },
-  { date: '28. lis', time: '19:40', from: 'Trg Ante Starčevića', dest: 'KBC Osijek', price: 7.1, pay: 'Gotovina', veh: 'Vozilo 07, OS 482-KT', driver: 'Petar' },
+  { date: '3. stu', time: '07:12', from: 'Sjenjak', dest: 'Zračna luka Osijek', price: 31, pay: 'Kartica u vozilu', veh: 'Toyota Corolla, OS 205-KT', driver: 'Ivan' },
+  { date: '28. lis', time: '19:40', from: 'Trg Ante Starčevića', dest: 'KBC Osijek', price: 7.1, pay: 'Gotovina', veh: 'Toyota Corolla, OS 482-KT', driver: 'Niko' },
 ];
 
 /* ---------- stanje ---------- */
@@ -636,12 +637,12 @@ SCR.searching = () => {
 };
 function found() {
   if (cur !== 'searching') return;
-  const v = VEH[S.opt]; toast(`${v.driver} stiže za 3 min`, `${v.model}, ${v.plate}, vozilo ${v.num}`); go('arriving');
+  const v = VEH[S.opt]; toast(`${v.driver} stiže za 3 min`, `${v.model}, ${v.plate}`); go('arriving');
 }
 
 function arrivingHTML(v) {
   return `<button style="text-align:left" data-act="skip"><h2 class="t" id="arrT">Stiže za <em>3 min</em></h2><p class="sub" id="arrS">Čekajte na Trgu Ante Starčevića</p></button>
-<div class="vc"><div class="vc-t">${plate(v.plate)}<span class="vc-m">${v.model}</span><span class="vno">Vozilo <b>${v.num}</b></span></div><img src="${A + v.img}" alt="${v.model} u bojama Osječkog taxija" width="${v.iw}" height="${v.ih}"></div>
+<div class="vc"><div class="vc-t">${plate(v.plate)}<span class="vc-m">${v.model}</span></div><img src="${A + v.img}" alt="${v.model} u bojama Osječkog taxija" width="${v.iw}" height="${v.ih}"></div>
 <div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}</b><small>${ic('star', 15, 'var(--gold)')}${v.rating}</small></span><button class="cbtn" data-act="calldrv" aria-label="Nazovi vozača">${ic('phone', 20, 'currentColor', 2.2)}</button><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
 <div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, 'var(--acc)', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="cancel" style="flex:.7">Otkaži</button></div>`;
 }
@@ -671,7 +672,7 @@ function arrived(v) {
   if (tt) tt.innerHTML = `${v.driver} je <em>stigao</em>`;
   if (ss) ss.textContent = `${v.model} vas čeka na Trgu Ante Starčevića.`;
   if (b) b.firstChild.textContent = 'Tu je';
-  toast(`${v.driver} je stigao`, `${v.short}, ${v.plate}. Vozilo ${v.num} vas čeka.`);
+  toast(`${v.driver} je stigao`, `${v.short}, ${v.plate} vas čeka.`);
   T = setTimeout(() => { if (cur === 'arriving') go('ride'); }, reduce ? 800 : 3800);
 }
 
@@ -686,7 +687,7 @@ SCR.ride = () => {
   const arr = new Date(Date.now() + d.min * 60000);
   sheet(`<button style="text-align:left" data-act="skip"><h2 class="t">Stižete u <em>${hm(arr)}</em></h2><p class="sub" id="rideS">Još ${d.min} min do odredišta: ${esc(d.name)}</p></button>
 <div class="prog"><i id="rideP"></i></div>
-<div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}, vozilo ${v.num}</b><small>${v.short}, ${v.plate}</small></span><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
+<div class="drv"><span class="av">${v.driver[0]}</span><span class="drv-t"><b>${v.driver}</b><small>${v.short}, ${v.plate}</small></span><button class="cbtn" data-act="msgdrv" aria-label="Poruka vozaču">${ic('msg', 20, 'currentColor', 2.2)}</button></div>
 <div class="note">${ic('lock', 20)}<span>Cijena je zaključana na ${eur(d[S.opt === 'taxi' ? 'taxi' : 'van'])}, bez obzira na promet.</span></div>
 <div class="sp"></div><div class="brow"><button class="btn sec" data-act="share">${ic('share', 19, 'var(--acc)', 2.2)}Podijeli vožnju</button><button class="btn sec" data-act="safety" style="flex:.8">${ic('shield', 19, 'var(--acc)', 2.2)}Sigurnost</button></div>`);
   cam(trip);
@@ -711,7 +712,7 @@ SCR.done = () => {
 <p class="sub">${esc(d.name)}, u ${hm(new Date())}</p>
 <div class="paid"><span><b>${eur(price)}</b><small>Plaćeno: ${S.pay.toLowerCase()}</small></span><span class="gp">${ic('lock', 14, 'var(--gold-t)', 2.4)}Fiksna cijena</span></div>
 <div class="earn"><span class="coin">${ic('star', 16, '#fff')}</span><span><b>+${n} ${bod(n)}</b> za ovu vožnju</span><small id="tot">Ukupno ${S.points}</small></div>
-<h3 class="h2">Kako je bilo s ${v.driver === 'Petar' ? 'Petrom' : 'Markom'}?</h3>
+<h3 class="h2">Kako je bilo s ${v.ins}?</h3>
 <div class="stars" role="radiogroup" aria-label="Ocjena vožnje">${[1, 2, 3, 4, 5].map(i => `<button role="radio" aria-checked="${i === 5}" aria-label="${i} od 5" data-star="${i}">${ic('star', 38)}</button>`).join('')}</div>
 <div class="chips">${['Točan dolazak', 'Čist auto', 'Ugodna vožnja', 'Siguran vozač'].map(c => `<button class="chip" data-chip="${c}" aria-pressed="${S.chips.includes(c)}">${c}</button>`).join('')}</div>
 <p style="margin:14px 0 0"><button class="link" data-act="google">Ocijenite nas i na Googleu</button></p>
@@ -725,7 +726,7 @@ SCR.done = () => {
 function finishRide() {
   const d = S.dest, v = VEH[S.opt], price = d[S.opt === 'taxi' ? 'taxi' : 'van'], now = new Date();
   S.points += Math.floor(price); store.set('points', S.points);
-  S.rides.unshift({ date: `${now.getDate()}. ${MJ[now.getMonth()]}`, time: hm(now), from: 'Trg Ante Starčevića', dest: d.name, price, pay: S.pay, veh: `Vozilo ${v.num}, ${v.plate}`, driver: v.driver, rating: S.rating });
+  S.rides.unshift({ date: `${now.getDate()}. ${MJ[now.getMonth()]}`, time: hm(now), from: 'Trg Ante Starčevića', dest: d.name, price, pay: S.pay, veh: `${v.short}, ${v.plate}`, driver: v.driver, rating: S.rating });
   S.rides = S.rides.slice(0, 20); store.set('rides', S.rides);
   go('home');
 }
@@ -835,7 +836,7 @@ const ACT = {
   unsched: () => { S.scheduled = null; store.set('sched', null); closeModal(); SCR.home(); toast('Zakazana vožnja je otkazana', 'Nema troškova.'); },
   share: t => {
     const v = VEH[S.opt], code = t.dataset.code;
-    const text = code ? `Naruči Osječki taxi preko aplikacije i upiši moj kod ${code}.` : `Pratite moju vožnju: ${v.model}, ${v.plate}, vozilo ${v.num}.`;
+    const text = code ? `Naruči Osječki taxi preko aplikacije i upiši moj kod ${code}.` : `Pratite moju vožnju: ${v.model}, ${v.plate}.`;
     if (navigator.share) navigator.share({ title: 'Osječki taxi', text, url: location.href }).catch(() => {});
     else { try { navigator.clipboard.writeText(text + ' ' + location.href); } catch (e) {} closeModal(); toast('Poveznica je kopirana', 'Pošaljite je kome želite.'); }
   },
@@ -900,19 +901,26 @@ let introT = 0;
 const SLOGAN = 'Osijek se vozi s nama.';
 function intro() {
   const el = $('#intro');
-  el.innerHTML = `<div class="ib">${LOGO}<i class="gl"></i><p class="slog">${SLOGAN}</p></div><div class="ic"><div class="ic-in"><i class="beam"></i><img src="${A}corolla-3d.webp" width="320" height="195" alt=""><i class="glow far" style="left:95.5%;top:55.5%"></i><i class="glow" style="left:71.4%;top:66%"></i></div></div><div class="band"></div>`;
+  el.innerHTML = `<div class="ib">${LOGO}<i class="gl"></i><p class="slog">${SLOGAN}</p></div><div class="band"></div><div class="ic"><div class="ic-in"><div class="ic-b"><i class="beam"></i><img class="cs" src="${A}corolla-3d.webp" width="320" height="195" alt=""><img class="cm" src="${A}corolla-3d-m.webp" width="320" height="195" alt=""><i class="glow far" style="left:95.5%;top:55.5%"></i><i class="glow" style="left:71.4%;top:66%"></i></div></div></div>`;
   el.style.opacity = ''; el.hidden = false; delete el.dataset.out;
-  const car = $('.ic', el), inn = $('.ic-in', el);
-  if (reduce) car.style.transform = 'none';
+  const car = $('.ic', el), inn = $('.ic-in', el), bob = $('.ic-b', el), cm = $('.cm', el);
+  const P0 = 'translate(-390px,-181px) scale(.6)', P1 = 'translate(0px,0px) scale(1)';
+  if (reduce) { car.style.transform = P1; cm.style.opacity = 0; }
   else {
-    car.animate([{ transform: 'translateX(-430px)' }, { transform: 'translateX(0)' }], { duration: 1150, delay: 250, easing: 'cubic-bezier(.12,.7,.2,1)', fill: 'both' });
-    inn.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(.8deg)', offset: .4 }, { transform: 'rotate(0)' }], { duration: 520, delay: 1250, easing: 'ease-out' });
-    el.querySelectorAll('.glow,.beam').forEach(g => g.animate([{ opacity: 0 }, { opacity: 1, offset: .16 }, { opacity: .1, offset: .38 }, { opacity: 1, offset: .58 }, { opacity: 0 }], { duration: 820, delay: 1650, easing: 'ease-out', fill: 'both' }));
+    car.animate([{ transform: P0 }, { transform: P1 }], { duration: 1250, delay: 200, easing: 'cubic-bezier(.25,.6,.3,1)', fill: 'both' });
+    cm.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 320, delay: 1130, easing: 'ease-out', fill: 'both' });
+    bob.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-1.2px)' }, { transform: 'translateY(0)' }], { duration: 260, delay: 200, iterations: 4, easing: 'ease-in-out' });
+    inn.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(1.1deg)', offset: .35 }, { transform: 'rotate(0)' }], { duration: 560, delay: 1300, easing: 'ease-out' });
+    el.querySelectorAll('.glow,.beam').forEach(g => g.animate([{ opacity: 0 }, { opacity: 1, offset: .16 }, { opacity: .1, offset: .38 }, { opacity: 1, offset: .58 }, { opacity: 0 }], { duration: 820, delay: 1750, easing: 'ease-out', fill: 'both' }));
   }
   const end = () => {
     clearTimeout(introT); if (el.hidden || el.dataset.out) return; el.dataset.out = 1;
-    if (!reduce) car.animate([{ transform: 'translateX(470px)' }], { duration: 700, easing: 'cubic-bezier(.5,0,.85,.25)', fill: 'forwards' });
-    const a = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduce ? 1 : 420, delay: reduce ? 0 : 380, easing: 'ease-out', fill: 'forwards' });
+    if (!reduce) {
+      cm.animate([{ opacity: 1 }], { duration: 220, easing: 'ease-in', fill: 'forwards' });
+      inn.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-.7deg)', offset: .3 }, { transform: 'rotate(0)' }], { duration: 600, easing: 'ease-out' });
+      car.animate([{ transform: 'translate(350px,162px) scale(1.65)' }], { duration: 800, easing: 'cubic-bezier(.55,0,.9,.4)', fill: 'forwards' });
+    }
+    const a = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduce ? 1 : 420, delay: reduce ? 0 : 430, easing: 'ease-out', fill: 'forwards' });
     a.onfinish = () => { el.hidden = true; delete el.dataset.out; a.cancel(); };
   };
   el.onclick = end;
