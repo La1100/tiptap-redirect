@@ -45,6 +45,9 @@ input,textarea{font:inherit;color:inherit}
 #side .qr img{width:112px;height:112px;display:block;flex:none}
 #side .qr b{display:block;font-size:16px;margin-bottom:4px}
 #side .qr span{font-size:14px;color:#5A6478;line-height:1.45}
+#side .cen{display:flex;flex-direction:column;gap:3px;margin-top:14px;padding:14px 18px;border-radius:18px;background:linear-gradient(135deg,#0B1A3A,#17346B);color:#fff;text-decoration:none;font-size:16px;font-weight:700;box-shadow:0 6px 20px rgba(10,20,38,.18)}
+#side .cen small{font-size:13px;font-weight:500;color:#C9D4EA}
+#side .cen:hover{filter:brightness(1.08)}
 #side .pnote{font-size:13px;line-height:1.5;color:var(--mute);margin-top:18px}
 #phone{position:relative;width:390px;height:844px;flex:none;border-radius:54px;box-shadow:0 0 0 11px #0D1118,0 0 0 13px #343C4A,0 40px 90px rgba(10,20,38,.35);transform:scale(var(--ps));transform-origin:center}
 #app{position:absolute;left:0;top:0;width:390px;height:var(--h);transform:scale(var(--s));transform-origin:0 0;overflow:hidden;background:var(--map);border-radius:54px;isolation:isolate}
@@ -55,6 +58,7 @@ body.m #phone{width:100%;height:100%;border-radius:0;box-shadow:none;transform:n
 body.m #app{border-radius:0}
 body.m #sbar{display:none}
 #sbar{position:absolute;left:0;right:0;top:0;height:54px;z-index:45;padding:6px 28px 0 42px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}
+#sbar{color:var(--ink)}
 #sbar b{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
 #sbar i{position:absolute;left:132px;top:11px;width:126px;height:37px;border-radius:19px;background:#000}
 /* karta */
@@ -243,6 +247,38 @@ body.m #sbar{display:none}
 .ride-p{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}
 .ride-p b{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
 .ride-p small{font-size:13px;color:var(--grey)}
+/* vožnje: kartice s kartom */
+.rc{border-radius:20px;background:var(--surf);overflow:hidden;margin-bottom:12px}
+.rc-m{display:block;width:100%}
+.rmap{position:relative;height:132px;overflow:hidden;background:var(--map)}
+.rmap-in{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0}
+.rmap-in img,.rmap-in svg{position:absolute;left:0;top:0;width:390px;height:844px}
+.rmap-in img.md{opacity:var(--md)}
+.rc-b{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px}
+.rc-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;text-align:left}
+.rc-t b{font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rc-t small{font-size:14px;color:var(--grey)}
+.rc-a{flex:none;height:44px;padding:0 16px 0 13px;border-radius:22px;background:var(--bg);display:flex;align-items:center;gap:7px;font-size:15px;font-weight:700;box-shadow:0 1px 4px var(--sh)}
+/* narudžba rečenicom */
+.smart{position:relative}
+.smart textarea.inp{height:96px;padding-right:62px;font-size:17px}
+.mic{position:absolute;right:10px;top:10px;width:44px;height:44px;border-radius:22px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center}
+.mic.on{animation:micp 1.2s ease-in-out infinite}
+@keyframes micp{50%{box-shadow:0 0 0 10px var(--ring-bg)}}
+.chips .chip.ex{height:auto;min-height:36px;padding:8px 12px;border-radius:12px;text-align:left;font-weight:500;line-height:1.3}
+.sres{border-radius:16px;background:var(--brand-t);padding:6px 14px;margin-bottom:14px}
+.srow{display:flex;align-items:center;gap:10px;min-height:42px;font-size:16px;font-weight:600}
+.srow svg{color:var(--acc)}
+.srow+.srow{border-top:1px solid var(--line)}
+/* veći tekst */
+#app.big .t{font-size:27px}#app.big .tc{font-size:22px}#app.big .hi{font-size:25px}#app.big .sub{font-size:17px}
+#app.big .rt b{font-size:18px}#app.big .rt small{font-size:16px}#app.big .row{min-height:68px}
+#app.big .btn{height:62px;font-size:19px}#app.big .search>button:first-child{font-size:21px}
+#app.big .opt-n b,#app.big .opt-p b{font-size:20px}#app.big .opt-t small{font-size:15.5px}
+#app.big .trip-n{font-size:17px}#app.big .note{font-size:16px}#app.big .mt{font-size:25px}#app.big .msub{font-size:17px}
+#app.big .drv-t b{font-size:19px}#app.big .vc-m{font-size:17px}#app.big .nav button{font-size:14px}#app.big .ptitle{font-size:34px}
+#app.big .rc-t b{font-size:19px}#app.big .rc-t small{font-size:16px}#app.big .kv{font-size:17px}#app.big .chip{font-size:16px}
+#app.big .field input{font-size:19px}#app.big .tile{font-size:16px}#app.big .pkp{font-size:17px}#app.big .toppill b{font-size:16px}
 /* modal */
 #modal{position:absolute;inset:0;z-index:30;pointer-events:none}
 #modal.on{pointer-events:auto}
@@ -314,6 +350,7 @@ textarea.inp{height:84px;padding:14px 16px;resize:none;font-weight:500}
 <h1>Nova aplikacija Osječkog taxija</h1>
 <p>Isprobajte kako putnik naručuje taxi, od upisa odredišta do ocjene vožnje. Sve na ekranu je klikabilno.</p>
 <div class="qr"><img src="/taxi/assets/qr.svg" alt="QR kod za otvaranje na mobitelu"><div><b>Otvorite na mobitelu</b><span>Skenirajte kamerom mobitela, aplikacija se otvara preko cijelog ekrana.</span></div></div>
+<a class="cen" href="/taxi/centrala">Otvorite pogled centrale<small>Za vlasnika: vozila, narudžbe i prihod uživo</small></a>
 <p class="pnote">Prototip za pregled. Cijene, vozači i vozila su primjeri.</p>
 </aside>
 <div id="phone"><div id="app">
@@ -323,7 +360,7 @@ textarea.inp{height:84px;padding:14px 16px;resize:none;font-weight:500}
 <div id="pages"></div>
 <div id="modal"></div>
 <div id="toast" role="status" aria-live="polite"></div>
-<div id="sbar" aria-hidden="true"><b id="clock">16:31</b><i></i><svg width="70" height="13" viewBox="0 0 70 13"><g fill="#0A1426"><rect x="0" y="7.5" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6" rx="1"/><rect x="10" y="3" width="3" height="8.5" rx="1"/><rect x="15" y=".5" width="3" height="11" rx="1"/></g><g fill="none" stroke="#0A1426" stroke-width="1.8" stroke-linecap="round"><path d="M24.5 4.6a9.5 9.5 0 0 1 13 0M27 7.3a6 6 0 0 1 8 0"/></g><circle cx="31" cy="10.2" r="1.2" fill="#0A1426"/><rect x="42.5" y=".5" width="24" height="12" rx="3.5" fill="none" stroke="#0A1426" stroke-opacity=".4"/><rect x="44.5" y="2.5" width="17" height="8" rx="2" fill="#0A1426"/><rect x="67.6" y="4.5" width="1.8" height="4" rx=".9" fill="#0A1426" fill-opacity=".45"/></svg></div>
+<div id="sbar" aria-hidden="true"><b id="clock">16:31</b><i></i><svg width="70" height="13" viewBox="0 0 70 13"><g fill="currentColor"><rect x="0" y="7.5" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6" rx="1"/><rect x="10" y="3" width="3" height="8.5" rx="1"/><rect x="15" y=".5" width="3" height="11" rx="1"/></g><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M24.5 4.6a9.5 9.5 0 0 1 13 0M27 7.3a6 6 0 0 1 8 0"/></g><circle cx="31" cy="10.2" r="1.2" fill="currentColor"/><rect x="42.5" y=".5" width="24" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="44.5" y="2.5" width="17" height="8" rx="2" fill="currentColor"/><rect x="67.6" y="4.5" width="1.8" height="4" rx=".9" fill="currentColor" fill-opacity=".45"/></svg></div>
 <div id="intro" hidden></div>
 </div></div>
 </div>
@@ -345,6 +382,10 @@ const I = {
   bus: '<rect x="5" y="3" width="14" height="15" rx="3"/><path d="M5 11h14M8 21v-3M16 21v-3"/><circle cx="8.5" cy="14.5" r=".6"/><circle cx="15.5" cy="14.5" r=".6"/>',
   train: '<rect x="6" y="3" width="12" height="14" rx="3"/><path d="M6 10h12M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9.5" cy="13.5" r=".6"/><circle cx="14.5" cy="13.5" r=".6"/>',
   map: '<path d="M9 4 3 6.5V20l6-2.5 6 2.5 6-2.5V4l-6 2.5L9 4z"/><path d="M9 4v13.5M15 6.5V20"/>',
+  textsize: '<path d="M3 7V5h11v2M8.5 5v14M6 19h5M14 12v-1.5h7V12M17.5 10.5V19M16 19h3"/>',
+  mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+  spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
+  chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   pin: '<path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
   chev_r: '<path d="M9 6l6 6-6 6"/>', chev_d: '<path d="M6 9l6 6 6-6"/>', back: '<path d="M19 12H5M11 18l-6-6 6-6"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>',
   user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
@@ -462,8 +503,8 @@ const AMB = [
   { path: [[-10, 251], [60, 258], [140, 260], [178, 259], [181, 330], [186, 520]], kind: 'taxi', speed: 11, t: .55 },
 ];
 const SAMPLE = [
-  { date: '3. stu', time: '07:12', from: 'Sjenjak', dest: 'Zračna luka Osijek', price: 31, pay: 'Kartica u vozilu', veh: 'Toyota Corolla, OS 205-KT', driver: 'Ivan' },
-  { date: '28. lis', time: '19:40', from: 'Trg Ante Starčevića', dest: 'KBC Osijek', price: 7.1, pay: 'Gotovina', veh: 'Toyota Corolla, OS 482-KT', driver: 'Niko' },
+  { date: '3. stu', time: '07:12', from: 'Sjenjak', destId: 'zracna', dest: 'Zračna luka Osijek', price: 31, pay: 'Kartica u vozilu', veh: 'Toyota Corolla, OS 205-KT', driver: 'Ivan' },
+  { date: '28. lis', time: '19:40', from: 'Trg Ante Starčevića', destId: 'kbc', dest: 'KBC Osijek', price: 7.1, pay: 'Gotovina', veh: 'Toyota Corolla, OS 482-KT', driver: 'Niko' },
 ];
 
 /* ---------- stanje ---------- */
@@ -471,7 +512,8 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('otx_' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('otx_' + k, JSON.stringify(v)); } catch (e) {} },
 };
-const S = { dest: byId('tvrdja'), opt: 'taxi', extras: { seat: false, pet: false, bag: false, note: '' }, pay: 'Gotovina', when: null, scheduled: store.get('sched', null), user: store.get('user', null), points: store.get('points', 320), rides: store.get('rides', []), rating: 5, chips: ['Točan dolazak', 'Ugodna vožnja'], theme: store.get('theme', 'auto') };
+const S = { dest: byId('tvrdja'), opt: 'taxi', extras: { seat: false, pet: false, bag: false, note: '' }, pay: 'Gotovina', when: null, scheduled: store.get('sched', null), user: store.get('user', null), points: store.get('points', 320), rides: store.get('rides', []), rating: 5, chips: ['Točan dolazak', 'Ugodna vožnja'], theme: store.get('theme', 'auto'), big: store.get('big', false), forWho: null };
+app.classList.toggle('big', !!S.big);
 const mqDark = matchMedia('(prefers-color-scheme: dark)');
 function applyTheme() { const r = document.documentElement, t = S.theme; if (t === 'auto') delete r.dataset.theme; else r.dataset.theme = t; const dk = t === 'dark' || (t === 'auto' && mqDark.matches), m = document.querySelector('meta[name=theme-color]'); if (m) m.content = dk ? '#0C1628' : '#FFFFFF'; }
 if (mqDark.addEventListener) mqDark.addEventListener('change', applyTheme); else if (mqDark.addListener) mqDark.addListener(applyTheme);
@@ -702,7 +744,7 @@ function suggHTML(q) {
   if (!list.length) return `<p class="empty">Nema rezultata za „${esc(q)}”. U pravoj aplikaciji ovdje se pretražuju sve adrese u Osijeku.</p>`;
   const saved = list.filter(p => p.saved), rec = list.filter(p => p.recent), other = list.filter(p => !p.saved && !p.recent);
   const grp = (t, a) => a.length ? `<p class="sect">${t}</p>` + a.map(p => rowHTML(p.icon === 'clock' && !p.recent ? 'pin' : p.icon, p.name, p.sub, `data-dest="${p.id}"`)).join('') : '';
-  return n ? list.map(p => rowHTML(p.icon, p.name, p.sub, `data-dest="${p.id}"`)).join('') : rowHTML('map', 'Odaberi na karti', 'Dodirnite kartu gdje želite ići', 'data-go="pick"', 'blue') + grp('Spremljeno', saved) + grp('Nedavno', rec) + grp('Popularno u Osijeku', other);
+  return n ? list.map(p => rowHTML(p.icon, p.name, p.sub, `data-dest="${p.id}"`)).join('') : rowHTML('map', 'Odaberi na karti', 'Dodirnite kartu gdje želite ići', 'data-go="pick"', 'blue') + rowHTML('spark', 'Napišite ili izgovorite narudžbu', 'Npr. „Sutra u 8 na aerodrom, nas petero”', 'data-act="smart"', 'gold') + grp('Spremljeno', saved) + grp('Nedavno', rec) + grp('Popularno u Osijeku', other);
 }
 SCR.search = () => {
   const el = page(`<div class="ph"><button class="fbtn" data-tab="home" aria-label="Natrag">${ic('back')}</button><h1>Kamo idete?</h1></div>
@@ -723,7 +765,7 @@ function chooseHTML() {
   const cta = S.when ? `Zakaži za ${S.when.time}` : `Naruči ${S.opt === 'taxi' ? 'taxi' : 'kombi'}`;
   return `<h2 class="tc">Odaberite vožnju</h2><div class="hr"></div>
 <div role="radiogroup" aria-label="Vrsta vožnje" style="display:flex;flex-direction:column;gap:2px">${optHTML('taxi')}${optHTML('van')}</div>
-<div class="list cmp" style="margin-top:4px">${rowHTML('sliders', 'Dodaci', extrasLabel(), 'data-act="extras"', (S.extras.seat || S.extras.pet || S.extras.bag) ? 'blue' : '')}${rowHTML(S.pay === 'Gotovina' ? 'cash' : 'card', S.pay, null, 'data-act="pay"')}</div>
+<div class="list cmp" style="margin-top:4px">${rowHTML('person', S.forWho ? 'Putnik: ' + esc(S.forWho.name) : 'Vožnja je za mene', S.forWho ? esc(S.forWho.phone) + ', dobiva SMS s vozilom' : 'Naručite i za nekog drugog', 'data-act="who"', S.forWho ? 'blue' : '')}${rowHTML('sliders', 'Dodaci', extrasLabel(), 'data-act="extras"', (S.extras.seat || S.extras.pet || S.extras.bag) ? 'blue' : '')}${rowHTML(S.pay === 'Gotovina' ? 'cash' : 'card', S.pay, null, 'data-act="pay"')}</div>
 <div class="sp"></div><div class="brow"><button class="btn pri" data-act="order">${cta}</button><button class="btn sec sq" data-act="when" aria-label="Zakaži za kasnije">${ic('cal', 22)}</button></div>`;
 }
 function chooseMarks() {
@@ -747,7 +789,7 @@ SCR.searching = () => {
   sheet(`<button style="text-align:left" data-act="found"><h2 class="t">Tražimo vam ${S.opt === 'taxi' ? 'taxi' : 'kombi'}</h2><p class="sub">Najbliži slobodan auto obično se javi za manje od minute.</p></button>
 <div class="prog load"><i></i></div>
 <div class="trip"><span class="dots"><i></i><i></i><i></i></span><span class="trip-n"><span>Trg Ante Starčevića</span><span>${esc(d.name)}</span></span><span class="trip-p"><b>${eur(price)}</b><span class="fix">${ic('lock', 13, 'var(--gold-t)', 2.4)}Fiksno, ${S.pay.toLowerCase()}</span></span></div>
-<div class="note">${ic('headset', 20)}<span>Narudžbu prati i naša centrala, 0–24 h.</span></div>
+<div class="note">${S.forWho ? `${ic('msg', 20)}<span>Putnik ${esc(S.forWho.name)} dobiva SMS s vozilom i vozačem. Vi pratite vožnju uživo.</span>` : `${ic('headset', 20)}<span>Narudžbu prati i naša centrala, 0–24 h.</span>`}</div>
 <div class="sp"></div><div class="brow"><button class="btn sec" data-act="cancel">Otkaži narudžbu</button></div>`);
   cam([[P[0], P[1] - 100], [P[0], P[1] + 100]]);
   T = setTimeout(found, reduce ? 800 : 3400);
@@ -843,14 +885,24 @@ SCR.done = () => {
 function finishRide() {
   const d = S.dest, v = VEH[S.opt], price = d[S.opt === 'taxi' ? 'taxi' : 'van'], now = new Date();
   S.points += Math.floor(price); store.set('points', S.points);
-  S.rides.unshift({ date: `${now.getDate()}. ${MJ[now.getMonth()]}`, time: hm(now), from: 'Trg Ante Starčevića', dest: d.name, price, pay: S.pay, veh: `${v.short}, ${v.plate}`, driver: v.driver, rating: S.rating });
+  S.rides.unshift(Object.assign({ date: `${now.getDate()}. ${MJ[now.getMonth()]}`, time: hm(now), from: 'Trg Ante Starčevića', destId: d.id, dest: d.name, price, pay: S.pay, veh: `${v.short}, ${v.plate}`, driver: v.driver, rating: S.rating, opt: S.opt }, d.id === 'map' ? { route: d.route.map(q => [Math.round(q[0] * 10) / 10, Math.round(q[1] * 10) / 10]), sub: d.sub, km: d.km, min: d.min, taxi: d.taxi, van: d.van } : {}));
+  S.forWho = null;
   S.rides = S.rides.slice(0, 20); store.set('rides', S.rides);
   go('home');
 }
 
+const rideRoute = r => { if (r.route) return r.route; const q = PLACES.find(x => x.id === r.destId || x.name === r.dest); return q ? q.route : null; };
+function miniMap(pts) {
+  if (!pts) return '';
+  const W = 350, H = 132, pd = 30, xs = pts.map(q => q[0]), ys = pts.map(q => q[1]);
+  const x0 = Math.min(...xs) - pd, x1 = Math.max(...xs) + pd, y0 = Math.min(...ys) - pd, y1 = Math.max(...ys) + pd;
+  const k = Math.min(2.2, Math.max(.55, Math.min(W / (x1 - x0), H / (y1 - y0)))), tx = W / 2 - k * (x0 + x1) / 2, ty = H / 2 - k * (y0 + y1) / 2;
+  const d = 'M' + pts.map(q => q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join('L'), a = pts[0], e = pts[pts.length - 1], u = v => (v / k).toFixed(2);
+  return `<div class="rmap" aria-hidden="true"><div class="rmap-in" style="transform:translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) scale(${k.toFixed(3)})"><img src="${A}karta.svg" alt=""><img class="md" src="${A}karta-dark.svg" alt=""><svg viewBox="0 0 390 844"><path d="${d}" fill="none" style="stroke:var(--route-case)" stroke-width="${u(9)}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" style="stroke:var(--route)" stroke-width="${u(5)}" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${a[0]}" cy="${a[1]}" r="${u(5)}" fill="#fff" style="stroke:var(--route)" stroke-width="${u(3)}"/><rect x="${(e[0] - 5 / k).toFixed(1)}" y="${(e[1] - 5 / k).toFixed(1)}" width="${u(10)}" height="${u(10)}" rx="${u(2)}" style="fill:var(--route)"/></svg></div></div>`;
+}
 function ridesHTML() {
   const all = S.rides.concat(SAMPLE);
-  return `<div class="pb"><h1 class="ptitle">Vožnje</h1><div class="list rides">${all.map((r, i) => `<button class="row" data-ride="${i}"><span class="ci">${ic('car', 20)}</span><span class="rt"><b>${esc(r.dest)}</b><small>${r.date}, ${r.time}</small></span><span class="ride-p"><b>${eur(r.price)}</b><small>${esc(r.pay)}</small></span></button>`).join('')}</div></div>${navHTML('rides')}`;
+  return `<div class="pb"><h1 class="ptitle">Vožnje</h1>${all.map((r, i) => `<div class="rc"><button class="rc-m" data-ride="${i}" aria-label="Račun za vožnju: ${esc(r.dest)}">${miniMap(rideRoute(r))}</button><div class="rc-b"><button class="rc-t" data-ride="${i}"><b>${esc(r.dest)}</b><small>${r.date}, ${r.time}</small><small>${eur(r.price)}, ${esc(r.pay.toLowerCase())}</small></button><button class="rc-a" data-again="${i}">${ic('refresh', 18, 'currentColor', 2.4)}Ponovi</button></div></div>`).join('')}</div>${navHTML('rides')}`;
 }
 SCR.rides = () => { cleanupRide(); page(ridesHTML()); };
 function accountHTML() {
@@ -861,7 +913,7 @@ function accountHTML() {
 <button class="prof" data-act="${u ? 'profile' : 'login'}"><span class="av">${init}</span><span class="rt"><b style="font-size:19px;font-weight:700">${esc(nm)}</b><small>${u ? esc(u.phone) : 'Prijavite se brojem mobitela'}</small></span>${CHEV}</button>
 <div class="pc">${brk}<div class="r1"><span>Vaši bodovi</span><span class="rang">Rang Start</span></div><div class="r2"><b>${S.points}</b><span>${bod(S.points)}</span></div><div class="pbar"><i style="width:${pct}%"></i></div><div class="r3">Do sljedećeg ranga: ${Math.max(0, next - S.points)} ${bod(Math.max(0, next - S.points))}</div></div>
 <div class="tiles"><button class="tile" data-act="wallet">${ic('wallet', 22)}Novčanik</button><button class="tile" data-act="promo">${ic('gift', 22)}Popusti</button><button class="tile" data-act="refer">${ic('userplus', 22)}Preporuči</button></div>
-<div class="list" style="margin-top:6px">${rowHTML('pin', 'Spremljena mjesta', null, 'data-act="places"')}${rowHTML('history', 'Moje vožnje', null, 'data-tab="rides"')}${rowHTML('sliders', 'Postavke i privatnost', null, 'data-act="settings"')}${rowHTML('headset', 'Pomoć i centrala', '031 200 200, 0–24 h', 'data-act="help"')}${u ? rowHTML('out', 'Odjava', null, 'data-act="logout"', '', false) : ''}</div></div>${navHTML('account')}`;
+<div class="list" style="margin-top:6px">${rowHTML('pin', 'Spremljena mjesta', null, 'data-act="places"')}${rowHTML('history', 'Moje vožnje', null, 'data-tab="rides"')}${rowHTML('sliders', 'Postavke i privatnost', null, 'data-act="settings"')}${rowHTML('headset', 'Pomoć i centrala', '031 200 200, 0–24 h', 'data-act="help"')}${rowHTML('chart', 'Centrala uživo', 'Za vlasnika: vozila, narudžbe i prihod', 'data-act="centrala"', 'gold')}${u ? rowHTML('out', 'Odjava', null, 'data-act="logout"', '', false) : ''}</div></div>${navHTML('account')}`;
 }
 SCR.account = () => { cleanupRide(); page(accountHTML()); };
 const refreshAccount = () => { const p = pagesEl.lastElementChild; if (p && cur === 'account') p.innerHTML = accountHTML(); };
@@ -881,6 +933,52 @@ ${M.day === 'Odmah' ? '' : `<div class="slots">${slots.map(t => `<button data-ti
   M.redraw = () => { const ms = $('.ms', modalEl); if (ms) ms.innerHTML = '<div class="grab"></div>' + draw(); };
   modal(draw());
 };
+MOD.who = () => {
+  M.whom = S.forWho ? 'other' : 'me';
+  modal(`<h2 class="mt">Za koga je vožnja?</h2><p class="msub">Naručite taxi za mamu, prijatelja ili gosta. Putnik dobiva SMS s vozilom i vozačem, a vi vožnju pratite uživo.</p>
+<div class="seg" role="group" aria-label="Za koga">${[['me', 'Za mene'], ['other', 'Za nekog drugog']].map(([k, l]) => `<button data-whom="${k}" aria-pressed="${M.whom === k}">${l}</button>`).join('')}</div>
+<div id="whoF"${M.whom === 'other' ? '' : ' hidden'}><input class="inp" id="wn" placeholder="Ime putnika" autocomplete="off" value="${S.forWho ? esc(S.forWho.name) : ''}"><input class="inp" id="wp" type="tel" inputmode="tel" placeholder="Broj mobitela putnika" value="${S.forWho ? esc(S.forWho.phone) : ''}"><p class="err-t" id="we" hidden></p></div>
+<button class="btn pri wide" data-act="savewho">Spremi</button>`);
+};
+const SMART_EX = ['Sutra u 8 na aerodrom, nas petero s koferima', 'Do KBC-a, idem sa psom', 'Kući za pola sata', 'U Tvrđu u 21:30'];
+function parseOrder(raw) {
+  const t = ' ' + norm(raw).replace(/[,!?;]/g, ' ').replace(/\.(?!\d)/g, ' ').replace(/\s+/g, ' ') + ' ', R = { dest: null, day: null, time: null, people: 0, opt: null, ex: {} };
+  for (const [id, re] of [['zracna', /(aerodrom|zracn|avion|klis)/], ['kbc', /(kbc|bolnic|huttler)/], ['vlak', /(zeljeznick|vlak)/], ['kolodvor', /(autobus|kolodvor)/], ['tvrdja', /tvrd/], ['copacabana', /(copacab|kopakaban)/], ['portanova', /portanov/], ['kuca', / (kuci|kuca|doma|domov)/]]) if (re.test(t)) { R.dest = id; break; }
+  if (/ sutra /.test(t)) R.day = 'Sutra';
+  const m = t.match(/ u (\d{1,2})(?:[:. h](\d{2}))? /);
+  if (m) { let h = +m[1]; const mi = m[2] ? +m[2] : 0; if (/(popodne|navecer|uvecer|poslijepodne)/.test(t) && h < 12) h += 12; if (h < 24 && mi < 60) { R.time = String(h).padStart(2, '0') + ':' + String(mi).padStart(2, '0'); if (!R.day) R.day = 'Danas'; } }
+  let add = 0;
+  if (/ za pola sata /.test(t)) add = 30; else if (/ za (jedan |1 )?sat /.test(t)) add = 60;
+  else { const q = t.match(/ za (\d{1,3}) ?(minuta|minute|min|sata|sati|h) /); if (q) add = /sat|h/.test(q[2]) ? +q[1] * 60 : +q[1]; }
+  if (add) { const d = new Date(Date.now() + add * 60000); R.day = d.getDate() !== new Date().getDate() ? 'Sutra' : 'Danas'; R.time = hm(d); }
+  if (R.day === 'Sutra' && !R.time) R.time = '08:00';
+  const W = { dvoje: 2, troje: 3, cetvero: 4, cetvoro: 4, petero: 5, petoro: 5, sestero: 6, sestoro: 6, sedmero: 7, sedmoro: 7, osmero: 8, osmoro: 8 };
+  for (const w in W) if (t.includes(' ' + w + ' ')) R.people = W[w];
+  const pp = t.match(/ (\d) (osob|putnik|ljud)/) || t.match(/ nas (\d) /); if (pp) R.people = +pp[1];
+  R.opt = R.people > 4 || / kombi/.test(t) ? 'van' : 'taxi';
+  R.ex = { pet: /( pas | psa | psom | mack| ljubim)/.test(t), seat: /(sjedalic| dijete| djetet| beba| bebom| djecom)/.test(t), bag: /(kofer|prtljag|torb|kolica)/.test(t) };
+  return R;
+}
+function smartRes(R) {
+  if (!R.dest) return '<p class="err-t">Nisam prepoznao odredište. Napišite npr. „do Tvrđe”, „na aerodrom” ili „kući”.</p>';
+  const p = byId(R.dest), row = (i, t) => `<div class="srow">${ic(i, 20)}<span>${t}</span></div>`, ex = [];
+  if (R.ex.seat) ex.push('dječja sjedalica'); if (R.ex.pet) ex.push('ljubimac'); if (R.ex.bag) ex.push('veća prtljaga');
+  return `<div class="sres">${row('pin', esc(p.name))}${row('clock', R.day ? `${R.day} u ${R.time}` : 'Odmah')}${row(R.opt === 'van' ? 'bus' : 'car', (R.people ? R.people + ' ' + (R.people < 5 ? 'osobe' : 'osoba') + ', ' : '') + (R.opt === 'van' ? 'kombi' : 'taxi'))}${ex.length ? row('sliders', ex.join(', ').replace(/^./, c => c.toUpperCase())) : ''}</div>`;
+}
+MOD.smart = () => {
+  const sr = window.SpeechRecognition || window.webkitSpeechRecognition; M.parsed = null;
+  modal(`<h2 class="mt">Recite kamo idete</h2><p class="msub">Napišite ili izgovorite cijelu narudžbu, kao da zovete centralu.</p>
+<div class="smart"><textarea class="inp" id="sq" placeholder="Npr. sutra u 8 na aerodrom, nas petero" aria-label="Narudžba jednom rečenicom"></textarea>${sr ? `<button class="mic" data-act="mic" aria-label="Izgovorite narudžbu">${ic('mic', 22)}</button>` : ''}</div>
+<div class="chips" style="margin:0 0 14px">${SMART_EX.map(x => `<button class="chip ex" data-ex="${esc(x)}">„${esc(x)}”</button>`).join('')}</div>
+<div id="sres"></div>
+<button class="btn pri wide" id="sbtn" data-act="parse">Razumij narudžbu</button>`);
+};
+function runParse() {
+  const q = $('#sq'); if (!q) return;
+  const R = parseOrder(q.value); M.parsed = R.dest ? R : null;
+  $('#sres').innerHTML = q.value.trim() ? smartRes(R) : '';
+  const b = $('#sbtn'); if (b) { b.dataset.act = M.parsed ? 'smartgo' : 'parse'; b.textContent = M.parsed ? 'Nastavi na odabir vožnje' : 'Razumij narudžbu'; }
+}
 MOD.extras = () => {
   const e = S.extras;
   const r = (k, icon, t, s) => `<div class="row"><span class="ci">${ic(icon, 20)}</span><span class="rt"><b>${t}</b><small>${s}</small></span><button class="sw${e[k] ? ' on' : ''}" role="switch" aria-checked="${!!e[k]}" aria-label="${t}" data-sw="${k}"></button></div>`;
@@ -925,7 +1023,7 @@ MOD.wallet = () => modal(`<h2 class="mt">Novčanik</h2><div class="list">${rowHT
 MOD.promo = () => modal(`<h2 class="mt">Popusti</h2><p class="msub">Upišite promo kod ili poklon bon.</p><input class="inp" id="pc" placeholder="Npr. OSIJEK10" autocapitalize="characters" aria-label="Promo kod"><button class="btn pri wide" data-act="applypromo">Primijeni</button>`, m => { const i = $('#pc', m); if (i) i.focus({ preventScroll: true }); });
 MOD.refer = () => { const c = ((firstName() || 'PUTNIK').toUpperCase().replace(/[^A-ZČĆŽŠĐ]/g, '') + '-200'); modal(`<h2 class="mt">Preporuči prijatelju</h2><p class="msub">Pošaljite kod prijatelju. Kad se prvi put provoza, oboje dobivate bodove.</p><div class="code"><span>${esc(c)}</span>${ic('gift', 22, 'var(--gold-t)')}</div><button class="btn pri wide" data-act="share" data-code="${esc(c)}">${ic('share', 19, '#fff', 2.2)}Podijeli kod</button>`); };
 MOD.places = () => modal(`<h2 class="mt">Spremljena mjesta</h2><div class="list">${rowHTML('home', 'Kuća', 'Sjenjak, Osijek', 'data-dest="kuca"')}${rowHTML('pin', 'Posao', 'Dodajte adresu', 'data-act="proto" data-t="U pravoj aplikaciji ovdje upisujete adresu posla."')}${rowHTML('pin', 'Dodaj mjesto', 'Teretana, škola, roditelji…', 'data-act="proto" data-t="U pravoj aplikaciji ovdje dodajete svoja mjesta."')}</div>`);
-MOD.settings = () => modal(`<h2 class="mt">Postavke i privatnost</h2><p class="sect" style="margin:6px 0 8px">Izgled</p><div class="seg" role="group" aria-label="Izgled aplikacije">${[['auto', 'Automatski'], ['light', 'Svijetlo'], ['dark', 'Tamno']].map(([k, l]) => `<button data-thm="${k}" aria-pressed="${S.theme === k}">${l}</button>`).join('')}</div><div class="list"><div class="row"><span class="ci">${ic('bell', 20)}</span><span class="rt"><b>Obavijesti o vožnji</b><small>Kad vozač krene i kad stigne</small></span><button class="sw on" role="switch" aria-checked="true" aria-label="Obavijesti o vožnji" data-sw="n1"></button></div><div class="row"><span class="ci">${ic('gift', 20)}</span><span class="rt"><b>Ponude i novosti</b><small>Popusti i nagrade</small></span><button class="sw" role="switch" aria-checked="false" aria-label="Ponude i novosti" data-sw="n2"></button></div>${rowHTML('globe', 'Jezik', 'Hrvatski', 'data-act="proto" data-t="Aplikacija može biti i na engleskom, za turiste."')}${rowHTML('refresh', 'Pokreni demo ispočetka', 'Briše prijavu, bodove i vožnje iz prototipa', 'data-act="reset"', '', false)}</div>`);
+MOD.settings = () => modal(`<h2 class="mt">Postavke i privatnost</h2><p class="sect" style="margin:6px 0 8px">Izgled</p><div class="seg" role="group" aria-label="Izgled aplikacije">${[['auto', 'Automatski'], ['light', 'Svijetlo'], ['dark', 'Tamno']].map(([k, l]) => `<button data-thm="${k}" aria-pressed="${S.theme === k}">${l}</button>`).join('')}</div><div class="list"><div class="row"><span class="ci">${ic('textsize', 20)}</span><span class="rt"><b>Veći tekst</b><small>Lakše čitanje, veći gumbi</small></span><button class="sw${S.big ? ' on' : ''}" role="switch" aria-checked="${!!S.big}" aria-label="Veći tekst" data-sw="big"></button></div><div class="row"><span class="ci">${ic('bell', 20)}</span><span class="rt"><b>Obavijesti o vožnji</b><small>Kad vozač krene i kad stigne</small></span><button class="sw on" role="switch" aria-checked="true" aria-label="Obavijesti o vožnji" data-sw="n1"></button></div><div class="row"><span class="ci">${ic('gift', 20)}</span><span class="rt"><b>Ponude i novosti</b><small>Popusti i nagrade</small></span><button class="sw" role="switch" aria-checked="false" aria-label="Ponude i novosti" data-sw="n2"></button></div>${rowHTML('globe', 'Jezik', 'Hrvatski', 'data-act="proto" data-t="Aplikacija može biti i na engleskom, za turiste."')}${rowHTML('refresh', 'Pokreni demo ispočetka', 'Briše prijavu, bodove i vožnje iz prototipa', 'data-act="reset"', '', false)}</div>`);
 MOD.help = () => modal(`<h2 class="mt">Pomoć i centrala</h2><div class="list">${rowHTML('headset', 'Nazovi centralu', '031 200 200, 0–24 h', 'data-act="proto" data-t="U pravoj aplikaciji ovdje se zove centrala."')}${rowHTML('help', 'Kako naručiti taxi', 'Tri dodira: odredište, vožnja, naruči', 'data-act="proto" data-t="Ovdje dolaze kratki odgovori na česta pitanja."')}${rowHTML('cash', 'Plaćanje i računi', 'Gotovina, kartica, računi na e-mail', 'data-act="proto" data-t="Ovdje dolaze kratki odgovori na česta pitanja."')}${rowHTML('bag', 'Izgubljene stvari', 'Javite nam se, vozač provjerava auto', 'data-act="proto" data-t="Ovdje se prijavljuje izgubljena stvar."')}</div>`);
 MOD.schedinfo = () => modal(`<h2 class="mt">Zakazana vožnja</h2><p class="msub">${esc(S.scheduled.dest)}, ${esc(S.scheduled.label)}. Podsjetit ćemo vas 15 minuta prije, a vozač kreće na vrijeme.</p><div class="brow"><button class="btn sec" data-act="close">U redu</button><button class="btn danger" data-act="unsched">Otkaži vožnju</button></div>`);
 
@@ -951,6 +1049,31 @@ const ACT = {
   },
   docancel: () => { cleanupRide(); go('home'); toast('Narudžba je otkazana', 'Možete naručiti novu kad god želite.'); },
   unsched: () => { S.scheduled = null; store.set('sched', null); closeModal(); SCR.home(); toast('Zakazana vožnja je otkazana', 'Nema troškova.'); },
+  who: () => MOD.who(),
+  savewho: () => {
+    if (M.whom === 'other') {
+      const n = $('#wn').value.trim(), ph = $('#wp').value.replace(/[^\d+]/g, ''), er = $('#we');
+      if (!n || ph.replace(/\D/g, '').length < 6) { er.textContent = !n ? 'Upišite ime putnika.' : 'Upišite ispravan broj mobitela.'; er.hidden = false; return; }
+      S.forWho = { name: n, phone: $('#wp').value.trim() };
+    } else S.forWho = null;
+    closeModal(); if (cur === 'choose') refreshChoose();
+  },
+  smart: () => MOD.smart(),
+  parse: () => runParse(),
+  smartgo: () => {
+    const R = M.parsed; if (!R) return;
+    S.dest = byId(R.dest); S.opt = R.opt; S.when = R.day ? { day: R.day, time: R.time, label: `${R.day} ${R.time}` } : null;
+    Object.assign(S.extras, R.ex); closeModal(true); go('choose');
+  },
+  mic: t => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return;
+    const r = new SR(), q = $('#sq'); r.lang = 'hr-HR'; r.interimResults = true; t.classList.add('on');
+    r.onresult = e => { q.value = [...e.results].map(x => x[0].transcript).join(' '); };
+    r.onerror = () => { t.classList.remove('on'); toast('Mikrofon nije dostupan', 'Napišite narudžbu ili dopustite mikrofon.'); };
+    r.onend = () => { t.classList.remove('on'); runParse(); };
+    try { r.start(); } catch (e) { t.classList.remove('on'); }
+  },
+  centrala: () => { location.href = '/taxi/centrala'; },
   pickok: () => { if (S.pick && !S.pick.tooClose) { S.dest = S.pick; go('choose'); } },
   share: t => {
     const v = VEH[S.opt], code = t.dataset.code;
@@ -979,7 +1102,7 @@ const ACT = {
 };
 
 app.addEventListener('click', e => {
-  const t = e.target.closest('[data-act],[data-go],[data-tab],[data-dest],[data-opt],[data-star],[data-chip],[data-ride],[data-sw],[data-pay],[data-day],[data-time],[data-msg],[data-thm]');
+  const t = e.target.closest('[data-act],[data-go],[data-tab],[data-dest],[data-opt],[data-star],[data-chip],[data-ride],[data-sw],[data-pay],[data-day],[data-time],[data-msg],[data-thm],[data-again],[data-whom],[data-ex]');
   if (!t && cur === 'home' && e.target.closest('#map')) return go('pick');
   if (!t || !app.contains(t)) return;
   const d = t.dataset;
@@ -991,8 +1114,16 @@ app.addEventListener('click', e => {
   if (d.star) { S.rating = +d.star; curSheet().querySelectorAll('[data-star]').forEach(b => { const on = +b.dataset.star <= S.rating; b.classList.toggle('off', !on); b.setAttribute('aria-checked', +b.dataset.star === S.rating); }); return; }
   if (d.chip) { const on = t.getAttribute('aria-pressed') !== 'true'; t.setAttribute('aria-pressed', on); S.chips = on ? S.chips.concat(d.chip) : S.chips.filter(c => c !== d.chip); return; }
   if (d.ride) return MOD.receipt(S.rides.concat(SAMPLE)[+d.ride]);
-  if (d.sw) { const on = !t.classList.contains('on'); t.classList.toggle('on', on); t.setAttribute('aria-checked', on); if (d.sw in S.extras) S.extras[d.sw] = on; return; }
+  if (d.sw) { const on = !t.classList.contains('on'); t.classList.toggle('on', on); t.setAttribute('aria-checked', on); if (d.sw in S.extras) S.extras[d.sw] = on; if (d.sw === 'big') { S.big = on; store.set('big', on); app.classList.toggle('big', on); if (lastCam) setTimeout(() => cam(lastCam, null), 60); } return; }
   if (d.pay) { S.pay = d.pay; closeModal(); if (cur === 'choose') refreshChoose(); return; }
+  if (d.again) {
+    const r = S.rides.concat(SAMPLE)[+d.again], q = r.destId && r.destId !== 'map' ? byId(r.destId) : PLACES.find(x => x.name === r.dest);
+    S.dest = q || (r.route ? { id: 'map', name: r.dest, short: r.dest, sub: r.sub || 'Odabrano na karti', icon: 'pin', route: r.route, km: r.km, min: r.min, taxi: r.taxi, van: r.van } : null);
+    if (!S.dest) { S.dest = byId('tvrdja'); return toast('Vožnja nije dostupna', 'Odaberite odredište ponovno.'); }
+    S.opt = r.opt || 'taxi'; S.when = null; return go('choose');
+  }
+  if (d.whom) { M.whom = d.whom; t.parentNode.querySelectorAll('[data-whom]').forEach(b => b.setAttribute('aria-pressed', b === t)); $('#whoF').hidden = d.whom !== 'other'; if (d.whom === 'other') $('#wn').focus(); return; }
+  if (d.ex) { const q = $('#sq'); if (q) { q.value = d.ex; runParse(); } return; }
   if (d.thm) { S.theme = d.thm; store.set('theme', d.thm); applyTheme(); t.parentNode.querySelectorAll('[data-thm]').forEach(b => b.setAttribute('aria-pressed', b === t)); return; }
   if (d.day) { M.day = d.day; M.time = null; return M.redraw(); }
   if (d.time) { M.time = d.time; return M.redraw(); }
