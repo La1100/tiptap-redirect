@@ -1,0 +1,10 @@
+{
+  "name": "Osječki taxi",
+  "short_name": "Osječki taxi",
+  "start_url": "/taxi-app/",
+  "scope": "/taxi-app/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0A3D94",
+  "icons": [{ "src": "/taxi-app/assets/icon-180.png", "sizes": "180x180", "type": "image/png" }]
+}

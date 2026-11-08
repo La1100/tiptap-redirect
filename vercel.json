@@ -58,6 +58,10 @@
       "destination": "/taxi/index.html"
     },
     {
+      "source": "/taxi-app",
+      "destination": "/taxi-app/index.html"
+    },
+    {
       "source": "/:code",
       "destination": "/api/redirect?code=:code"
     }
