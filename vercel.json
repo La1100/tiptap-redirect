@@ -62,6 +62,10 @@
       "destination": "/taxi-app/index.html"
     },
     {
+      "source": "/taxi-app/statistika",
+      "destination": "/taxi-app/statistika/index.html"
+    },
+    {
       "source": "/:code",
       "destination": "/api/redirect?code=:code"
     }
