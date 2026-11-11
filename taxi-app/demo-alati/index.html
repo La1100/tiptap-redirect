@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <script type="module" crossorigin src="/taxi-app/assets/polyfills-DqrE3AIu.js"></script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Demo alati, Osječki taxi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/taxi-app/assets/alati-DQAWhluM.js"></script>
+  <link rel="modulepreload" crossorigin href="/taxi-app/assets/config-ZXrJqYoz.js">
+  <link rel="stylesheet" crossorigin href="/taxi-app/assets/alati-CimqK0Vw.css">
+  <link rel="stylesheet" crossorigin href="/taxi-app/assets/tokens-6jTKjeEY.css">
+  <script type="module">import.meta.url;import("_").catch(()=>1);(async function*(){})().next();if(location.protocol!="file:"){window.__vite_is_modern_browser=true}</script>
+  <script type="module">!function(){if(window.__vite_is_modern_browser)return;console.warn("vite: loading legacy chunks, syntax error above and the same error below should be ignored");var e=document.getElementById("vite-legacy-polyfill"),n=document.createElement("script");n.src=e.src,n.onload=function(){System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))},document.body.appendChild(n)}();</script>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div>
+      <h1>Demo alati</h1>
+      <p class="sub">Za probne vožnje na demo serveru Osječkog taxija. Stranica ne ide u završnu aplikaciju.</p>
+    </div>
+    <div id="who" class="who" role="status"></div>
+  </header>
+
+  <section id="login" class="card" hidden>
+    <h2>Prijava osoblja</h2>
+    <p class="hint">Korisničko ime i lozinka idu izravno na demo server i ne spremaju se na ovoj stranici.</p>
+    <form id="login-form">
+      <label>Korisničko ime<input name="username" autocomplete="username" required></label>
+      <label>Lozinka<input name="password" type="password" autocomplete="current-password" required></label>
+      <label>MFA kod <span class="opt">ako ga račun traži</span><input name="mfa" inputmode="numeric" autocomplete="one-time-code"></label>
+      <button class="btn pri" type="submit">Prijavi se</button>
+      <p id="login-msg" class="msg" role="status"></p>
+    </form>
+  </section>
+
+  <div id="tools" hidden>
+    <section class="card">
+      <div class="head"><h2>Kodovi iz testnog sandučića</h2><button class="btn" id="outbox-load" type="button">Osvježi</button></div>
+      <p class="hint">Kodovi za potvrdu računa i novu lozinku. Na demo serveru ne stižu na pravi e-mail ni SMS.</p>
+      <ul id="outbox" class="list"></ul>
+    </section>
+
+    <section class="card">
+      <div class="head"><h2>Aktivne vožnje</h2><button class="btn" id="active-load" type="button">Osvježi</button></div>
+      <ul id="active" class="list"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Vožnja</h2>
+      <form id="ride-form" class="row"><label>Broj vožnje<input name="rid" inputmode="numeric" autocomplete="off" required></label><button class="btn" type="submit">Prikaži</button></form>
+      <div id="ride"></div>
+      <h3>Dodjela vozila</h3>
+      <form id="assign-form" class="row"><label>Broj vozila<input name="vehicle" value="01" autocomplete="off" required></label><button class="btn pri" type="submit">Dodijeli vozilo</button></form>
+      <div id="assign-msg" class="msg" role="status"></div>
+      <h3>Simulacija vozača</h3>
+      <form id="sim-form" class="row">
+        <label>Scenarij<select name="scenario">
+          <option value="complete">Vožnja do kraja</option>
+          <option value="reject">Vozač odbije</option>
+          <option value="no_show">Putnik se ne pojavi</option>
+          <option value="offline">Vozilo izgubi vezu</option>
+        </select></label>
+        <label>Način<select name="mode"><option value="auto">Sam, svakih 5 s</option><option value="step">Korak po korak</option></select></label>
+        <button class="btn pri" type="submit">Pokreni</button>
+      </form>
+      <div id="sim"></div>
+    </section>
+
+    <section class="card">
+      <h2>Vozilo ponovno na vezi</h2>
+      <p class="hint">Nakon scenarija u kojem vozilo izgubi vezu.</p>
+      <form id="online-form" class="row"><label>Broj vozila<input name="vehicle" value="01" autocomplete="off" required></label><button class="btn" type="submit">Uključi</button></form>
+      <p id="online-msg" class="msg" role="status"></p>
+    </section>
+
+    <section class="card">
+      <h2>Testni dolazni poziv</h2>
+      <p class="hint">Poziv se vidi u dispečerskom sučelju; sam se prekida nakon 2 minute.</p>
+      <form id="call-form" class="row"><label>Broj<input name="phone" value="+385980000000" autocomplete="off"></label><label>Ime<input name="caller" value="Demo putnik" autocomplete="off"></label><button class="btn" type="submit">Pozovi</button></form>
+      <p id="call-msg" class="msg" role="status"></p>
+    </section>
+
+    <section class="card">
+      <h2>Oblik odgovora</h2>
+      <p class="hint">Za spajanje dispečera i statistike na pravi server. Samo čitanje, a tokeni su skriveni.</p>
+      <form id="shape-form" class="row"><label class="grow">Ruta<input name="path" list="routes" value="/api/v1/rides/monitor" autocomplete="off" required></label><button class="btn" type="submit">Dohvati</button></form>
+      <datalist id="routes"></datalist>
+      <p id="shape-sum" class="mono sum"></p>
+      <button class="btn sm" id="shape-copy" type="button" hidden>Kopiraj JSON</button>
+      <pre id="shape-json" hidden></pre>
+    </section>
+  </div>
+</main>
+  <script nomodule>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
+  <script nomodule crossorigin id="vite-legacy-polyfill" src="/taxi-app/assets/polyfills-legacy-CQpaoRmS.js"></script>
+  <script nomodule crossorigin id="vite-legacy-entry" data-src="/taxi-app/assets/alati-legacy-DFfLA7yH.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
+</body>
+</html>
