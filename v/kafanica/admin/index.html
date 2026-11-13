@@ -460,7 +460,7 @@ body.kiosk .content{max-width:1000px}
         <div class="sec" style="margin-top:14px"><span>Stanje stolova u</span><span class="livedot"><i></i>uživo</span></div>
         <div class="timebar" id="timebar"></div>
         <div class="planbox"><svg id="plan"></svg></div>
-        <div class="legend"><span><i class="lg-free"></i>Slobodno</span><span><i class="lg-pending"></i>Čeka potvrdu</span><span><i class="lg-confirmed"></i>Potvrđeno</span><span><i class="lg-seated"></i>Sjede</span><span><i class="lg-alert"></i>Zove osoblje</span></div>
+        <div class="legend"><span><i class="lg-free"></i>Slobodno</span><span><i class="lg-pending"></i>Čeka potvrdu</span><span><i class="lg-confirmed"></i>Potvrđeno</span><span><i class="lg-seated"></i>Sjede</span><span><i class="lg-alert"></i>Čeka konobara</span></div>
       </section>
       <section id="tab-live" hidden></section>
       <section id="tab-songs" hidden></section>
@@ -574,7 +574,7 @@ const QCLUB = {
     hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
     en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
-  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; obavijest voditelju samo uz velike ponude
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -652,7 +652,7 @@ const KAFANICA = {
     hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
     en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
-  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; obavijest voditelju samo uz velike ponude
 };
 
 /* ---------- BROOKLYN (caffe bar, šetalište uz Dravu) ---------- */
@@ -800,7 +800,7 @@ const BURE = {
     en: 'The minimum spend applies per table.'
   },
   // boca uz rezervaciju samo za VIP stol (čeka goste u kibli s ledom)
-  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; obavijest voditelju samo uz velike ponude
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -1940,7 +1940,15 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
       return r.error ? fail(r) : json({ ok: true, reservation: C.guestView(r.reservation, await C.getConfig(S)) });
     }
     if (path === '/menu' && req.method === 'GET') return json(await C.getMenu(S));
-    if (path === '/live' && req.method === 'POST') { const r = await C.liveCreate(S, body); return r.error ? fail(r) : json({ ok: true, id: r.id, k: r.k, dup: !!r.dup }); }
+    if (path === '/live' && req.method === 'POST') {
+      const r = await C.liveCreate(S, body);
+      if (r.error) return fail(r);
+      if (r.item && r.item.kind === 'call' && !r.noop) {
+        const cfg = await C.getConfig(S);
+        await Promise.race([sendWhatsAppStaff(env, v, `🍾 ${cfg.venue} · stol ${r.item.table}${r.item.note ? ' · ' + r.item.note : ''}\nPošaljite konobara: ${site}${vpath}/admin/#live`), new Promise(z => setTimeout(z, 2500))]);
+      }
+      return json({ ok: true, id: r.id, k: r.k, dup: !!r.dup });
+    }
     if (path === '/live/status' && req.method === 'GET') { const r = await C.liveStatus(S, q('id'), q('k')); return r.error ? fail(r) : json(r); }
     if (path === '/feedback' && req.method === 'POST') {
       const r = await C.feedbackCreate(S, body);
@@ -3478,7 +3486,7 @@ const arm=(btn,label)=>{if(btn.dataset.armed)return true;btn.dataset.armed=1;con
 const DN=['Nedjelja','Ponedjeljak','Utorak','Srijeda','Četvrtak','Petak','Subota'],DS=['Ned','Pon','Uto','Sri','Čet','Pet','Sub'];
 const ST={pending:'Čeka potvrdu',confirmed:'Potvrđeno',seated:'Sjede',done:'Završeno',declined:'Odbijeno',cancelled:'Otkazano',noshow:'Nisu došli'};
 const OCC={rodjendan:'🎂 Rođendan',proslava:'🥂 Proslava',momacka:'🎉 Momačka/djevojačka',posao:'💼 Poslovno',utakmica:'⚽ Utakmica'};
-const KIND={call:['🔔','Zove voditelja'],bill:['🧾','Traži račun'],order:['🛒','Narudžba'],song:['🎵','Pjesma po želji']};
+const KIND={call:['🍾','Ponuda za stol'],bill:['🧾','Traži račun'],order:['🛒','Narudžba'],song:['🎵','Pjesma po želji']};
 const LST={new:'Novo',ack:'Preuzeto',done:'Riješeno',skip:'Preskočeno'};
 const TOP={usluga:'Usluga / osoblje',pice:'Piće',cekanje:'Čekanje',cistoca:'Čistoća / WC',glazba:'Glazba / atmosfera',racun:'Cijene / račun',pohvala:'Pohvala',ostalo:'Ostalo'};
 const ACTIVE=['pending','confirmed','seated'];
@@ -3556,7 +3564,7 @@ async function loadLive(){
     const ids=S.live.filter(x=>x.status==='new').map(x=>x.id);
     if(S.seenLive){const fresh=S.live.filter(x=>x.status==='new'&&!S.seenLive.includes(x.id));
       if(fresh.length){const x=fresh[fresh.length-1];const k=KIND[x.kind];TT.chime(x.kind==='song'?'ok':'bell');buzz([120,60,120]);
-        const txt=x.kind==='order'?`${k[0]} Stol <b>${esc(x.table)}</b> naručuje · ${money(x.total)}`:x.kind==='song'?`🎵 Pjesma: <b>${esc(x.song.title)}</b>${x.table?` · stol ${esc(x.table)}`:''}`:`${k[0]} Stol <b>${esc(x.table)}</b> · ${k[1].toLowerCase()}${x.pay?` (${x.pay==='card'?'kartica':'gotovina'})`:''}`;
+        const txt=x.kind==='order'?`${k[0]} Stol <b>${esc(x.table)}</b> naručuje · ${money(x.total)}`:x.kind==='song'?`🎵 Pjesma: <b>${esc(x.song.title)}</b>${x.table?` · stol ${esc(x.table)}`:''}`:`${k[0]} Stol <b>${esc(x.table)}</b> · ${x.kind==='call'&&x.note?esc(x.note):k[1].toLowerCase()}${x.pay?` (${x.pay==='card'?'kartica':'gotovina'})`:''}`;
         toast(txt);}}
     S.seenLive=ids;renderNav();
     if(S.tab==='live')renderLive();if(S.tab==='songs')renderSongs();if(['list','plan'].includes(S.tab)){renderPlan();renderListPlan();}
@@ -3758,26 +3766,26 @@ function liveCard(x){
   if(x.note)body+=`<div class="ded">📝 ${esc(x.note)}</div>`;
   let acts='';
   if(x.kind==='song'){if(x.status==='new')acts=`<button class="btn ok" data-lv="ack" data-id="${x.id}">▶ Sviramo</button><button class="btn" data-lv="skip" data-id="${x.id}">Preskoči</button>`;else if(x.status==='ack')acts=`<button class="btn ok" data-lv="done" data-id="${x.id}">✓ Odsvirano</button>`;}
-  else{if(x.status==='new')acts=`<button class="btn ok" data-lv="ack" data-id="${x.id}">👍 Preuzimam</button><button class="btn" data-lv="done" data-id="${x.id}">✓ Riješeno</button>`;else if(x.status==='ack')acts=`<button class="btn ok" data-lv="done" data-id="${x.id}">✓ Riješeno</button>`;}
+  else{if(x.status==='new')acts=`<button class="btn ok" data-lv="ack" data-id="${x.id}">👍 ${x.kind==='call'?'Konobar ide':'Preuzimam'}</button><button class="btn" data-lv="done" data-id="${x.id}">✓ Riješeno</button>`;else if(x.status==='ack')acts=`<button class="btn ok" data-lv="done" data-id="${x.id}">✓ Riješeno</button>`;}
   return `<div class="lv ${x.status}" data-lid="${x.id}"><div class="ki">${k[0]}</div><div class="bd"><div class="t1">${x.table?`<span class="tbl">${esc(x.table)}</span>`:''}<b>${k[1]}</b><span class="pill st-${x.status}" style="height:22px">${LST[x.status]}</span><span class="el" data-since="${x.status==='new'&&x.kind!=='song'?x.createdAt:''}">${x.status==='new'&&x.kind!=='song'?ago(x.createdAt):agoTxt(x.createdAt)}</span></div>${body}${acts?`<div class="acts">${acts}</div>`:''}</div></div>`;
 }
 function kpis(){
   const L=S.live.filter(x=>x.kind!=='song'),acked=L.filter(x=>x.ackAt).map(x=>(Date.parse(x.ackAt)-Date.parse(x.createdAt))/1000).filter(s=>s>=0&&s<7200);
   const avg=acked.length?Math.round(acked.reduce((a,s)=>a+s,0)/acked.length):null,slow=acked.length?Math.round(Math.max(...acked)):null;
   const ms=v=>v==null?'—':Math.floor(v/60)+':'+String(v%60).padStart(2,'0'),openN=openLive().filter(x=>x.kind!=='song').length;
-  return `<div class="kpis"><div class="stat${openN?' hot':''}"><b>${openN}</b><span>otvoreno sada</span></div><div class="stat"><b>${ms(avg)}</b><span>prosječna reakcija</span></div><div class="stat"><b>${L.length}</b><span>${BILL?pl(L.length,'zahtjev','zahtjeva','zahtjeva'):pl(L.length,'poziv','poziva','poziva')} večeras</span></div><div class="stat"><b>${ms(slow)}</b><span>najduže čekanje</span></div></div>`;
+  return `<div class="kpis"><div class="stat${openN?' hot':''}"><b>${openN}</b><span>otvoreno sada</span></div><div class="stat"><b>${ms(avg)}</b><span>prosječna reakcija</span></div><div class="stat"><b>${L.length}</b><span>${BILL?pl(L.length,'zahtjev','zahtjeva','zahtjeva'):pl(L.length,'ponuda','ponude','ponuda')} večeras</span></div><div class="stat"><b>${ms(slow)}</b><span>najduže čekanje</span></div></div>`;
 }
 function renderLive(){
   const box=$('#tab-live');if(!S.cfg){box.innerHTML='<div class="empty"><span class="spin"></span></div>';return}
-  const F=[['all','Sve'],['call','🔔 Voditelj'],['bill','🧾 Račun']];
+  const F=[['all','Sve'],['call','🍾 Ponude'],['bill','🧾 Račun']];
   const L=S.live.filter(x=>x.kind!=='song'&&(S.lf==='all'||x.kind===S.lf));
   const open=L.filter(x=>x.status==='new'||x.status==='ack').sort((a,b)=>(a.status===b.status?(a.createdAt<b.createdAt?-1:1):a.status==='new'?-1:1));
   const done=L.filter(x=>x.status==='done'||x.status==='skip').reverse().slice(0,25);
-  box.innerHTML=`<div class="two"><div><h2 class="ptitle">Stol uživo</h2><p class="psub">Gosti s mobitela (NFC naljepnica / QR na stolu) zovu voditelja: pitanje, problem, proslava ili boca za stol. Sve stiže ovdje u sekundi, a vidi se i koliko brzo reagirate.</p>${kpis()}
+  box.innerHTML=`<div class="two"><div><h2 class="ptitle">Ponude sa stolova</h2><p class="psub">Kad gost u cjeniku odabere ponudu za stol (kombo ili 1AM Special) i dodirne „Obavijestite osoblje”, ovdje stiže stol i ponuda. Pošaljite konobara i dodirnite „Konobar ide” — gost to odmah vidi na mobitelu.</p>${kpis()}
     <div class="row" style="margin-bottom:8px"${BILL?'':' hidden'}>${F.map(([k,l])=>`<button class="chip sm" data-lf="${k}" aria-pressed="${S.lf===k}">${l}</button>`).join('')}</div>
-    ${open.length?open.map(liveCard).join(''):`<div class="empty"><b>Sve je mirno</b>Kad gost dodirne „Pozovite voditelja” — pojavit će se ovdje, uz zvučni signal.</div>`}
+    ${open.length?open.map(liveCard).join(''):`<div class="empty"><b>Sve je mirno</b>Kad gost uz ponudu za stol dodirne „Obavijestite osoblje” — pojavit će se ovdje, uz zvučni signal.</div>`}
     ${done.length?`<details><summary class="sec" style="cursor:pointer"><span>Riješeno večeras</span><span>${done.length} ▾</span></summary>${done.map(liveCard).join('')}</details>`:''}</div>
-    <div class="stick"><div class="sec"><span>Tlocrt · gdje zovu</span><span class="livedot"><i></i>uživo</span></div><div class="planbox inline"><svg id="lvplan"></svg></div><div class="legend"><span><i class="lg-alert"></i>Zove osoblje</span><span><i class="lg-seated"></i>Sjede</span><span><i class="lg-confirmed"></i>Rezervirano</span></div></div></div>`;
+    <div class="stick"><div class="sec"><span>Tlocrt · gdje zovu</span><span class="livedot"><i></i>uživo</span></div><div class="planbox inline"><svg id="lvplan"></svg></div><div class="legend"><span><i class="lg-alert"></i>Čeka konobara</span><span><i class="lg-seated"></i>Sjede</span><span><i class="lg-confirmed"></i>Rezervirano</span></div></div></div>`;
   if(innerWidth>=780&&S.cfg){const nb=TT.biz(),tm=nb.date===S.liveDate?nb.min:defaultPlanTime();const L=S.liveRes||[];const at=t=>L.find(r=>r.tableId===t.id&&ACTIVE.includes(r.status)&&tm>=r.start&&tm<r.end);TTPlan.render($('#lvplan'),S.cfg,{state:t=>{const a=liveAlertToday(t);const r=at(t);return (r?r.status:'free')+(a?' alert':'')},alert:liveAlertToday,sub:t=>{const a=openLive().filter(x=>x.table===t.id&&x.kind!=='song');if(a.length)return ago(a[0].createdAt);const r=at(t);return r?`${r.name.split(' ')[0].slice(0,10)} · ${r.party}`:`${t.min}–${t.max}`},onTap:t=>{const o=openLive().filter(x=>x.table===t.id);if(o.length){const el=$(`[data-lid="${o[0].id}"]`);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}}});}
 }
 function liveAlertToday(t){const o=openLive().filter(x=>x.table===t.id&&x.kind!=='song');if(!o.length)return '';const n=o.find(x=>x.status==='new')||o[0];return KIND[n.kind][0]}
@@ -3795,7 +3803,7 @@ setInterval(()=>{$$('.el[data-since]').forEach(e=>{if(e.dataset.since)e.textCont
 async function setLive(id,status,btn){try{btn&&(btn.disabled=true);const x=S.live.find(i=>i.id===id);
   if(x&&x.kind==='song'&&status==='ack')for(const o of S.live.filter(i=>i.kind==='song'&&i.status==='ack'&&i.id!==id))await api('/admin/live/update',{id:o.id,status:'done',date:S.liveDate});
   await api('/admin/live/update',{id,status,date:S.liveDate});buzz(10);await loadLive();
-  toast(x&&x.kind==='song'?(status==='ack'?'▶ Gost vidi da bend svira njegovu pjesmu':status==='done'?'✓ Odsvirano':'Preskočeno'):(status==='ack'?'👍 Gost vidi da stižete':status==='done'?'✓ Riješeno':'Preskočeno'))}catch(e){toast(errMsg(e));btn&&(btn.disabled=false)}}
+  toast(x&&x.kind==='song'?(status==='ack'?'▶ Gost vidi da bend svira njegovu pjesmu':status==='done'?'✓ Odsvirano':'Preskočeno'):(status==='ack'?'👍 Gost vidi da konobar dolazi':status==='done'?'✓ Riješeno':'Preskočeno'))}catch(e){toast(errMsg(e));btn&&(btn.disabled=false)}}
 
 /* ---------- cjenik: rasprodano, cijene, akcija ---------- */
 let menuTimer=null,menuQ='';
@@ -3892,9 +3900,9 @@ async function renderSettings(){
   box.innerHTML=`<h2 class="ptitle">Postavke</h2>
   ${DEMO?`<div class="card"><h2>Demo</h2><p class="small">Ovo je demonstracija: podaci su izmišljeni i spremaju se samo u ovom pregledniku. Na pravom sustavu sve se sprema na server i vidi na svim uređajima osoblja.</p><button class="btn block" id="resetDemo">↺ Vrati demo podatke na početak</button></div>`:''}
   <div class="card"><h2>Obavijesti osoblju</h2>${DEMO?`<p class="small">${REZ?'Svaka nova rezervacija stiže voditelju na WhatsApp i e-mail (bez imena i broja gosta u WhatsApp obavijesti). ':''}Pozivi sa stolova stižu osoblju uz zvučni signal. Brojevi i adrese osoblja upisuju se pri postavljanju sustava.</p>`:`<div class="envs"><span class="pill ${env.whatsapp?'st-confirmed':'st-cancelled'}">WhatsApp ${env.whatsapp?'✓':'nije postavljen'}</span><span class="pill ${env.email?'st-confirmed':'st-cancelled'}">E-mail ${env.email?'✓':'nije postavljen'}</span></div>
-   <p class="small">Ocjena ispod 5 zvjezdica i poruka gosta stižu voditelju na WhatsApp i e-mail. Postavlja se na serveru (upute u README).</p><button class="btn block" id="testN">Pošalji testnu obavijest</button>`}</div>
-  <div class="card"><h2>Stolovi: NFC i QR</h2><p class="small">Svaki stol dobije naljepnicu (NFC + QR). Gost prisloni mobitel i otvara se cjenik s brojem stola — iz njega jednim dodirom ${LIVE?'zove voditelja ili ':''}ocjenjuje posjet.</p>
-   ${LIVE?`<div class="setrow"><span>Poziv voditelju sa stola<br><span class="small">Gumb „Voditelj” u cjeniku kad gost dodirne naljepnicu na stolu</span></span><input type="checkbox" class="tog" id="fTable" ${EC.features&&EC.features.tableMode?'checked':''}></div>`:''}
+   <p class="small">Ponuda sa stola i ocjena ispod 5 zvjezdica stižu voditelju na WhatsApp, a poruke gostiju i na e-mail. Postavlja se na serveru (upute u README).</p><button class="btn block" id="testN">Pošalji testnu obavijest</button>`}</div>
+  <div class="card"><h2>Stolovi: NFC i QR</h2><p class="small">Svaki stol dobije naljepnicu (NFC + QR). Gost prisloni mobitel i otvara se cjenik s brojem stola — iz njega jednim dodirom ocjenjuje posjet${LIVE?', a uz ponudu za stol obavještava osoblje':''}.</p>
+   ${LIVE?`<div class="setrow"><span>Obavijest za ponude sa stola<br><span class="small">Gumb „Obavijestite osoblje” uz kombo i 1AM Special u cjeniku</span></span><input type="checkbox" class="tog" id="fTable" ${EC.features&&EC.features.tableMode?'checked':''}></div>`:''}
    <div class="row" style="margin:8px 0">${EC.tables.map(t=>`<a class="chip sm" href="${esc(TT.keepClock(tableUrl(t.id)))}" target="_blank" rel="noopener">${esc(t.id)} ↗</a>`).join('')}</div>
    <button class="btn block" id="qrBtn">🖨 Ispiši QR naljepnice za sve stolove</button><div id="qrprint" hidden></div></div>
   <div class="card"><h2>Tlocrt</h2><p class="small">Povucite stolove prstom ili mišem. Dodirnite stol za uređivanje. Ovo je okvirni raspored — uskladite ga sa stvarnim lokalom.</p>

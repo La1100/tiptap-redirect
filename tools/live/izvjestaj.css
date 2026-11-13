@@ -1,0 +1,130 @@
+/* TipTap × BHT — mjesečni izvještaj (stil pregleda grupe + ispis na A4) */
+.r-wrap{max-width:1120px}
+.g-top .tt{text-decoration:none}
+.r-ctl{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.r-ctl select{width:auto;min-width:180px;height:42px;border-radius:12px;border:1px solid rgba(var(--gold2-rgb),.35);background:rgba(0,0,0,.3);color:var(--text);font-weight:700;font-size:14px;padding:0 34px 0 12px;appearance:none;-webkit-appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--gold2) 50%),linear-gradient(135deg,var(--gold2) 50%,transparent 50%);background-position:calc(100% - 17px) 18px,calc(100% - 12px) 18px;background-size:5px 5px;background-repeat:no-repeat}
+.r-btn{height:42px;border-radius:12px;padding:0 14px;font-weight:800;font-size:14px;color:var(--ink);background:linear-gradient(180deg,var(--gold2),var(--gold))}
+.r-btn.ghost{background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.12)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.r-sec{margin:26px 0 10px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.r-sec h2{font-family:var(--f-display);font-weight:800;font-size:26px;letter-spacing:.05em;text-transform:uppercase;margin:0}
+.r-sec span{font-size:13px;color:var(--muted)}
+.kp.r-kp{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kp.r-kp b{font-variant-numeric:tabular-nums}
+.kp.r-kp em{display:block;font-style:normal;font-size:12.5px;color:var(--dim);margin-top:4px}
+.r-card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:16px 18px}
+.r-sum{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.r-sum li{position:relative;padding-left:22px;font-size:15px;line-height:1.5}
+.r-sum li::before{content:"";position:absolute;left:4px;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--gold2)}
+.r-sum b{color:var(--gold2);font-weight:800}
+/* stupci po danu (HTML, da tekst ostane čitljiv i na mobitelu) */
+.r-bars{--c:var(--gold2);display:flex;align-items:flex-end;gap:3px;height:150px;padding:20px 0 22px;position:relative}
+.r-bars.sm{height:96px;padding:16px 0 20px}
+.r-bars::after{content:"";position:absolute;left:0;right:0;bottom:22px;height:1px;background:rgba(255,255,255,.1)}
+.r-bars.sm::after{bottom:20px}
+.r-bars i{flex:1;min-width:0;position:relative;height:100%;display:flex;align-items:flex-end}
+.r-bars i u{display:block;width:100%;min-height:2px;border-radius:4px 4px 0 0;background:var(--c);opacity:.55;text-decoration:none}
+.r-bars i.we u{opacity:1}
+.r-bars i.z u{background:rgba(255,255,255,.12);opacity:1}
+.r-bars i em{position:absolute;bottom:-19px;left:50%;transform:translateX(-50%);font-style:normal;font-size:10.5px;color:var(--dim);white-space:nowrap}
+.r-bars i s{position:absolute;left:50%;transform:translate(-50%,-3px);text-decoration:none;font-size:11.5px;font-weight:800;color:var(--text);white-space:nowrap}
+.r-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:2px}
+.r-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--gold2);margin-right:6px;vertical-align:-1px}
+.r-legend i.lo{opacity:.55}
+/* Google */
+.r-gwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.r-g{width:100%;border-collapse:collapse;font-size:14.5px}
+.r-g th{text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800;padding:0 10px 10px 0}
+.r-g td{padding:12px 10px 12px 0;border-top:1px solid rgba(255,255,255,.07);vertical-align:middle}
+.r-g td b{font-family:var(--f-display);font-size:24px;font-weight:800;letter-spacing:.02em}
+.r-g td small{display:block;color:var(--muted);font-size:12.5px}
+.r-g .nm{display:flex;align-items:center;gap:10px;font-weight:800}
+.r-g .nm svg{height:26px;width:auto;max-width:90px;color:var(--a,var(--gold2));flex:none}
+.r-up{color:var(--ok)}.r-down{color:var(--bad)}.r-same{color:var(--muted)}
+.r-note{font-size:12.5px;color:var(--dim);margin:10px 0 0}
+.r-edit{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.r-edit input{width:78px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.3);color:var(--text);padding:0 10px;font-size:15px}
+/* lokali */
+.r-vg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.r-vg .vc .nums{grid-template-columns:repeat(4,minmax(0,1fr))}
+.r-vg .vc .nums b{font-variant-numeric:tabular-nums}
+.r-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1;margin-top:8px}
+.r-box{background:rgba(0,0,0,.24);border-radius:14px;padding:11px 12px;min-width:0}
+.r-box h3{margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.r-box p{margin:0;font-size:13.5px;line-height:1.45;color:var(--text)}
+.r-box p+p{margin-top:4px}
+.r-box .mut{color:var(--muted)}
+.r-dist{display:grid;gap:5px}
+.r-dist div{display:grid;grid-template-columns:62px 1fr 26px;align-items:center;gap:8px;font-size:12.5px}
+.r-dist span{color:var(--a,var(--gold2));letter-spacing:.06em;white-space:nowrap}
+.r-dist i{height:7px;border-radius:99px;background:rgba(255,255,255,.07);position:relative;overflow:hidden}
+.r-dist i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--p);border-radius:99px;background:var(--a,var(--gold2))}
+.r-dist b{text-align:right;font-variant-numeric:tabular-nums}
+.r-list{margin:0;padding:0;list-style:none;display:grid;gap:4px;font-size:13.5px}
+.r-list li{display:flex;justify-content:space-between;gap:10px;min-width:0}
+.r-list li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.r-list li b{flex:none;font-variant-numeric:tabular-nums}
+.r-empty{font-size:13.5px;color:var(--muted);margin:0}
+.r-foot{margin:28px 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);font-size:12.5px;color:var(--dim);line-height:1.6}
+.r-load{display:grid;place-items:center;min-height:40vh;color:var(--muted)}
+.r-print-only{display:none}
+@media (max-width:900px){.kp.r-kp{grid-template-columns:repeat(2,minmax(0,1fr))}.r-vg{grid-template-columns:1fr}}
+@media (max-width:560px){
+  .r-two{grid-template-columns:1fr}
+  .r-vg .vc .nums{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .r-bars{gap:2px}.r-bars i em{font-size:9.5px}
+  .r-bars.many i:nth-child(even) em{display:none}
+  .r-g td b{font-size:20px}
+  .r-g .nm svg{display:none}
+  .r-g{font-size:13.5px}
+  .r-ctl{margin-left:0;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px}.r-ctl select{grid-column:1/-1;width:100%}
+}
+/* ispis / PDF: bijela podloga, A4 */
+@media print{
+  @page{size:A4;margin:12mm}
+  :root{color-scheme:light}
+  html,body{background:#fff!important;color:#141414!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:none!important;text-shadow:none!important}
+  .r-ctl,#login,.r-noprint{display:none!important}
+  .r-print-only{display:block}
+  .g-wrap{padding:0;max-width:none}
+  .g-h1{font-size:34px;margin-top:6px}
+  .g-h1 span,.kp b{background:none!important;-webkit-text-fill-color:#141414;color:#141414!important}
+  .g-sub,.r-sec span,.kp span,.kp.r-kp em,.r-box h3,.r-box .mut,.r-g th,.r-g td small,.r-legend,.r-note,.r-foot,.r-bars i em,.r-empty,.vc .nums span,.vc .hd .nm small{color:#555!important}
+  .g-top .tt{color:#141414;border-color:#bbb}
+  .kp div,.r-card,.vc,.r-box,.vc .nums div{background:#fff!important;border:1px solid #ddd!important}
+  .vc::after{display:none}
+  .vc,.r-card,.kp div,.r-box{break-inside:avoid}
+  .r-vg{grid-template-columns:1fr}
+  .kp.r-kp{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .r-bars.many i:nth-child(even) em{display:none}
+  .r-sum li,.r-g td,.r-box p,.r-list,.r-dist b,.vc .hd .nm,.r-bars i s{color:#141414!important}
+  .r-sum b{color:#7a5a12!important}
+  .r-sum li::before{background:#b98a2e}
+  .r-bars{--c:#b98a2e}.r-bars::after{background:#ccc}
+  .vc .r-bars{--c:var(--a2)}
+  .r-bars i.z u{background:#e5e5e5}
+  .r-g td{border-top-color:#e5e5e5}
+  .r-dist i{background:#eee}.r-dist i::after,.r-dist span{background:var(--a2);color:var(--a2)}
+  .r-dist span{background:none}
+  .r-up{color:#1d7a3a!important}.r-down{color:#b3261e!important}
+  .vc .hd svg{color:var(--a2)!important}
+  .r-sec{break-after:avoid}
+  /* sažetije kartice lokala: dvije na A4 stranici */
+  .r-vg{gap:10px}
+  .vc{padding:12px 14px 12px}
+  .vc .hd svg{height:34px}
+  .vc .nums{margin:10px 0 4px;gap:6px}
+  .vc .nums div{padding:7px 9px}
+  .vc .nums b{font-size:22px}
+  .r-bars.sm{height:74px;padding:14px 0 18px}
+  .r-bars.sm::after{bottom:18px}
+  .r-bars i em{bottom:-17px;font-size:9px}
+  .r-two{gap:8px;margin-top:4px}
+  .r-box{padding:8px 10px}
+  .r-box h3{margin-bottom:5px;font-size:10.5px}
+  .r-box p,.r-list,.r-dist div{font-size:11.5px}
+  .r-dist{gap:3px}
+  .r-sum li{font-size:13.5px}
+}

@@ -5,6 +5,7 @@
    Adrese koje nisu tajne zadane su ovdje; Vercel varijabla istog imena ih može zamijeniti. */
 'use strict';
 const TT = require('../lib/tt/core.cjs');
+const REPORT = require('../lib/tt/report.cjs');
 const { supabaseStore } = require('../lib/tt/store.cjs');
 
 const DEFAULTS = {
@@ -57,6 +58,19 @@ async function handle(req, res, opt = {}) {
   const env = opt.env || liveEnv();
   let out;
   try {
+    // mjesečni izvještaj i Google ocjene (lib/tt/report.cjs): PIN direktora provjerava ista prijava kao pregled grupe
+    if (v === 'group' && (p === 'report' || p === 'google')) {
+      const auth = await TT.router.route(new Request(`https://${req.headers.host || 'localhost'}/api/group/login`, { method: 'POST', headers }), { store: S, env });
+      let r;
+      if (auth.status !== 200) r = Object.assign(await auth.json().catch(() => ({ error: 'auth' })), { status: auth.status });
+      else if (p === 'report' && method === 'GET') r = await REPORT.monthReport(S, u.searchParams.get('month') || '', env);
+      else if (p === 'google' && method === 'POST') { let b = {}; try { b = JSON.parse(body || '{}'); } catch (e) { } r = await REPORT.setGoogle(S, b); }
+      else r = { error: 'notfound', status: 404 };
+      res.statusCode = r.error ? (r.status || 400) : 200;
+      res.setHeader('content-type', 'application/json; charset=utf-8');
+      if (r.error) return res.end(JSON.stringify({ error: r.error }));
+      return res.end(JSON.stringify(r));
+    }
     out = await TT.router.route(new Request(url, { method, headers, body }), { store: S, env });
   } catch (e) {
     console.error(e);

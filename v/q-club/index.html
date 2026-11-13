@@ -875,7 +875,7 @@ const QCLUB = {
     hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
     en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
-  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; obavijest voditelju samo uz velike ponude
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -953,7 +953,7 @@ const KAFANICA = {
     hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
     en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
-  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; obavijest voditelju samo uz velike ponude
 };
 
 /* ---------- BROOKLYN (caffe bar, šetalište uz Dravu) ---------- */
@@ -1101,7 +1101,7 @@ const BURE = {
     en: 'The minimum spend applies per table.'
   },
   // boca uz rezervaciju samo za VIP stol (čeka goste u kibli s ledom)
-  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; obavijest voditelju samo uz velike ponude
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -2241,7 +2241,15 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
       return r.error ? fail(r) : json({ ok: true, reservation: C.guestView(r.reservation, await C.getConfig(S)) });
     }
     if (path === '/menu' && req.method === 'GET') return json(await C.getMenu(S));
-    if (path === '/live' && req.method === 'POST') { const r = await C.liveCreate(S, body); return r.error ? fail(r) : json({ ok: true, id: r.id, k: r.k, dup: !!r.dup }); }
+    if (path === '/live' && req.method === 'POST') {
+      const r = await C.liveCreate(S, body);
+      if (r.error) return fail(r);
+      if (r.item && r.item.kind === 'call' && !r.noop) {
+        const cfg = await C.getConfig(S);
+        await Promise.race([sendWhatsAppStaff(env, v, `🍾 ${cfg.venue} · stol ${r.item.table}${r.item.note ? ' · ' + r.item.note : ''}\nPošaljite konobara: ${site}${vpath}/admin/#live`), new Promise(z => setTimeout(z, 2500))]);
+      }
+      return json({ ok: true, id: r.id, k: r.k, dup: !!r.dup });
+    }
     if (path === '/live/status' && req.method === 'GET') { const r = await C.liveStatus(S, q('id'), q('k')); return r.error ? fail(r) : json(r); }
     if (path === '/feedback' && req.method === 'POST') {
       const r = await C.feedbackCreate(S, body);
@@ -3149,13 +3157,13 @@ window.TT_KFONT="@font-face{font-family:'TT Kafana';src:url(data:font/woff;base6
   const TX = {
     hr: {
       sec: 'Ponuda za stol', go: 'Pogledajte', sep: 'Pojedinačno', sepDeal: 'Pojedinačno, uz akciju na boce', save: 'Uštedite', reg: 'Redovna cijena',
-      call: '🔔 Pozovite konobara za kombo', callS: '🔔 Pozovite konobara — 1AM Special', callSub: 'Konobar dolazi na stol i donosi narudžbu. Plaća se pri posluživanju.', noTable: 'Naručite kod konobara.',
+      call: '🔔 Obavijestite osoblje', callS: '🔔 Obavijestite osoblje — 1AM Special', callSub: 'Voditelj dobiva obavijest s brojem stola i šalje konobara s narudžbom. Plaća se pri posluživanju.', noTable: 'Naručite kod konobara.',
       so: 'Trenutno nema', soSub: 'Trenutno nije dostupno — pitajte konobara za zamjenu.', price: 'Kombo', priceS: '1AM cijena', reason: n => `Kombo: ${n}`, reasonS: n => `1AM Special: ${n}`,
       dep: 'Polazak', depV: 'odmah', seat: 'Stol', flight: 'Let', allNight: 'cijelu noć'
     },
     en: {
       sec: 'For your table', go: 'View', sep: 'Separately', sepDeal: 'Separately, with the bottle deal', save: 'You save', reg: 'Regular price',
-      call: '🔔 Call the waiter for this combo', callS: '🔔 Call the waiter — 1AM Special', callSub: 'Your waiter comes to the table with your order. Paid when served.', noTable: 'Order from your waiter.',
+      call: '🔔 Notify the staff', callS: '🔔 Notify the staff — 1AM Special', callSub: 'The manager gets your table number and sends a waiter with your order. Paid when served.', noTable: 'Order from your waiter.',
       so: 'Sold out', soSub: 'Not available right now — ask your waiter for an alternative.', price: 'Combo', priceS: '1AM price', reason: n => `Combo: ${n}`, reasonS: n => `1AM Special: ${n}`,
       dep: 'Departure', depV: 'now', seat: 'Table', flight: 'Flight', allNight: 'all night'
     }
@@ -3745,7 +3753,7 @@ window.TT_KFONT="@font-face{font-family:'TT Kafana';src:url(data:font/woff;base6
     const k = calc(c), t = X && X.table ? X.table() : '', sp = c.kind === 'special';
     const pad = d.querySelector('.tk-pad');
     let info = pad.querySelector('.tk-info'); if (!info) { info = document.createElement('div'); info.className = 'tk-info'; pad.appendChild(info); }
-    const btn = t && false ? `<button class="tt-big gold" data-kcall${k.so ? ' disabled' : ''}>${sp ? tx('callS') : tx('call')}</button><p class="tk-fine">${tx('callSub')}</p>` : `<p class="tk-fine">${tx('noTable')}</p>`;
+    const btn = t ? `<button class="tt-big gold" data-kcall${k.so ? ' disabled' : ''}>${sp ? tx('callS') : tx('call')}</button><p class="tk-fine">${tx('callSub')}</p>` : `<p class="tk-fine">${tx('noTable')}</p>`;
     info.innerHTML = `${sp ? `<div class="tk-kick">${esc(L(c.kick))} <em>· ${esc(tx('allNight'))}</em></div>` : ''}<div class="tk-name">${esc(L(c.name))}</div><p class="tk-tag">${esc(L(c.tag))}</p>
       <div class="tk-list">${k.lines.map((l, i) => `<div class="tk-li"><span class="tk-th" data-i="${i}"></span><b class="n">${l.x.n}×</b><span class="nm">${esc(l.it && l.x.id ? M.nm(l.it) : l.x.name)}<small>${esc(l.x.vol)}${l.was ? ` · <s>${eur2(l.was)}</s> ${eur2(l.e)}` : ''}</small></span><span class="pr">${eur2(l.e * l.x.n)}</span></div>`).join('')}</div>
       <div class="tk-tot"><span>${sp ? tx('reg') : k.deal ? tx('sepDeal') : tx('sep')}</span><s>${eur2(k.sep)}</s></div>
@@ -4012,27 +4020,27 @@ window.TT_KFONT="@font-face{font-family:'TT Kafana';src:url(data:font/woff;base6
   TTX.table = () => TABLE;
   const SONGS = !!(V.features && V.features.songs);
   const BILL = !!(V.features && V.features.bill);
-  const CALL = !!(V.features && V.features.tableMode);   // paket BHT: poziv voditelju (Brooklyn bez poziva)   // Q Club, Kafanica, Bure: piće se plaća odmah pri posluživanju
+  const CALL = !!(V.features && V.features.tableMode);   // paket BHT: obavijest osoblju samo uz velike ponude (Brooklyn bez)   // Q Club, Kafanica, Bure: piće se plaća odmah pri posluživanju
 
   /* ---------- tekstovi ---------- */
   const TX = {
     hr: {
-      table: 'Stol', waiter: 'Voditelj', bill: 'Račun', order: 'Narudžba', song: 'Pjesma', list: 'Moja lista', favCall: '🔔 Pozovite konobara', favReason: 'Želimo naručiti',
-      callT: 'Pozovite voditelja', callS: t => `Stol ${t} · voditelj lokala dobiva obavijest odmah.`, reason: 'Razlog (neobavezno)', reasons: ['Imamo pitanje', 'Nešto nije u redu', 'Slavimo nešto 🎉', 'Želimo bocu za stol 🍾'], callBtn: '🔔 Pozovite voditelja',
+      table: 'Stol', waiter: 'Konobar', bill: 'Račun', order: 'Narudžba', song: 'Pjesma', list: 'Moja lista', favCall: '🔔 Pozovite konobara', favReason: 'Želimo naručiti',
+      callT: 'Poziv konobaru', callS: t => `Stol ${t} · konobar dobiva obavijest odmah.`, reason: 'Razlog (neobavezno)', reasons: ['Želimo naručiti', 'Još jednu rundu', 'Imamo pitanje', 'Čaše / led / pepeljara'], callBtn: '🔔 Pozovite konobara',
       billT: 'Račun, molim', billS: t => `Stol ${t} · kako ćete platiti?`, card: '💳 Karticom', cash: '💶 Gotovinom',
       orderT: 'Narudžba za stol', orderEmpty: 'Dodirnite ♥ uz piće da ga dodate u narudžbu, a zatim je pošaljite izravno na šank.', browse: 'Otvorite cjenik', note: 'Napomena za šank (neobavezno)', notePh: 'npr. bez leda, s limunom…', send: 'Pošaljite narudžbu', total: 'Ukupno', so: 'Trenutno nema',
       songT: 'Pjesma po želji', songS: 'Vaša želja stiže bendu na tablet, s brojem stola.', sTitle: 'Pjesma', sArtist: 'Izvođač (neobavezno)', sDed: 'Posveta (neobavezno)', sDedPh: 'npr. Za Ivanin rođendan! 🎂', sBtn: '🎵 Pošaljite bendu', popular: 'Često tražene',
-      st: { call: ['🔔 Voditelj je pozvan', '👍 Voditelj je vidio — dolazi', '✓ Riješeno'], bill: ['🧾 Račun je zatražen', '👍 Konobar donosi račun', '✓ Riješeno'], order: ['🛒 Narudžba je poslana', '👍 Šank priprema narudžbu', '✓ Narudžba je stigla'], song: ['🎵 Bend je dobio vašu želju', '▶ Bend svira vašu pjesmu!', '✓ Odsvirano'] },
+      st: { call: ['🔔 Osoblje je obaviješteno', '👍 Konobar dolazi na vaš stol', '✓ Riješeno'], bill: ['🧾 Račun je zatražen', '👍 Konobar donosi račun', '✓ Riješeno'], order: ['🛒 Narudžba je poslana', '👍 Šank priprema narudžbu', '✓ Narudžba je stigla'], song: ['🎵 Bend je dobio vašu želju', '▶ Bend svira vašu pjesmu!', '✓ Odsvirano'] },
       sentToast: 'Poslano ✓', err: 'Slanje nije uspjelo. Pokušajte ponovno ili pozovite osoblje.', limit: 'Previše zahtjeva odjednom — osoblje je već obaviješteno.',
       spark: '✨ Boca stiže s prskalicom!', addFav: 'Dodajte u narudžbu', inFav: 'U narudžbi ✓', fav: 'Narudžba', added: 'Dodano u narudžbu', removed: 'Uklonjeno iz narudžbe', soDetail: 'Trenutno nema — pitajte konobara za zamjenu.'
     },
     en: {
-      table: 'Table', waiter: 'Manager', bill: 'Bill', order: 'Order', song: 'Song', list: 'My list', favCall: '🔔 Call the waiter', favReason: 'We’d like to order',
-      callT: 'Call the manager', callS: t => `Table ${t} · the manager is notified instantly.`, reason: 'Reason (optional)', reasons: ['We have a question', 'Something is wrong', 'We’re celebrating 🎉', 'A bottle for our table 🍾'], callBtn: '🔔 Call the manager',
+      table: 'Table', waiter: 'Waiter', bill: 'Bill', order: 'Order', song: 'Song', list: 'My list', favCall: '🔔 Call the waiter', favReason: 'We’d like to order',
+      callT: 'Call the waiter', callS: t => `Table ${t} · the waiter is notified instantly.`, reason: 'Reason (optional)', reasons: ['We’d like to order', 'Another round', 'We have a question', 'Glasses / ice / ashtray'], callBtn: '🔔 Call the waiter',
       billT: 'The bill, please', billS: t => `Table ${t} · how will you pay?`, card: '💳 Card', cash: '💶 Cash',
       orderT: 'Order for table', orderEmpty: 'Tap ♥ on a drink to add it to your order, then send it straight to the bar.', browse: 'Open the menu', note: 'Note for the bar (optional)', notePh: 'e.g. no ice, with lemon…', send: 'Send order', total: 'Total', so: 'Sold out',
       songT: 'Song request', songS: 'Your request goes to the band’s tablet with your table number.', sTitle: 'Song', sArtist: 'Artist (optional)', sDed: 'Dedication (optional)', sDedPh: 'e.g. For Ivana’s birthday! 🎂', sBtn: '🎵 Send to the band', popular: 'Popular requests',
-      st: { call: ['🔔 Manager called', '👍 The manager saw it — on the way', '✓ Done'], bill: ['🧾 Bill requested', '👍 Your bill is coming', '✓ Done'], order: ['🛒 Order sent', '👍 The bar is preparing it', '✓ Order delivered'], song: ['🎵 The band got your request', '▶ The band is playing your song!', '✓ Played'] },
+      st: { call: ['🔔 The staff has been notified', '👍 A waiter is coming to your table', '✓ Done'], bill: ['🧾 Bill requested', '👍 Your bill is coming', '✓ Done'], order: ['🛒 Order sent', '👍 The bar is preparing it', '✓ Order delivered'], song: ['🎵 The band got your request', '▶ The band is playing your song!', '✓ Played'] },
       sentToast: 'Sent ✓', err: 'Sending failed. Try again or ask the staff.', limit: 'Too many requests at once — staff are already notified.',
       spark: '✨ Your bottle comes with a sparkler!', addFav: 'Add to order', inFav: 'In your order ✓', fav: 'Order', added: 'Added to your order', removed: 'Removed from your order', soDetail: 'Sold out right now — ask the waiter for an alternative.'
     }
@@ -4335,7 +4343,7 @@ a.ttfort{display:block;text-decoration:none!important}
     document.body.classList.add('tt-table');
     const b = document.createElement('div'); b.id = 'ttbar'; b.className = 'ttbar';
     b.innerHTML = `<div class="ttst" id="ttst"></div><div class="in"><span class="tno"><small>${tx('table')}</small><b>${esc(TABLE)}</b></span>
-      ${CALL ? `<button data-tt="call"><span class="e">🔔</span>${tx('waiter')}</button>` : ''}${BILL ? `<button data-tt="bill"><span class="e">🧾</span>${tx('bill')}</button>` : ''}<button data-tt="rate"><span class="e">⭐</span>${M && M.lang === 'en' ? 'Rate us' : 'Ocjena'}</button>
+      ${BILL ? `<button data-tt="bill"><span class="e">🧾</span>${tx('bill')}</button>` : ''}<button data-tt="rate"><span class="e">⭐</span>${M && M.lang === 'en' ? 'Rate us' : 'Ocjena'}</button>
       <button data-tt="list"><span class="e">❤️</span>${tx('list')}<i class="n" id="ttn"></i></button>${SONGS ? `<button data-tt="song"><span class="e">🎵</span>${tx('song')}</button>` : ''}</div>`;
     document.body.appendChild(b);
     paintBar();
@@ -4372,14 +4380,20 @@ a.ttfort{display:block;text-decoration:none!important}
       const r = await TT.api('/live', { body: Object.assign({ table: TABLE, lang: M.lang }, body) });
       TT.addMyLive({ v: V.venue, id: r.id, k: r.k, kind: body.kind, table: TABLE, status: 'new', at: Date.now() });
       M.hideSheet(); TT.buzz([20, 40, 20]); TT.chime('ok'); paintBar(); return r;
-    } catch (e) { M.toast(e && e.error === 'limit' ? tx('limit') : tx('err')); btn && (btn.disabled = false); return null; }
+    } catch (e) { M.toast(e && e.error === 'limit' ? tx('limit') : e && e.error === 'off' ? (M.lang === 'en' ? 'Please order from your waiter.' : 'Naručite kod konobara.') : tx('err')); btn && (btn.disabled = false); return null; }
   }
   function callSheet(preset) {
     let reason = preset || '';
     const rs = preset && !tx('reasons').includes(preset) ? [preset, ...tx('reasons')] : tx('reasons');   // npr. "Kombo: Silver Goose"
-    const d = sheet(tx('callT'), `<p class="tt-sub">${esc(tx('callS')(TABLE))}</p><span class="tt-lbl">${tx('reason')}</span><div class="tt-chips">${rs.map(r => `<button class="tt-chip" data-r="${esc(r)}" aria-pressed="${r === reason}">${esc(r)}</button>`).join('')}</div><label class="tt-lbl" for="ttcn">${M.lang === 'en' ? 'Message (optional)' : 'Poruka (neobavezno)'}</label><input class="tt-in" id="ttcn" maxlength="120" autocomplete="off" placeholder="${M.lang === 'en' ? 'e.g. birthday, we need a bigger table' : 'npr. rođendan, trebamo veći stol'}"><button class="tt-big gold" id="ttgo">${tx('callBtn')}</button>`);
+    const d = sheet(tx('callT'), `<p class="tt-sub">${esc(tx('callS')(TABLE))}</p><span class="tt-lbl">${tx('reason')}</span><div class="tt-chips">${rs.map(r => `<button class="tt-chip" data-r="${esc(r)}" aria-pressed="${r === reason}">${esc(r)}</button>`).join('')}</div><button class="tt-big gold" id="ttgo">${tx('callBtn')}</button>`);
     d.querySelectorAll('[data-r]').forEach(b => b.onclick = () => { reason = reason === b.dataset.r ? '' : b.dataset.r; d.querySelectorAll('[data-r]').forEach(x => x.setAttribute('aria-pressed', x.dataset.r === reason)); });
-    d.querySelector('#ttgo').onclick = e => { const tn = ((d.querySelector('#ttcn') || {}).value || '').trim(); send({ kind: 'call', note: [reason, tn].filter(Boolean).join(': ') }, e.currentTarget); };
+    d.querySelector('#ttgo').onclick = e => send({ kind: 'call', note: reason }, e.currentTarget);
+  }
+  /* paket BHT: velika ponuda (kombo, 1AM Special) → obavijest voditelju sa stolom i ponudom; on šalje konobara */
+  async function offerCall(reason) {
+    if (!TABLE) return;
+    const r = await send({ kind: 'call', note: String(reason || '').replace(/^Combo: /, 'Kombo: ') });   // voditelj uvijek čita hrvatski
+    if (r) M.toast(M.lang === 'en' ? '✓ The staff has been notified — a waiter is coming to your table' : '✓ Osoblje je obaviješteno — konobar dolazi na vaš stol');
   }
   function billSheet() {
     const d = sheet(tx('billT'), `<p class="tt-sub">${esc(tx('billS')(TABLE))}</p><div class="tt-two"><button class="tt-big gold" data-pay="card">${tx('card')}</button><button class="tt-big" data-pay="cash">${tx('cash')}</button></div>`);
@@ -4533,7 +4547,7 @@ a.ttfort{display:block;text-decoration:none!important}
     }, true);
     document.addEventListener('click', e => { const b = e.target.closest('[data-tt]'); if (!b) return; TT.buzz(8); const k = b.dataset.tt; if (k === 'rate') { if (window.TTR) TTR.open(); } else if (k === 'call') callSheet(); else if (k === 'bill') billSheet(); else if (k === 'list') { const f = document.querySelector('.openFav'); if (f) f.click(); else if (M.openFavsOrig) M.openFavsOrig(); } else if (k === 'song') songSheet(); });
     hit({ t: 'open' }); if (TABLE && q.get('stol')) hit({ t: 'table' });
-    if (window.TTK) TTK.init(M, { table: () => TABLE, ov: () => OV, callSheet, hit });
+    if (window.TTK) TTK.init(M, { table: () => (CALL ? TABLE : null), ov: () => OV, callSheet: offerCall, hit });
     setTimeout(() => {
       bar(); loadOv(true); coatChip();
       new MutationObserver(() => { markSold(); paintBar(); }).observe(document.getElementById('app') || document.body, { childList: true, subtree: true });

@@ -159,6 +159,29 @@ def build_pages():
     print('v/:', n, 'stranica,', st, 'preusmjeravanja (nije u paketu)')
 
 
+def build_report():
+    """v/grupa/izvjestaj/: mjesečni izvještaj za direktore — isti izgled, fontovi, logotipi i prijava
+    kao pregled grupe; drukčiji su samo sadržaj stranice i skripta (tools/live/izvjestaj.*)."""
+    g = open(os.path.join(OUT, 'grupa', 'index.html'), encoding='utf-8').read()
+    head = rep(g[:g.index('</head>')], '<title>BHT · direktori</title>', '<title>BHT · mjesečni izvještaj</title>', 1, 'izvjestaj naslov')
+    b = g.index('<body>')
+    s1 = g.index('<script>', b)
+    client = g[s1:g.index('</script>', s1) + len('</script>')]   # TT_CFG + jezgra + TT klijent + TT_VENUES
+    if 'window.TT_VENUES=' not in client or 'TT.api = async function' not in client:
+        sys.exit('GREŠKA: u pregledu grupe nema očekivanog klijenta (TT_VENUES / TT.api)')
+    live = os.path.join(PAKET.HERE, 'live')
+    css = open(os.path.join(live, 'izvjestaj.css'), encoding='utf-8').read()
+    body = open(os.path.join(live, 'izvjestaj.html'), encoding='utf-8').read()
+    js = open(os.path.join(live, 'izvjestaj.js'), encoding='utf-8').read()
+    out = f'{head}<style>\n{css}</style>\n</head>\n<body>\n{body}{client}\n<script>\n{js}</script>\n</body>\n</html>\n'
+    p = os.path.join(OUT, 'grupa', 'izvjestaj', 'index.html')
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    open(p, 'w', encoding='utf-8').write(out)
+    print('v/grupa/izvjestaj:', len(out) // 1024, 'KB')
+
+
 if __name__ == '__main__':
+    sys.dont_write_bytecode = True
     build_core()
     build_pages()
+    build_report()
