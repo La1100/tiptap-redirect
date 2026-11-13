@@ -767,7 +767,7 @@ if(typeof module!=='undefined')module.exports=qrMatrix;
 
 </script>
 <script>
-window.TT_CFG={"mode": "live", "venue": "brooklyn", "slug": "brooklyn", "name": "Brooklyn", "address": "Šetalište kardinala Franje Šepera 8F, 31000 Osijek", "phone": "+385 91 727 7963", "features": {"reservations": false, "preorder": false, "tableMode": true, "bill": true, "orders": false, "songs": false}, "page": "menu", "ev": null};
+window.TT_CFG={"mode": "live", "venue": "brooklyn", "slug": "brooklyn", "name": "Brooklyn", "address": "Šetalište kardinala Franje Šepera 8F, 31000 Osijek", "phone": "+385 91 727 7963", "features": {"reservations": false, "preorder": false, "tableMode": false, "bill": false, "orders": false, "songs": false}, "page": "menu", "ev": null};
 (function () {
 "use strict";
 const __m = {};
@@ -863,7 +863,7 @@ const QCLUB = {
     hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
     en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
-  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['rez', 'coat'], door: 'waiter' }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -941,7 +941,7 @@ const KAFANICA = {
     hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
     en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
-  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez', 'coat'] }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /* ---------- BROOKLYN (caffe bar, šetalište uz Dravu) ---------- */
@@ -997,7 +997,7 @@ const BROOKLYN = {
     hr: 'Terasa uz Dravu radi dok vrijeme dopušta — ako pada kiša, smjestit ćemo vas unutra.',
     en: 'The riverside terrace is open weather permitting — if it rains, we will seat you inside.'
   },
-  features: { reservations: false, preorder: false, tableMode: true, bill: true, orders: false, songs: false }
+  features: { reservations: false, preorder: false, tableMode: false, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija i bez poziva sa stola
 };
 
 /* ---------- BURE BAR (pivnica) — pravi raspored stolova lokala (papir od voditelja, 20. 10. 2026.) ----------
@@ -1089,7 +1089,7 @@ const BURE = {
     en: 'The minimum spend applies per table.'
   },
   // boca uz rezervaciju samo za VIP stol (čeka goste u kibli s ledom)
-  features: { reservations: true, preorder: true, preorderZones: ['vip'], preorderOnly: true, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez'] }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -1181,7 +1181,10 @@ async function read(store, key, empty) { const r = await store.getJSON(key); ret
 async function getConfig(store) {
   const def = VENUES[store.venue];
   const r = await store.getJSON('config');
-  return r?.data ? { ...structuredClone(def), ...r.data, forms: def.forms, features: { ...def.features, ...(r.data.features || {}) } } : structuredClone(def);
+  // paket određuje mogućnosti; iz Postavki vrijedi samo prekidač "stol uživo" (i to samo gdje ga paket ima)
+  const sf = (r?.data && r.data.features) || {};
+  const features = { ...def.features, ...(def.features.tableMode && typeof sf.tableMode === 'boolean' ? { tableMode: sf.tableMode } : {}) };
+  return r?.data ? { ...structuredClone(def), ...r.data, forms: def.forms, features } : structuredClone(def);
 }
 function publicConfig(cfg) {
   const { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features, policy } = cfg;
@@ -1843,6 +1846,7 @@ async function feedbackCreate(store, body) {
   const topic = TOPICS.includes(body.topic ?? body.tema) ? (body.topic ?? body.tema) : 'ostalo';
   const n = zagrebNow();
   const item = { id: token(6), topic, msg, when: str(body.when ?? body.kada, 80), contact: str(body.contact ?? body.kontakt, 120), table: str(body.table, 8), lang: body.lang === 'en' ? 'en' : 'hr', createdAt: body._at ? str(body._at, 30) : isoNow(), read: false, done: false };
+  const stars = num(body.stars, 1, 5); if (stars) item.stars = Math.round(stars);   // ocjena posjeta iz cjenika (1–4 ★)
   return mutate(store, fbKey(n.date), [], list => { if (list.length >= 1500) return { error: 'limit', status: 429 }; list.push(item); return { ok: true, id: item.id }; });
 }
 async function adminFeedback(store, months = 3) {
@@ -1906,7 +1910,8 @@ async function adminSaveMenu(store, body) {
    ===================================================================== */
 const SHARDS = 8;
 const stKey = (d, s) => `st/${d}/${s}`;
-const EMPTY_ST = { open: 0, review: 0, book: 0, table: 0, view: {}, names: {} };
+const ST_KEYS = ['open', 'review', 'book', 'table', 'r1', 'r2', 'r3', 'r4', 'r5'];
+const EMPTY_ST = { open: 0, review: 0, book: 0, table: 0, r1: 0, r2: 0, r3: 0, r4: 0, r5: 0, view: {}, names: {} };
 async function statsHit(store, body) {
   const ev = Array.isArray(body.ev) ? body.ev.slice(0, 40) : [];
   if (!ev.length) return { ok: true };
@@ -1916,7 +1921,7 @@ async function statsHit(store, body) {
     for (const e of ev) {
       const t = str(e.t, 10), n = Math.max(1, Math.min(500, Math.floor(+e.n || 1)));
       if (t === 'view') { const id = str(e.id, 80); if (!id) continue; doc.view[id] = (doc.view[id] || 0) + n; if (e.name) doc.names[id] = str(e.name, 80); }
-      else if (['open', 'review', 'book', 'table'].includes(t)) doc[t] = (doc[t] || 0) + n;
+      else if (ST_KEYS.includes(t)) doc[t] = (doc[t] || 0) + n;
     }
     return { ok: true };
   });
@@ -1925,7 +1930,7 @@ async function statsDay(store, date) {
   const out = structuredClone(EMPTY_ST);
   for (let s = 0; s < SHARDS; s++) {
     const r = await store.getJSON(stKey(date, s)); if (!r?.data) continue; const d = r.data;
-    for (const k of ['open', 'review', 'book', 'table']) out[k] += d[k] || 0;
+    for (const k of ST_KEYS) out[k] += d[k] || 0;
     for (const [id, n] of Object.entries(d.view || {})) out.view[id] = (out.view[id] || 0) + n;
     Object.assign(out.names, d.names || {});
   }
@@ -1935,13 +1940,13 @@ async function adminStats(store, days = 14) {
   const b = bizNow(); const series = []; const tot = structuredClone(EMPTY_ST);
   for (let i = days - 1; i >= 0; i--) {
     const d = addDays(b.date, -i); const s = await statsDay(store, d);
-    series.push({ date: d, open: s.open, review: s.review, book: s.book, table: s.table });
-    for (const k of ['open', 'review', 'book', 'table']) tot[k] += s[k];
+    series.push({ date: d, open: s.open, review: s.review, book: s.book, table: s.table, r1: s.r1, r2: s.r2, r3: s.r3, r4: s.r4, r5: s.r5 });
+    for (const k of ST_KEYS) tot[k] += s[k] || 0;
     for (const [id, n] of Object.entries(s.view)) tot.view[id] = (tot.view[id] || 0) + n;
     Object.assign(tot.names, s.names);
   }
   const top = Object.entries(tot.view).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([id, n]) => ({ id, n, name: tot.names[id] || id }));
-  return { ok: true, days: series, total: { open: tot.open, review: tot.review, book: tot.book, table: tot.table }, top };
+  return { ok: true, days: series, total: { open: tot.open, review: tot.review, book: tot.book, table: tot.table, r1: tot.r1, r2: tot.r2, r3: tot.r3, r4: tot.r4, r5: tot.r5 }, top };
 }
 
 /* =====================================================================
@@ -2229,8 +2234,14 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     if (path === '/feedback' && req.method === 'POST') {
       const r = await C.feedbackCreate(S, body);
       if (r.error) return fail(r);
+      const stars = Math.round(+body.stars) >= 1 && Math.round(+body.stars) <= 5 ? Math.round(+body.stars) : 0;
+      const cfg = await C.getConfig(S), tbl = String(body.table || '').replace(/[^\w-]/g, '').slice(0, 8);
+      const head = stars ? `${'★'.repeat(stars)}${'☆'.repeat(5 - stars)} Ocjena ${stars}/5 · ${cfg.venue}` : `Poruka gosta · ${cfg.venue}`;
+      const open = `${site}${vpath}/admin/#msgs`;
       const to = envFor(env, 'FEEDBACK_EMAIL', v) || envFor(env, 'NOTIFY_EMAIL', v);
-      if (to && r.id) await later(sendEmail(env, to, `Anonimna poruka (${v})`, `${body.topic || body.tema || ''}\n\n${body.msg || body.poruka || ''}\n\n${body.when || body.kada || ''} ${body.contact || body.kontakt || ''}`));
+      if (to && r.id) await later(sendEmail(env, to, head, `${head}${tbl ? ' · stol ' + tbl : ''}\nTema: ${body.topic || body.tema || ''}\n\n${body.msg || body.poruka || ''}\n\n${body.when || body.kada || ''} ${body.contact || body.kontakt || ''}\n\nOtvori: ${open}`));
+      // WhatsApp ide preko vanjskog servisa: bez teksta poruke i bez broja gosta — voditelj sve vidi u upravi
+      if (r.id && stars && stars < 5) await later(sendWhatsAppStaff(env, v, `${head}${tbl ? ' · stol ' + tbl : ''}${body.contact || body.kontakt ? '\n📞 Gost je ostavio broj — nazovite ga' : ''}\nOtvori: ${open}`));
       return json({ ok: true });
     }
     if (path === '/hit' && req.method === 'POST') { const r = await C.statsHit(S, body); return r.error ? fail(r) : json({ ok: true }); }
@@ -3124,27 +3135,28 @@ window.TT_TILE={"espresso":"data:image/webp;base64,UklGRpIhAABXRUJQVlA4WAoAAAAQA
     if (TABLE && LEG && LEG[0].test(TABLE)) { TABLE = LEG[1]; try { sessionStorage.setItem(TKEY, JSON.stringify({ t: TABLE, at: Date.now() })); } catch (e) { } } }
   TTX.table = () => TABLE;
   const SONGS = !!(V.features && V.features.songs);
-  const BILL = !!(V.features && V.features.bill);   // Q Club, Kafanica, Bure: piće se plaća odmah pri posluživanju
+  const BILL = !!(V.features && V.features.bill);
+  const CALL = !!(V.features && V.features.tableMode);   // paket BHT: poziv voditelju (Brooklyn bez poziva)   // Q Club, Kafanica, Bure: piće se plaća odmah pri posluživanju
 
   /* ---------- tekstovi ---------- */
   const TX = {
     hr: {
-      table: 'Stol', waiter: 'Konobar', bill: 'Račun', order: 'Narudžba', song: 'Pjesma', list: 'Moja lista', favCall: '🔔 Pozovite konobara', favReason: 'Želimo naručiti',
-      callT: 'Poziv konobaru', callS: t => `Stol ${t} · konobar dobiva obavijest odmah.`, reason: 'Razlog (neobavezno)', reasons: ['Želimo naručiti', 'Još jednu rundu', 'Imamo pitanje', 'Čaše / led / pepeljara'], callBtn: '🔔 Pozovite konobara',
+      table: 'Stol', waiter: 'Voditelj', bill: 'Račun', order: 'Narudžba', song: 'Pjesma', list: 'Moja lista', favCall: '🔔 Pozovite konobara', favReason: 'Želimo naručiti',
+      callT: 'Pozovite voditelja', callS: t => `Stol ${t} · voditelj lokala dobiva obavijest odmah.`, reason: 'Razlog (neobavezno)', reasons: ['Imamo pitanje', 'Nešto nije u redu', 'Slavimo nešto 🎉', 'Želimo bocu za stol 🍾'], callBtn: '🔔 Pozovite voditelja',
       billT: 'Račun, molim', billS: t => `Stol ${t} · kako ćete platiti?`, card: '💳 Karticom', cash: '💶 Gotovinom',
       orderT: 'Narudžba za stol', orderEmpty: 'Dodirnite ♥ uz piće da ga dodate u narudžbu, a zatim je pošaljite izravno na šank.', browse: 'Otvorite cjenik', note: 'Napomena za šank (neobavezno)', notePh: 'npr. bez leda, s limunom…', send: 'Pošaljite narudžbu', total: 'Ukupno', so: 'Trenutno nema',
       songT: 'Pjesma po želji', songS: 'Vaša želja stiže bendu na tablet, s brojem stola.', sTitle: 'Pjesma', sArtist: 'Izvođač (neobavezno)', sDed: 'Posveta (neobavezno)', sDedPh: 'npr. Za Ivanin rođendan! 🎂', sBtn: '🎵 Pošaljite bendu', popular: 'Često tražene',
-      st: { call: ['🔔 Konobar je pozvan', '👍 Konobar je vidio — dolazi', '✓ Riješeno'], bill: ['🧾 Račun je zatražen', '👍 Konobar donosi račun', '✓ Riješeno'], order: ['🛒 Narudžba je poslana', '👍 Šank priprema narudžbu', '✓ Narudžba je stigla'], song: ['🎵 Bend je dobio vašu želju', '▶ Bend svira vašu pjesmu!', '✓ Odsvirano'] },
+      st: { call: ['🔔 Voditelj je pozvan', '👍 Voditelj je vidio — dolazi', '✓ Riješeno'], bill: ['🧾 Račun je zatražen', '👍 Konobar donosi račun', '✓ Riješeno'], order: ['🛒 Narudžba je poslana', '👍 Šank priprema narudžbu', '✓ Narudžba je stigla'], song: ['🎵 Bend je dobio vašu želju', '▶ Bend svira vašu pjesmu!', '✓ Odsvirano'] },
       sentToast: 'Poslano ✓', err: 'Slanje nije uspjelo. Pokušajte ponovno ili pozovite osoblje.', limit: 'Previše zahtjeva odjednom — osoblje je već obaviješteno.',
       spark: '✨ Boca stiže s prskalicom!', addFav: 'Dodajte u narudžbu', inFav: 'U narudžbi ✓', fav: 'Narudžba', added: 'Dodano u narudžbu', removed: 'Uklonjeno iz narudžbe', soDetail: 'Trenutno nema — pitajte konobara za zamjenu.'
     },
     en: {
-      table: 'Table', waiter: 'Waiter', bill: 'Bill', order: 'Order', song: 'Song', list: 'My list', favCall: '🔔 Call the waiter', favReason: 'We’d like to order',
-      callT: 'Call the waiter', callS: t => `Table ${t} · the waiter is notified instantly.`, reason: 'Reason (optional)', reasons: ['We’d like to order', 'Another round', 'We have a question', 'Glasses / ice / ashtray'], callBtn: '🔔 Call the waiter',
+      table: 'Table', waiter: 'Manager', bill: 'Bill', order: 'Order', song: 'Song', list: 'My list', favCall: '🔔 Call the waiter', favReason: 'We’d like to order',
+      callT: 'Call the manager', callS: t => `Table ${t} · the manager is notified instantly.`, reason: 'Reason (optional)', reasons: ['We have a question', 'Something is wrong', 'We’re celebrating 🎉', 'A bottle for our table 🍾'], callBtn: '🔔 Call the manager',
       billT: 'The bill, please', billS: t => `Table ${t} · how will you pay?`, card: '💳 Card', cash: '💶 Cash',
       orderT: 'Order for table', orderEmpty: 'Tap ♥ on a drink to add it to your order, then send it straight to the bar.', browse: 'Open the menu', note: 'Note for the bar (optional)', notePh: 'e.g. no ice, with lemon…', send: 'Send order', total: 'Total', so: 'Sold out',
       songT: 'Song request', songS: 'Your request goes to the band’s tablet with your table number.', sTitle: 'Song', sArtist: 'Artist (optional)', sDed: 'Dedication (optional)', sDedPh: 'e.g. For Ivana’s birthday! 🎂', sBtn: '🎵 Send to the band', popular: 'Popular requests',
-      st: { call: ['🔔 Waiter called', '👍 The waiter saw it — on the way', '✓ Done'], bill: ['🧾 Bill requested', '👍 Your bill is coming', '✓ Done'], order: ['🛒 Order sent', '👍 The bar is preparing it', '✓ Order delivered'], song: ['🎵 The band got your request', '▶ The band is playing your song!', '✓ Played'] },
+      st: { call: ['🔔 Manager called', '👍 The manager saw it — on the way', '✓ Done'], bill: ['🧾 Bill requested', '👍 Your bill is coming', '✓ Done'], order: ['🛒 Order sent', '👍 The bar is preparing it', '✓ Order delivered'], song: ['🎵 The band got your request', '▶ The band is playing your song!', '✓ Played'] },
       sentToast: 'Sent ✓', err: 'Sending failed. Try again or ask the staff.', limit: 'Too many requests at once — staff are already notified.',
       spark: '✨ Your bottle comes with a sparkler!', addFav: 'Add to order', inFav: 'In your order ✓', fav: 'Order', added: 'Added to your order', removed: 'Removed from your order', soDetail: 'Sold out right now — ask the waiter for an alternative.'
     }
@@ -3447,7 +3459,7 @@ a.ttfort{display:block;text-decoration:none!important}
     document.body.classList.add('tt-table');
     const b = document.createElement('div'); b.id = 'ttbar'; b.className = 'ttbar';
     b.innerHTML = `<div class="ttst" id="ttst"></div><div class="in"><span class="tno"><small>${tx('table')}</small><b>${esc(TABLE)}</b></span>
-      <button data-tt="call"><span class="e">🔔</span>${tx('waiter')}</button>${BILL ? `<button data-tt="bill"><span class="e">🧾</span>${tx('bill')}</button>` : ''}
+      ${CALL ? `<button data-tt="call"><span class="e">🔔</span>${tx('waiter')}</button>` : ''}${BILL ? `<button data-tt="bill"><span class="e">🧾</span>${tx('bill')}</button>` : ''}<button data-tt="rate"><span class="e">⭐</span>${M && M.lang === 'en' ? 'Rate us' : 'Ocjena'}</button>
       <button data-tt="list"><span class="e">❤️</span>${tx('list')}<i class="n" id="ttn"></i></button>${SONGS ? `<button data-tt="song"><span class="e">🎵</span>${tx('song')}</button>` : ''}</div>`;
     document.body.appendChild(b);
     paintBar();
@@ -3489,9 +3501,9 @@ a.ttfort{display:block;text-decoration:none!important}
   function callSheet(preset) {
     let reason = preset || '';
     const rs = preset && !tx('reasons').includes(preset) ? [preset, ...tx('reasons')] : tx('reasons');   // npr. "Kombo: Silver Goose"
-    const d = sheet(tx('callT'), `<p class="tt-sub">${esc(tx('callS')(TABLE))}</p><span class="tt-lbl">${tx('reason')}</span><div class="tt-chips">${rs.map(r => `<button class="tt-chip" data-r="${esc(r)}" aria-pressed="${r === reason}">${esc(r)}</button>`).join('')}</div><button class="tt-big gold" id="ttgo">${tx('callBtn')}</button>`);
+    const d = sheet(tx('callT'), `<p class="tt-sub">${esc(tx('callS')(TABLE))}</p><span class="tt-lbl">${tx('reason')}</span><div class="tt-chips">${rs.map(r => `<button class="tt-chip" data-r="${esc(r)}" aria-pressed="${r === reason}">${esc(r)}</button>`).join('')}</div><label class="tt-lbl" for="ttcn">${M.lang === 'en' ? 'Message (optional)' : 'Poruka (neobavezno)'}</label><input class="tt-in" id="ttcn" maxlength="120" autocomplete="off" placeholder="${M.lang === 'en' ? 'e.g. birthday, we need a bigger table' : 'npr. rođendan, trebamo veći stol'}"><button class="tt-big gold" id="ttgo">${tx('callBtn')}</button>`);
     d.querySelectorAll('[data-r]').forEach(b => b.onclick = () => { reason = reason === b.dataset.r ? '' : b.dataset.r; d.querySelectorAll('[data-r]').forEach(x => x.setAttribute('aria-pressed', x.dataset.r === reason)); });
-    d.querySelector('#ttgo').onclick = e => send({ kind: 'call', note: reason }, e.currentTarget);
+    d.querySelector('#ttgo').onclick = e => { const tn = ((d.querySelector('#ttcn') || {}).value || '').trim(); send({ kind: 'call', note: [reason, tn].filter(Boolean).join(': ') }, e.currentTarget); };
   }
   function billSheet() {
     const d = sheet(tx('billT'), `<p class="tt-sub">${esc(tx('billS')(TABLE))}</p><div class="tt-two"><button class="tt-big gold" data-pay="card">${tx('card')}</button><button class="tt-big" data-pay="cash">${tx('cash')}</button></div>`);
@@ -3560,7 +3572,7 @@ a.ttfort{display:block;text-decoration:none!important}
 
   /* ---------- kuke iz cjenika ---------- */
   TTX.favs = () => {
-    if (TABLE) setTimeout(() => {   // izvorni popis ("Pokažite konobaru") + poziv konobara sa stola
+    if (TABLE && false) setTimeout(() => {   // paket BHT: bez poziva konobara iz popisa (popis se pokaže konobaru)
       const sw = document.getElementById('showW'); if (!sw || document.getElementById('ttFavCall')) return;
       const b = document.createElement('button'); b.className = 'bigbtn'; b.id = 'ttFavCall'; b.type = 'button'; b.textContent = tx('favCall');
       b.onclick = () => { M.hideSheet(); setTimeout(() => callSheet(tx('favReason')), 320); };
@@ -3643,7 +3655,7 @@ a.ttfort{display:block;text-decoration:none!important}
       if (a.closest('#rate') && /google/.test(a.href)) hit({ t: 'review' });
       if (a.closest('#bookc') && /rezervacije/.test(a.href)) hit({ t: 'book' });
     }, true);
-    document.addEventListener('click', e => { const b = e.target.closest('[data-tt]'); if (!b) return; TT.buzz(8); const k = b.dataset.tt; if (k === 'call') callSheet(); else if (k === 'bill') billSheet(); else if (k === 'list') { const f = document.querySelector('.openFav'); if (f) f.click(); else if (M.openFavsOrig) M.openFavsOrig(); } else if (k === 'song') songSheet(); });
+    document.addEventListener('click', e => { const b = e.target.closest('[data-tt]'); if (!b) return; TT.buzz(8); const k = b.dataset.tt; if (k === 'rate') { if (window.TTR) TTR.open(); } else if (k === 'call') callSheet(); else if (k === 'bill') billSheet(); else if (k === 'list') { const f = document.querySelector('.openFav'); if (f) f.click(); else if (M.openFavsOrig) M.openFavsOrig(); } else if (k === 'song') songSheet(); });
     hit({ t: 'open' }); if (TABLE && q.get('stol')) hit({ t: 'table' });
     if (window.TTK) TTK.init(M, { table: () => TABLE, ov: () => OV, callSheet, hit });
     setTimeout(() => {
@@ -3657,6 +3669,200 @@ a.ttfort{display:block;text-decoration:none!important}
   };
 })();
 
+</script>
+<script>
+/* TipTap × BHT — ocjena posjeta u digitalnom cjeniku (samo produkcija; ubacuje je tools/build_live.py)
+   Gost dodirne zvjezdicu u kartici "Vaše mišljenje" ili gumb ⭐ na traci stola:
+   • 5 ★   → odmah se otvara Google recenzija lokala. Google ne dopušta unaprijed odabrane zvjezdice
+             ni predložen tekst, pa gost tamo samo dodirne zvjezdice i "Objavi".
+   • 1–4 ★ → kratka poruka voditelju: tema, opis i broj za povratni poziv (sve neobavezno).
+             Stiže u upravu lokala (Poruke) i u pregled grupe za direktore; ako su postavljeni,
+             i obavijest na WhatsApp / e-mail. Gumb za Google ostaje vidljiv i ovdje: Googleova pravila
+             zabranjuju da se recenzije traže samo od zadovoljnih gostiju
+             (support.google.com/contributionpolicy/answer/7400114 → "Rating manipulation").
+   Statistika: r1–r5 (koliko je gostiju dalo koju ocjenu) i review (otvaranje Google recenzije). */
+(function () {
+  'use strict';
+  if (window.TTR) return;
+  const V = window.TT_CFG || {};
+  const TTR = window.TTR = {};
+  const KEY = 'ttr_' + (V.venue || 'x');
+  const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/></svg>';
+  const T = {
+    hr: {
+      hint: 'Dodirnite zvjezdicu — traje 10 sekundi.',
+      sheetT: 'Kako vam je kod nas?',
+      group: 'Vaša ocjena',
+      star: n => n + (n === 1 ? ' zvjezdica' : n < 5 ? ' zvjezdice' : ' zvjezdica'),
+      thanks: 'Hvala vam!',
+      opened: 'Google recenzija otvorila se u novoj kartici. Tamo dodirnite zvjezdice i „Objavi”.',
+      openG: 'Otvorite Google recenziju',
+      lowT: 'Hvala na iskrenosti',
+      lowS: 'Žao nam je što nije bilo savršeno. Recite voditelju što možemo popraviti, poruka mu stiže odmah.',
+      topic: 'Na što se odnosi?',
+      topics: [['usluga', 'Usluga'], ['cekanje', 'Čekanje'], ['pice', 'Piće'], ['cistoca', 'Čistoća'], ['glazba', 'Glazba'], ['racun', 'Račun'], ['ostalo', 'Nešto drugo']],
+      msg: 'Što se dogodilo? (neobavezno)', msgPh: 'npr. dugo smo čekali piće',
+      tel: 'Vaš broj, ako želite da vas voditelj nazove', telPh: '09x xxx xxxx',
+      send: 'Pošaljite voditelju', sending: 'Šaljem…',
+      or: 'ili', gBtn: 'Ocijenite nas na Googleu',
+      sent: 'Hvala! Voditelj je dobio vašu poruku.', sentTel: t => `Može vas nazvati na ${t}.`, sentAnon: 'Poruka je anonimna.',
+      cardSent: 'Hvala na poruci. Voditelj ju je već dobio.', alsoG: 'Ocijenite nas i na Googleu',
+      err: 'Slanje nije uspjelo. Provjerite internet i pokušajte ponovno.'
+    },
+    en: {
+      hint: 'Tap a star — it takes 10 seconds.',
+      sheetT: 'How is your visit?',
+      group: 'Your rating',
+      star: n => n + (n === 1 ? ' star' : ' stars'),
+      thanks: 'Thank you!',
+      opened: 'Google reviews opened in a new tab. Tap the stars there and “Post”.',
+      openG: 'Open Google reviews',
+      lowT: 'Thanks for being honest',
+      lowS: 'We’re sorry it wasn’t perfect. Tell the manager what we can fix — the message reaches them right away.',
+      topic: 'What is it about?',
+      topics: [['usluga', 'Service'], ['cekanje', 'Waiting'], ['pice', 'Drinks'], ['cistoca', 'Cleanliness'], ['glazba', 'Music'], ['racun', 'Bill'], ['ostalo', 'Something else']],
+      msg: 'What happened? (optional)', msgPh: 'e.g. we waited a long time for drinks',
+      tel: 'Your number, if you’d like the manager to call you', telPh: '+385 9x xxx xxxx',
+      send: 'Send to the manager', sending: 'Sending…',
+      or: 'or', gBtn: 'Rate us on Google',
+      sent: 'Thank you! The manager has your message.', sentTel: t => `They can call you at ${t}.`, sentAnon: 'Your message is anonymous.',
+      cardSent: 'Thanks for your message. The manager already has it.', alsoG: 'Rate us on Google too',
+      err: 'Sending failed. Check your connection and try again.'
+    }
+  };
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const M = () => window.TTM || null;
+  const L = lg => (lg || (M() && M().lang)) === 'en' ? 'en' : 'hr';
+  const tx = lg => T[L(lg)];
+  const buzz = p => { try { window.TT && TT.buzz && TT.buzz(p); } catch (e) { } };
+  const hit = e => { try { window.TTX && TTX.hit && TTX.hit(e); } catch (e2) { } };
+  const table = () => { try { return (window.TTX && TTX.table && TTX.table()) || ''; } catch (e) { return ''; } };
+  const toast = m => { try { M() && M().toast(m); } catch (e) { } };
+
+  /* stanje u ovoj kartici preglednika: { n: ocjena, sent: poruka poslana, c: već brojene ocjene } */
+  const st = (() => { try { return JSON.parse(sessionStorage.getItem(KEY) || 'null') || {}; } catch (e) { return {}; } })();
+  const save = () => { try { sessionStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { } };
+  let gUrl = '';
+  const google = () => gUrl || (M() && M().MENU && M().MENU.meta && M().MENU.meta.googleReview) || '';
+
+  function stars(n, live, big, lg) {
+    const t = tx(lg);
+    const one = i => live
+      ? `<button type="button" class="ttr-s${i <= n ? ' on' : ''}" data-rate="${i}" aria-label="${esc(t.star(i))}">${STAR}</button>`
+      : `<span class="ttr-s${i <= n ? ' on' : ''}">${STAR}</span>`;
+    return `<div class="ttr-stars${big ? ' big' : ''}"${live ? ` role="group" aria-label="${esc(t.group)}"` : ' aria-hidden="true"'}>${[1, 2, 3, 4, 5].map(one).join('')}</div>`;
+  }
+  /* isti prikaz u kartici i u listu s trake stola */
+  function stateHTML(big, lg) {
+    const t = tx(lg), n = st.n || 0;
+    if (n === 5) return `${stars(5, false, big, lg)}<p class="ttr-hint"><b>${t.thanks}</b> ${t.opened}</p><button type="button" class="${big ? 'tt-big gold' : 'bigbtn gold'}" data-ttr-g>${STAR} ${t.openG}</button>`;
+    // poslana poruka: zvjezdice ostaju za dodir (npr. voditelj je riješio problem pa gost promijeni ocjenu)
+    if (n && st.sent) return `${stars(n, true, big, lg)}<p class="ttr-hint"><b>${t.cardSent}</b></p><button type="button" class="ttr-link" data-ttr-g>${t.alsoG} ›</button>`;
+    return `${stars(n, true, big, lg)}<p class="ttr-hint${big ? ' c' : ''}">${t.hint}</p>`;
+  }
+
+  /* kartica "Vaše mišljenje" u cjeniku (renderRate je poziva pri svakom crtanju) */
+  TTR.card = (lg, meta) => { if (meta && meta.googleReview) gUrl = meta.googleReview; return `<div id="ttrcard">${stateHTML(false, lg)}</div>`; };
+  function paint() {
+    const c = document.getElementById('ttrcard'); if (c) c.innerHTML = stateHTML(false);
+    const d = document.getElementById('ttrsheet');
+    if (d && d.dataset.mode === 'state' && d.classList.contains('on')) { const p = d.querySelector('.tt-pad'); if (p) p.innerHTML = stateHTML(true); }
+  }
+
+  /* list (isti izgled kao ostali listovi cjenika) */
+  function sheet(title, html, mode) {
+    const m = M(); if (!m) return null;
+    let d = document.getElementById('ttrsheet');
+    if (!d) { d = document.createElement('section'); d.id = 'ttrsheet'; d.className = 'sheet'; d.hidden = true; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); document.body.appendChild(d); }
+    d.dataset.mode = mode || '';
+    d.innerHTML = `<div class="grab"><h3>${title}</h3><button class="close" data-close aria-label="×">${m.svg(m.UI.x, 24)}</button></div><div class="tt-pad">${html}</div>`;
+    if (!(d.classList.contains('on') && !d.hidden)) m.showSheet(d); else d.scrollTop = 0;
+    return d;
+  }
+  TTR.open = () => {
+    if (st.n && st.n < 5 && !st.sent) return low(st.n);
+    sheet(tx().sheetT, stateHTML(true), 'state');
+  };
+
+  function openGoogle() {
+    const url = google(); if (!url) return;
+    hit({ t: 'review' });
+    let w = null;
+    try { w = window.open(url, '_blank'); } catch (e) { }
+    if (w) { try { w.opener = null; } catch (e) { } } else location.href = url;
+  }
+
+  function pick(n) {
+    n = Math.max(1, Math.min(5, n | 0));
+    buzz(10);
+    st.n = n; st.sent = false; st.c = st.c || {};
+    if (!st.c[n]) { st.c[n] = 1; hit({ t: 'r' + n }); }
+    save();
+    if (n === 5) { openGoogle(); paint(); return; }
+    paint(); low(n);
+  }
+
+  function low(n) {
+    const t = tx(); let topic = '';
+    const d = sheet(t.lowT, `${stars(n, false, true)}<p class="tt-sub c">${t.lowS}</p>
+      <div id="ttrform"><span class="tt-lbl">${t.topic}</span><div class="tt-chips">${t.topics.map(([v, l]) => `<button type="button" class="tt-chip" data-tp="${v}" aria-pressed="false">${esc(l)}</button>`).join('')}</div>
+      <label class="tt-lbl" for="ttrm">${t.msg}</label><textarea class="tt-in" id="ttrm" rows="3" maxlength="600" placeholder="${esc(t.msgPh)}"></textarea>
+      <label class="tt-lbl" for="ttrp">${t.tel}</label><input class="tt-in" id="ttrp" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="${esc(t.telPh)}"></div>
+      <div id="ttrbox"><button type="button" class="tt-big gold" id="ttrsend">${t.send}</button></div>
+      <div class="ttr-or"><span>${t.or}</span></div>
+      <button type="button" class="tt-big" data-ttr-g>${STAR} ${t.gBtn}</button>`, 'low');
+    if (!d) return;
+    d.querySelectorAll('[data-tp]').forEach(b => b.onclick = () => { topic = topic === b.dataset.tp ? '' : b.dataset.tp; d.querySelectorAll('[data-tp]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.tp === topic))); buzz(6); });
+    d.querySelector('#ttrsend').onclick = async e => {
+      const btn = e.currentTarget; btn.disabled = true; btn.textContent = t.sending;
+      const text = d.querySelector('#ttrm').value.trim(), tel = d.querySelector('#ttrp').value.trim();
+      const tl = (T.hr.topics.find(x => x[0] === topic) || [])[1] || '';
+      // poruka upravi je uvijek na hrvatskom; bez opisa ide sama ocjena i tema (server traži barem 5 znakova)
+      const msg = text.length >= 5 ? text : [`Ocjena ${n}/5`, tl, text].filter(Boolean).join(' · ');
+      try {
+        await TT.api('/feedback', { body: { topic: topic || 'ostalo', msg, contact: tel, table: table(), lang: L(), stars: n } });
+        st.sent = true; save(); paint(); buzz([20, 40, 20]); try { TT.chime('ok'); } catch (er) { }
+        const f = d.querySelector('#ttrform'); if (f) f.remove();
+        d.querySelector('#ttrbox').innerHTML = `<div class="ttr-ok"><b>✓ ${t.sent}</b><span>${tel ? esc(t.sentTel(tel)) : t.sentAnon}</span></div>`;
+      } catch (err) { btn.disabled = false; btn.textContent = t.send; toast(t.err); buzz(30); }
+    };
+  }
+
+  document.addEventListener('click', e => {
+    const s = e.target.closest && e.target.closest('[data-rate]');
+    if (s) { e.preventDefault(); pick(+s.dataset.rate); return; }
+    const g = e.target.closest && e.target.closest('[data-ttr-g]');
+    if (g) { e.preventDefault(); openGoogle(); }
+  });
+
+  const css = document.createElement('style');
+  css.textContent = `
+.ttr-stars{display:flex;gap:6px;margin:2px 0 12px}
+.ttr-s{flex:1 1 0;min-width:0;max-width:58px;height:52px;display:grid;place-items:center;border-radius:15px;color:rgba(255,255,255,.2);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);transition:transform .15s,color .2s,background .2s}
+.ttr-s svg{width:30px;height:30px;display:block}
+.ttr-s.on{color:var(--gold2);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}
+.ttr-s.on svg{filter:drop-shadow(0 0 5px var(--gold2))}
+button.ttr-s:active{transform:scale(.88)}
+@media (hover:hover){.ttr-stars:hover button.ttr-s{color:var(--gold2)}.ttr-stars button.ttr-s:hover~button.ttr-s{color:rgba(255,255,255,.2)}}
+.ttr-stars.big{justify-content:center;gap:8px;margin:10px 0 8px}
+.ttr-stars.big .ttr-s{height:60px;max-width:60px}
+.ttr-stars.big .ttr-s svg{width:34px;height:34px}
+.ttr-hint{margin:0 0 16px;color:var(--muted);font-size:14.5px;line-height:1.5;max-width:46ch}
+.ttr-hint b{color:var(--text)}
+.ttr-hint.c,.tt-sub.c{text-align:center;margin-left:auto;margin-right:auto}
+#ttrcard .bigbtn{margin:0 0 4px}
+.ttr-link{display:inline-flex;align-items:center;min-height:44px;margin:-6px 0 6px;color:var(--gold2);font-weight:800;font-size:14.5px}
+.ttr-ok{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:16px;background:rgba(143,209,158,.1);border:1px solid rgba(143,209,158,.35)}
+.ttr-ok b{color:var(--ok,#8fd19e);font-size:16px}
+.ttr-ok span{color:var(--muted);font-size:14px}
+.ttr-or{display:flex;align-items:center;gap:12px;margin:14px 0;color:var(--dim);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.ttr-or::before,.ttr-or::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.1)}
+#ttrsheet textarea.tt-in{min-height:84px;resize:vertical;line-height:1.4}
+[data-ttr-g] svg{width:20px;height:20px;flex:none}
+.ttbar button[data-tt=rate] .e{color:var(--gold2)}
+@media (prefers-reduced-motion:reduce){.ttr-s{transition:none}}`;
+  (document.head || document.documentElement).appendChild(css);
+})();
 </script>
 <script>
 (function(){
@@ -3948,8 +4154,8 @@ function renderTiles(){
  $('#hubCount').textContent=t('count')(ITEMS.filter(visibleItem).length);}
 function renderRate(){const m=MENU.meta;
  $('#rate').innerHTML=`<div class="eyebrow">${t('rateEyebrow')}</div><h2 id="rateT">${t('rateTitle')}</h2>
-  <div class="stars" aria-hidden="true">${svg(UI.starF,22).repeat(5)}</div><p>${t('rateText')}</p>
-  <a class="bigbtn gold" href="${esc(m.googleReview)}" target="_blank" rel="noopener">${svg(UI.star,20)} ${t('rateBtn')}</a>
+  ${window.TTR?TTR.card(lang,m):`<div class="stars" aria-hidden="true">${svg(UI.starF,22).repeat(5)}</div><p>${t('rateText')}</p>
+  <a class="bigbtn gold" href="${esc(m.googleReview)}" target="_blank" rel="noopener">${svg(UI.star,20)} ${t('rateBtn')}</a>`}
   ${m.feedback===false?'':`<button class="anon" data-anon><span class="ic">${svg(UI.msg,22)}</span><span class="tx"><b>${t('anonTitle')}</b><span>${t('anonText')}</span></span>${svg(UI.chev,20)}</button>`}`;}
 function renderBook(){const m=MENU.meta;if(m.booking===false){$('#bookc').hidden=true;return;}
  $('#bookc').innerHTML=`<div class="bk-h"><span class="bk-ic">${svg(UI.cal,26)}</span><div><h2 id="bookT">${t('bookTitle')}</h2><p>${t('bookText')}</p></div></div>

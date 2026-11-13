@@ -258,7 +258,7 @@ body{background:radial-gradient(100% 60% at 50% -10%,rgba(242,208,140,.08),trans
 <div class="g-wrap" id="app" hidden>
   <div class="g-top"><span class="tt">BHT</span><span class="demo-badge" id="demo" hidden>Demo</span><span class="clock"><span class="livedot" style="display:inline-flex;align-items:center;gap:6px"><i style="width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);display:inline-block"></i>Uživo</span><b id="clk"></b></span></div>
   <h1 class="g-h1"><span id="h1">Večeras u vašim lokalima</span></h1>
-  <p class="g-sub" id="sub">Rezervacije, gosti, pozivi sa stolova i poruke gostiju iz sva četiri lokala — na jednom ekranu.</p>
+  <p class="g-sub" id="sub">Cjenik, ocjene gostiju, pozivi voditeljima i poruke iz sva četiri lokala — na jednom ekranu.</p>
   <div class="gz" id="gz" hidden></div>
   <div class="kp" id="kp"></div>
   <div class="vg" id="vg"></div>
@@ -362,7 +362,7 @@ const QCLUB = {
     hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
     en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
-  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['rez', 'coat'], door: 'waiter' }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -440,7 +440,7 @@ const KAFANICA = {
     hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
     en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
-  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez', 'coat'] }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /* ---------- BROOKLYN (caffe bar, šetalište uz Dravu) ---------- */
@@ -496,7 +496,7 @@ const BROOKLYN = {
     hr: 'Terasa uz Dravu radi dok vrijeme dopušta — ako pada kiša, smjestit ćemo vas unutra.',
     en: 'The riverside terrace is open weather permitting — if it rains, we will seat you inside.'
   },
-  features: { reservations: false, preorder: false, tableMode: true, bill: true, orders: false, songs: false }
+  features: { reservations: false, preorder: false, tableMode: false, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija i bez poziva sa stola
 };
 
 /* ---------- BURE BAR (pivnica) — pravi raspored stolova lokala (papir od voditelja, 20. 10. 2026.) ----------
@@ -588,7 +588,7 @@ const BURE = {
     en: 'The minimum spend applies per table.'
   },
   // boca uz rezervaciju samo za VIP stol (čeka goste u kibli s ledom)
-  features: { reservations: true, preorder: true, preorderZones: ['vip'], preorderOnly: true, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez'] }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -680,7 +680,10 @@ async function read(store, key, empty) { const r = await store.getJSON(key); ret
 async function getConfig(store) {
   const def = VENUES[store.venue];
   const r = await store.getJSON('config');
-  return r?.data ? { ...structuredClone(def), ...r.data, forms: def.forms, features: { ...def.features, ...(r.data.features || {}) } } : structuredClone(def);
+  // paket određuje mogućnosti; iz Postavki vrijedi samo prekidač "stol uživo" (i to samo gdje ga paket ima)
+  const sf = (r?.data && r.data.features) || {};
+  const features = { ...def.features, ...(def.features.tableMode && typeof sf.tableMode === 'boolean' ? { tableMode: sf.tableMode } : {}) };
+  return r?.data ? { ...structuredClone(def), ...r.data, forms: def.forms, features } : structuredClone(def);
 }
 function publicConfig(cfg) {
   const { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features, policy } = cfg;
@@ -1342,6 +1345,7 @@ async function feedbackCreate(store, body) {
   const topic = TOPICS.includes(body.topic ?? body.tema) ? (body.topic ?? body.tema) : 'ostalo';
   const n = zagrebNow();
   const item = { id: token(6), topic, msg, when: str(body.when ?? body.kada, 80), contact: str(body.contact ?? body.kontakt, 120), table: str(body.table, 8), lang: body.lang === 'en' ? 'en' : 'hr', createdAt: body._at ? str(body._at, 30) : isoNow(), read: false, done: false };
+  const stars = num(body.stars, 1, 5); if (stars) item.stars = Math.round(stars);   // ocjena posjeta iz cjenika (1–4 ★)
   return mutate(store, fbKey(n.date), [], list => { if (list.length >= 1500) return { error: 'limit', status: 429 }; list.push(item); return { ok: true, id: item.id }; });
 }
 async function adminFeedback(store, months = 3) {
@@ -1405,7 +1409,8 @@ async function adminSaveMenu(store, body) {
    ===================================================================== */
 const SHARDS = 8;
 const stKey = (d, s) => `st/${d}/${s}`;
-const EMPTY_ST = { open: 0, review: 0, book: 0, table: 0, view: {}, names: {} };
+const ST_KEYS = ['open', 'review', 'book', 'table', 'r1', 'r2', 'r3', 'r4', 'r5'];
+const EMPTY_ST = { open: 0, review: 0, book: 0, table: 0, r1: 0, r2: 0, r3: 0, r4: 0, r5: 0, view: {}, names: {} };
 async function statsHit(store, body) {
   const ev = Array.isArray(body.ev) ? body.ev.slice(0, 40) : [];
   if (!ev.length) return { ok: true };
@@ -1415,7 +1420,7 @@ async function statsHit(store, body) {
     for (const e of ev) {
       const t = str(e.t, 10), n = Math.max(1, Math.min(500, Math.floor(+e.n || 1)));
       if (t === 'view') { const id = str(e.id, 80); if (!id) continue; doc.view[id] = (doc.view[id] || 0) + n; if (e.name) doc.names[id] = str(e.name, 80); }
-      else if (['open', 'review', 'book', 'table'].includes(t)) doc[t] = (doc[t] || 0) + n;
+      else if (ST_KEYS.includes(t)) doc[t] = (doc[t] || 0) + n;
     }
     return { ok: true };
   });
@@ -1424,7 +1429,7 @@ async function statsDay(store, date) {
   const out = structuredClone(EMPTY_ST);
   for (let s = 0; s < SHARDS; s++) {
     const r = await store.getJSON(stKey(date, s)); if (!r?.data) continue; const d = r.data;
-    for (const k of ['open', 'review', 'book', 'table']) out[k] += d[k] || 0;
+    for (const k of ST_KEYS) out[k] += d[k] || 0;
     for (const [id, n] of Object.entries(d.view || {})) out.view[id] = (out.view[id] || 0) + n;
     Object.assign(out.names, d.names || {});
   }
@@ -1434,13 +1439,13 @@ async function adminStats(store, days = 14) {
   const b = bizNow(); const series = []; const tot = structuredClone(EMPTY_ST);
   for (let i = days - 1; i >= 0; i--) {
     const d = addDays(b.date, -i); const s = await statsDay(store, d);
-    series.push({ date: d, open: s.open, review: s.review, book: s.book, table: s.table });
-    for (const k of ['open', 'review', 'book', 'table']) tot[k] += s[k];
+    series.push({ date: d, open: s.open, review: s.review, book: s.book, table: s.table, r1: s.r1, r2: s.r2, r3: s.r3, r4: s.r4, r5: s.r5 });
+    for (const k of ST_KEYS) tot[k] += s[k] || 0;
     for (const [id, n] of Object.entries(s.view)) tot.view[id] = (tot.view[id] || 0) + n;
     Object.assign(tot.names, s.names);
   }
   const top = Object.entries(tot.view).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([id, n]) => ({ id, n, name: tot.names[id] || id }));
-  return { ok: true, days: series, total: { open: tot.open, review: tot.review, book: tot.book, table: tot.table }, top };
+  return { ok: true, days: series, total: { open: tot.open, review: tot.review, book: tot.book, table: tot.table, r1: tot.r1, r2: tot.r2, r3: tot.r3, r4: tot.r4, r5: tot.r5 }, top };
 }
 
 /* =====================================================================
@@ -1728,8 +1733,14 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     if (path === '/feedback' && req.method === 'POST') {
       const r = await C.feedbackCreate(S, body);
       if (r.error) return fail(r);
+      const stars = Math.round(+body.stars) >= 1 && Math.round(+body.stars) <= 5 ? Math.round(+body.stars) : 0;
+      const cfg = await C.getConfig(S), tbl = String(body.table || '').replace(/[^\w-]/g, '').slice(0, 8);
+      const head = stars ? `${'★'.repeat(stars)}${'☆'.repeat(5 - stars)} Ocjena ${stars}/5 · ${cfg.venue}` : `Poruka gosta · ${cfg.venue}`;
+      const open = `${site}${vpath}/admin/#msgs`;
       const to = envFor(env, 'FEEDBACK_EMAIL', v) || envFor(env, 'NOTIFY_EMAIL', v);
-      if (to && r.id) await later(sendEmail(env, to, `Anonimna poruka (${v})`, `${body.topic || body.tema || ''}\n\n${body.msg || body.poruka || ''}\n\n${body.when || body.kada || ''} ${body.contact || body.kontakt || ''}`));
+      if (to && r.id) await later(sendEmail(env, to, head, `${head}${tbl ? ' · stol ' + tbl : ''}\nTema: ${body.topic || body.tema || ''}\n\n${body.msg || body.poruka || ''}\n\n${body.when || body.kada || ''} ${body.contact || body.kontakt || ''}\n\nOtvori: ${open}`));
+      // WhatsApp ide preko vanjskog servisa: bez teksta poruke i bez broja gosta — voditelj sve vidi u upravi
+      if (r.id && stars && stars < 5) await later(sendWhatsAppStaff(env, v, `${head}${tbl ? ' · stol ' + tbl : ''}${body.contact || body.kontakt ? '\n📞 Gost je ostavio broj — nazovite ga' : ''}\nOtvori: ${open}`));
       return json({ ok: true });
     }
     if (path === '/hit' && req.method === 'POST') { const r = await C.statsHit(S, body); return r.error ? fail(r) : json({ ok: true }); }
@@ -2597,7 +2608,7 @@ window.TT_VENUES={"qclub": {"name": "Q Club", "slug": "q-club", "theme": {"bg": 
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=TT.esc,fmt=TT.fmt,VS=window.TT_VENUES||{};
 const DN=['nedjelja','ponedjeljak','utorak','srijeda','četvrtak','petak','subota'],DS=['Ned','Pon','Uto','Sri','Čet','Pet','Sub'];
-const KIND={call:['🔔','zove konobara'],bill:['🧾','traži račun'],order:['🛒','narudžba'],song:['🎵','pjesma po želji']};
+const KIND={call:['🔔','zove voditelja'],bill:['🧾','traži račun'],order:['🛒','narudžba'],song:['🎵','pjesma po želji']};
 const TOP={usluga:'Usluga',pice:'Piće',cekanje:'Čekanje',cistoca:'Čistoća',glazba:'Glazba',racun:'Račun',pohvala:'Pohvala',ostalo:'Ostalo'};
 const money=v=>TT.money(v,'hr');
 const money0=v=>Math.round(v||0).toLocaleString('hr-HR')+' €';
@@ -2607,6 +2618,12 @@ const REZ=v=>(v.features||{}).reservations!==false,calls=v=>(v.live.calls||0)+(v
 const pl=(n,one,few,many)=>{const a=n%10,b=n%100;return a===1&&b!==11?one:(a>=2&&a<=4&&(b<12||b>14))?few:many};
 const agoTxt=iso=>{const s=Math.max(0,Math.floor((Date.now()-Date.parse(iso))/1000));if(s<60)return 'upravo';if(s<3600)return `prije ${Math.floor(s/60)} min`;if(s<86400)return `prije ${Math.floor(s/3600)} h`;const d=Math.floor(s/86400);return d===1?'jučer':`prije ${d} dana`};
 let D=null;
+/* paket BHT: bez rezervacija — na vrhu cjenik, ocjene i pozivi; ocjene su zbroj zadnjih 7 dana */
+const RT=v=>{const s=v.stats||{},n=[1,2,3,4,5].map(i=>s['r'+i]||0),t=n.reduce((a,b)=>a+b,0);return {n,t,avg:t?n.reduce((a,c,i)=>a+c*(i+1),0)/t:null}};
+const f1=x=>x==null?'—':x.toFixed(1).replace('.',',');
+function KP2(V,sum,openNow,U_){const R=V.map(RT),T=R.reduce((a,r)=>a+r.t,0),S5=R.reduce((a,r)=>a+r.n[4],0),A=T?R.reduce((a,r)=>a+r.n.reduce((x,c,i)=>x+c*(i+1),0),0)/T:null;
+ return [[sum(v=>v.stats.open||0),'otvaranja cjenika · 7 dana'],[sum(v=>v.stats.table||0),'dodira NFC/QR na stolu · 7 dana'],[f1(A),`prosječna ocjena · ${T} ${pl(T,'ocjena','ocjene','ocjena')}`],[S5,`${pl(S5,'ocjena','ocjene','ocjena')} 5★ → Google`],[openNow,pl(openNow,'stol zove','stola zovu','stolova zove')+' sada',openNow>0],[U_,pl(U_,'nepročitana poruka','nepročitane poruke','nepročitanih poruka'),U_>0]]}
+function NUMS2(v){const r=RT(v);return `<div><b>${f1(r.avg)}</b><span>prosječna ocjena</span></div><div><b>${r.t}</b><span>${pl(r.t,'ocjena','ocjene','ocjena')} · 7 dana</span></div><div><b>${r.n[4]}</b><span>5★ → Google</span></div><div><b>${v.stats.open||0}</b><span>otvaranja · 7 dana</span></div>`}
 async function load(){
   try{D=await TT.api('/group/summary',{root:true,admin:true});render();}
   catch(e){if(e&&e.status===401){TT.setPin(null,'');show(false);$('#le').textContent='Pogrešan PIN.';}}
@@ -2617,7 +2634,7 @@ function render(){
   const sum=k=>V.reduce((a,v)=>a+k(v),0);
   const openNow=sum(v=>v.live.open);
   const R_=sum(v=>v.tonight.res),G_=sum(v=>v.tonight.guests),P_=sum(v=>v.tonight.pending),U_=sum(v=>v.feedback.unread),J_=sum(v=>v.tonight.guar||0);
-  $('#kp').innerHTML=[[R_,pl(R_,'rezervacija','rezervacije','rezervacija')+' večeras'],[G_,pl(G_,'gost','gosta','gostiju')+' večeras'],P_||!J_?[P_,pl(P_,'čeka','čekaju','čeka')+' potvrdu',P_>0]:[J_,'zajamčeno karticom'],[openNow,pl(openNow,'stol zove','stola zovu','stolova zove')+' sada',openNow>0],[(()=>{const a=V.filter(v=>v.live.avgAck!=null);if(!a.length)return '—';const s=Math.round(a.reduce((x,v)=>x+v.live.avgAck,0)/a.length);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})(),'prosječna reakcija osoblja'],[U_,pl(U_,'nepročitana poruka','nepročitane poruke','nepročitanih poruka'),U_>0]]
+  $('#kp').innerHTML=(!V.some(REZ)?KP2(V,sum,openNow,U_):[[R_,pl(R_,'rezervacija','rezervacije','rezervacija')+' večeras'],[G_,pl(G_,'gost','gosta','gostiju')+' večeras'],P_||!J_?[P_,pl(P_,'čeka','čekaju','čeka')+' potvrdu',P_>0]:[J_,'zajamčeno karticom'],[openNow,pl(openNow,'stol zove','stola zovu','stolova zove')+' sada',openNow>0],[(()=>{const a=V.filter(v=>v.live.avgAck!=null);if(!a.length)return '—';const s=Math.round(a.reduce((x,v)=>x+v.live.avgAck,0)/a.length);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')})(),'prosječna reakcija osoblja'],[U_,pl(U_,'nepročitana poruka','nepročitane poruke','nepročitanih poruka'),U_>0]])
     .map(([b,s,h])=>`<div class="${h?'hot':''}"><b>${b}</b><span>${s}</span></div>`).join('');
   const GZ=V.map(v=>({v,ms:v.tonight.minSpend||0,pre:v.tonight.preOver!=null?v.tonight.preOver:(v.tonight.pre||0)})).filter(x=>x.ms+x.pre>0),gT=GZ.reduce((a,x)=>a+x.ms+x.pre,0),gz=$('#gz');
   gz.hidden=!gT;
@@ -2627,16 +2644,16 @@ function render(){
   $('#vg').innerHTML=V.map(v=>{const c=VS[v.id]||{},th=c.theme||{};const t=v.tonight,mx=Math.max(1,...v.week.map(w=>w.guests));
     const dayLbl=v.day===D.biz.date?'večeras':`${DS[TT.wd(v.day)]} ${+v.day.slice(8)}.${+v.day.slice(5,7)}.`;
     return `<article class="vc" style="--a:${th.gold2||'#f2d08c'};--a2:${th.gold||'#d9b25f'};--vb:${th.card||'#15151c'}">
-      <div class="hd"><svg viewBox="${c.vb||'0 0 220 160'}" aria-hidden="true">${c.logo||''}</svg><div class="nm">${esc(v.name)}<small>${!REZ(v)?'bez rezervacija · '+dayLbl:t.res?`${t.res} ${pl(t.res,'rezervacija','rezervacije','rezervacija')} · ${dayLbl}`:'nema rezervacija · '+dayLbl}</small></div><a href="${esc(TT.keepClock(TT.url(v.id,'admin/')))}" data-adm="${v.id}">Otvori ›</a></div>
-      <div class="nums">${REZ(v)?`<div><b>${t.guests}</b><span>${pl(t.guests,'gost','gosta','gostiju')}</span></div>${t.pending||!t.guar?`<div class="${t.pending?'hot':''}"><b>${t.pending}</b><span>čeka potvrdu</span></div>`:`<div><b>${t.guar}</b><span>zajamčeno karticom</span></div>`}`:`<div><b>${calls(v)}</b><span>${pl(calls(v),'zahtjev','zahtjeva','zahtjeva')} večeras</span></div><div><b>${mmss(v.live.slowAck)}</b><span>najduže čekanje</span></div>`}<div class="${v.live.open?'hot':''}"><b>${v.live.open}</b><span>${pl(v.live.open,'zove sada','zovu sada','zove sada')}</span></div><div><b>${v.live.avgAck==null?'—':Math.floor(v.live.avgAck/60)+':'+String(v.live.avgAck%60).padStart(2,'0')}</b><span>reakcija osoblja</span></div></div>
+      <div class="hd"><svg viewBox="${c.vb||'0 0 220 160'}" aria-hidden="true">${c.logo||''}</svg><div class="nm">${esc(v.name)}<small>${!REZ(v)?dayLbl:t.res?`${t.res} ${pl(t.res,'rezervacija','rezervacije','rezervacija')} · ${dayLbl}`:'nema rezervacija · '+dayLbl}</small></div><a href="${esc(TT.keepClock(TT.url(v.id,'admin/')))}" data-adm="${v.id}">Otvori ›</a></div>
+      <div class="nums">${!REZ(v)&&!(v.features||{}).tableMode?NUMS2(v):`${REZ(v)?`<div><b>${t.guests}</b><span>${pl(t.guests,'gost','gosta','gostiju')}</span></div>${t.pending||!t.guar?`<div class="${t.pending?'hot':''}"><b>${t.pending}</b><span>čeka potvrdu</span></div>`:`<div><b>${t.guar}</b><span>zajamčeno karticom</span></div>`}`:`<div><b>${calls(v)}</b><span>${pl(calls(v),'zahtjev','zahtjeva','zahtjeva')} večeras</span></div><div><b>${mmss(v.live.slowAck)}</b><span>najduže čekanje</span></div>`}<div class="${v.live.open?'hot':''}"><b>${v.live.open}</b><span>${pl(v.live.open,'zove sada','zovu sada','zove sada')}</span></div><div><b>${v.live.avgAck==null?'—':Math.floor(v.live.avgAck/60)+':'+String(v.live.avgAck%60).padStart(2,'0')}</b><span>reakcija osoblja</span></div>`}</div>
       ${REZ(v)&&t.tables?`<div class="occ"><span>Popunjenost</span><i style="--p:${Math.round(100*(t.booked||0)/t.tables)}%"></i><b>${t.booked||0}/${t.tables} ${pl(t.tables,'stol','stola','stolova')}</b></div>`:''}<div class="spark">${!REZ(v)?(v.stats.days||[]).slice(-7).map((w,_,A)=>{const mx2=Math.max(1,...A.map(z=>z.open||0));return `<i class="${[5,6].includes(TT.wd(w.date))?'we':''}" style="height:${Math.max(3,Math.round((w.open||0)/mx2*54))}px"><s>${w.open||''}</s><em>${DS[TT.wd(w.date)].slice(0,2)}</em></i>`}).join(''):v.week.map(w=>`<i class="${[5,6].includes(TT.wd(w.date))?'we':''}" style="height:${Math.max(3,Math.round(w.guests/mx*54))}px"><s>${w.guests||''}</s><em>${DS[TT.wd(w.date)].slice(0,2)}</em></i>`).join('')}</div>
-      <div class="row2" style="margin-top:22px">${REZ(v)?`<span class="chipx">🔔 <b>${calls(v)}</b> ${pl(calls(v),'poziv','poziva','poziva')} večeras</span>`:''}${t.minSpend?`<span class="chipx">💶 min. potrošnja <b>${money0(t.minSpend)}</b></span>`:''}${t.pre?`<span class="chipx">🍾 boce unaprijed <b>${money0(t.pre)}</b></span>`:''}${t.regulars?`<span class="chipx">⭐ <b>${t.regulars}</b> ${pl(t.regulars,'stalni gost','stalna gosta','stalnih gostiju')} večeras</span>`:''}${t.deposits?`<span class="chipx">💳 kapare <b>${money0(t.deposits)}</b></span>`:''}${t.guarLate?`<span class="chipx">⏰ <b>${t.guarLate}</b> ${pl(t.guarLate,'stol nije stigao','stola nisu stigla','stolova nije stiglo')} · jamstvo čeka</span>`:''}${t.guarCharged?`<span class="chipx">€ naplaćeno za nedolazak <b>${money0(t.guarCharged)}</b></span>`:''}${v.live.songs?`<span class="chipx">🎵 <b>${v.live.songs}</b> ${pl(v.live.songs,'pjesma','pjesme','pjesama')} po želji</span>`:''}<span class="chipx">✉️ <b>${v.feedback.unread}</b> ${pl(v.feedback.unread,'nova poruka','nove poruke','novih poruka')}</span><span class="chipx">📱 <b>${v.stats.open}</b> ${pl(v.stats.open,'otvaranje','otvaranja','otvaranja')} cjenika (7 dana)</span>${v.stats.top[0]?`<span class="chipx">🏆 ${esc(v.stats.top[0].name)}</span>`:''}</div></article>`}).join('');
+      <div class="row2" style="margin-top:22px">${REZ(v)?`<span class="chipx">🔔 <b>${calls(v)}</b> ${pl(calls(v),'poziv','poziva','poziva')} večeras</span>`:''}${t.minSpend?`<span class="chipx">💶 min. potrošnja <b>${money0(t.minSpend)}</b></span>`:''}${t.pre?`<span class="chipx">🍾 boce unaprijed <b>${money0(t.pre)}</b></span>`:''}${t.regulars?`<span class="chipx">⭐ <b>${t.regulars}</b> ${pl(t.regulars,'stalni gost','stalna gosta','stalnih gostiju')} večeras</span>`:''}${t.deposits?`<span class="chipx">💳 kapare <b>${money0(t.deposits)}</b></span>`:''}${t.guarLate?`<span class="chipx">⏰ <b>${t.guarLate}</b> ${pl(t.guarLate,'stol nije stigao','stola nisu stigla','stolova nije stiglo')} · jamstvo čeka</span>`:''}${t.guarCharged?`<span class="chipx">€ naplaćeno za nedolazak <b>${money0(t.guarCharged)}</b></span>`:''}${v.live.songs?`<span class="chipx">🎵 <b>${v.live.songs}</b> ${pl(v.live.songs,'pjesma','pjesme','pjesama')} po želji</span>`:''}${RT(v).t?`<span class="chipx">⭐ <b>${f1(RT(v).avg)}</b> · ${RT(v).t} ${pl(RT(v).t,'ocjena','ocjene','ocjena')} · 7 dana</span>`:''}<span class="chipx">✉️ <b>${v.feedback.unread}</b> ${pl(v.feedback.unread,'nova poruka','nove poruke','novih poruka')}</span><span class="chipx">📱 <b>${v.stats.open}</b> ${pl(v.stats.open,'otvaranje','otvaranja','otvaranja')} cjenika (7 dana)</span>${v.stats.top[0]?`<span class="chipx">🏆 ${esc(v.stats.top[0].name)}</span>`:''}</div></article>`}).join('');
   const feed=V.flatMap(v=>v.live.recent.map(x=>({v,x}))).sort((a,b)=>a.x.createdAt<b.x.createdAt?1:-1).slice(0,9);
   $('#feed').innerHTML=feed.length?feed.map(({v,x})=>{const k=KIND[x.kind]||['•',x.kind];const th=(VS[v.id]||{}).theme||{};
     return `<div class="it"><span class="vb" style="color:${th.gold2};background:${th.gold2}"></span><span class="ki">${k[0]}</span><span class="tx"><b>${esc(v.name)}</b> · ${x.table?'stol '+esc(x.table)+' · ':''}${k[1]}${x.kind==='order'?' · '+money(x.total):''}${x.kind==='song'&&x.song?` · „${esc(x.song.title)}”`:''}</span><span class="pill st-${x.status}" style="height:22px">${{new:'novo',ack:'preuzeto',done:'riješeno',skip:'preskočeno'}[x.status]}</span><span class="tm">${agoTxt(x.createdAt)}</span></div>`}).join(''):'<p class="small">Još nema događaja večeras.</p>';
   const fbs=V.flatMap(v=>v.feedback.recent.map(f=>({v,f}))).sort((a,b)=>a.f.createdAt<b.f.createdAt?1:-1).slice(0,5);
-  $('#fbs').innerHTML=fbs.length?fbs.map(({v,f})=>`<div class="fbx"><div class="s"><b style="color:${((VS[v.id]||{}).theme||{}).gold2}">${esc(v.name)}</b> · ${esc(TOP[f.topic]||f.topic)} · ${agoTxt(f.createdAt)}${f.read?'':' · <span style="color:var(--amber);font-weight:800">NOVO</span>'}</div><div class="m">${esc(f.msg)}</div></div>`).join(''):'<p class="small">Nema poruka.</p>';
-  $('#one').innerHTML=[['📖 Digitalni cjenik','cijene, rasprodano i akcije mijenja voditelj sam'],['📅 Rezervacije s tlocrtom','gost bira stol i jamči karticom — hostesa skenira ulaznicu, voditelj odmah zna tko je stigao'],['🔔 Poziv konobara','gost zove konobara jednim dodirom — vidi se brzina reakcije'],['⭐ Recenzije i poruke','Google recenzije + anonimne poruke voditelju i direktorima'],['🔐 Voditelji i direktori','voditelj vidi svoj lokal, direktori sve — svatko svojim PIN-om']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('');
+  $('#fbs').innerHTML=fbs.length?fbs.map(({v,f})=>`<div class="fbx"><div class="s"><b style="color:${((VS[v.id]||{}).theme||{}).gold2}">${esc(v.name)}</b> · ${f.stars?`<span style="color:var(--gold2,#f2c872)">${'★'.repeat(f.stars)}<span style="opacity:.28">${'★'.repeat(5-f.stars)}</span></span> ${f.stars}/5 · `:''}${esc(TOP[f.topic]||f.topic)} · ${agoTxt(f.createdAt)}${f.read?'':' · <span style="color:var(--amber);font-weight:800">NOVO</span>'}</div><div class="m">${esc(f.msg)}</div></div>`).join(''):'<p class="small">Nema poruka.</p>';
+  $('#one').innerHTML=[['📖 Digitalni cjenik','cijene, rasprodano i akcije mijenja voditelj sam'],['⭐ Ocjene i Google recenzije','gost ocjenjuje u cjeniku: 5★ vodi ravno na Google, slabija ocjena stiže voditelju i direktorima'],['🔔 Poziv voditelju','gost jednim dodirom javlja voditelju (Q Club, Kafanica, Bure Bar) — vidi se brzina reakcije'],['📊 Statistika','otvaranja cjenika, dodiri na stolovima, najgledanija pića i ocjene po lokalu'],['🔐 Voditelji i direktori','voditelj vidi svoj lokal, direktori sve — svatko svojim PIN-om']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('');
 }
 function show(on){$('#app').hidden=!on;$('#login').hidden=on;}
 $('#lf').onsubmit=async e=>{e.preventDefault();const p=$('#pin').value.trim();try{await TT.api('/group/login',{root:true,admin:true,pin:p});TT.setPin(null,p);show(true);load();}catch(err){$('#le').textContent=err&&err.error==='locked'?'Previše pogrešnih pokušaja — pokušajte ponovno za 15 minuta.':err&&err.status===401?'Pogrešan PIN.':'Nema veze sa serverom.'}};

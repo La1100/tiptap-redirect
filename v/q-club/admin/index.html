@@ -478,7 +478,7 @@ body.kiosk .content{max-width:1000px}
 <div class="nban" id="nban" role="alert"></div>
 
 <script>
-window.TT_CFG={"mode": "live", "venue": "qclub", "slug": "q-club", "name": "Q Club", "address": "Franje Kuhača 17, 31000 Osijek", "phone": "+385 95 391 7530", "features": {"reservations": true, "preorder": true, "sparkler": true, "tableMode": true, "bill": false, "orders": false, "songs": false, "preorderZones": ["vip", "kat"], "hostess": ["rez", "coat"], "door": "waiter"}, "page": "admin", "ev": {"hr": "DJ · turbo folk, trap i remixi", "en": "DJ · turbo folk, trap & remixes", "from": "22:00"}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}};
+window.TT_CFG={"mode": "live", "venue": "qclub", "slug": "q-club", "name": "Q Club", "address": "Franje Kuhača 17, 31000 Osijek", "phone": "+385 95 391 7530", "features": {"reservations": false, "preorder": false, "tableMode": true, "bill": false, "orders": false, "songs": false}, "page": "admin", "ev": {"hr": "DJ · turbo folk, trap i remixi", "en": "DJ · turbo folk, trap & remixes", "from": "22:00"}, "utv": {"name": "uTvrđiranje petkom", "ig": "https://www.instagram.com/utvrdjiranje_petkom/"}};
 (function () {
 "use strict";
 const __m = {};
@@ -574,7 +574,7 @@ const QCLUB = {
     hr: 'VIP i stolovi na katu rezerviraju se uz narudžbu boce — možete je odabrati već sada, a plaća se u klubu. Pušiona na katu (stolovi 12 i 37) ne rezervira se.',
     en: 'VIP and upstairs tables are booked with a bottle order — choose it now and pay at the club. The upstairs smoking room (tables 12 and 37) cannot be booked.'
   },
-  features: { reservations: true, preorder: true, sparkler: true, tableMode: true, bill: false, orders: false, songs: false, preorderZones: ['vip', 'kat'], hostess: ['rez', 'coat'], door: 'waiter' }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /* ---------- KAFANICA (živa glazba, Tvrđa) ---------- */
@@ -652,7 +652,7 @@ const KAFANICA = {
     hr: 'Petkom i subotom svira živa glazba. Stolovi u pušioni (19, 27 i 28) ne rezerviraju se — slobodni su za goste bez rezervacije.',
     en: 'Live music on Fridays and Saturdays. Tables in the smoking room (19, 27 and 28) cannot be booked — they are kept for walk-in guests.'
   },
-  features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez', 'coat'] }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /* ---------- BROOKLYN (caffe bar, šetalište uz Dravu) ---------- */
@@ -708,7 +708,7 @@ const BROOKLYN = {
     hr: 'Terasa uz Dravu radi dok vrijeme dopušta — ako pada kiša, smjestit ćemo vas unutra.',
     en: 'The riverside terrace is open weather permitting — if it rains, we will seat you inside.'
   },
-  features: { reservations: false, preorder: false, tableMode: true, bill: true, orders: false, songs: false }
+  features: { reservations: false, preorder: false, tableMode: false, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija i bez poziva sa stola
 };
 
 /* ---------- BURE BAR (pivnica) — pravi raspored stolova lokala (papir od voditelja, 20. 10. 2026.) ----------
@@ -800,7 +800,7 @@ const BURE = {
     en: 'The minimum spend applies per table.'
   },
   // boca uz rezervaciju samo za VIP stol (čeka goste u kibli s ledom)
-  features: { reservations: true, preorder: true, preorderZones: ['vip'], preorderOnly: true, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez'] }
+  features: { reservations: false, preorder: false, tableMode: true, bill: false, orders: false, songs: false }   // paket BHT 13. 11. 2026.: bez rezervacija, hostese i garderobe; poziv ide voditelju
 };
 
 /** id → zadane postavke. Redoslijed = redoslijed u nadzornoj ploči vlasnika. */
@@ -892,7 +892,10 @@ async function read(store, key, empty) { const r = await store.getJSON(key); ret
 async function getConfig(store) {
   const def = VENUES[store.venue];
   const r = await store.getJSON('config');
-  return r?.data ? { ...structuredClone(def), ...r.data, forms: def.forms, features: { ...def.features, ...(r.data.features || {}) } } : structuredClone(def);
+  // paket određuje mogućnosti; iz Postavki vrijedi samo prekidač "stol uživo" (i to samo gdje ga paket ima)
+  const sf = (r?.data && r.data.features) || {};
+  const features = { ...def.features, ...(def.features.tableMode && typeof sf.tableMode === 'boolean' ? { tableMode: sf.tableMode } : {}) };
+  return r?.data ? { ...structuredClone(def), ...r.data, forms: def.forms, features } : structuredClone(def);
 }
 function publicConfig(cfg) {
   const { venue, forms, phone, plan, zones, tables, hours, slotMinutes, durationMinutes, leadMinutes, daysAhead, maxParty, holdMinutes, closedDates, rules, autoConfirm, features, policy } = cfg;
@@ -1554,6 +1557,7 @@ async function feedbackCreate(store, body) {
   const topic = TOPICS.includes(body.topic ?? body.tema) ? (body.topic ?? body.tema) : 'ostalo';
   const n = zagrebNow();
   const item = { id: token(6), topic, msg, when: str(body.when ?? body.kada, 80), contact: str(body.contact ?? body.kontakt, 120), table: str(body.table, 8), lang: body.lang === 'en' ? 'en' : 'hr', createdAt: body._at ? str(body._at, 30) : isoNow(), read: false, done: false };
+  const stars = num(body.stars, 1, 5); if (stars) item.stars = Math.round(stars);   // ocjena posjeta iz cjenika (1–4 ★)
   return mutate(store, fbKey(n.date), [], list => { if (list.length >= 1500) return { error: 'limit', status: 429 }; list.push(item); return { ok: true, id: item.id }; });
 }
 async function adminFeedback(store, months = 3) {
@@ -1617,7 +1621,8 @@ async function adminSaveMenu(store, body) {
    ===================================================================== */
 const SHARDS = 8;
 const stKey = (d, s) => `st/${d}/${s}`;
-const EMPTY_ST = { open: 0, review: 0, book: 0, table: 0, view: {}, names: {} };
+const ST_KEYS = ['open', 'review', 'book', 'table', 'r1', 'r2', 'r3', 'r4', 'r5'];
+const EMPTY_ST = { open: 0, review: 0, book: 0, table: 0, r1: 0, r2: 0, r3: 0, r4: 0, r5: 0, view: {}, names: {} };
 async function statsHit(store, body) {
   const ev = Array.isArray(body.ev) ? body.ev.slice(0, 40) : [];
   if (!ev.length) return { ok: true };
@@ -1627,7 +1632,7 @@ async function statsHit(store, body) {
     for (const e of ev) {
       const t = str(e.t, 10), n = Math.max(1, Math.min(500, Math.floor(+e.n || 1)));
       if (t === 'view') { const id = str(e.id, 80); if (!id) continue; doc.view[id] = (doc.view[id] || 0) + n; if (e.name) doc.names[id] = str(e.name, 80); }
-      else if (['open', 'review', 'book', 'table'].includes(t)) doc[t] = (doc[t] || 0) + n;
+      else if (ST_KEYS.includes(t)) doc[t] = (doc[t] || 0) + n;
     }
     return { ok: true };
   });
@@ -1636,7 +1641,7 @@ async function statsDay(store, date) {
   const out = structuredClone(EMPTY_ST);
   for (let s = 0; s < SHARDS; s++) {
     const r = await store.getJSON(stKey(date, s)); if (!r?.data) continue; const d = r.data;
-    for (const k of ['open', 'review', 'book', 'table']) out[k] += d[k] || 0;
+    for (const k of ST_KEYS) out[k] += d[k] || 0;
     for (const [id, n] of Object.entries(d.view || {})) out.view[id] = (out.view[id] || 0) + n;
     Object.assign(out.names, d.names || {});
   }
@@ -1646,13 +1651,13 @@ async function adminStats(store, days = 14) {
   const b = bizNow(); const series = []; const tot = structuredClone(EMPTY_ST);
   for (let i = days - 1; i >= 0; i--) {
     const d = addDays(b.date, -i); const s = await statsDay(store, d);
-    series.push({ date: d, open: s.open, review: s.review, book: s.book, table: s.table });
-    for (const k of ['open', 'review', 'book', 'table']) tot[k] += s[k];
+    series.push({ date: d, open: s.open, review: s.review, book: s.book, table: s.table, r1: s.r1, r2: s.r2, r3: s.r3, r4: s.r4, r5: s.r5 });
+    for (const k of ST_KEYS) tot[k] += s[k] || 0;
     for (const [id, n] of Object.entries(s.view)) tot.view[id] = (tot.view[id] || 0) + n;
     Object.assign(tot.names, s.names);
   }
   const top = Object.entries(tot.view).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([id, n]) => ({ id, n, name: tot.names[id] || id }));
-  return { ok: true, days: series, total: { open: tot.open, review: tot.review, book: tot.book, table: tot.table }, top };
+  return { ok: true, days: series, total: { open: tot.open, review: tot.review, book: tot.book, table: tot.table, r1: tot.r1, r2: tot.r2, r3: tot.r3, r4: tot.r4, r5: tot.r5 }, top };
 }
 
 /* =====================================================================
@@ -1940,8 +1945,14 @@ async function route(req, { store, env = {}, waitUntil } = {}) {
     if (path === '/feedback' && req.method === 'POST') {
       const r = await C.feedbackCreate(S, body);
       if (r.error) return fail(r);
+      const stars = Math.round(+body.stars) >= 1 && Math.round(+body.stars) <= 5 ? Math.round(+body.stars) : 0;
+      const cfg = await C.getConfig(S), tbl = String(body.table || '').replace(/[^\w-]/g, '').slice(0, 8);
+      const head = stars ? `${'★'.repeat(stars)}${'☆'.repeat(5 - stars)} Ocjena ${stars}/5 · ${cfg.venue}` : `Poruka gosta · ${cfg.venue}`;
+      const open = `${site}${vpath}/admin/#msgs`;
       const to = envFor(env, 'FEEDBACK_EMAIL', v) || envFor(env, 'NOTIFY_EMAIL', v);
-      if (to && r.id) await later(sendEmail(env, to, `Anonimna poruka (${v})`, `${body.topic || body.tema || ''}\n\n${body.msg || body.poruka || ''}\n\n${body.when || body.kada || ''} ${body.contact || body.kontakt || ''}`));
+      if (to && r.id) await later(sendEmail(env, to, head, `${head}${tbl ? ' · stol ' + tbl : ''}\nTema: ${body.topic || body.tema || ''}\n\n${body.msg || body.poruka || ''}\n\n${body.when || body.kada || ''} ${body.contact || body.kontakt || ''}\n\nOtvori: ${open}`));
+      // WhatsApp ide preko vanjskog servisa: bez teksta poruke i bez broja gosta — voditelj sve vidi u upravi
+      if (r.id && stars && stars < 5) await later(sendWhatsAppStaff(env, v, `${head}${tbl ? ' · stol ' + tbl : ''}${body.contact || body.kontakt ? '\n📞 Gost je ostavio broj — nazovite ga' : ''}\nOtvori: ${open}`));
       return json({ ok: true });
     }
     if (path === '/hit' && req.method === 'POST') { const r = await C.statsHit(S, body); return r.error ? fail(r) : json({ ok: true }); }
@@ -3467,7 +3478,7 @@ const arm=(btn,label)=>{if(btn.dataset.armed)return true;btn.dataset.armed=1;con
 const DN=['Nedjelja','Ponedjeljak','Utorak','Srijeda','Četvrtak','Petak','Subota'],DS=['Ned','Pon','Uto','Sri','Čet','Pet','Sub'];
 const ST={pending:'Čeka potvrdu',confirmed:'Potvrđeno',seated:'Sjede',done:'Završeno',declined:'Odbijeno',cancelled:'Otkazano',noshow:'Nisu došli'};
 const OCC={rodjendan:'🎂 Rođendan',proslava:'🥂 Proslava',momacka:'🎉 Momačka/djevojačka',posao:'💼 Poslovno',utakmica:'⚽ Utakmica'};
-const KIND={call:['🔔','Zove konobara'],bill:['🧾','Traži račun'],order:['🛒','Narudžba'],song:['🎵','Pjesma po želji']};
+const KIND={call:['🔔','Zove voditelja'],bill:['🧾','Traži račun'],order:['🛒','Narudžba'],song:['🎵','Pjesma po želji']};
 const LST={new:'Novo',ack:'Preuzeto',done:'Riješeno',skip:'Preskočeno'};
 const TOP={usluga:'Usluga / osoblje',pice:'Piće',cekanje:'Čekanje',cistoca:'Čistoća / WC',glazba:'Glazba / atmosfera',racun:'Cijene / račun',pohvala:'Pohvala',ostalo:'Ostalo'};
 const ACTIVE=['pending','confirmed','seated'];
@@ -3486,9 +3497,9 @@ const S={tab:'list',date:null,list:[],cfg:null,slots:[],planTime:null,upcoming:[
   live:[],liveDate:null,lf:'all',fb:[],fbUnread:0,menu:null,stats:null,
   seenPending:null,seenLive:null,seenFb:null,flash:null};
 const FEAT=()=>(S.cfg&&S.cfg.features)||{};
-const REZ=(V.features||{}).reservations!==false,BILL=!!(V.features||{}).bill;   // Brooklyn: bez rezervacija; račun na zahtjev samo gdje se plaća na kraju
-function MOB(){return REZ?[['list','Večer'],['plan','Tlocrt'],['+',''],['live','Uživo'],['more','Više']]:[['live','Uživo'],['menu','Cjenik'],['msgs','Poruke'],['more','Više']]}
-function NAV(){return [...(REZ?[['list','Večer'],['plan','Tlocrt']]:[]),['live','Uživo'],...(FEAT().songs?[['songs','Glazba']]:[]),['menu','Cjenik'],['msgs','Poruke'],['stats','Statistika'],['set','Postavke']]}
+const REZ=(V.features||{}).reservations!==false,BILL=!!(V.features||{}).bill,LIVE=!!(V.features||{}).tableMode;   // Brooklyn: bez rezervacija; račun na zahtjev samo gdje se plaća na kraju
+function MOB(){return REZ?[['list','Večer'],['plan','Tlocrt'],['+',''],['live','Uživo'],['more','Više']]:LIVE?[['live','Uživo'],['menu','Cjenik'],['msgs','Poruke'],['more','Više']]:[['msgs','Poruke'],['menu','Cjenik'],['stats','Statistika'],['more','Više']]}
+function NAV(){return [...(REZ?[['list','Večer'],['plan','Tlocrt']]:[]),...(LIVE?[['live','Uživo']]:[]),...(FEAT().songs?[['songs','Glazba']]:[]),['menu','Cjenik'],['msgs','Poruke'],['stats','Statistika'],['set','Postavke']]}
 
 const ERR={taken:'Stol je zauzet u to vrijeme.',table:'Nepostojeći stol.',time:'Neispravno vrijeme.',name:'Upišite ime.',party:'Neispravan broj osoba.',full:'Nema slobodnog stola za to — odaberite stol ručno.',notfound:'Nije pronađeno.',server:'Greška na serveru.',busy:'Server zauzet, pokušajte ponovno.',tableid:'Oznake stolova moraju biti jedinstvene.',tables:'Mora postojati barem jedan stol.',net:'Nema veze sa serverom.',locked:'Previše pogrešnih PIN-ova s ove mreže — pričekajte 15 minuta.'};
 const errMsg=e=>ERR[e&&e.error]||('Greška: '+(e&&e.error||'mreža'));
@@ -3552,7 +3563,7 @@ async function loadLive(){
   }catch(e){}
 }
 async function loadFb(){try{const d=await api('/admin/feedback');
-  if(S.seenFb&&d.list.some(x=>!S.seenFb.includes(x.id))){TT.chime('ok');toast('✉️ Nova anonimna poruka upravi');}
+  if(S.seenFb&&d.list.some(x=>!S.seenFb.includes(x.id))){TT.chime('ok');toast(d.list.some(x=>!S.seenFb.includes(x.id)&&x.stars)?'⭐ Nova ocjena gosta — pogledajte Poruke':'✉️ Nova poruka gosta');}
   S.fb=d.list;S.fbUnread=d.unread;S.seenFb=d.list.map(x=>x.id);renderNav();if(S.tab==='msgs')renderMsgs();}catch(e){}}
 async function loadMenu(){try{const d=await api('/admin/menu');S.menu=d.menu}catch(e){S.menu={soldOut:{},price:{},promo:null}}}
 function setDate(d){S.date=d;S.planTime=null;try{history.replaceState(null,'',TT.keepClock('#'+S.tab+'/'+d))}catch(e){};renderHeader();renderStrip();loadDay()}
@@ -3758,13 +3769,13 @@ function kpis(){
 }
 function renderLive(){
   const box=$('#tab-live');if(!S.cfg){box.innerHTML='<div class="empty"><span class="spin"></span></div>';return}
-  const F=[['all','Sve'],['call','🔔 Konobar'],['bill','🧾 Račun']];
+  const F=[['all','Sve'],['call','🔔 Voditelj'],['bill','🧾 Račun']];
   const L=S.live.filter(x=>x.kind!=='song'&&(S.lf==='all'||x.kind===S.lf));
   const open=L.filter(x=>x.status==='new'||x.status==='ack').sort((a,b)=>(a.status===b.status?(a.createdAt<b.createdAt?-1:1):a.status==='new'?-1:1));
   const done=L.filter(x=>x.status==='done'||x.status==='skip').reverse().slice(0,25);
-  box.innerHTML=`<div class="two"><div><h2 class="ptitle">Stol uživo</h2><p class="psub">Gosti zovu konobara${BILL?' i traže račun':''} izravno s mobitela (NFC naljepnica / QR na stolu). Sve stiže ovdje u sekundi, a vidi se i koliko brzo osoblje reagira.</p>${kpis()}
+  box.innerHTML=`<div class="two"><div><h2 class="ptitle">Stol uživo</h2><p class="psub">Gosti s mobitela (NFC naljepnica / QR na stolu) zovu voditelja: pitanje, problem, proslava ili boca za stol. Sve stiže ovdje u sekundi, a vidi se i koliko brzo reagirate.</p>${kpis()}
     <div class="row" style="margin-bottom:8px"${BILL?'':' hidden'}>${F.map(([k,l])=>`<button class="chip sm" data-lf="${k}" aria-pressed="${S.lf===k}">${l}</button>`).join('')}</div>
-    ${open.length?open.map(liveCard).join(''):`<div class="empty"><b>Sve je mirno</b>Kad gost dodirne „Pozovite konobara”${BILL?' ili „Račun”':''} — pojavit će se ovdje, uz zvučni signal.</div>`}
+    ${open.length?open.map(liveCard).join(''):`<div class="empty"><b>Sve je mirno</b>Kad gost dodirne „Pozovite voditelja” — pojavit će se ovdje, uz zvučni signal.</div>`}
     ${done.length?`<details><summary class="sec" style="cursor:pointer"><span>Riješeno večeras</span><span>${done.length} ▾</span></summary>${done.map(liveCard).join('')}</details>`:''}</div>
     <div class="stick"><div class="sec"><span>Tlocrt · gdje zovu</span><span class="livedot"><i></i>uživo</span></div><div class="planbox inline"><svg id="lvplan"></svg></div><div class="legend"><span><i class="lg-alert"></i>Zove osoblje</span><span><i class="lg-seated"></i>Sjede</span><span><i class="lg-confirmed"></i>Rezervirano</span></div></div></div>`;
   if(innerWidth>=780&&S.cfg){const nb=TT.biz(),tm=nb.date===S.liveDate?nb.min:defaultPlanTime();const L=S.liveRes||[];const at=t=>L.find(r=>r.tableId===t.id&&ACTIVE.includes(r.status)&&tm>=r.start&&tm<r.end);TTPlan.render($('#lvplan'),S.cfg,{state:t=>{const a=liveAlertToday(t);const r=at(t);return (r?r.status:'free')+(a?' alert':'')},alert:liveAlertToday,sub:t=>{const a=openLive().filter(x=>x.table===t.id&&x.kind!=='song');if(a.length)return ago(a[0].createdAt);const r=at(t);return r?`${r.name.split(' ')[0].slice(0,10)} · ${r.party}`:`${t.min}–${t.max}`},onTap:t=>{const o=openLive().filter(x=>x.table===t.id);if(o.length){const el=$(`[data-lid="${o[0].id}"]`);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}}});}
@@ -3841,11 +3852,11 @@ function editPrice(btn){const id=btn.dataset.mp,i=+btn.dataset.i;const it=CAT.ca
 /* ---------- poruke ---------- */
 function renderMsgs(){
   const box=$('#tab-msgs');const L=S.fb;
-  box.innerHTML=`<h2 class="ptitle">Poruke gostiju</h2><p class="psub">Anonimne poruke iz digitalnog cjenika. Problem saznate isti dan — prije nego završi kao loša Google recenzija.</p>
+  box.innerHTML=`<h2 class="ptitle">Poruke gostiju</h2><p class="psub">Ocjene ispod 5 zvjezdica i poruke gostiju iz digitalnog cjenika. Ako je gost ostavio broj, nazovite ga isti dan i riješite problem dok je još svjež.</p>
    ${S.fbUnread?`<button class="btn sm" id="readAll" style="margin-bottom:10px">✓ Označi sve pročitanim (${S.fbUnread})</button>`:''}
-   ${L.length?L.map(x=>`<div class="fb${x.read?'':' unread'}${x.done?' done':''}"><div class="top"><span class="tp">${esc(TOP[x.topic]||x.topic)}</span>${x.read?'':'<span class="pill st-new" style="height:22px">Novo</span>'}${x.done?'<span class="pill st-done" style="height:22px">Riješeno</span>':''}<span class="tm">${agoTxt(x.createdAt)}</span></div>
-     <p>${esc(x.msg)}</p><div class="mt">${[x.table&&'Stol '+esc(x.table),x.when&&'Kada: '+esc(x.when),x.contact&&'Kontakt: '+esc(x.contact),x.lang==='en'&&'🇬🇧 EN'].filter(Boolean).join(' · ')||'Bez kontakta — potpuno anonimno'}</div>
-     <div class="acts">${x.read?'':`<button class="btn xs" data-fbr="${x.id}">✓ Pročitano</button>`}${x.done?'':`<button class="btn xs" data-fbd="${x.id}">Riješeno</button>`}</div></div>`).join(''):'<div class="empty"><b>Nema poruka</b>Kad gost pošalje anonimnu poruku iz cjenika, pojavit će se ovdje.</div>'}`;
+   ${L.length?L.map(x=>`<div class="fb${x.read?'':' unread'}${x.done?' done':''}"><div class="top">${x.stars?`<span class="tp" style="color:var(--gold2,#f2c872)">${'★'.repeat(x.stars)}<span style="opacity:.25">${'★'.repeat(5-x.stars)}</span>&nbsp;${x.stars}/5</span>`:''}<span class="tp">${esc(TOP[x.topic]||x.topic)}</span>${x.read?'':'<span class="pill st-new" style="height:22px">Novo</span>'}${x.done?'<span class="pill st-done" style="height:22px">Riješeno</span>':''}<span class="tm">${agoTxt(x.createdAt)}</span></div>
+     <p>${esc(x.msg)}</p><div class="mt">${[x.table&&'Stol '+esc(x.table),x.when&&'Kada: '+esc(x.when),x.contact&&(/^\+?[\d\s\/-]{6,}$/.test(x.contact.trim())?`<a href="tel:${esc(x.contact.replace(/[^\d+]/g,''))}" style="color:var(--gold2);font-weight:800;text-decoration:none">📞 Nazovite ${esc(x.contact)}</a>`:'Kontakt: '+esc(x.contact)),x.lang==='en'&&'🇬🇧 EN'].filter(Boolean).join(' · ')||'Bez kontakta — potpuno anonimno'}</div>
+     <div class="acts">${x.read?'':`<button class="btn xs" data-fbr="${x.id}">✓ Pročitano</button>`}${x.done?'':`<button class="btn xs" data-fbd="${x.id}">Riješeno</button>`}</div></div>`).join(''):'<div class="empty"><b>Nema poruka</b>Kad gost da ocjenu ispod 5 zvjezdica ili pošalje poruku iz cjenika, pojavit će se ovdje.</div>'}`;
   const ra=$('#readAll');if(ra)ra.onclick=async()=>{await api('/admin/feedback/readall',{});loadFb()};
 }
 
@@ -3853,6 +3864,10 @@ function renderMsgs(){
 function barsSVG(days,key,col){const W=640,H=170,pad=24,n=days.length,max=Math.max(1,...days.map(d=>d[key]));const bw=(W-pad*2)/n;
   return `<svg class="chart" viewBox="0 0 ${W} ${H+28}">${days.map((d,i)=>{const h=Math.round((d[key]/max)*(H-24)),x=pad+i*bw+3,y=H-h;const we=[5,6].includes(wd(d.date));
     return `<rect x="${x.toFixed(1)}" y="${y}" width="${(bw-6).toFixed(1)}" height="${h}" rx="5" fill="${col}" opacity="${we?1:.55}"/><text x="${(x+(bw-6)/2).toFixed(1)}" y="${y-6}" text-anchor="middle" font-size="12" fill="var(--muted)">${d[key]||''}</text><text x="${(x+(bw-6)/2).toFixed(1)}" y="${H+18}" text-anchor="middle" font-size="11.5" fill="var(--dim)">${DS[wd(d.date)].slice(0,2)} ${+d.date.slice(8)}.</text>`}).join('')}</svg>`}
+function rateCard(T){const n=[1,2,3,4,5].map(i=>T['r'+i]||0),tot=n.reduce((a,b)=>a+b,0);
+ if(!tot)return `<div class="card"><h2 style="font-size:18px">⭐ Ocjene gostiju</h2><p class="small" style="margin:0">Još nema ocjena. Gost ocjenjuje u cjeniku: 5 zvjezdica odmah otvara Google recenziju, slabija ocjena stiže vama u Poruke.</p></div>`;
+ const avg=n.reduce((a,c,i)=>a+c*(i+1),0)/tot,mx=Math.max(1,...n),lo=tot-n[4];
+ return `<div class="card"><h2 style="font-size:18px">⭐ Ocjene gostiju</h2><p class="small" style="margin:0 0 10px">Gost ocjenjuje u cjeniku: 5 zvjezdica odmah otvara Google recenziju, slabija ocjena stiže vama u Poruke.</p><div class="kpis"><div class="stat gold"><b>${avg.toFixed(1).replace('.',',')}</b><span>prosjek · ${tot} ${pl(tot,'ocjena','ocjene','ocjena')}</span></div><div class="stat"><b>${n[4]}</b><span>${pl(n[4],'ocjena','ocjene','ocjena')} 5★ → Google</span></div><div class="stat"><b>${lo}</b><span>${pl(lo,'ocjena','ocjene','ocjena')} 1–4★ → Poruke</span></div><div class="stat"><b>${T.review}</b><span>${pl(T.review,'otvaranje','otvaranja','otvaranja')} Google recenzije</span></div></div><div class="bars">${[5,4,3,2,1].map(i=>`<div class="b"><div><span>${'★'.repeat(i)}</span><i style="width:${Math.round(n[i-1]/mx*100)}%"></i></div><b>${n[i-1]}</b></div>`).join('')}</div></div>`}
 async function renderStats(){
   const box=$('#tab-stats');box.innerHTML='<div class="empty"><span class="spin"></span></div>';
   let d;try{d=await api('/admin/stats?days=14')}catch(e){box.innerHTML=`<div class="empty">${errMsg(e)}</div>`;return}
@@ -3860,7 +3875,7 @@ async function renderStats(){
   const T=d.total,mx=Math.max(1,...d.top.map(x=>x.n));
   box.innerHTML=`<h2 class="ptitle">Statistika</h2><p class="psub">Zadnjih 14 dana · što gosti gledaju u cjeniku i koliko ih ostavi recenziju${REZ?' ili rezervira stol':''}.</p>
    <div class="kpis"><div class="stat"><b>${T.open}</b><span>${pl(T.open,'otvaranje','otvaranja','otvaranja')} cjenika</span></div><div class="stat"><b>${T.table}</b><span>${pl(T.table,'dodir','dodira','dodira')} NFC/QR na stolu</span></div><div class="stat"><b>${T.review}</b><span>${pl(T.review,'klik','klika','klikova')} na Google recenziju</span></div>${REZ?`<div class="stat"><b>${T.book}</b><span>${pl(T.book,'klik','klika','klikova')} na rezervaciju</span></div>`:''}</div>
-   <div class="card"><h2 style="font-size:18px">Otvaranja cjenika po danu</h2>${barsSVG(d.days,'open','var(--gold2)')}</div>
+   ${rateCard(T)}<div class="card"><h2 style="font-size:18px">Otvaranja cjenika po danu</h2>${barsSVG(d.days,'open','var(--gold2)')}</div>
    <div class="card"><h2 style="font-size:18px">Najgledanija pića</h2><div class="bars">${d.top.map(x=>`<div class="b"><div><span>${esc(x.name)}</span><i style="width:${Math.round(x.n/mx*100)}%"></i></div><b>${x.n}</b></div>`).join('')||'<p class="small">Još nema podataka.</p>'}</div></div>
    ${res.length?`<div class="card"><h2 style="font-size:18px">Rezervacije — idućih 7 dana</h2>${barsSVG(res.map(x=>({date:x.date,g:x.guests})),'g','var(--amber)')}<p class="small" style="margin:6px 0 0">Broj gostiju po danu (potvrđeno + čeka potvrdu).</p></div>`:''}`;
 }
@@ -3877,9 +3892,9 @@ async function renderSettings(){
   box.innerHTML=`<h2 class="ptitle">Postavke</h2>
   ${DEMO?`<div class="card"><h2>Demo</h2><p class="small">Ovo je demonstracija: podaci su izmišljeni i spremaju se samo u ovom pregledniku. Na pravom sustavu sve se sprema na server i vidi na svim uređajima osoblja.</p><button class="btn block" id="resetDemo">↺ Vrati demo podatke na početak</button></div>`:''}
   <div class="card"><h2>Obavijesti osoblju</h2>${DEMO?`<p class="small">${REZ?'Svaka nova rezervacija stiže voditelju na WhatsApp i e-mail (bez imena i broja gosta u WhatsApp obavijesti). ':''}Pozivi sa stolova stižu osoblju uz zvučni signal. Brojevi i adrese osoblja upisuju se pri postavljanju sustava.</p>`:`<div class="envs"><span class="pill ${env.whatsapp?'st-confirmed':'st-cancelled'}">WhatsApp ${env.whatsapp?'✓':'nije postavljen'}</span><span class="pill ${env.email?'st-confirmed':'st-cancelled'}">E-mail ${env.email?'✓':'nije postavljen'}</span></div>
-   <p class="small">Nova rezervacija stiže osoblju na WhatsApp i e-mail. Postavlja se na serveru (upute u README).</p><button class="btn block" id="testN">Pošalji testnu obavijest</button>`}</div>
-  <div class="card"><h2>Stolovi: NFC i QR</h2><p class="small">Svaki stol dobije naljepnicu (NFC + QR). Gost prisloni mobitel i otvara se cjenik s brojem stola — iz njega jednim dodirom zove konobara${BILL?' ili traži račun':''}.</p>
-   <div class="setrow"><span>Stol uživo<br><span class="small">Gumbi u cjeniku kad gost dodirne naljepnicu na stolu</span></span><input type="checkbox" class="tog" id="fTable" ${EC.features&&EC.features.tableMode?'checked':''}></div>
+   <p class="small">Ocjena ispod 5 zvjezdica i poruka gosta stižu voditelju na WhatsApp i e-mail. Postavlja se na serveru (upute u README).</p><button class="btn block" id="testN">Pošalji testnu obavijest</button>`}</div>
+  <div class="card"><h2>Stolovi: NFC i QR</h2><p class="small">Svaki stol dobije naljepnicu (NFC + QR). Gost prisloni mobitel i otvara se cjenik s brojem stola — iz njega jednim dodirom ${LIVE?'zove voditelja ili ':''}ocjenjuje posjet.</p>
+   ${LIVE?`<div class="setrow"><span>Poziv voditelju sa stola<br><span class="small">Gumb „Voditelj” u cjeniku kad gost dodirne naljepnicu na stolu</span></span><input type="checkbox" class="tog" id="fTable" ${EC.features&&EC.features.tableMode?'checked':''}></div>`:''}
    <div class="row" style="margin:8px 0">${EC.tables.map(t=>`<a class="chip sm" href="${esc(TT.keepClock(tableUrl(t.id)))}" target="_blank" rel="noopener">${esc(t.id)} ↗</a>`).join('')}</div>
    <button class="btn block" id="qrBtn">🖨 Ispiši QR naljepnice za sve stolove</button><div id="qrprint" hidden></div></div>
   <div class="card"><h2>Tlocrt</h2><p class="small">Povucite stolove prstom ili mišem. Dodirnite stol za uređivanje. Ovo je okvirni raspored — uskladite ga sa stvarnim lokalom.</p>
@@ -3927,7 +3942,7 @@ function renderZones(){$('#zones').innerHTML=EC.zones.map((z,i)=>`<div class="gr
   $$('[data-zh]').forEach(x=>x.onchange=()=>{EC.zones[x.dataset.zh].name.hr=x.value});$$('[data-ze]').forEach(x=>x.onchange=()=>{EC.zones[x.dataset.ze].name.en=x.value});}
 async function saveCfg(){
   for(let i=0;i<7;i++){const on=$(`[data-ho="${i}"]`).checked;EC.hours[i]=on?{from:$(`[data-hf="${i}"]`).value,to:$(`[data-ht="${i}"]`).value}:null}
-  $$('[data-num]').forEach(x=>EC[x.dataset.num]=+x.value);EC.autoConfirm=$('#autoC').checked;EC.features=Object.assign({},EC.features,{tableMode:$('#fTable').checked});
+  $$('[data-num]').forEach(x=>EC[x.dataset.num]=+x.value);EC.autoConfirm=$('#autoC').checked;EC.features=Object.assign({},EC.features,{tableMode:$('#fTable')?$('#fTable').checked:!!(EC.features&&EC.features.tableMode)});
   EC.closedDates=$('#closed').value.split(/[,\s]+/).filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d));
   EC.rules={hr:$('#rulesHr').value,en:$('#rulesEn').value};
   try{const r=await api('/admin/config',{config:EC});S.cfg=r.config;toast('✓ Postavke spremljene');buzz(12)}catch(e){toast(errMsg(e))}
@@ -3975,12 +3990,12 @@ addEventListener('resize',()=>{clearTimeout(window._rz);window._rz=setTimeout(()
 let rq=null;
 function refreshAll(){clearTimeout(rq);rq=setTimeout(()=>{if(document.body.classList.contains('editing'))return;loadDay(true);loadUpcoming();loadLive();loadFb();if(S.tab==='menu'){loadMenu().then(()=>{if(!document.activeElement||!document.activeElement.closest('#tab-menu input'))renderMenu()})}},120)}
 async function start(){$('#login').hidden=true;$('#app').hidden=false;$$('.demoTag').forEach(e=>e.hidden=!DEMO);
-  const h=location.hash.slice(1).split('/');const tab=h[0]||(REZ?'list':'live');if(/^\d{4}-\d{2}-\d{2}$/.test(h[1]||''))S.date=h[1];if(h[2])S.flash=decodeURIComponent(h[2]);
+  const h=location.hash.slice(1).split('/');const tab=h[0]||(REZ?'list':LIVE?'live':'msgs');if(/^\d{4}-\d{2}-\d{2}$/.test(h[1]||''))S.date=h[1];if(h[2])S.flash=decodeURIComponent(h[2]);
   await loadDay();renderHeader();loadUpcoming();loadLive();loadFb();loadMenu();
-  setTab(NAV().some(([k])=>k===tab)?tab:(REZ?'list':'live'));
+  setTab(NAV().some(([k])=>k===tab)?tab:(REZ?'list':LIVE?'live':'msgs'));
   if(TT.mode==='live'){
     setInterval(()=>{if(document.visibilityState==='visible'&&!$('#sheet').classList.contains('on')){loadLive();if(S.tab!=='set'&&S.tab!=='menu'){loadDay(true);loadUpcoming()}}},6000);
-    setInterval(()=>{if(document.visibilityState==='visible')loadFb()},30000);
+    setInterval(()=>{if(document.visibilityState==='visible')loadFb()},15000);
   }
   TT.onChange(m=>{if(m.venue===V.venue||m.venue==='*')refreshAll()});
   addEventListener('hashchange',()=>{const h=location.hash.slice(1).split('/');if(h[2])S.flash=decodeURIComponent(h[2]);if(/^\d{4}-\d{2}-\d{2}$/.test(h[1]||'')&&h[1]!==S.date){S.tab=NAV().some(([k])=>k===h[0])?h[0]:S.tab;setDate(h[1]);}if(NAV().some(([k])=>k===h[0])&&h[0]!==S.tab)setTab(h[0]);else if(S.tab==='list')renderList();});

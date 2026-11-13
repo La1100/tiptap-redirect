@@ -10,8 +10,14 @@ osoblje, cjenik, statistika, HTTP router) već su testirane. Ova skripta iz njih
 Pokretanje (iz korijena repozitorija):  python3 tools/build_live.py
 Svaka zamjena provjerava da se tekst nalazi točno onoliko puta koliko očekujemo,
 pa se promjena u demu ne može tiho izgubiti.
+
+Ugovoreni paket (bez rezervacija, hostese i garderobe; poziv voditelju; ocjena 5 ★ → Google,
+1–4 ★ → voditelj) opisan je u tools/bht_paket.py. Demo ostaje pun, za prezentaciju dodataka.
 """
-import os, re, shutil, sys
+import json, os, re, shutil, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import bht_paket as PAKET
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEMO = os.path.join(ROOT, 'demo')
@@ -20,18 +26,15 @@ VENUE_DIRS = ['q-club', 'kafanica', 'bure-bar', 'brooklyn', 'grupa']
 CORE_START = '(function () {\n"use strict";\nconst __m = {};'
 CORE_END = 'window.TTCore = { core: __m["core"], router: __m["router"] };\n})();'
 
-# produkcijske razlike od dema (dogovor s BHT-om, 30. 10. 2026)
+# produkcijske razlike od dema (dogovor s BHT-om, 30. 10. 2026; paket 13. 11. 2026. u bht_paket.py)
 CORE_FIXES = [
-    # Kafanica: bez naručivanja pjesama (bend ostaje u "Večeras nastupa")
-    ("features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: true, hostess: ['rez', 'coat'] }",
-     "features: { reservations: true, preorder: false, tableMode: true, bill: false, orders: false, songs: false, hostess: ['rez', 'coat'] }", 1),
     # jamstvo karticom 29 € uključuje se kad lokali otvore Stripe; do tada voditelj potvrđuje
     # rezervaciju i jednim dodirom šalje gostu WhatsApp poruku sa svim podacima
     ("  policy: { guarantee: { eur: 29, hours: 12 }, terms: true },   // jamstvo karticom: ništa se ne naplaćuje; besplatan otkaz do 12 h prije dolaska, inače 29 €",
      "  policy: { terms: true },   // jamstvo karticom (29 €) uključuje se kad lokal otvori Stripe", 2),
     ("    guarantee: { eur: 29, hours: 12 },   // jamstvo karticom: ništa se ne naplaćuje; besplatan otkaz do 12 h prije dolaska, inače 29 €",
      "    // jamstvo karticom (29 €) uključuje se kad lokal otvori Stripe", 1),
-]
+] + PAKET.CORE
 
 
 # Gumb "Pošalji na WhatsApp" u adminu: na računalu ide izravno na WhatsApp Web
@@ -83,23 +86,47 @@ def build_core():
     print('lib/tt/core.cjs', len(out) // 1024, 'KB')
 
 
+def live_cfg(s, rel):
+    """window.TT_CFG: način rada "live" i mogućnosti iz ugovorenog paketa (bht_paket.FEATURES)."""
+    key = 'window.TT_CFG='
+    if s.count(key + '{') != 1:
+        sys.exit(f'GREŠKA: {rel} treba imati točno jedan window.TT_CFG')
+    i = s.find(key + '{') + len(key)
+    cfg, end = json.JSONDecoder().raw_decode(s, i)
+    if cfg.get('mode', 'demo') != 'demo':
+        sys.exit(f'GREŠKA: {rel} ima nepoznat "mode" u TT_CFG')
+    cfg = {'mode': 'live', **{k: v for k, v in cfg.items() if k != 'mode'}}
+    if cfg.get('venue') in PAKET.FEATURES:
+        cfg['features'] = PAKET.FEATURES[cfg['venue']]
+    return s[:i] + json.dumps(cfg, ensure_ascii=False) + s[end:]
+
+
+def fixes(s, lst, rel, slug):
+    for old, new, n in lst:
+        k = n.get(slug, 0) if isinstance(n, dict) else n
+        s = rep(s, old, new, k, rel) if k else s
+    return s
+
+
 def live_page(path, rel):
     s = open(path, encoding='utf-8').read()
-    if 'window.TT_CFG={"mode": "demo", ' in s:
-        s = rep(s, 'window.TT_CFG={"mode": "demo", ', 'window.TT_CFG={"mode": "live", ', 1, rel + ' mode')
-    elif 'window.TT_CFG={' in s:
-        head = s[s.find('window.TT_CFG={'):s.find('window.TT_CFG={') + 400]
-        if '"mode":' in head:
-            sys.exit(f'GREŠKA: {rel} ima nepoznat "mode" u TT_CFG')
-        s = rep(s, 'window.TT_CFG={', 'window.TT_CFG={"mode": "live", ', 1, rel + ' mode')
+    if 'window.TT_CFG={' in s:
+        s = live_cfg(s, rel)
     if CORE_START in s:
         a, b = core_from(s, rel)
         core = s[a:b]
         for old, new, n in CORE_FIXES:
             core = rep(core, old, new, n, rel + ' core')
         s = s[:a] + core + s[b:]
-    if rel.startswith('kafanica/') and '"songs": true' in s:
-        s = rep(s, '"songs": true', '"songs": false', 1, rel + ' songs')
+    parts = rel.split(os.sep)
+    slug = parts[0]
+    if parts == [slug, 'index.html'] and slug != 'grupa':        # cjenik gosta
+        s = fixes(s, PAKET.GUEST, rel, slug)
+        s = rep(s, PAKET.GUEST_ANCHOR, PAKET.guest_script(), 1, rel + ' ocjena')
+    elif parts == [slug, 'admin', 'index.html']:                  # uprava lokala
+        s = fixes(s, PAKET.ADMIN, rel, slug)
+    elif parts == ['grupa', 'index.html']:                         # pregled za direktore
+        s = fixes(s, PAKET.GRUPA, rel, slug)
     if 'class="btn wa block"' in s:
         s = rep(s, '</body>', WA_DESKTOP + '</body>', 1, rel + ' whatsapp')
     return s
@@ -108,7 +135,7 @@ def live_page(path, rel):
 def build_pages():
     if os.path.isdir(OUT):
         shutil.rmtree(OUT)
-    n = 0
+    n = st = 0
     for d in VENUE_DIRS:
         for dp, _, fs in os.walk(os.path.join(DEMO, d)):
             for f in fs:
@@ -117,13 +144,19 @@ def build_pages():
                 dst = os.path.join(OUT, rel)
                 if f == 'index.html' and os.path.getsize(src) == 0:
                     continue   # prazni preusmjerni stubovi iz dema (npr. brooklyn/rezervacije)
+                sub = rel.split(os.sep)[1] if rel.count(os.sep) >= 2 else ''
+                if sub in PAKET.STUBS:   # rezervacije, hostesa, garderoba: nisu u paketu → preusmjeravanje
+                    if f == 'index.html':
+                        os.makedirs(os.path.dirname(dst), exist_ok=True)
+                        open(dst, 'w', encoding='utf-8').write(PAKET.stub(PAKET.STUBS[sub])); st += 1
+                    continue
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 if f.endswith('.html'):
                     open(dst, 'w', encoding='utf-8').write(live_page(src, rel)); n += 1
                 else:
                     shutil.copy2(src, dst)
     shutil.copytree(os.path.join(DEMO, 'hi'), os.path.join(OUT, 'hi'))
-    print('v/:', n, 'stranica')
+    print('v/:', n, 'stranica,', st, 'preusmjeravanja (nije u paketu)')
 
 
 if __name__ == '__main__':
