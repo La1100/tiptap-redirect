@@ -2,7 +2,10 @@
 
 | Mapa | Adresa | Što je |
 |---|---|---|
-| `index.html`, `demo.html` | tiptapreviews.com, /demo | TipTap: glavna stranica i primjer za kupce |
+| `index.html`, `en.html` | tiptapreviews.com, /en | TipTap: glavna stranica na hrvatskom i engleskom; upiti iz obrasca idu preko FormSubmita na tiptapbus@gmail.com |
+| `privatnost.html`, `privacy.html` | /privatnost, /privacy | Politika privatnosti (HR, EN) |
+| `media/`, `tiptap-og.jpg`, `tiptap-og-en.jpg` | /media/… | Videi i slike četiri paketa, slike za pregled poveznice na mrežama |
+| `demo.html` | /demo | Stariji primjer za kupce (engleski) |
 | `api/` | tiptapreviews.com/‹kod› | preusmjeravanje NFC/QR kartica (kodovi su u Google tablici) |
 | `demo/` | /demo/ | BHT: Bure Bar, Brooklyn, Q Club, Kafanica, kartice za sastanak, pregled za direktore (puni demo, sa svim dodacima) |
 | `v/`, `api/tt.js`, `lib/tt/` | /v/‹lokal›/, /v/grupa/ | BHT: pravi sustav prema ugovorenom paketu (`tools/bht_paket.py`); gradi se s `python3 tools/build_live.py` |
