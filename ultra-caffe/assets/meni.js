@@ -47,6 +47,9 @@ const TX = {
     rev_m_lead: 'Poruku vidi samo menadžer lokala. Ako želite odgovor, ostavite broj telefona.', rev_m_ph: 'Šta je bilo odlično, a šta možemo bolje?', rev_m_send: 'Pošalji menadžeru',
     rev_m_ok: 'Hvala! Menadžer je dobio vašu poruku.', rev_m_demo: 'U demo verziji poruka se ne šalje.', rev_card_t: 'Svidelo vam se?', rev_card_d: 'Ocenite nas na Google-u ili pišite direktno menadžeru.',
     size: 'Zapremina', kind: 'Vrsta', origin: 'Vinarija i poreklo', served: 'Služi se', served_glass: 'u čaši', served_btl: 'u flaši', served_can: 'u limenci', per_glass: 'po čaši',
+    strength: 'Jačina', energy_d: 'Energija', glass_l: 'Čaša', lvl: ['Bez alkohola', 'Lagano', 'Blago', 'Srednje', 'Jako', 'Vrlo jako'], alc: 'alk.', lovers: 'Za koga je', profile: 'Profil ukusa',
+    pf: ['Slatko', 'Kiselo', 'Gorko', 'Voćno', 'Osvežavajuće'], kc_note: 'Jačina i kalorije su okvirne, po porciji', kc_hot: ', bez dodatog šećera', kc_glass: 'za vino iz boce po čaši od 0,125 l', per_g125: 'po čaši',
+    gl: { fildzan: 'Fildžan', mug: 'Staklena šolja', cup: 'Šolja', espresso: 'Espresso šoljica', latte: 'Visoka čaša', teacup: 'Šolja za čaj', jug: 'Bokal', jar: 'Teglica', bowl: 'Činijica', tall: 'Visoka čaša', highball: 'Highball čaša', rocks: 'Niska čaša', martini: 'Čaša za martini', wine: 'Vinska čaša', redwine: 'Čaša za crveno vino', balloon: 'Balon čaša', shot: 'Čašica', cokanj: 'Čokanjče', snifter: 'Čaša za konjak', stem: 'Pivska čaša na nozi', tulip: 'Tulip čaša', krigla: 'Krigla', irish: 'Irish coffee čaša' },
     help_t: 'Pomoći ćemo vam da izaberete', q1: 'Koliko ste gladni?', q2: 'Šta vam se jede?', q3: 'Šta pijete uz to?', pick_t: 'Naš predlog za vas', add_all: 'Dodaj sve na listu', again: 'Ponovo',
     a_light: 'Nešto lagano', a_meal: 'Pravi obrok', a_share: 'Za deljenje', a_meat: 'Meso', a_fish: 'Riba', a_veg: 'Bez mesa', a_any: 'Iznenadite me',
     a_coffee: 'Kafa', a_fresh: 'Nešto osvežavajuće', a_wine: 'Vino ili pivo', a_cocktail: 'Koktel', step: 'Korak', dessert: 'Za kraj', p_dish: 'Jelo', p_drink: 'Piće' },
@@ -72,6 +75,9 @@ const TX = {
     rev_m_lead: 'Only the venue manager reads this. Leave a phone number if you’d like a reply.', rev_m_ph: 'What was great, and what could we do better?', rev_m_send: 'Send to the manager',
     rev_m_ok: 'Thank you! The manager has your message.', rev_m_demo: 'In this demo nothing is sent.', rev_card_t: 'Enjoyed it?', rev_card_d: 'Rate us on Google or write straight to the manager.',
     size: 'Size', kind: 'Type', origin: 'Winery & origin', served: 'Served', served_glass: 'by the glass', served_btl: 'in the bottle', served_can: 'in the can', per_glass: 'per glass',
+    strength: 'Strength', energy_d: 'Energy', glass_l: 'Glass', lvl: ['Alcohol-free', 'Light', 'Mild', 'Medium', 'Strong', 'Very strong'], alc: 'ABV', lovers: 'Who it’s for', profile: 'Taste profile',
+    pf: ['Sweet', 'Sour', 'Bitter', 'Fruity', 'Refreshing'], kc_note: 'Strength and calories are approximate, per serving', kc_hot: ', without added sugar', kc_glass: 'for bottled wine per 0.125 l glass', per_g125: 'per glass',
+    gl: { fildzan: 'Turkish coffee cup', mug: 'Glass mug', cup: 'Cup', espresso: 'Espresso cup', latte: 'Tall glass', teacup: 'Teacup', jug: 'Jug', jar: 'Small jar', bowl: 'Small bowl', tall: 'Tall glass', highball: 'Highball glass', rocks: 'Rocks glass', martini: 'Martini glass', wine: 'Wine glass', redwine: 'Red wine glass', balloon: 'Balloon glass', shot: 'Shot glass', cokanj: 'Rakija glass', snifter: 'Snifter', stem: 'Stemmed beer glass', tulip: 'Tulip glass', krigla: 'Beer mug', irish: 'Irish coffee glass' },
     help_t: 'Let us help you choose', q1: 'How hungry are you?', q2: 'What are you in the mood for?', q3: 'Something to drink with it?', pick_t: 'Our suggestion for you', add_all: 'Add all to my list', again: 'Start over',
     a_light: 'Something light', a_meal: 'A proper meal', a_share: 'To share', a_meat: 'Meat', a_fish: 'Fish', a_veg: 'No meat', a_any: 'Surprise me',
     a_coffee: 'Coffee', a_fresh: 'Something refreshing', a_wine: 'Wine or beer', a_cocktail: 'A cocktail', step: 'Step', dessert: 'To finish', p_dish: 'Dish', p_drink: 'Drink' }
@@ -204,9 +210,13 @@ const GLASS = {
     extra: '<path d="M152 88Q190 88 190 122V206Q190 240 152 240V218Q170 218 170 200V128Q170 110 152 110Z" fill="rgba(241,234,223,.08)" stroke="rgba(241,234,223,.55)" stroke-width="3" stroke-linejoin="round"/><path d="M78 60V256M122 60V256" stroke="#fff" stroke-opacity=".045" stroke-width="9"/><path d="M48 272H152" stroke="rgba(241,234,223,.3)" stroke-width="2"/>' },
   // žestina: čokanjče za rakiju i snifter za konjak i vinjak
   cokanj: { hw: y => y < 170 ? 24 + (y - 124) / 46 * 5 : Math.max(4, 29 - (y - 170) / 36 * 25), o: 'M74 120C70 140 68 160 70 178C72 198 84 210 96 213V268Q80 270 70 273Q68 278 100 278Q132 278 130 273Q120 270 104 268V213C116 210 128 198 130 178C132 160 130 140 126 120', clip: 'M78 124C74 142 73 160 75 177C77 194 87 204 100 205C113 204 123 194 125 177C127 160 126 142 122 124Z', top: 126, bot: 205, fill: .5 },
+  irish: { hw: y => y < 200 ? 50 - (y - 44) / 156 * 8 : Math.max(8, 42 - (y - 200) / 28 * 34), o: 'M48 40C46 120 52 190 70 218Q80 232 92 236V262Q74 266 60 270Q58 278 100 278Q142 278 140 270Q126 266 108 262V236Q120 232 130 218C148 190 154 120 152 40', clip: 'M53 44C51 120 57 186 74 212Q86 228 100 229Q114 228 126 212C143 186 149 120 147 44Z', top: 52, bot: 228, fill: .92, base: 278,
+    extra: '<path d="M151 76Q190 76 190 112V150Q190 186 146 190V172Q172 168 172 146V116Q172 94 152 94Z" fill="rgba(241,234,223,.08)" stroke="rgba(241,234,223,.55)" stroke-width="3" stroke-linejoin="round"/>' },
+  balloon: { hw: y => y < 130 ? 46 + (y - 64) / 66 * 16 : Math.max(4, 62 - (y - 130) / 64 * 58), o: 'M54 60C40 92 36 132 44 158C54 188 80 198 96 200V262Q74 264 56 268Q54 274 100 274Q146 274 144 268Q126 264 104 262V200C120 198 146 188 156 158C164 132 160 92 146 60', clip: 'M58 64C46 94 42 130 49 155C58 182 80 192 100 193C120 192 142 182 151 155C158 130 154 94 142 64Z', top: 70, bot: 193, fill: .74, base: 274 },
+  redwine: { hw: y => y < 120 ? 36 + (y - 44) / 76 * 14 : Math.max(4, 50 - (y - 120) / 52 * 46), o: 'M64 40C52 70 48 104 52 128C58 160 80 178 96 182V262Q74 264 58 268Q56 274 100 274Q144 274 142 268Q126 264 104 262V182C120 178 142 160 148 128C152 104 148 70 136 40', clip: 'M68 44C57 72 53 104 57 127C62 154 82 170 100 172C118 170 138 154 143 127C147 104 143 72 132 44Z', top: 50, bot: 172, fill: .42, base: 274 },
   snifter: { hw: y => y < 204 ? 32 + (y - 120) / 84 * 30 : Math.max(6, 62 - (y - 204) / 44 * 56), o: 'M64 118C48 150 34 178 36 204C38 236 64 252 92 254L94 256V276Q70 278 56 281Q56 286 100 286Q144 286 144 281Q130 278 106 276V256L108 254C136 252 162 236 164 204C166 178 152 150 136 118', clip: 'M68 122C53 152 41 178 42 204C44 232 68 246 100 247C132 246 156 232 158 204C159 178 147 152 132 122Z', top: 124, bot: 246, fill: .26 }
 };
-const VB = { espresso: [24, 168, 156, 110], fildzan: [34, 176, 132, 104], teacup: [14, 146, 186, 150], cup: [22, 118, 174, 176], bowl: [22, 176, 156, 100], jar: [36, 116, 128, 172], jug: [36, 100, 144, 182], shot: [52, 176, 96, 112], mug: [34, 96, 160, 196], rocks: [28, 96, 144, 196], martini: [14, 26, 172, 264], cokanj: [56, 108, 88, 176], snifter: [26, 104, 148, 188], stem: [30, 10, 140, 272], tulip: [30, 16, 140, 278], krigla: [26, 32, 176, 262] };
+const VB = { espresso: [24, 168, 156, 110], fildzan: [34, 176, 132, 104], teacup: [14, 146, 186, 150], cup: [22, 118, 174, 176], bowl: [22, 176, 156, 100], jar: [36, 116, 128, 172], jug: [36, 100, 144, 182], shot: [52, 176, 96, 112], mug: [34, 96, 160, 196], rocks: [28, 96, 144, 196], martini: [14, 26, 172, 264], cokanj: [56, 108, 88, 176], snifter: [26, 104, 148, 188], stem: [30, 10, 140, 272], tulip: [30, 16, 140, 278], krigla: [26, 32, 176, 262], irish: [30, 26, 170, 258], balloon: [24, 40, 152, 240], redwine: [36, 22, 128, 258] };
 const vbOf = d => VB[d.glass] || [0, 0, 200, 300];
 const vbS = d => vbOf(d).join(' ');
 const FIZZ = ['soda', 'tonic', 'sprite', 'cola', 'guarana', 'pgf', 'prosecco', 'beer', 'beer_dark'];
@@ -240,7 +250,11 @@ function dropsArt(geo, lay) {
   [[64, .2], [131, .32], [72, .55], [124, .7], [80, .85], [136, .5], [68, .4], [128, .15]].forEach(([x, f], k) => { const y = r.y0 + 6 + f * (r.h - 12); q += `<ellipse cx="${x}" cy="${f1(y)}" rx="${1.6 + (k % 3) * .5}" ry="${2.2 + (k % 3) * .6}" fill="#fff" opacity=".22"/><circle cx="${f1(x - .5)}" cy="${f1(y - .8)}" r=".7" fill="#fff" opacity=".7"/>`; });
   return q;
 }
+const CLEAR = ['soda', 'water', 'sprite', 'tonic'];
 function layerArt(id, key, c, r) {
+  // bistra gazirana tečnost: providna, sa mehurićima (nije bela traka)
+  if (CLEAR.includes(key)) return `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="#d6eaee" opacity=".2"/><rect x="0" y="${f1(r.y0)}" width="200" height="1.6" fill="#fff" opacity=".35"/>` + (r.h > 10 ? Array.from({ length: 12 }, (_, k) => `<circle cx="${60 + (k * 37) % 84}" cy="${f1(r.y0 + 5 + ((k * 53) % Math.max(8, r.h - 8)))}" r="${1.2 + (k % 3) * .7}" fill="#fff" opacity=".55"/>`).join('') : '') + `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h)}" fill="url(#${id}s)"/>`;
+  if (['rum', 'vodka', 'gin', 'tequila', 'puskin'].includes(key)) return `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="#dcecef" opacity=".26"/><rect x="0" y="${f1(r.y0)}" width="200" height="1.4" fill="#fff" opacity=".3"/><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h)}" fill="url(#${id}s)"/>`;
   if (key === 'sp_clear') return `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="#cfe0e4" opacity=".3"/><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(Math.min(2.4, r.h))}" fill="#fff" opacity=".75"/><rect x="0" y="${f1(r.y0 + 2.4)}" width="200" height="${f1(Math.min(4, r.h))}" fill="#fff" opacity=".12"/>`;
   if (BEER[key] || key === 'beer_foam' || key === 'beer_foam_d') return beerArt(id, key, c, r) + `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h)}" fill="url(#${id}s)"/>`;
   let q = `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="${c}"/><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(Math.min(3, r.h))}" fill="#fff" opacity=".18"/>`;
@@ -268,7 +282,7 @@ function glassSVG(d, only) {
   s += `<path d="${g.o}" fill="none" stroke="rgba(241,234,223,.55)" stroke-width="3" stroke-linejoin="round"/><path d="${g.clip}" fill="url(#${id}s)" opacity=".5"/>${g.extra || ''}`;
   return s + (k !== 1 ? '</g>' : '') + '</svg>';
 }
-const glassShell = d => { const g = GLASS[d.glass] || GLASS.highball, id = 'gs' + (++GID); return `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${glassDefs(id, g)}<path d="${g.clip}" fill="url(#${id}s)" opacity=".6"/><path d="${g.o}" fill="none" stroke="rgba(241,234,223,.6)" stroke-width="3" stroke-linejoin="round"/></svg>`; };
+const glassShell = d => { const g = GLASS[d.glass] || GLASS.highball, id = 'gs' + (++GID); return `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${glassDefs(id, g)}<path d="${g.clip}" fill="url(#${id}s)" opacity=".6"/><path d="${g.o}" fill="none" stroke="rgba(241,234,223,.6)" stroke-width="3" stroke-linejoin="round"/>${g.extra || ''}</svg>`; };
 const strawSVG = d => { const g = GLASS[d.glass]; if (!g || !g.straw) return ''; return `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M${g.straw[0]} ${g.straw[1]}L${g.straw[2]} ${g.straw[3]}" stroke="#CFA670" stroke-width="5" stroke-linecap="round" opacity=".9"/></svg>`; };
 // sličica pića u redu: flaša, čaša ili fotografija
 function drinkLead(d) {
@@ -372,8 +386,20 @@ function renderHome() {
 function rowHTML(it) {
   return `<li><button class="row" data-id="${it.id}">${thumbHTML(it)}<span class="tx"><b>${esc(nm(it))}</b>${descOf(it) ? `<small>${esc(descOf(it))}</small>` : ''}<span class="tg">${tagHTML(it)}</span></span>${it.var ? `<span class="pr num"><small>${t('from')} </small>${nf(Math.min(...it.var.map(v => v.price)))}<small>RSD</small></span>` : money(it.price)}</button></li>`;
 }
+// jačina pića: 5 crtica, nivo i okvirni % alkohola
+const isAlc = d => d.str > 0;
+const ALC_CTX = ['piva', 'kokteli'];
+const meter = (n, cls = '') => `<i class="smt${cls}" aria-hidden="true">${[1, 2, 3, 4, 5].map(k => `<s class="${k <= n ? 'on' : ''}"></s>`).join('')}</i>`;
+const lvlTxt = d => t('lvl')[d.str || 0];
+const abvTxt = d => d.abv ? `≈ ${String(d.abv).replace('.', L === 'en' ? '.' : ',')} %` : '';
+const kcTxt = d => d.kcal != null ? `${d.kcal >= 20 ? '≈ ' : ''}${nf(d.kcal)} kcal` : '';
+function drinkMeta(d) {
+  if (isAlc(d)) return `<em class="dm">${meter(d.str)}${esc(lvlTxt(d))}${d.kcal != null ? ` · ${esc(kcTxt(d))}${d.kper ? ' ' + esc(t('per_g125')) : ''}` : ''}</em>`;
+  if (d.vibe) return `<em class="dm">${esc(d.vibe[L === 'en' ? 1 : 0][0])}${d.kcal != null ? ` · ${esc(kcTxt(d))}` : ''}</em>`;
+  return '';
+}
 function drinkRow(d) {
-  return `<li><button class="drow" data-id="${d.id}">${drinkLead(d)}<span class="tx"><b>${esc(nm(d))}</b>${d.note ? `<small>${esc(d.note)}</small>` : ''}</span>${money(d.price)}</button></li>`;
+  return `<li><button class="drow" data-id="${d.id}">${drinkLead(d)}<span class="tx"><b>${esc(nm(d))}</b>${d.note ? `<small>${esc(d.note)}</small>` : ''}${drinkMeta(d)}</span>${money(d.price)}</button></li>`;
 }
 const kcHTML = k => `<button class="kc" data-id="${k.id}"><span class="tg">${(k.tags || []).filter(x => x === 'novo' || x === 'posno').map(x => `<span class="tag ${x}">${t(x)}</span>`).join('')}</span><span class="cu"><img src="${cutSrc(k, 1)}" alt="" loading="lazy"></span><b>${esc(nm(k))}</b>${money(k.price)}${k.unit === 'kg' ? `<small class="pk">${t('per_kg')}</small>` : ''}</button>`;
 function groupHTML(g) {
@@ -523,7 +549,9 @@ function infoHTML(it) {
   let h = `<div class="hd"><div class="tg">${tagHTML(it)}</div><h2>${esc(nm(it))}</h2>`;
   if (it.story) h += `<div class="story">${esc(L === 'en' ? it.story_en || it.story : it.story)}</div>`;
   const d = it.kind === 'drink' ? it.note : (it.kind === 'cake' ? (L === 'en' ? it.desc_en : it.desc) : descOf(it));
+  if (it.kind === 'drink' && it.vibe) h += `<div class="vibe">${it.vibe[L === 'en' ? 1 : 0].map(v => `<span>${esc(v)}</span>`).join('')}</div>`;
   if (d) h += `<div class="desc">${esc(d)}</div>`;
+  if (it.kind === 'drink' && it.opis) h += `<p class="opis">${esc(it.opis[L === 'en' ? 1 : 0])}</p>`;
   if (!it.var) h += `<div class="bigpr num">${nf(pr)}<small>RSD${it.unit === 'kg' ? ' · ' + t('per_kg') : ''}</small></div>`;
   h += `</div>`;
   if (it.var) h += `<div class="vars" role="radiogroup">${it.var.map((v, i) => `<button data-v="${i}" aria-pressed="${i === VAR}"><span>${esc(nm(v))}</span>${money(v.price)}</button>`).join('')}</div>`;
@@ -539,14 +567,19 @@ function infoHTML(it) {
   }
   if (it.kind === 'drink') {
     const cat = U.dcats.find(c => c.id === it.cat), facts = [];
-    if (it.size) facts.push([t('size'), it.size]);
-    facts.push([t('kind'), nm(cat)]);
-    if (it.pack) facts.push([t('served'), it.layers ? t('served_glass') : /Red Bull|Energy|Guarana/.test(it.sr) ? t('served_can') : t('served_btl')]);
-    h += `<div class="facts dk">${facts.slice(0, 3).map(([k, v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`;
+    if (isAlc(it) || ALC_CTX.includes(it.cat) || it.sr.includes('bezalkoholni')) facts.push([t('strength'), `${meter(it.str, ' big')}<b>${esc(lvlTxt(it))}</b>${it.abv ? `<small class="num">${esc(abvTxt(it))} ${esc(t('alc'))}</small>` : ''}`, 'str']);
+    else if (it.size) facts.push([t('size'), esc(it.size)]);
+    if (it.kcal != null) facts.push([t('energy_d'), `<b class="num">${it.kcal >= 20 ? '≈ ' : ''}${nf(it.kcal)}<small>kcal</small></b>${it.kper ? `<small>${esc(t('per_g125'))}</small>` : ''}`]);
+    if (it.layers && it.glass) facts.push([t('glass_l'), esc(t('gl')[it.glass] || '')]);
+    else if (it.pack) facts.push([t('served'), esc(/Red Bull|Energy|Guarana/.test(it.sr) ? t('served_can') : t('served_btl'))]);
+    if (facts.length < 3) facts.push([t('kind'), esc(nm(cat))]);
+    h += `<div class="facts dk dx">${facts.slice(0, 3).map(([k, v, c]) => `<div${c ? ` class="${c}"` : ''}><span>${esc(k)}</span>${/^<|^<i/.test(v) ? v : `<b>${v}</b>`}</div>`).join('')}</div>`;
+    if (it.prof || it.lovers) h += `<div class="card taste">${it.prof ? `<h3>${t('profile')}</h3><div class="prof">${t('pf').map((n, i) => `<div><span>${esc(n)}</span><s style="--w:${Math.round(it.prof[i] / 3 * 100)}%"></s></div>`).join('')}</div>` : ''}${it.lovers ? `<p class="lov"><b>${t('lovers')}</b>${esc(it.lovers[L === 'en' ? 1 : 0])}</p>` : ''}</div>`;
     if (it.layers && it.layers.length > 1) {
       const tot2 = it.layers.reduce((a, l) => a + l[1], 0);
       h += `<div class="card"><h3>${t('layers_cap')}<small class="num">${nf(tot2)} ml</small></h3><ul class="comp-l">${it.layers.slice().reverse().map(l => { const q = U.lq[l[0]]; return `<li><span class="orb-m" style="--c:${q[2]}">${orbIcon(l[0])}</span><span>${esc(L === 'en' ? q[1] : q[0])}</span><small class="num">${l[1]} ml</small></li>`; }).join('')}</ul></div>`;
     }
+    if (it.kcal != null) h += `<p class="kcn">${esc(t('kc_note'))}${['kafe', 'topli', 'cajevi'].includes(it.cat) ? esc(t('kc_hot')) : ''}${it.kper ? `; ${esc(t('kc_glass'))}` : ''}.</p>`;
   }
   const prs = (it.pair || []).map(pairOf).filter(Boolean);
   if (prs.length) h += `<div><h3 style="font-size:22px;margin-bottom:12px">${t(it.kind === 'dish' ? 'pair' : 'pair_d')}</h3><div class="pairs">${prs.map(p => {
