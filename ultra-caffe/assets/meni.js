@@ -40,7 +40,7 @@ const TX = {
     hours: 'Radno vreme', contact: 'Kontakt', demo_t: 'TipTap demo za Ultra Caffe', back: 'Nazad', close: 'Zatvori', photo: 'Fotografija',
     footer_note: 'Prikaz digitalnog menija koji je TipTap pripremio za Ultra Caffe. Jelovnik, cene i fotografije su sa vašeg sajta i Instagrama; gramaže, kalorije i alergeni su okvirni i čekaju potvrdu kuhinje.',
     tap_split: 'Dodirnite i pogledajte šta je unutra', tap_cut: 'Dodirnite i presecite', guests_note: 'Pokažite ovaj ekran konobaru', from: 'od',
-    search_ph: 'Pretražite meni', help: 'Pomozi mi da izaberem', house: 'Preporuka kuće', g_hrana: 'Hrana', g_slatko: 'Slatko', g_pice: 'Piće',
+    search_ph: 'Pretražite meni', jump_l: 'Brzo do dela menija', help: 'Pomozi mi da izaberem', house: 'Preporuka kuće', g_hrana: 'Hrana', g_slatko: 'Slatko', g_pice: 'Piće',
     c_hrana: 'jela', c_pice: 'pića', c_kolaci: 'kolača', c_torte: 'ukusa', results: 'Rezultati', no_res: 'Ništa nije pronađeno. Probajte drugu reč, na primer „pasta” ili „kafa”.',
     all: 'Sve', home: 'Meni', reviews: 'recenzija na Google-u', reviews_s: 'recenzija', on_g: 'na Google-u', rev_t: 'Kako vam je bilo?', rev_lead: 'Vaše mišljenje pomaže drugim gostima, a nama da budemo još bolji.',
     rev_g: 'Ostavi recenziju na Google-u', rev_g_s: 'Javno, za sve goste', rev_m: 'Piši menadžeru', rev_m_s: 'Privatno, samo za nas', rev_read: 'Pročitaj recenzije',
@@ -69,7 +69,7 @@ const TX = {
     hours: 'Opening hours', contact: 'Contact', demo_t: 'TipTap demo for Ultra Caffe', back: 'Back', close: 'Close', photo: 'Photo',
     footer_note: 'A digital menu preview prepared by TipTap for Ultra Caffe. Menu, prices and photos come from your website and Instagram; weights, calories and allergens are estimates awaiting kitchen sign-off.',
     tap_split: 'Tap to see what’s inside', tap_cut: 'Tap to cut it open', guests_note: 'Show this screen to your waiter', from: 'from',
-    search_ph: 'Search the menu', help: 'Help me choose', house: 'House picks', g_hrana: 'Food', g_slatko: 'Sweets', g_pice: 'Drinks',
+    search_ph: 'Search the menu', jump_l: 'Jump to a part of the menu', help: 'Help me choose', house: 'House picks', g_hrana: 'Food', g_slatko: 'Sweets', g_pice: 'Drinks',
     c_hrana: 'dishes', c_pice: 'drinks', c_kolaci: 'cakes', c_torte: 'flavours', results: 'Results', no_res: 'Nothing found. Try another word, like “pasta” or “coffee”.',
     all: 'All', home: 'Menu', reviews: 'Google reviews', reviews_s: 'reviews', on_g: 'on Google', rev_t: 'How was it?', rev_lead: 'Your opinion helps other guests — and helps us get even better.',
     rev_g: 'Leave a Google review', rev_g_s: 'Public, for every guest', rev_m: 'Message the manager', rev_m_s: 'Private, just for us', rev_read: 'Read reviews',
@@ -90,6 +90,9 @@ const nf = n => Math.round(n).toLocaleString('sr-RS');
 const money = p => `<span class="pr num">${nf(p)}<small>RSD</small></span>`;
 const GC = { meso: '#D07A5C', riba: '#E9A07E', sir: '#E6C899', povrce: '#9DBB68', prilog: '#D9AE6A', testo: '#D9AE6A', sos: '#D49A78', slatko: '#E3A9BD', voce: '#D2577A' };
 const IC = {
+  food: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v6.5a2 2 0 0 0 2 2v9.5M5 3v5M9 3v5M17.5 3c-1.8 1-2.7 3.4-2.7 6.4h2.7V21"/></svg>',
+  sweet: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12.5h12l-1.6 8H7.6z"/><path d="M5.4 12.5a6.6 5.6 0 0 1 13.2 0"/><path d="M12 4v2.6M9.5 16v2M14.5 16v2"/></svg>',
+  drink: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4h15L12 12.5z"/><path d="M12 12.5V20M8 20.5h8M15.5 4l3-2"/></svg>',
   play: '<svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.8v12.4c0 .8.9 1.3 1.6.9l10-6.2c.6-.4.6-1.4 0-1.8l-10-6.2C8.9 4.5 8 5 8 5.8z"/></svg>',
   split: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6.5h16M6 11h12M5 15.5h14M7 20h10"/><path d="M12 2.5v2M12 21.5v.5" opacity=".5"/></svg>',
   knife: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5 4 14l3 3 3.5-3.5"/><path d="m10.5 13.5 9-9"/><path d="m13 17 3 3.5M16 14l4.5 4"/></svg>',
@@ -358,10 +361,11 @@ function homeHTML() {
   return heroHTML() + `
   <div class="tools"><label class="srch">${IC.search}<input id="q" type="search" placeholder="${esc(t('search_ph'))}" enterkeyhint="search" autocomplete="off" value="${esc(QRY)}"></label>
     <button class="helpme" id="helpBtn">${IC.spark}<span>${esc(t('help'))}</span></button></div>
+  <nav class="jump" id="jump" aria-label="${esc(t('jump_l'))}">${[['g-hrana', 'food', 'g_hrana'], ['g-slatko', 'sweet', 'g_slatko'], ['g-pice', 'drink', 'g_pice']].map(([id, ic, k]) => `<button type="button" data-to="${id}" aria-current="false">${IC[ic]}<span>${esc(t(k))}</span></button>`).join('')}</nav>
   <section class="house"><h2>${esc(t('house'))}</h2><div class="hs">${house.map(it => `<button class="hc" data-id="${it.id}">${it.kind === 'cake' ? `<span class="cu"><img src="${cutSrc(it)}" alt="" loading="lazy"></span>` : photoOf(it) ? `<img src="${img(photoOf(it)[0], 1)}" alt="" loading="lazy">` : `<span class="cu bd"><img src="img/i/${it.id}.webp" alt="" loading="lazy"></span>`}<span class="in"><b>${esc(nm(it))}</b>${it.var ? `<span class="pr num"><small>${t('from')} </small>${nf(Math.min(...it.var.map(v => v.price)))}<small>RSD</small></span>` : money(it.price)}</span></button>`).join('')}</div></section>
-  <section class="gsec"><h2>${esc(t('g_hrana'))}</h2><div class="tiles">${sec('hrana')}</div></section>
-  <section class="gsec"><h2>${esc(t('g_slatko'))}</h2><div class="tiles two">${sec('slatko')}</div></section>
-  <section class="gsec"><h2>${esc(t('g_pice'))}</h2><div class="tiles">${sec('pice')}</div></section>
+  <section class="gsec" id="g-hrana"><h2>${esc(t('g_hrana'))}</h2><div class="tiles">${sec('hrana')}</div></section>
+  <section class="gsec" id="g-slatko"><h2>${esc(t('g_slatko'))}</h2><div class="tiles two">${sec('slatko')}</div></section>
+  <section class="gsec" id="g-pice"><h2>${esc(t('g_pice'))}</h2><div class="tiles">${sec('pice')}</div></section>
   <section class="revc"><div class="rv-h">${IC.g}<div><b class="num">${rate(g.r)}</b>${stars(g.r)}<small>${nf(g.n)} ${esc(t('reviews'))} · ${esc(locOf(LOC).short)}</small></div></div>
     <h2>${esc(t('rev_card_t'))}</h2><p>${esc(t('rev_card_d'))}</p>${revButtons('home')}</section>`;
 }
@@ -380,10 +384,39 @@ function renderHome() {
   $$('#main .tile').forEach(b => b.onclick = () => openGroup(b.dataset.g));
   $$('#main .hc').forEach(b => b.onclick = () => openItem(b.dataset.id));
   $('#helpBtn').onclick = openHelp;
+  $$('#jump button').forEach(b => b.onclick = () => { jumpTo(b.dataset.to); hit('jump', b.dataset.to); });
+  jumpSpy();
   bindRev(m);
   const q = $('#q'); q.oninput = () => { QRY = q.value; if (QRY.trim().length >= 2) showSearch(); else if (VIEW === 'search') { clearSearch(); if (history.state && history.state.q) history.replaceState({}, '', location.pathname + location.search); } };
   q.onkeydown = e => { if (e.key === 'Enter') q.blur(); };
 }
+
+// ---------------------------------------------------------------- brzi skok: Hrana · Slatko · Piće
+let JMP = 0, JTO = null;
+const jumpOff = () => ($('#top') ? $('#top').offsetHeight : 58) + ($('#jump') ? $('#jump').offsetHeight : 0) + 8;
+function setJump(id) { $$('#jump button').forEach(b => b.setAttribute('aria-current', b.dataset.to === id ? 'true' : 'false')); }
+function jumpTo(id) {
+  const el = document.getElementById(id); if (!el) return;
+  const y0 = scrollY, y1 = Math.max(0, Math.round(el.getBoundingClientRect().top + scrollY - jumpOff())), d = y1 - y0;
+  setJump(id); JTO = id; cancelAnimationFrame(JMP);
+  if (reduced || Math.abs(d) < 4) { scrollTo(0, y1); JTO = null; return; }
+  const T = Math.min(620, 260 + Math.abs(d) * .1), t0 = performance.now();
+  const step = now => { const k = Math.min(1, (now - t0) / T), e = 1 - Math.pow(1 - k, 3); scrollTo(0, y0 + d * e); if (k < 1) JMP = requestAnimationFrame(step); else { JTO = null; jumpSpy(); } };
+  JMP = requestAnimationFrame(step);
+}
+function jumpSpy() {
+  const j = $('#jump'); if (!j || VIEW !== 'home') return;
+  const th = $('#top') ? $('#top').offsetHeight : 58;
+  j.classList.toggle('stuck', j.getBoundingClientRect().top <= th + 1);
+  if (JTO) return;
+  let act = null; const lim = jumpOff() + 30;
+  ['g-hrana', 'g-slatko', 'g-pice'].forEach(id => { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= lim) act = id; });
+  if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4 && act) act = 'g-pice';
+  setJump(act);
+}
+let spyR = 0; addEventListener('scroll', () => { if (spyR) return; spyR = requestAnimationFrame(() => { spyR = 0; jumpSpy(); }); }, { passive: true });
+addEventListener('wheel', () => { if (JTO) { cancelAnimationFrame(JMP); JTO = null; } }, { passive: true });
+addEventListener('touchstart', () => { if (JTO) { cancelAnimationFrame(JMP); JTO = null; } }, { passive: true });
 
 // ---------------------------------------------------------------- grupa (jedna kategorija menija)
 function rowHTML(it) {
