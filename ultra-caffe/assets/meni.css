@@ -571,3 +571,20 @@ svg.cut .pp-sec{opacity:1;transform:none}
 .pk-s.wg .pk-g.v-martini{height:50%}
 .pk-s.wg .pk-g.v-redwine{height:62%}
 @media (prefers-reduced-motion:reduce){.prof s::after{animation:none}}
+/* ---------- šanker: priprema koktela pre rastavljanja ---------- */
+.mk-cap{pointer-events:auto;position:absolute;left:50%;z-index:7;display:flex;align-items:center;gap:10px;max-width:calc(100% - 24px);padding:6px 6px 6px 15px;border-radius:999px;background:rgba(11,21,23,.8);border:1px solid rgba(var(--mesing-rgb),.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 12px 30px -14px #000;opacity:0;transform:translate(-50%,10px);transition:opacity .35s,transform .45s var(--ease);white-space:nowrap}
+.mk-cap.on{opacity:1;transform:translate(-50%,0)}
+.mk-t{min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:13.5px;font-weight:600;color:var(--krem);transition:opacity .12s}
+.mk-skip{flex:none;height:28px;padding:0 11px;border-radius:999px;border:1px solid rgba(var(--mesing-rgb),.4);color:var(--mesing2);font:600 12px var(--f-b)}
+.mk-b,.mk-cit,.mk-wheel,.mk-shk{position:absolute;z-index:5;pointer-events:none}
+.mk-b img,.mk-b svg,.mk-cit svg,.mk-wheel svg,.mk-shk svg{display:block;width:100%;height:100%;object-fit:contain}
+.mk-b,.mk-shk{filter:drop-shadow(0 12px 16px rgba(0,0,0,.5))}
+.mk-st{position:absolute;z-index:4;width:4px;margin-left:-2px;border-radius:3px;transform-origin:50% 0;opacity:.95;pointer-events:none}
+.mk-ice{position:absolute;z-index:4;border-radius:6px;background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(210,236,243,.32));border:1px solid rgba(255,255,255,.85);box-shadow:inset 0 0 7px rgba(255,255,255,.55),0 2px 6px rgba(0,0,0,.25);pointer-events:none}
+.mk-mud{position:absolute;z-index:5;border-radius:5px 5px 8px 8px;background:linear-gradient(90deg,#6f4420,#c8935a 45%,#7d5026);box-shadow:0 8px 14px rgba(0,0,0,.45);pointer-events:none}
+.mk-drop{position:absolute;z-index:4;width:6px;height:9px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;pointer-events:none}
+.mk-gr{position:absolute;z-index:4;width:5px;height:5px;border-radius:1.5px;background:#c8955a;pointer-events:none}
+.mk-leaf{position:absolute;z-index:4;width:15px;height:9px;border-radius:0 100% 0 100%;background:linear-gradient(135deg,#6fb34f,#3e7f2e);pointer-events:none}
+.mk-again{justify-self:start;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 12px;border-radius:999px;border:1px solid rgba(var(--mesing-rgb),.5);background:rgba(var(--mesing-rgb),.08);color:var(--mesing2);font:600 13.5px var(--f-b)}
+.mk-again .ic{width:18px;height:18px}
+.mk-again:hover{background:rgba(var(--mesing-rgb),.14)}

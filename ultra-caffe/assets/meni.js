@@ -47,6 +47,7 @@ const TX = {
     rev_m_lead: 'Poruku vidi samo menadžer lokala. Ako želite odgovor, ostavite broj telefona.', rev_m_ph: 'Šta je bilo odlično, a šta možemo bolje?', rev_m_send: 'Pošalji menadžeru',
     rev_m_ok: 'Hvala! Menadžer je dobio vašu poruku.', rev_m_demo: 'U demo verziji poruka se ne šalje.', rev_card_t: 'Svidelo vam se?', rev_card_d: 'Ocenite nas na Google-u ili pišite direktno menadžeru.',
     size: 'Zapremina', kind: 'Vrsta', origin: 'Vinarija i poreklo', served: 'Služi se', served_glass: 'u čaši', served_btl: 'u flaši', served_can: 'u limenci', per_glass: 'po čaši',
+    mk_start: 'Šanker pravi: {n}', mk_ice: 'Led', mk_muddle: 'Gnječenje nane i šećera', mk_shake: 'Mućkanje sa ledom', mk_strain: 'Ceđenje u čašu', mk_straw: 'Slamčica i ukras', mk_garnish: 'Ukras', mk_done: 'Gotovo! Evo šta je u čaši', mk_skip: 'Preskoči', mk_again: 'Pogledaj kako se pravi',
     strength: 'Jačina', energy_d: 'Energija', glass_l: 'Čaša', lvl: ['Bez alkohola', 'Lagano', 'Blago', 'Srednje', 'Jako', 'Vrlo jako'], alc: 'alk.', lovers: 'Za koga je', profile: 'Profil ukusa',
     pf: ['Slatko', 'Kiselo', 'Gorko', 'Voćno', 'Osvežavajuće'], kc_note: 'Jačina i kalorije su okvirne, po porciji', kc_hot: ', bez dodatog šećera', kc_glass: 'za vino iz boce po čaši od 0,125 l', per_g125: 'po čaši',
     gl: { fildzan: 'Fildžan', mug: 'Staklena šolja', cup: 'Šolja', espresso: 'Espresso šoljica', latte: 'Visoka čaša', teacup: 'Šolja za čaj', jug: 'Bokal', jar: 'Teglica', bowl: 'Činijica', tall: 'Visoka čaša', highball: 'Highball čaša', rocks: 'Niska čaša', martini: 'Čaša za martini', wine: 'Vinska čaša', redwine: 'Čaša za crveno vino', balloon: 'Balon čaša', shot: 'Čašica', cokanj: 'Čokanjče', snifter: 'Čaša za konjak', stem: 'Pivska čaša na nozi', tulip: 'Tulip čaša', krigla: 'Krigla', irish: 'Irish coffee čaša' },
@@ -75,6 +76,7 @@ const TX = {
     rev_m_lead: 'Only the venue manager reads this. Leave a phone number if you’d like a reply.', rev_m_ph: 'What was great, and what could we do better?', rev_m_send: 'Send to the manager',
     rev_m_ok: 'Thank you! The manager has your message.', rev_m_demo: 'In this demo nothing is sent.', rev_card_t: 'Enjoyed it?', rev_card_d: 'Rate us on Google or write straight to the manager.',
     size: 'Size', kind: 'Type', origin: 'Winery & origin', served: 'Served', served_glass: 'by the glass', served_btl: 'in the bottle', served_can: 'in the can', per_glass: 'per glass',
+    mk_start: 'The bartender is making: {n}', mk_ice: 'Ice', mk_muddle: 'Muddling mint and sugar', mk_shake: 'Shaking with ice', mk_strain: 'Straining into the glass', mk_straw: 'Straw and garnish', mk_garnish: 'Garnish', mk_done: 'Done! Here’s what’s inside', mk_skip: 'Skip', mk_again: 'Watch how it’s made',
     strength: 'Strength', energy_d: 'Energy', glass_l: 'Glass', lvl: ['Alcohol-free', 'Light', 'Mild', 'Medium', 'Strong', 'Very strong'], alc: 'ABV', lovers: 'Who it’s for', profile: 'Taste profile',
     pf: ['Sweet', 'Sour', 'Bitter', 'Fruity', 'Refreshing'], kc_note: 'Strength and calories are approximate, per serving', kc_hot: ', without added sugar', kc_glass: 'for bottled wine per 0.125 l glass', per_g125: 'per glass',
     gl: { fildzan: 'Turkish coffee cup', mug: 'Glass mug', cup: 'Cup', espresso: 'Espresso cup', latte: 'Tall glass', teacup: 'Teacup', jug: 'Jug', jar: 'Small jar', bowl: 'Small bowl', tall: 'Tall glass', highball: 'Highball glass', rocks: 'Rocks glass', martini: 'Martini glass', wine: 'Wine glass', redwine: 'Red wine glass', balloon: 'Balloon glass', shot: 'Shot glass', cokanj: 'Rakija glass', snifter: 'Snifter', stem: 'Stemmed beer glass', tulip: 'Tulip glass', krigla: 'Beer mug', irish: 'Irish coffee glass' },
@@ -88,6 +90,7 @@ const nf = n => Math.round(n).toLocaleString('sr-RS');
 const money = p => `<span class="pr num">${nf(p)}<small>RSD</small></span>`;
 const GC = { meso: '#D07A5C', riba: '#E9A07E', sir: '#E6C899', povrce: '#9DBB68', prilog: '#D9AE6A', testo: '#D9AE6A', sos: '#D49A78', slatko: '#E3A9BD', voce: '#D2577A' };
 const IC = {
+  play: '<svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.8v12.4c0 .8.9 1.3 1.6.9l10-6.2c.6-.4.6-1.4 0-1.8l-10-6.2C8.9 4.5 8 5 8 5.8z"/></svg>',
   split: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6.5h16M6 11h12M5 15.5h14M7 20h10"/><path d="M12 2.5v2M12 21.5v.5" opacity=".5"/></svg>',
   knife: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5 4 14l3 3 3.5-3.5"/><path d="m10.5 13.5 9-9"/><path d="m13 17 3 3.5M16 14l4.5 4"/></svg>',
   burst: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg>',
@@ -491,15 +494,15 @@ function openItem(id, push = true) {
 }
 // čim se otvori, jelo/piće se samo rastavi (gost ne mora da traži dugme)
 let autoT;
-function autoSplit(it, wait = 700) {
+function autoSplit(it, wait = 700, make = true) {
   clearTimeout(autoT); if (!canSplit(it)) return;
   autoT = setTimeout(() => {
     if (CUR !== it || !$('#st') || $('#st').classList.contains('open')) return;
-    const im = $('#ph img'), go = () => { if (CUR === it && !$('#st').classList.contains('open')) openX(it); };
+    const im = $('#ph img'), go = () => { if (CUR === it && !$('#st').classList.contains('open')) openX(it, make); };
     if (im && !im.complete) { let done = false; const f = () => { if (!done) { done = true; go(); } }; im.addEventListener('load', f, { once: true }); im.addEventListener('error', f, { once: true }); setTimeout(f, 1600); } else go();
   }, reduced ? 50 : wait);
 }
-function closeItem() { clearTimeout(autoT); const sh = $('#dish'); sh.classList.remove('on'); $('#scrim').classList.remove('on'); document.body.classList.remove('lock'); CUR = null; XR = null; setTimeout(() => { if (!sh.classList.contains('on')) sh.innerHTML = ''; }, 600); }
+function closeItem() { clearTimeout(autoT); MK = 0; const sh = $('#dish'); sh.classList.remove('on'); $('#scrim').classList.remove('on'); document.body.classList.remove('lock'); CUR = null; XR = null; setTimeout(() => { if (!sh.classList.contains('on')) sh.innerHTML = ''; }, 600); }
 addEventListener('popstate', e => {
   const s = e.state || {};
   if ($('#dish').classList.contains('on') && !s.dish) { closeItem(); return; }
@@ -550,6 +553,7 @@ function infoHTML(it) {
   if (it.story) h += `<div class="story">${esc(L === 'en' ? it.story_en || it.story : it.story)}</div>`;
   const d = it.kind === 'drink' ? it.note : (it.kind === 'cake' ? (L === 'en' ? it.desc_en : it.desc) : descOf(it));
   if (it.kind === 'drink' && it.vibe) h += `<div class="vibe">${it.vibe[L === 'en' ? 1 : 0].map(v => `<span>${esc(v)}</span>`).join('')}</div>`;
+  if (canMake(it)) h += `<button type="button" class="mk-again" id="mkAgain">${IC.play}<span>${esc(t('mk_again'))}</span></button>`;
   if (d) h += `<div class="desc">${esc(d)}</div>`;
   if (it.kind === 'drink' && it.opis) h += `<p class="opis">${esc(it.opis[L === 'en' ? 1 : 0])}</p>`;
   if (!it.var) h += `<div class="bigpr num">${nf(pr)}<small>RSD${it.unit === 'kg' ? ' · ' + t('per_kg') : ''}</small></div>`;
@@ -602,6 +606,7 @@ function bindDish(it) {
 function bindInfo(it) {
   $$('#info .vars button').forEach(b => b.onclick = () => { VAR = +b.dataset.v; const open = $('#st').classList.contains('open'); $('#info').innerHTML = infoHTML(it); bindInfo(it); updAdd(it); if (open) { closeX(true); setTimeout(() => openX(it), 60); } else if (!photoOf(it) && it.mode === 'plate') $('#ph').innerHTML = plateArt(it, curComps(it)); else if (stageHero(it).illus) prepIll(it); });
   $$('#info [data-art]').forEach(el => { el.innerHTML = K.top(el.dataset.art, +el.dataset.seed).replace('<svg ', '<svg width="34" height="34" '); });
+  const ma = $('#mkAgain'); if (ma) ma.onclick = () => { const sc = $('#dish .scroll'); if (sc) sc.scrollTo({ top: 0, behavior: 'smooth' }); clearTimeout(autoT); closeX(true); setTimeout(() => { if (CUR === it) openX(it, true); }, 120); };
   $$('#info .pc').forEach(b => b.onclick = () => { history.replaceState({ dish: b.dataset.id, g: (history.state || {}).g }, '', '#' + encodeURIComponent(b.dataset.id)); openItem(b.dataset.id, false); hit('pair', b.dataset.id); });
 }
 function updAdd(it) { $('#qn').textContent = QTY; $('#addT').textContent = `${t('add')} · ${nf(curPrice(it) * QTY)} RSD`; }
@@ -637,7 +642,7 @@ function phRect() { const st = $('#st'), ph = $('#ph'), sr = st.getBoundingClien
   return { x, y, w, h, cx: x + w / 2, cy: y + h / 2 };
 }
 function toggleX(it) { const st = $('#st'); if (st.classList.contains('open')) closeX(); else { openX(it); hit('split', it.id); } }
-function openX(it) {
+function openX(it, make) {
   const st = $('#st'), xr = $('#xr'), btn = $('#splitBtn');
   if (!st._h0) st._h0 = st.offsetHeight;
   const W = st.clientWidth, comps = curComps(it), pr = phRect();
@@ -659,9 +664,10 @@ function openX(it) {
   XR = r; const ph0 = $('#ph'); ph0.style.height = ph0.offsetHeight + 'px'; xr.style.transform = ''; st.classList.add('open'); st.dataset.m = r.m || ''; btn.setAttribute('aria-pressed', 'true'); $('span', btn).textContent = t('join');
   if (!isDesk()) st.style.height = Math.max(st._h0, r.H) + 'px';
   const ph = $('#ph'); ph.style.transformOrigin = '0 0'; ph.style.transform = r.photo.tf || ''; ph.style.opacity = r.photo.op;
-  requestAnimationFrame(() => requestAnimationFrame(() => r.play()));
+  requestAnimationFrame(() => requestAnimationFrame(() => r.play(make)));
 }
 function closeX(instant) {
+  MK = 0;
   const st = $('#st'), btn = $('#splitBtn'), ph = $('#ph'), xr = $('#xr'); if (!st) return;
   st.classList.remove('open'); st.classList.remove('bgp'); if (btn) { btn.setAttribute('aria-pressed', 'false'); $('span', btn).textContent = CUR ? splitLabel(CUR) : t('split'); }
   if (XR && XR.back) XR.back(instant);
@@ -987,7 +993,7 @@ const lum = hex => { const n = parseInt(hex.slice(1), 16); return ((n >> 16) * .
 function buildOrbs(xr, it, W, pr) {
   const { geo, lay } = glassGeo(it), n = lay.length, H0 = $('#st')._h0 || $('#st').offsetHeight;
   const H = Math.max(H0, 150 + Math.ceil(n / 2) * 74);
-  const vb = vbOf(it), Wg = Math.min(W * .34, 180) * (vb[2] < 200 ? Math.min(1.5, Math.sqrt(200 / vb[2])) : 1), kk = Wg / vb[2], Hg = vb[3] * kk, gx = (W - Wg) / 2, gy = Math.max(70, H * .5 - Hg * .55);
+  const vb = vbOf(it), Wg = Math.min(W * .34, 180) * (vb[2] < 200 ? Math.min(1.5, Math.sqrt(200 / vb[2])) : 1), kk = Wg / vb[2], Hg = vb[3] * kk, gx = (W - Wg) / 2, gy = Math.max(canMake(it) ? 112 : 70, H * .5 - Hg * .55);
   const ow = Math.min(132, W * .3), rows = [Math.ceil(n / 2), Math.floor(n / 2)];
   // sastojci odozgo nadole: vrh čaše levo gore, dno dole
   const ord = lay.map((l, i) => n - 1 - i);
@@ -1004,13 +1010,15 @@ function buildOrbs(xr, it, W, pr) {
   og.style.opacity = photoOf(it) ? 0 : 1;
   return {
     H, m: 'orbs', delay: 260, keep: false, photo: photoOf(it) ? { tf: 'scale(1.06)', op: .14 } : { tf: '', op: 0 },
-    play() { const D = reduced ? 0 : 1; og.style.opacity = 1;
-      setTimeout(() => {
+    play(make) { const D = reduced ? 0 : 1; og.style.opacity = 1;
+      const burst = () => setTimeout(() => {
         ls.forEach((g, i) => { g.style.transform = `translateY(${f1(-(i - (n - 1) / 2) * 15 - 6)}px)`; });
         sh.style.opacity = .35; if (gar) gar.style.transform = 'translate(16px,-34px) rotate(16deg)';
         orbs.forEach((o, j) => { const p = pos[j]; o.style.transitionDelay = (D ? j * 55 : 0) + 'ms'; o.style.opacity = 1; o.style.transform = `translate(calc(-50% + ${f1(p.x - W / 2)}px),calc(-50% + ${f1(p.y - gy - Hg * .5)}px)) scale(1)`; });
         lines.forEach(l => l.classList.add('on')); tot.classList.add('on');
-      }, D && photoOf(it) ? 260 : 20);
+      }, D && photoOf(it) && !make ? 260 : 20);
+      if (make && canMake(it)) makeScene(it, xr, { W, H, gx, gy, Wg, Hg, kk, vb, geo, lay, ls, gar, og, n, g: GLASS[it.glass] || GLASS.highball }).then(burst);
+      else burst();
     },
     back() {
       ls.forEach(g => { g.style.transform = ''; }); sh.style.opacity = ''; if (gar) gar.style.transform = '';
@@ -1018,6 +1026,155 @@ function buildOrbs(xr, it, W, pr) {
       if (photoOf(it)) setTimeout(() => { og.style.opacity = 0; }, 380);
     }
   };
+}
+
+// ---------- ŠANKER: koktel nastaje pred gostom (led, točenje, gnječenje, mućkanje, ukras), pa se pokažu sastojci
+const POUR_PACK = { rum: 'bacardi', rum_dark: 'bacardi-negra', vodka: 'smirnoff', gin: 'gin-origin', tequila: 'tequila', cola: 'coca-cola', sprite: 'sprite', guarana: 'guarana', prosecco: 'prosecco-bellussi', cranberry: 'finlandia' };
+const JUICE = ['oj', 'orange', 'pineapple', 'blueberry', 'apple', 'grapefruit', 'raspberry', 'carrot', 'beet', 'banana'];
+let PD = null;
+const packDim = p => { if (!PD) { PD = {}; U.drinks.forEach(d => { if (d.pack && d.pw) PD[d.pack] = [d.pw, d.ph]; }); } return PD[p]; };
+const canMake = it => it.kind === 'drink' && it.cat === 'kokteli' && !reduced;
+let MK = 0;
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const anim = (el, kf, o) => el.animate(kf, Object.assign({ fill: 'forwards', easing: 'cubic-bezier(.2,.8,.2,1)' }, o)).finished.catch(() => {});
+const bottleSVG = c => `<svg viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h8v24q0 6 8 14q6 6 6 16v54q0 6-6 6H8q-6 0-6-6V58q0-10 6-16q8-8 8-14z" fill="#18292d" stroke="rgba(241,234,223,.55)" stroke-width="1.5"/><path d="M4.5 60h31v50q0 4-4 4h-23q-4 0-4-4z" fill="${c}" opacity=".9"/><rect x="5" y="70" width="30" height="20" rx="2" fill="#F1EADF" opacity=".9"/><rect x="10" y="77" width="20" height="2.4" rx="1" fill="#A9834F"/><rect x="14" y="0" width="12" height="8" rx="2" fill="#CFA670"/><path d="M9 52v52" stroke="#fff" stroke-opacity=".28" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+const carafeSVG = c => `<svg viewBox="0 0 50 80" xmlns="http://www.w3.org/2000/svg"><path d="M15 3h20l-3 15q14 9 14 28v22q0 8-8 8H12q-8 0-8-8V46q0-19 14-28z" fill="rgba(241,234,223,.1)" stroke="rgba(241,234,223,.6)" stroke-width="1.5"/><path d="M5.5 38h39v30q0 6-6 6h-27q-6 0-6-6z" fill="${c}" opacity=".9"/><path d="M11 30v38" stroke="#fff" stroke-opacity=".3" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+const citrusSVG = ([a, b]) => `<svg viewBox="0 0 60 34" xmlns="http://www.w3.org/2000/svg"><path d="M2 32a28 28 0 0 1 56 0z" fill="${a}"/><path d="M6.5 32a23.5 23.5 0 0 1 47 0z" fill="${b}"/><path d="M30 32V10M30 32 14 17M30 32l16-15M30 32 8 27M30 32l22-5" stroke="${a}" stroke-width="1.6" opacity=".7"/></svg>`;
+const wheelSVG = ([a, b]) => `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" fill="${a}"/><circle cx="20" cy="20" r="15.5" fill="${b}"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(k => `<path d="M20 20L${f1(20 + 15 * Math.cos(k * Math.PI / 4))} ${f1(20 + 15 * Math.sin(k * Math.PI / 4))}" stroke="${a}" stroke-width="1.4" opacity=".75"/>`).join('')}<circle cx="20" cy="20" r="2" fill="${a}"/></svg>`;
+const shakerSVG = `<svg viewBox="0 0 50 120" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="mkshg" x1="0" x2="1"><stop offset="0" stop-color="#7d888c"/><stop offset=".32" stop-color="#eef3f4"/><stop offset=".6" stop-color="#b5bfc2"/><stop offset="1" stop-color="#667175"/></linearGradient></defs><rect x="19" y="1" width="12" height="9" rx="3" fill="url(#mkshg)"/><path d="M13 10h24l3 18H10z" fill="url(#mkshg)"/><path d="M8 28h34l-4 84q0 5-5 5H17q-5 0-5-5z" fill="url(#mkshg)"/><path d="M8 28h34" stroke="#59646a" stroke-width="1.4"/></svg>`;
+function makeScene(it, xr, c) {
+  const tok = ++MK, alive = () => MK === tok && CUR === it && xr.isConnected;
+  const { W, H, gx, gy, Wg, Hg, kk, vb, geo, lay, ls, gar, og, n, g } = c;
+  const X = x => gx + (x - vb[0]) * kk, Y = y => gy + (y - vb[1]) * kk;
+  const cx = X(100), rimY = Y(g.top) - 4, botY = Y(g.bot), inW = Math.max(30, g.hw((g.top + g.bot) / 2) * 2 * kk);
+  const pct = y => Math.max(0, Math.min(100, (y - vb[1]) / vb[3] * 100)).toFixed(2);
+  const fx = [], add = html => { xr.insertAdjacentHTML('beforeend', html); const el = xr.lastElementChild; fx.push(el); return el; };
+  const has = k => lay.some(l => l[0] === k), straw = !!(g.straw && gar);
+  ls.forEach((el, i) => { el.style.clipPath = `inset(${pct(geo[i].y1)}% 0 0 0)`; el.style.opacity = 0; });
+  if (gar) { gar.style.transition = 'none'; gar.style.opacity = 0; }
+  const cap = add(`<div class="mk-cap" style="top:${f1(H - 56)}px"><span class="mk-t"></span><button type="button" class="mk-skip">${esc(t('mk_skip'))}</button></div>`), tt = $('.mk-t', cap);
+  const say = s => { tt.style.opacity = 0; setTimeout(() => { tt.textContent = s; tt.style.opacity = 1; }, 110); };
+  requestAnimationFrame(() => cap.classList.add('on'));
+  let fin = false, ok; const done = new Promise(r => { ok = r; });
+  const finish = () => { if (fin) return; fin = true; if (MK === tok) MK = 0;
+    [og, ...ls].forEach(el => el.getAnimations().forEach(a => a.cancel())); ls.forEach(el => { el.style.clipPath = ''; el.style.opacity = ''; });
+    if (gar) { gar.getAnimations().forEach(a => a.cancel()); gar.style.opacity = ''; gar.style.transition = ''; }
+    fx.forEach(el => { if (el === cap) return; el.getAnimations().forEach(a => a.cancel()); el.style.transition = 'opacity .35s'; el.style.opacity = 0; setTimeout(() => el.remove(), 420); });
+    cap.style.transition = 'opacity .16s'; cap.classList.remove('on'); setTimeout(() => cap.remove(), 300); setTimeout(ok, 140);
+  };
+  $('.mk-skip', cap).onclick = e => { e.stopPropagation(); finish(); };
+  const st = $('#st'), tap = e => { if (fin || e.target.closest('#splitBtn')) return; finish(); }; st.addEventListener('pointerdown', tap, { once: true });
+  const reveal = (i, dur, delay = 0) => ls[i].animate([{ clipPath: `inset(${pct(geo[i].y1)}% 0 0 0)`, opacity: 1 }, { clipPath: `inset(${pct(geo[i].y0 - 10)}% 0 0 0)`, opacity: 1 }], { duration: dur, delay, easing: 'cubic-bezier(.3,.6,.4,1)', fill: 'forwards' });
+  // izvor sipanja: prava flaša kad je imamo, inače nacrtana flaša ili bokal
+  const source = (k, col) => {
+    const p = POUR_PACK[k], dm = p && packDim(p);
+    if (dm) { const ar = dm[0] / dm[1], h = Math.min(176, Hg * (ar < .45 ? .74 : .48)); return { html: `<img src="${packSrc(p, 1)}" alt="">`, w: h * ar, h, ang: ar < .45 ? 126 : 112 }; }
+    if (JUICE.includes(k)) { const h = Math.min(118, Hg * .5); return { html: carafeSVG(col), w: h * .62, h, ang: 116 }; }
+    const h = Math.min(150, Hg * .66); return { html: bottleSVG(col), w: h / 3, h, ang: 126 };
+  };
+  const pourFrom = async (k, col, N, toY, dur, onPour) => {
+    const s = source(k, col), a = s.ang * Math.PI / 180, ox = s.h / 2 * Math.sin(a), oy = -s.h / 2 * Math.cos(a);
+    const bx = N.x - ox - s.w / 2, by = N.y - oy - s.h / 2;
+    const b = add(`<div class="mk-b" style="left:${f1(bx)}px;top:${f1(by)}px;width:${f1(s.w)}px;height:${f1(s.h)}px">${s.html}</div>`);
+    await anim(b, [{ opacity: 0, transform: `translate(-34px,-40px) rotate(${s.ang - 95}deg)` }, { opacity: 1, transform: `rotate(${s.ang}deg)` }], { duration: 200 });
+    if (!alive()) return;
+    const sh = Math.max(8, toY - N.y), sm = add(`<i class="mk-st" style="left:${f1(N.x)}px;top:${f1(N.y)}px;height:${f1(sh)}px;background:linear-gradient(180deg,${col},${col}cc)"></i>`);
+    anim(sm, [{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { duration: 130, easing: 'linear' });
+    if (onPour) onPour();
+    await wait(dur);
+    sm.style.transformOrigin = '50% 100%'; anim(sm, [{ transform: 'scaleY(1)' }, { transform: 'scaleY(0)' }], { duration: 120, easing: 'linear' });
+    anim(b, [{ opacity: 1, transform: `rotate(${s.ang}deg)` }, { opacity: 0, transform: `translate(-28px,-44px) rotate(${s.ang - 70}deg)` }], { duration: 210 });
+    await wait(60);
+  };
+  const ice = async li => {
+    const s = Math.min(30, Math.max(16, inW * .3)), base = li != null ? Y(geo[li].y1) : botY, xs = [-.22, .17, -.02], ys = [1.04, 1.18, 2.02];
+    xs.forEach((dx, j) => { const el = add(`<i class="mk-ice" style="left:${f1(cx + dx * inW - s / 2)}px;top:${f1(base - s * ys[j])}px;width:${f1(s)}px;height:${f1(s)}px"></i>`);
+      anim(el, [{ opacity: 0, transform: `translateY(${f1(-(base - rimY) - 70)}px) rotate(${j * 30 - 40}deg)` }, { opacity: 1, transform: `rotate(${j * 9 - 6}deg)` }], { duration: 430, delay: j * 95, easing: 'cubic-bezier(.3,1.35,.55,1)' }); });
+    if (li != null) reveal(li, 440, 180);
+    await wait(480);
+  };
+  const squeeze = async (k, i, P) => {
+    const col = k === 'lime' ? ['#7fb53c', '#cfe892'] : ['#efc531', '#fbe98a'], w = Math.min(60, Math.max(40, Wg * .44)), h = w * .57;
+    const el = add(`<div class="mk-cit" style="left:${f1(cx - w / 2)}px;top:${f1(rimY - h - 30)}px;width:${f1(w)}px;height:${f1(h)}px">${citrusSVG(col)}</div>`);
+    await anim(el, [{ opacity: 0, transform: 'translateY(-26px)' }, { opacity: 1, transform: 'none' }], { duration: 180 });
+    el.animate([{ transform: 'scale(1,1)' }, { transform: 'scale(1.1,.7)' }, { transform: 'scale(1,1)' }, { transform: 'scale(1.1,.7)' }, { transform: 'scale(1,1)' }], { duration: P * .85 });
+    [0, 1, 2].forEach(j => { const d = add(`<i class="mk-drop" style="left:${f1(cx - 3 + (j - 1) * 8)}px;top:${f1(rimY - 30)}px;background:${col[1]}"></i>`);
+      anim(d, [{ opacity: 1, transform: 'translateY(0)' }, { opacity: .85, transform: `translateY(${f1(Y(geo[i].y1) - rimY + 22)}px)` }, { opacity: 0, transform: `translateY(${f1(Y(geo[i].y1) - rimY + 26)}px)` }], { duration: 460, delay: 60 + j * 130, easing: 'cubic-bezier(.5,0,1,1)' }); });
+    reveal(i, P - 60, 180); await wait(P);
+    anim(el, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-22px)' }], { duration: 200 });
+  };
+  const sprinkle = async (k, i, P) => {
+    const leaf = k === 'mint', m = leaf ? 5 : 9;
+    for (let j = 0; j < m; j++) { const el = add(`<i class="${leaf ? 'mk-leaf' : 'mk-gr'}" style="left:${f1(cx - inW * .3 + (j * 37 % 60) / 60 * inW * .6)}px;top:${f1(rimY - 34)}px"></i>`);
+      anim(el, [{ opacity: 0, transform: `translateY(-10px) rotate(${j * 47}deg)` }, { opacity: 1, offset: .2 }, { opacity: 1, transform: `translateY(${f1(Y(geo[i].y0) - rimY + 30 + (j % 3) * 4)}px) rotate(${j * 47 + 160}deg)` }], { duration: 520, delay: j * 45, easing: 'cubic-bezier(.4,0,.8,1)' }); }
+    reveal(i, P - 80, 200); await wait(P);
+  };
+  const muddle = async () => {
+    say(t('mk_muddle'));
+    const w = Math.max(9, Wg * .075), h = (botY - rimY) + 76, el = add(`<i class="mk-mud" style="left:${f1(cx - w / 2)}px;top:${f1(botY - h - 4)}px;width:${f1(w)}px;height:${f1(h)}px"></i>`);
+    await anim(el, [{ opacity: 0, transform: `translateY(${f1(-h * .5)}px)` }, { opacity: 1, transform: 'translateY(-12px)' }], { duration: 260 });
+    await anim(el, [{ transform: 'translateY(-12px)' }, { transform: 'translateY(0)' }, { transform: 'translateY(-18px)' }, { transform: 'translateY(0)' }, { transform: 'translateY(-18px)' }], { duration: 420, easing: 'ease-in-out' });
+    anim(el, [{ opacity: 1, transform: 'translateY(-18px)' }, { opacity: 0, transform: `translateY(${f1(-h * .6)}px)` }], { duration: 240 });
+    await wait(150);
+  };
+  const garnish = async () => {
+    const lime = has('lime') ? ['#7fb53c', '#cfe892'] : has('oj') || has('orange') ? ['#ee8b23', '#fbc066'] : has('lemon') ? ['#efc531', '#fbe98a'] : null;
+    if (!straw && !lime) return;
+    say(t(straw ? 'mk_straw' : 'mk_garnish'));
+    if (straw) { gar.style.opacity = 1; anim(gar, [{ opacity: 0, transform: 'translateY(-70px) rotate(-6deg)' }, { opacity: 1, transform: 'none' }], { duration: 440, easing: 'cubic-bezier(.3,1.3,.6,1)' }); }
+    if (lime) { const r = Math.min(22, Math.max(14, Wg * .16)), rx = X(100 + g.hw(g.top)) - r * .35;
+      const el = add(`<div class="mk-wheel" style="left:${f1(rx - r)}px;top:${f1(rimY - r * .95)}px;width:${f1(r * 2)}px;height:${f1(r * 2)}px">${wheelSVG(lime)}</div>`);
+      anim(el, [{ opacity: 0, transform: 'translateY(-40px) rotate(-90deg) scale(.6)' }, { opacity: 1, transform: 'rotate(0) scale(1)' }], { duration: 460, delay: 120, easing: 'cubic-bezier(.3,1.3,.6,1)' }); }
+    await wait(480);
+  };
+  const run = async () => {
+    say(t('mk_start').replace('{n}', nm(it)));
+    await anim(og, [{ opacity: 0, transform: 'translateY(16px) scale(.96)' }, { opacity: 1, transform: 'none' }], { duration: 300 }); if (!alive()) return;
+    await wait(100); if (!alive()) return;
+    const shaken = it.glass === 'martini', P = Math.max(280, Math.min(400, 2000 / n)), iceL = lay.findIndex(l => l[0] === 'ice');
+    const N0 = { x: cx + inW * .12, y: rimY - 10 };
+    if (!shaken && iceL < 0) { say(t('mk_ice')); await ice(); if (!alive()) return; }
+    let shk = null, sw = 0, sh2 = 0, sx = 0, sy = 0;
+    if (shaken) { sw = Math.min(54, Math.max(40, Wg * .36)); sh2 = sw * 2.4; sx = Math.min(W - sw - 10, X(100 + g.hw(g.top)) + 16); sy = rimY + 16;
+      shk = add(`<div class="mk-shk" style="left:${f1(sx)}px;top:${f1(sy)}px;width:${f1(sw)}px;height:${f1(sh2)}px">${shakerSVG}</div>`);
+      await anim(shk, [{ opacity: 0, transform: 'translateY(30px)' }, { opacity: 1, transform: 'none' }], { duration: 300 }); }
+    const mud = has('mint') ? Math.max(...['sugar', 'mint', 'lemon', 'lime'].map(k => lay.findIndex(l => l[0] === k))) : -1;
+    const order = [...lay.keys()].filter(i => lay[i][0] !== 'grenadine').concat([...lay.keys()].filter(i => lay[i][0] === 'grenadine'));
+    for (const i of order) {
+      if (!alive()) return;
+      const k = lay[i][0], q = U.lq[k] || ['', '', '#ccc'];
+      if (k === 'ice') { say(t('mk_ice')); await ice(i); continue; }
+      say(`${L === 'en' ? q[1] : q[0]} · ${lay[i][1]} ml`);
+      if (shaken) await pourFrom(k, q[2], { x: sx + sw / 2, y: sy - 8 }, sy + 12, P * .55);
+      else if (k === 'lemon' || k === 'lime') await squeeze(k, i, P);
+      else if (k === 'sugar' || k === 'mint') await sprinkle(k, i, P);
+      else await pourFrom(k, q[2], N0, Y(geo[i].y1), P - 130, () => reveal(i, P - 40));
+      if (!alive()) return;
+      if (i === mud) await muddle();
+    }
+    if (shaken) {
+      say(t('mk_shake'));
+      await anim(shk, [{ transform: 'rotate(0)' }, { transform: 'translateY(-10px) rotate(-16deg)' }, { transform: 'translateY(4px) rotate(14deg)' }, { transform: 'translateY(-10px) rotate(-16deg)' }, { transform: 'translateY(4px) rotate(14deg)' }, { transform: 'translateY(-6px) rotate(-10deg)' }, { transform: 'rotate(0)' }], { duration: 660, easing: 'ease-in-out' });
+      if (!alive()) return;
+      say(t('mk_strain'));
+      const a = 128 * Math.PI / 180, ox = sh2 / 2 * Math.sin(a), oy = -sh2 / 2 * Math.cos(a), M = { x: cx + inW * .08, y: rimY - 12 };
+      const tx = (M.x - ox - sw / 2) - sx, ty = (M.y - oy - sh2 / 2) - sy;
+      await anim(shk, [{ transform: 'rotate(0)' }, { transform: `translate(${f1(tx * .5)}px,${f1(ty - 40)}px) rotate(40deg)` }, { transform: `translate(${f1(tx)}px,${f1(ty)}px) rotate(128deg)` }], { duration: 440 });
+      if (!alive()) return;
+      const sm = add(`<i class="mk-st" style="left:${f1(M.x)}px;top:${f1(M.y)}px;height:${f1(botY - M.y)}px;background:linear-gradient(180deg,${(U.lq[lay[n - 1][0]] || ['', '', '#c33'])[2]},${(U.lq[lay[0][0]] || ['', '', '#c33'])[2]})"></i>`);
+      anim(sm, [{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { duration: 140, easing: 'linear' });
+      for (let i = 0; i < n; i++) reveal(i, 240, i * 160);
+      await wait(n * 160 + 180);
+      sm.style.transformOrigin = '50% 100%'; anim(sm, [{ transform: 'scaleY(1)' }, { transform: 'scaleY(0)' }], { duration: 120, easing: 'linear' });
+      anim(shk, [{ opacity: 1, transform: `translate(${f1(tx)}px,${f1(ty)}px) rotate(128deg)` }, { opacity: 0, transform: `translate(${f1(tx - 50)}px,${f1(ty - 50)}px) rotate(60deg)` }], { duration: 300 });
+      await wait(200);
+    }
+    if (!alive()) return;
+    await garnish(); if (!alive()) return;
+    say(t('mk_done')); await wait(460);
+  };
+  run().then(() => { if (alive()) finish(); });
+  return done;
 }
 
 // ---------- kolači u čaši i kriške: trake fotografije se razmiču po slojevima
@@ -1494,5 +1651,5 @@ document.documentElement.lang = L === 'en' ? 'en' : 'sr';
 const h0 = location.hash.slice(1);
 if (h0.startsWith('g=') && grpOf(h0.slice(2))) { history.replaceState({}, '', location.pathname + location.search); render(); openGroup(h0.slice(2)); }
 else { render(); intro(); if (h0.length > 1) { const id = decodeURIComponent(h0); if (BY[id]) { history.replaceState({}, '', location.pathname + location.search); openItem(id); } } }
-let rzT; addEventListener('resize', () => { if (!CUR) return; const was = $('#st').classList.contains('open'); if (was) closeX(true); sizeStage(CUR); clearTimeout(rzT); if (was) rzT = setTimeout(() => autoSplit(CUR, 0), 250); });
+let rzT; addEventListener('resize', () => { if (!CUR) return; const was = $('#st').classList.contains('open'); if (was) closeX(true); sizeStage(CUR); clearTimeout(rzT); if (was) rzT = setTimeout(() => autoSplit(CUR, 0, false), 250); });
 })();
