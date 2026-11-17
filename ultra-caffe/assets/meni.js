@@ -48,6 +48,8 @@ const TX = {
     rev_m_ok: 'Hvala! Menadžer je dobio vašu poruku.', rev_m_demo: 'U demo verziji poruka se ne šalje.', rev_card_t: 'Svidelo vam se?', rev_card_d: 'Ocenite nas na Google-u ili pišite direktno menadžeru.',
     size: 'Zapremina', kind: 'Vrsta', origin: 'Vinarija i poreklo', served: 'Služi se', served_glass: 'u čaši', served_btl: 'u flaši', served_can: 'u limenci', per_glass: 'po čaši',
     mk_start: 'Šanker pravi: {n}', mk_ice: 'Led', mk_muddle: 'Gnječenje nane i šećera', mk_shake: 'Mućkanje sa ledom', mk_strain: 'Ceđenje u čašu', mk_straw: 'Slamčica i ukras', mk_garnish: 'Ukras', mk_done: 'Gotovo! Evo šta je u čaši', mk_skip: 'Preskoči', mk_again: 'Pogledaj kako se pravi',
+    tip_s: 'Savet šankera', tip_b: 'Savet bariste', mood_q: 'Šta vam se pije?', mood_n: 'pića', surprise: 'Iznenadi me', moods: { fresh: 'Osvežavajuće', warm: 'Toplo', sweet: 'Slatko', free: 'Bez alkohola', strong: 'Jako', party: 'Za proslavu' },
+    st_btn: 'Podeli u story', st_t: 'Story za Instagram', st_share: 'Podeli u story', st_save: 'Sačuvaj sliku', st_note: 'Označite @{ig} u storiju i lokal vas može podeliti.', st_saved: 'Slika je sačuvana. Dodajte je u story.', st_wait: 'Pravimo vašu sliku…',
     strength: 'Jačina', energy_d: 'Energija', glass_l: 'Čaša', lvl: ['Bez alkohola', 'Lagano', 'Blago', 'Srednje', 'Jako', 'Vrlo jako'], alc: 'alk.', lovers: 'Za koga je', profile: 'Profil ukusa',
     pf: ['Slatko', 'Kiselo', 'Gorko', 'Voćno', 'Osvežavajuće'], kc_note: 'Jačina i kalorije su okvirne, po porciji', kc_hot: ', bez dodatog šećera', kc_glass: 'za vino iz boce po čaši od 0,125 l', per_g125: 'po čaši',
     gl: { fildzan: 'Fildžan', mug: 'Staklena šolja', cup: 'Šolja', espresso: 'Espresso šoljica', latte: 'Visoka čaša', teacup: 'Šolja za čaj', jug: 'Bokal', jar: 'Teglica', bowl: 'Činijica', tall: 'Visoka čaša', highball: 'Highball čaša', rocks: 'Niska čaša', martini: 'Čaša za martini', wine: 'Vinska čaša', redwine: 'Čaša za crveno vino', balloon: 'Balon čaša', shot: 'Čašica', cokanj: 'Čokanjče', snifter: 'Čaša za konjak', stem: 'Pivska čaša na nozi', tulip: 'Tulip čaša', krigla: 'Krigla', irish: 'Irish coffee čaša' },
@@ -77,6 +79,8 @@ const TX = {
     rev_m_ok: 'Thank you! The manager has your message.', rev_m_demo: 'In this demo nothing is sent.', rev_card_t: 'Enjoyed it?', rev_card_d: 'Rate us on Google or write straight to the manager.',
     size: 'Size', kind: 'Type', origin: 'Winery & origin', served: 'Served', served_glass: 'by the glass', served_btl: 'in the bottle', served_can: 'in the can', per_glass: 'per glass',
     mk_start: 'The bartender is making: {n}', mk_ice: 'Ice', mk_muddle: 'Muddling mint and sugar', mk_shake: 'Shaking with ice', mk_strain: 'Straining into the glass', mk_straw: 'Straw and garnish', mk_garnish: 'Garnish', mk_done: 'Done! Here’s what’s inside', mk_skip: 'Skip', mk_again: 'Watch how it’s made',
+    tip_s: 'Bartender’s tip', tip_b: 'Barista’s tip', mood_q: 'What are you in the mood for?', mood_n: 'drinks', surprise: 'Surprise me', moods: { fresh: 'Refreshing', warm: 'Warming', sweet: 'Sweet', free: 'Alcohol-free', strong: 'Strong', party: 'To celebrate' },
+    st_btn: 'Share to story', st_t: 'Instagram story', st_share: 'Share to story', st_save: 'Save image', st_note: 'Tag @{ig} in your story and the venue can repost you.', st_saved: 'Image saved. Add it to your story.', st_wait: 'Making your image…',
     strength: 'Strength', energy_d: 'Energy', glass_l: 'Glass', lvl: ['Alcohol-free', 'Light', 'Mild', 'Medium', 'Strong', 'Very strong'], alc: 'ABV', lovers: 'Who it’s for', profile: 'Taste profile',
     pf: ['Sweet', 'Sour', 'Bitter', 'Fruity', 'Refreshing'], kc_note: 'Strength and calories are approximate, per serving', kc_hot: ', without added sugar', kc_glass: 'for bottled wine per 0.125 l glass', per_g125: 'per glass',
     gl: { fildzan: 'Turkish coffee cup', mug: 'Glass mug', cup: 'Cup', espresso: 'Espresso cup', latte: 'Tall glass', teacup: 'Teacup', jug: 'Jug', jar: 'Small jar', bowl: 'Small bowl', tall: 'Tall glass', highball: 'Highball glass', rocks: 'Rocks glass', martini: 'Martini glass', wine: 'Wine glass', redwine: 'Red wine glass', balloon: 'Balloon glass', shot: 'Shot glass', cokanj: 'Rakija glass', snifter: 'Snifter', stem: 'Stemmed beer glass', tulip: 'Tulip glass', krigla: 'Beer mug', irish: 'Irish coffee glass' },
@@ -90,6 +94,18 @@ const nf = n => Math.round(n).toLocaleString('sr-RS');
 const money = p => `<span class="pr num">${nf(p)}<small>RSD</small></span>`;
 const GC = { meso: '#D07A5C', riba: '#E9A07E', sir: '#E6C899', povrce: '#9DBB68', prilog: '#D9AE6A', testo: '#D9AE6A', sos: '#D49A78', slatko: '#E3A9BD', voce: '#D2577A' };
 const IC = {
+  shaker: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h5l.8 4h-6.6z"/><path d="M8.2 6.5h7.6l-1 14a1.5 1.5 0 0 1-1.5 1.4h-2.6a1.5 1.5 0 0 1-1.5-1.4z"/><path d="M8.6 11h6.8"/></svg>',
+  cup: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 9h12v4.5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16.5 10.5h1.7a2.3 2.3 0 0 1 0 4.6h-1.9M8 2.8c.9 1-.9 2 0 3.2M12 2.8c.9 1-.9 2 0 3.2M3 21h15"/></svg>',
+  ig: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>',
+  share: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12.5v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>',
+  dl: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5V15M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 19.5h15"/></svg>',
+  m_fresh: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5v19M3.8 7.2l16.4 9.6M3.8 16.8l16.4-9.6"/><path d="m9.5 4.3 2.5 2.2 2.5-2.2M9.5 19.7l2.5-2.2 2.5 2.2"/></svg>',
+  m_warm: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10h11v3.5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M15.5 11h1.6a2.3 2.3 0 0 1 0 4.6h-1.8M8 3c1 1.1-1 2.2 0 3.4M12 3c1 1.1-1 2.2 0 3.4"/></svg>',
+  m_sweet: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="9.5" r="6"/><path d="M7 9.5a3 3 0 0 1 6 0M14.3 13.8 20 21"/></svg>',
+  m_free: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8.2 5.2-13.2 14.5-14-.8 9.3-5.8 14-14.5 14z"/><path d="M5 19 12.5 11.5"/></svg>',
+  m_strong: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.2c-3.9 0-6.4-2.6-6.4-6.1 0-3.6 2.7-5.3 3.7-8.7 1.6 1.2 2.4 2.7 2.6 4.2 1-.9 1.6-2.2 1.6-3.6 2.6 1.9 5 5 5 8.1 0 3.5-2.6 6.1-6.5 6.1z"/></svg>',
+  m_party: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3.5 6 10a3 3 0 0 0 2.6 3.7l-.6 6.8M5.5 20.5h5M16 3.5l2 6.5a3 3 0 0 1-2.6 3.7l.6 6.8M13.5 20.5h5"/><path d="M6.7 7.4h3.5M13.8 7.4h3.5"/></svg>',
+  dice: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.6" cy="8.6" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.4" cy="8.6" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="8.6" cy="15.4" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.4" cy="15.4" r="1.1" fill="currentColor" stroke="none"/></svg>',
   food: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v6.5a2 2 0 0 0 2 2v9.5M5 3v5M9 3v5M17.5 3c-1.8 1-2.7 3.4-2.7 6.4h2.7V21"/></svg>',
   sweet: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12.5h12l-1.6 8H7.6z"/><path d="M5.4 12.5a6.6 5.6 0 0 1 13.2 0"/><path d="M12 4v2.6M9.5 16v2M14.5 16v2"/></svg>',
   drink: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4h15L12 12.5z"/><path d="M12 12.5V20M8 20.5h8M15.5 4l3-2"/></svg>',
@@ -365,7 +381,7 @@ function homeHTML() {
   <section class="house"><h2>${esc(t('house'))}</h2><div class="hs">${house.map(it => `<button class="hc" data-id="${it.id}">${it.kind === 'cake' ? `<span class="cu"><img src="${cutSrc(it)}" alt="" loading="lazy"></span>` : photoOf(it) ? `<img src="${img(photoOf(it)[0], 1)}" alt="" loading="lazy">` : `<span class="cu bd"><img src="img/i/${it.id}.webp" alt="" loading="lazy"></span>`}<span class="in"><b>${esc(nm(it))}</b>${it.var ? `<span class="pr num"><small>${t('from')} </small>${nf(Math.min(...it.var.map(v => v.price)))}<small>RSD</small></span>` : money(it.price)}</span></button>`).join('')}</div></section>
   <section class="gsec" id="g-hrana"><h2>${esc(t('g_hrana'))}</h2><div class="tiles">${sec('hrana')}</div></section>
   <section class="gsec" id="g-slatko"><h2>${esc(t('g_slatko'))}</h2><div class="tiles two">${sec('slatko')}</div></section>
-  <section class="gsec" id="g-pice"><h2>${esc(t('g_pice'))}</h2><div class="tiles">${sec('pice')}</div></section>
+  <section class="gsec" id="g-pice"><h2>${esc(t('g_pice'))}</h2>${moodHTML()}<div class="tiles">${sec('pice')}</div></section>
   <section class="revc"><div class="rv-h">${IC.g}<div><b class="num">${rate(g.r)}</b>${stars(g.r)}<small>${nf(g.n)} ${esc(t('reviews'))} · ${esc(locOf(LOC).short)}</small></div></div>
     <h2>${esc(t('rev_card_t'))}</h2><p>${esc(t('rev_card_d'))}</p>${revButtons('home')}</section>`;
 }
@@ -385,11 +401,137 @@ function renderHome() {
   $$('#main .hc').forEach(b => b.onclick = () => openItem(b.dataset.id));
   $('#helpBtn').onclick = openHelp;
   $$('#jump button').forEach(b => b.onclick = () => { jumpTo(b.dataset.to); hit('jump', b.dataset.to); });
+  bindMood();
   jumpSpy();
   bindRev(m);
   const q = $('#q'); q.oninput = () => { QRY = q.value; if (QRY.trim().length >= 2) showSearch(); else if (VIEW === 'search') { clearSearch(); if (history.state && history.state.q) history.replaceState({}, '', location.pathname + location.search); } };
   q.onkeydown = e => { if (e.key === 'Enter') q.blur(); };
 }
+
+// ---------------------------------------------------------------- raspoloženje: koje piće vam treba
+const MOODS = ['fresh', 'warm', 'sweet', 'free', 'strong', 'party'];
+const MOOD_IC = { fresh: 'm_fresh', warm: 'm_warm', sweet: 'm_sweet', free: 'm_free', strong: 'm_strong', party: 'm_party' };
+let MOOD = null, LASTX = null;
+const vibeTxt = d => d.vibe ? d.vibe[0].join(' ') : '';
+function moodScore(m, d) {
+  const c = d.cat, v = vibeTxt(d), p = d.prof || [0, 0, 0, 0, 0], skip = ['sokovi', 'vode', 'energetski', 'dodaci'].includes(c);
+  if (skip && m !== 'party') return 0;
+  if (m === 'fresh') return ['topli', 'kafe', 'cajevi', 'viski', 'rakije', 'zestoka'].includes(c) ? 0 : p[4] * 2 + ({ osvezavajuci: 5, cedjeni: 3, hladni: 2, kokteli: 1, piva: 1, desertna: 1 }[c] || 0) + (/Osve|Sveže|Citrus|Leto|Letnje|Refresh|Fresh|Summer/.test(v) ? 3 : 0);
+  if (m === 'warm') return ({ topli: 6, cajevi: 5, kafe: 3, viski: 1, rakije: 1 }[c] || 0) + (/Toplo|Zimsko|hladne|Warm|Winter/.test(v) ? 4 : 0) + (d.vibe && c === 'kafe' ? 2 : 0) + (/Courvoisier|Rémy|X\.O\.|Šljiva „18”/.test(d.sr) ? 2 : 0);
+  if (m === 'sweet') return p[0] * 2 + (/Slatko|Desert|Čokolada|Kremasto|Sweet|Dessert|Chocolate|Creamy/.test(v) ? 4 : 0) + ({ topli: 3, hladni: 3 }[c] || 0) + (/Baileys|čoko|Milk shake|Frape|Sweet honey|Kupinovo|Bermet/.test(d.sr) ? 3 : 0);
+  if (m === 'free') return d.str ? 0 : (d.vibe ? 4 : 0) + ({ osvezavajuci: 4, cedjeni: 3, hladni: 2, topli: 1 }[c] || 0) + (c === 'piva' ? 2 : 0);
+  if (m === 'strong') return d.str >= 4 ? d.str * 2 + (d.vibe ? 4 : 0) + (c === 'kokteli' ? 1.5 : 0) + (d.abv || 40) / 20 + (/Woodford|Single Barrel|Chivas|Rémy|Šljiva „18”/.test(d.sr) ? 2 : 0) : 0;
+  if (m === 'party') return (/Moët|Prosecco|Fresco/.test(d.sr) ? 7 : 0) + (/Za žurku|Za izlazak|Aperitiv|Energično|Party|Night out|Aperitivo|Energetic/.test(v) ? 4 : 0) + (c === 'kokteli' ? 2 : 0) + (/Somersby/.test(d.sr) ? 2 : 0);
+  return 0;
+}
+function moodList(m) {
+  const r = DR.map(d => ({ d, s: moodScore(m, d) })).filter(x => x.s >= 4).sort((a, b) => b.s - a.s || a.d.price - b.d.price).map(x => x.d);
+  if (m !== 'strong') return r.slice(0, 8);
+  // jako: naizmenično koktel pa žestina, da ima od svega
+  const k = r.filter(d => d.cat === 'kokteli'), z = r.filter(d => d.cat !== 'kokteli'), o = [];
+  while (o.length < 8 && (k.length || z.length)) { if (k.length) o.push(k.shift()); if (z.length && o.length < 8) o.push(z.shift()); }
+  return o;
+}
+function moodCard(d) {
+  const art = d.img ? `<img src="${img(d.img, 1)}" alt="" loading="lazy">` : d.pack ? `<img class="pk" src="${packSrc(d.pack)}" alt="" loading="lazy">` : glassSVG(d);
+  const sub = d.vibe ? d.vibe[L === 'en' ? 1 : 0][0] : isAlc(d) ? lvlTxt(d) : nm(U.dcats.find(c => c.id === d.cat) || {});
+  return `<button class="mc" data-id="${d.id}"><span class="im${d.img ? '' : d.pack ? ' pk' : ' gl'}">${art}</span><span class="tx"><b>${esc(nm(d))}</b><small>${esc(sub)}</small><em>${isAlc(d) ? meter(d.str) : ''}${d.kcal != null ? esc(kcTxt(d)) : ''}</em></span>${money(d.price)}</button>`;
+}
+function moodHTML() {
+  return `<div class="mood" id="mood"><p class="mood-q">${esc(t('mood_q'))}</p><div class="mood-ch">${MOODS.map(m => `<button type="button" data-m="${m}" aria-pressed="${MOOD === m}">${IC[MOOD_IC[m]]}<span>${esc(t('moods')[m])}</span></button>`).join('')}<button type="button" class="mx" id="moodX">${IC.dice}<span>${esc(t('surprise'))}</span></button></div><div class="mood-r" id="moodR"${MOOD ? '' : ' hidden'}>${MOOD ? moodList(MOOD).map(moodCard).join('') : ''}</div></div>`;
+}
+function bindMood() {
+  const box = $('#mood'); if (!box) return;
+  const bindCards = () => $$('#moodR .mc').forEach(b => b.onclick = () => openItem(b.dataset.id));
+  $$('.mood-ch button[data-m]', box).forEach(b => b.onclick = () => {
+    MOOD = MOOD === b.dataset.m ? null : b.dataset.m;
+    $$('.mood-ch button[data-m]', box).forEach(x => x.setAttribute('aria-pressed', x.dataset.m === MOOD));
+    const r = $('#moodR'); r.hidden = !MOOD; r.innerHTML = MOOD ? moodList(MOOD).map(moodCard).join('') : ''; r.scrollLeft = 0; bindCards();
+    if (MOOD) { r.classList.remove('in'); void r.offsetWidth; r.classList.add('in'); hit('mood', MOOD); }
+  });
+  $('#moodX').onclick = () => {
+    const pool = DR.filter(d => (d.vibe || d.cat === 'kokteli') && d.id !== LASTX);
+    const d = pool[Math.floor(Math.random() * pool.length)]; LASTX = d.id; hit('mood', 'surprise'); openItem(d.id);
+  };
+  bindCards();
+}
+
+// ---------------------------------------------------------------- Instagram story: slika 1080×1920 za podelu
+const loadImg = src => new Promise((res, rej) => { const im = new Image(); im.decoding = 'async'; im.onload = () => res(im); im.onerror = rej; im.src = src; });
+function storySrc(it) {
+  const ph = photoOf(it);
+  if (it.kind === 'drink') {
+    if (it.img) return { url: img(it.img), fit: 'cover' };
+    if (it.pack) return { url: packSrc(it.pack), fit: 'contain' };
+    const sv = glassSVG(it), vb = vbS(it).split(' ').map(Number), k = 1400 / vb[3];
+    return { url: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(sv.replace('<svg ', `<svg width="${Math.round(vb[2] * k)}" height="1400" `)), fit: 'contain' };
+  }
+  if (it.kind === 'cake') return { url: cutSrc(it), fit: 'contain' };
+  if (ph) return { url: img(ph[0]), fit: 'cover' };
+  return { url: `img/i/${it.id}.webp`, fit: 'contain' };
+}
+function rrect(x, X, Y, w, h, r) { if (x.roundRect) return x.roundRect(X, Y, w, h, r); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); }
+function wrapTxt(x, s, maxW) { const w = s.split(' '), out = []; let ln = ''; w.forEach(p => { const tryL = ln ? ln + ' ' + p : p; if (x.measureText(tryL).width > maxW && ln) { out.push(ln); ln = p; } else ln = tryL; }); if (ln) out.push(ln); return out; }
+async function storyBlob(it) {
+  try { await Promise.all([document.fonts.load('400 100px Gloock'), document.fonts.load('600 34px Rubik'), document.fonts.load('400 34px Rubik')]); } catch (e) { }
+  // Instagram prekriva gornjih ~250 i donjih ~300 px storija svojim dugmićima, pa sve važno stoji između
+  const W = 1080, H = 1920, PAD = 96, maxW = W - PAD * 2, FOOT = H - 318, NOC = '#0a1416';
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+  const bg = x.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#162b2f'); bg.addColorStop(.6, '#0d1a1c'); bg.addColorStop(1, NOC); x.fillStyle = bg; x.fillRect(0, 0, W, H);
+  // tekst: prvo izmeri, crta se posle slike
+  const en = L === 'en';
+  let desc = it.kind === 'drink' ? (it.opis ? it.opis[en ? 1 : 0] : it.note) : it.kind === 'cake' ? (en ? it.desc_en : it.desc) : descOf(it);
+  desc = desc ? desc.split(/(?<=[.!?])\s/)[0] : ''; if (desc) desc = desc[0].toUpperCase() + desc.slice(1);
+  x.font = '400 38px Rubik'; const dl = desc ? wrapTxt(x, desc, maxW).slice(0, 3) : [];
+  let nf2 = 112; x.font = `400 ${nf2}px Gloock`; let nl = wrapTxt(x, nm(it), maxW); if (nl.length > 2) { nf2 = 88; x.font = `400 ${nf2}px Gloock`; nl = wrapTxt(x, nm(it), maxW).slice(0, 3); }
+  const tags = it.kind === 'drink' && it.vibe ? it.vibe[en ? 1 : 0] : it.sig ? [t('sig')] : [];
+  const DL = 54, NL = nf2 * 1.04;
+  let y = FOOT - 74; const yD = y - (dl.length - 1) * DL; y = yD - (dl.length ? 64 : 10); const yN = y - (nl.length - 1) * NL; y = yN - nf2 * .9 - 26; const yT = y; const top = tags.length ? yT - 64 : yN - nf2;
+  // slika
+  const src = storySrc(it);
+  try {
+    const im = await loadImg(src.url), iw = im.naturalWidth || im.width, ih = im.naturalHeight || im.height;
+    if (src.fit === 'cover') {
+      const RH = top + 200, k = Math.max(W / iw, RH / ih), dw = iw * k, dh = ih * k; x.drawImage(im, (W - dw) / 2, (RH - dh) / 2, dw, dh);
+      const g = x.createLinearGradient(0, top - 460, 0, top + 170); g.addColorStop(0, 'rgba(10,20,22,0)'); g.addColorStop(.55, 'rgba(10,20,22,.72)'); g.addColorStop(1, NOC); x.fillStyle = g; x.fillRect(0, top - 460, W, 630); x.fillStyle = NOC; x.fillRect(0, top + 168, W, H);
+    } else {
+      const aT = 310, aB = top - 70, aH = aB - aT, cy = aT + aH / 2;
+      const glow = x.createRadialGradient(W / 2, cy + aH * .12, 30, W / 2, cy, aH * .62); glow.addColorStop(0, 'rgba(207,166,112,.30)'); glow.addColorStop(1, 'rgba(207,166,112,0)'); x.fillStyle = glow; x.fillRect(0, aT - 200, W, aH + 400);
+      const k = Math.min((W - 220) / iw, aH / ih), dw = iw * k, dh = ih * k;
+      x.save(); x.shadowColor = 'rgba(0,0,0,.5)'; x.shadowBlur = 56; x.shadowOffsetY = 30; x.drawImage(im, (W - dw) / 2, aB - dh - (aH - dh) * .35, dw, dh); x.restore();
+    }
+  } catch (e) { }
+  // vrh: blago zatamnjenje, da se Instagramovo ime profila čita i preko svetle fotografije
+  const tg = x.createLinearGradient(0, 0, 0, 380); tg.addColorStop(0, 'rgba(10,20,22,.55)'); tg.addColorStop(1, 'rgba(10,20,22,0)'); x.fillStyle = tg; x.fillRect(0, 0, W, 380);
+  // tekst
+  x.textBaseline = 'alphabetic';
+  if (tags.length) { x.font = '600 30px Rubik'; let tx = PAD; tags.forEach(tg2 => { const w = x.measureText(tg2).width + 44; if (tx + w > W - PAD) return; x.fillStyle = 'rgba(207,166,112,.16)'; x.strokeStyle = 'rgba(207,166,112,.6)'; x.lineWidth = 2; x.beginPath(); rrect(x, tx, yT - 40, w, 56, 28); x.fill(); x.stroke(); x.fillStyle = '#E6C899'; x.fillText(tg2, tx + 22, yT - 1); tx += w + 12; }); }
+  x.font = `400 ${nf2}px Gloock`; x.fillStyle = '#F1EADF'; nl.forEach((l, i) => x.fillText(l, PAD - 4, yN + i * NL));
+  x.font = '400 38px Rubik'; x.fillStyle = 'rgba(241,234,223,.84)'; dl.forEach((l, i) => x.fillText(l, PAD, yD + i * DL));
+  x.fillStyle = 'rgba(241,234,223,.16)'; x.fillRect(PAD, FOOT - 62, maxW, 2);
+  x.font = '600 34px Rubik'; x.fillStyle = '#CFA670'; x.fillText(`@${U.venue.instagram}`, PAD, FOOT);
+  // logo dole desno, uvek na tamnom, nikad preko fotografije
+  try { const lg = await loadImg('img/logo.webp'), lh = 66, lw = lg.naturalWidth * lh / lg.naturalHeight; x.drawImage(lg, W - PAD - lw, FOOT - 12 - lh / 2, lw, lh); }
+  catch (e) { x.font = '400 32px Rubik'; x.fillStyle = 'rgba(241,234,223,.62)'; const loc = `${U.venue.name}, ${U.venue.city}`; x.fillText(loc, W - PAD - x.measureText(loc).width, FOOT); }
+  return new Promise(res => cv.toBlob(b => res(b), 'image/jpeg', .92));
+}
+async function openStory(it) {
+  let el = $('#story'); if (!el) { el = document.createElement('div'); el.id = 'story'; el.className = 'story'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); document.body.appendChild(el); }
+  el.innerHTML = `<div class="st-in"><button class="st-x" id="stX" aria-label="${esc(t('close'))}">${IC.x}</button><h3>${esc(t('st_t'))}</h3><div class="st-pv"><span class="st-w">${esc(t('st_wait'))}</span></div><div class="st-a"></div><p class="st-n">${esc(t('st_note').replace('{ig}', U.venue.instagram))}</p></div>`;
+  void el.offsetWidth; el.classList.add('on');
+  const onKey = e => { if (e.key === 'Escape') { e.preventDefault(); close(); } };
+  const close = () => { document.removeEventListener('keydown', onKey); el.classList.remove('on'); setTimeout(() => { if (!el.classList.contains('on')) el.innerHTML = ''; }, 400); const sb = $('#stBtn'); if (sb) sb.focus({ preventScroll: true }); };
+  $('#stX').onclick = close; el.onclick = e => { if (e.target === el) close(); }; document.addEventListener('keydown', onKey); $('#stX').focus({ preventScroll: true });
+  hit('story', it.id);
+  const blob = await storyBlob(it); if (!blob || !el.classList.contains('on')) return;
+  const url = URL.createObjectURL(blob), fn = `ultra-caffe-${(it.id || 'meni').replace(/[^a-z0-9-]/gi, '')}.jpg`, file = new File([blob], fn, { type: 'image/jpeg' });
+  $('.st-pv', el).innerHTML = `<img src="${url}" alt="${esc(nm(it))}">`;
+  const canShare = navigator.canShare && navigator.canShare({ files: [file] });
+  $('.st-a', el).innerHTML = `${canShare ? `<button class="btn btn-m" id="stShare">${IC.share}${esc(t('st_share'))}</button>` : ''}<a class="btn ${canShare ? 'btn-o' : 'btn-m'}" id="stSave" href="${url}" download="${fn}">${IC.dl}${esc(t('st_save'))}</a>`;
+  const sh = $('#stShare'); if (sh) sh.onclick = async () => { try { await navigator.share({ files: [file] }); } catch (e) { } };
+  $('#stSave').onclick = () => setTimeout(() => toastMsg(t('st_saved')), 300);
+}
+function toastMsg(m) { const el = $('#toast'); if (!el) return; el.innerHTML = `${IC.dl}<span>${esc(m)}</span>`; el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 3400); }
 
 // ---------------------------------------------------------------- brzi skok: Hrana · Slatko · Piće
 let JMP = 0, JTO = null;
@@ -589,7 +731,7 @@ function infoHTML(it) {
   if (canMake(it)) h += `<button type="button" class="mk-again" id="mkAgain">${IC.play}<span>${esc(t('mk_again'))}</span></button>`;
   if (d) h += `<div class="desc">${esc(d)}</div>`;
   if (it.kind === 'drink' && it.opis) h += `<p class="opis">${esc(it.opis[L === 'en' ? 1 : 0])}</p>`;
-  if (!it.var) h += `<div class="bigpr num">${nf(pr)}<small>RSD${it.unit === 'kg' ? ' · ' + t('per_kg') : ''}</small></div>`;
+  h += `<div class="prrow">${it.var ? '' : `<div class="bigpr num">${nf(pr)}<small>RSD${it.unit === 'kg' ? ' · ' + t('per_kg') : ''}</small></div>`}<button type="button" class="stbtn" id="stBtn">${IC.ig}<span>${esc(t('st_btn'))}</span></button></div>`;
   h += `</div>`;
   if (it.var) h += `<div class="vars" role="radiogroup">${it.var.map((v, i) => `<button data-v="${i}" aria-pressed="${i === VAR}"><span>${esc(nm(v))}</span>${money(v.price)}</button>`).join('')}</div>`;
   if (it.kind === 'dish' || (it.kind === 'cake' && comps.length)) {
@@ -611,6 +753,7 @@ function infoHTML(it) {
     else if (it.pack) facts.push([t('served'), esc(/Red Bull|Energy|Guarana/.test(it.sr) ? t('served_can') : t('served_btl'))]);
     if (facts.length < 3) facts.push([t('kind'), esc(nm(cat))]);
     h += `<div class="facts dk dx">${facts.slice(0, 3).map(([k, v, c]) => `<div${c ? ` class="${c}"` : ''}><span>${esc(k)}</span>${/^<|^<i/.test(v) ? v : `<b>${v}</b>`}</div>`).join('')}</div>`;
+    if (it.tip) h += `<div class="tipc">${it.tipb ? IC.cup : IC.shaker}<div><b>${esc(t(it.tipb ? 'tip_b' : 'tip_s'))}</b><p>${esc(it.tip[L === 'en' ? 1 : 0])}</p></div></div>`;
     if (it.prof || it.lovers) h += `<div class="card taste">${it.prof ? `<h3>${t('profile')}</h3><div class="prof">${t('pf').map((n, i) => `<div><span>${esc(n)}</span><s style="--w:${Math.round(it.prof[i] / 3 * 100)}%"></s></div>`).join('')}</div>` : ''}${it.lovers ? `<p class="lov"><b>${t('lovers')}</b>${esc(it.lovers[L === 'en' ? 1 : 0])}</p>` : ''}</div>`;
     if (it.layers && it.layers.length > 1) {
       const tot2 = it.layers.reduce((a, l) => a + l[1], 0);
@@ -639,6 +782,7 @@ function bindDish(it) {
 function bindInfo(it) {
   $$('#info .vars button').forEach(b => b.onclick = () => { VAR = +b.dataset.v; const open = $('#st').classList.contains('open'); $('#info').innerHTML = infoHTML(it); bindInfo(it); updAdd(it); if (open) { closeX(true); setTimeout(() => openX(it), 60); } else if (!photoOf(it) && it.mode === 'plate') $('#ph').innerHTML = plateArt(it, curComps(it)); else if (stageHero(it).illus) prepIll(it); });
   $$('#info [data-art]').forEach(el => { el.innerHTML = K.top(el.dataset.art, +el.dataset.seed).replace('<svg ', '<svg width="34" height="34" '); });
+  const sb = $('#stBtn'); if (sb) sb.onclick = () => openStory(it);
   const ma = $('#mkAgain'); if (ma) ma.onclick = () => { const sc = $('#dish .scroll'); if (sc) sc.scrollTo({ top: 0, behavior: 'smooth' }); clearTimeout(autoT); closeX(true); setTimeout(() => { if (CUR === it) openX(it, true); }, 120); };
   $$('#info .pc').forEach(b => b.onclick = () => { history.replaceState({ dish: b.dataset.id, g: (history.state || {}).g }, '', '#' + encodeURIComponent(b.dataset.id)); openItem(b.dataset.id, false); hit('pair', b.dataset.id); });
 }

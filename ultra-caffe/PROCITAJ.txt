@@ -22,6 +22,12 @@ Kako otvoriti na računaru:
          pa se pokažu sastojci. „Preskoči” ili dodir preskače, „Pogledaj kako se pravi” ponavlja.
   Pića: jačina (merač i okvirni % alkohola), kalorije po porciji, a kokteli i kućni specijaliteti i vibe,
          kratak opis, „za koga je” i profil ukusa. Vrednosti su okvirne (piše i na stranici).
+  Savet šankera / bariste: kratak savet uz skoro svako piće (kako se pije, na kojoj temperaturi, uz šta).
+  Piće po raspoloženju: ispod naslova „Piće” gost bira Osvežavajuće, Toplo, Slatko, Bez alkohola, Jako
+         ili Za proslavu i dobije do 8 predloga; „Iznenadi me” otvara nasumičan koktel ili specijalitet.
+  Story za Instagram: dugme „Podeli u story” kod svakog jela i pića pravi sliku 1080×1920 (fotografija ili
+         digitalni prikaz, naziv, opis, @ultra_caffe). Na telefonu ide pravo u Instagram, na računaru se sačuva.
+         Tekst i logo stoje van delova koje Instagram prekriva svojim dugmićima.
   Naslovne slike: gde god lokal ima svoju fotografiju, ona je naslovna; tek kad se stavka otvori,
          pretvori se u digitalni prikaz, a njihova fotografija ostaje zatamnjena u pozadini.
   Fotografije koktela Cuba libre, Sex on the beach, Long Island, Tequila sunrise, Blue lagoon, Aperol spritz,
