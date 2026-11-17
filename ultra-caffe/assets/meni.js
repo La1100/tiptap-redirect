@@ -562,6 +562,7 @@ function openX(it) {
   let r;
   if (it.kind === 'drink') r = buildOrbs(xr, it, W, pr);
   else if (it.mode === 'bands') r = buildBands(xr, it, comps, W, pr);
+  else if (it.mode === 'layers') r = buildLayered(xr, it, comps, W, pr);
   else if (it.mode === 'halves') r = buildHalves(xr, it, comps, W, pr);
   else if (it.mode === 'pops') r = buildPops(xr, it, comps, W, pr);
   else if (it.mode === 'pizza') r = buildPizza(xr, it, comps, W, pr);
@@ -856,6 +857,135 @@ function buildBands(xr, it, comps, W, pr) {
     back() {
       lbs.forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); }); paths.forEach(p => { p.style.transitionDelay = '0ms'; p.classList.remove('on'); }); tot.classList.remove('on');
       els.forEach((el, i) => { el.style.transitionDelay = (i * 25) + 'ms'; el.style.transform = at; });
+    }
+  };
+}
+
+// ---------- kolači u čaši i kriške: nacrtana čaša (ili tanjirić) iz koje izlaze slojevi
+const PK = { fruit_fill: ['#b3213d', 'berries'], cheese_cream: ['#f4ede0', 'cream'], plazma: ['#c38c52', 'crumb'], puff: ['#e6c48a', 'puff'], cherry_fill: ['#7a1023', 'cherries'],
+  vanilla_cream: ['#f5e2a2', 'cream'], cocoa: ['#4b2a17', 'dust'], mascarpone_cream: ['#f3e9d4', 'cream'], ladyfinger: ['#b5743c', 'sponge'], choc_mousse: ['#5a2f1e', 'mousse'],
+  brownie: ['#3a2113', 'crumb'], fruit: ['#d9443d', 'fruitmix'], vanilla_mousse: ['#f6e9c4', 'cream'], biscuit_base: ['#c28a4c', 'crumb'], whip: ['#fbf6ec', 'whip'],
+  nut_crust: ['#a0703f', 'grain'], milk_choc: ['#7a4a2a', 'glaze'], nougat: ['#ad7746', 'cream'], choc_cream: ['#6a3c22', 'cream'], choc_sponge: ['#4a2a18', 'sponge'],
+  dark_choc: ['#2d190f', 'glaze'], apricot: ['#e8982a', 'jam'], caramel: ['#c27b2b', 'glaze'], milk_sponge: ['#f2dca8', 'sponge'], peanut: ['#c8955a', 'cream'], dates: ['#5a3420', 'crumb'] };
+const pkOf = c => { const v = PK[c.a] || ['#c9a06a', 'cream']; return { c: v[0], k: v[1] }; };
+const shade = (hex, k) => { const n = parseInt(hex.slice(1), 16), f = v => Math.max(0, Math.min(255, Math.round(k >= 0 ? v + (255 - v) * k : v * (1 + k)))); return '#' + [n >> 16, (n >> 8) & 255, n & 255].map(v => f(v).toString(16).padStart(2, '0')).join(''); };
+function sideTex(k, c, x, y, w, h, R) {
+  let s = ''; const n = Math.max(6, Math.round(w * h / 230));
+  if (k === 'sponge') for (let i = 0; i < n; i++) s += `<ellipse cx="${f1(x + R() * w)}" cy="${f1(y + R() * h)}" rx="${f1(1.4 + R() * 3)}" ry="${f1(1 + R() * 2)}" fill="${shade(c, -.38)}" opacity=".55"/>`;
+  if (k === 'crumb') for (let i = 0; i < n; i++) s += `<circle cx="${f1(x + R() * w)}" cy="${f1(y + R() * h)}" r="${f1(1.2 + R() * 2.6)}" fill="${R() > .5 ? shade(c, .35) : shade(c, -.35)}" opacity=".7"/>`;
+  if (k === 'grain') for (let i = 0; i < n; i++) { const gx = x + R() * w, gy = y + R() * h; s += R() > .2 ? `<ellipse cx="${f1(gx)}" cy="${f1(gy)}" rx="3.4" ry="2" fill="#e3c38c" opacity=".85" transform="rotate(${f1(R() * 180)} ${f1(gx)} ${f1(gy)})"/>` : `<path d="M${f1(gx)} ${f1(gy)}q3 -4 6 0t6 0" stroke="#6b3f1f" stroke-width="2.4" fill="none"/>`; }
+  if (k === 'cream' || k === 'mousse' || k === 'whip') for (let i = 0; i < 3; i++) { const yy = y + h * (.25 + i * .25); s += `<path d="M${f1(x)} ${f1(yy)}q${f1(w / 8)} -3 ${f1(w / 4)} 0t${f1(w / 4)} 0t${f1(w / 4)} 0t${f1(w / 4)} 0" stroke="#fff" stroke-opacity="${k === 'mousse' ? .07 : .16}" stroke-width="1.4" fill="none"/>`; }
+  if (k === 'mousse') for (let i = 0; i < n * .6; i++) s += `<circle cx="${f1(x + R() * w)}" cy="${f1(y + R() * h)}" r="${f1(.8 + R() * 1.4)}" fill="#fff" opacity=".1"/>`;
+  if (k === 'puff') for (let yy = y + 2; yy < y + h; yy += 3.2) s += `<path d="M${f1(x)} ${f1(yy)}q${f1(w / 6)} ${f1(R() * 1.6 - .8)} ${f1(w / 3)} 0t${f1(w / 3)} 0t${f1(w / 3)} 0" stroke="${shade(c, -.28)}" stroke-width=".9" fill="none" opacity=".75"/>`;
+  if (k === 'berries' || k === 'cherries') for (let i = 0; i < n * .7; i++) s += `<circle cx="${f1(x + R() * w)}" cy="${f1(y + R() * h)}" r="${f1(2.4 + R() * 3.4)}" fill="${['#5b1a5e', '#9e1235', '#2e1847', '#c0263f'][Math.floor(R() * 4)]}" opacity=".85"/>`;
+  if (k === 'fruitmix') for (let i = 0; i < n * .6; i++) s += `<rect x="${f1(x + R() * w - 3)}" y="${f1(y + R() * h - 3)}" width="${f1(5 + R() * 5)}" height="${f1(4 + R() * 4)}" rx="1.5" fill="${['#e2392f', '#79b33c', '#f3a12a', '#3b2a6e', '#f4d35e'][Math.floor(R() * 5)]}" opacity=".9"/>`;
+  if (k === 'jam' || k === 'glaze') s += `<rect x="${f1(x)}" y="${f1(y + h * .18)}" width="${f1(w)}" height="${f1(Math.max(1.2, h * .12))}" fill="#fff" opacity=".16"/>`;
+  return s;
+}
+function topTex(k, c, R) {
+  let s = ''; const P = () => { const a = R() * 6.283, r = Math.sqrt(R()) * .92; return [100 + Math.cos(a) * 96 * r, 30 + Math.sin(a) * 30 * r]; };
+  if (k === 'berries' || k === 'cherries') for (let i = 0; i < 26; i++) { const [x, y] = P(), r = k === 'cherries' ? 7 + R() * 3 : 4 + R() * 4; s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="${k === 'cherries' ? '#6d0c1f' : ['#5b1a5e', '#9e1235', '#2e1847', '#c0263f', '#3f2a7a'][Math.floor(R() * 5)]}"/><circle cx="${f1(x - r * .3)}" cy="${f1(y - r * .35)}" r="${f1(r * .3)}" fill="#fff" opacity=".35"/>`; }
+  if (k === 'fruitmix') for (let i = 0; i < 16; i++) { const [x, y] = P(), t2 = Math.floor(R() * 4); s += t2 === 0 ? `<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="10" ry="5" fill="#e2392f"/><ellipse cx="${f1(x)}" cy="${f1(y)}" rx="5" ry="2.4" fill="#f6a3a0"/>` : t2 === 1 ? `<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="10" ry="5" fill="#7cb342"/><ellipse cx="${f1(x)}" cy="${f1(y)}" rx="3" ry="1.5" fill="#f3f0c0"/>` : t2 === 2 ? `<circle cx="${f1(x)}" cy="${f1(y)}" r="4.5" fill="#2f2466"/>` : `<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="8" ry="4.4" fill="#f4a62a"/>`; }
+  if (k === 'dust') for (let i = 0; i < 260; i++) { const [x, y] = P(); s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.6 + R() * 1.2)}" fill="${R() > .5 ? '#2a170c' : '#6b4127'}" opacity=".8"/>`; }
+  if (k === 'crumb' || k === 'grain' || k === 'sponge') for (let i = 0; i < 60; i++) { const [x, y] = P(); s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(1 + R() * 2.4)}" fill="${R() > .5 ? shade(c, .3) : shade(c, -.32)}" opacity=".75"/>`; }
+  if (k === 'puff') for (let i = 0; i < 120; i++) { const [x, y] = P(); s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.7 + R() * 1.3)}" fill="#fff" opacity=".85"/>`; }
+  if (k === 'whip') for (let i = 0; i < 9; i++) { const a = i / 9 * 6.283, x = 100 + Math.cos(a) * 66, y = 30 + Math.sin(a) * 19; s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="13" fill="#fffaf0"/><circle cx="${f1(x - 4)}" cy="${f1(y - 4)}" r="4" fill="#fff"/>`; }
+  if (k === 'cream' || k === 'mousse') s += `<path d="M40 30q30 -14 60 0t60 0M60 38q20 -8 40 0t40 0" stroke="#fff" stroke-opacity=".22" stroke-width="2" fill="none"/>`;
+  if (k === 'jam' || k === 'glaze') s += `<ellipse cx="78" cy="22" rx="40" ry="6" fill="#fff" opacity=".22"/>`;
+  return s;
+}
+// jedan sloj kao 3D disk (round) ili kocka (box); širina 200 jedinica, tU = debljina
+function slabSVG(c, i, tU, shape) {
+  const st = pkOf(c), col = st.c, id = 'sl' + (++GID), R = RNG(17 + i * 11), ry = 30;
+  const defs = `<linearGradient id="${id}s" x1="0" x2="1"><stop offset="0" stop-color="${shade(col, -.4)}"/><stop offset=".3" stop-color="${col}"/><stop offset=".56" stop-color="${shade(col, .12)}"/><stop offset="1" stop-color="${shade(col, -.45)}"/></linearGradient><radialGradient id="${id}t" cx=".42" cy=".38" r=".75"><stop offset="0" stop-color="${shade(col, .22)}"/><stop offset="1" stop-color="${shade(col, -.04)}"/></radialGradient>`;
+  if (shape === 'box') {
+    const dy = 34, H = dy + tU + 4, fr = `M4 ${dy}H150V${dy + tU}H4Z`, rt = `M150 ${dy}L196 2V${2 + tU}L150 ${dy + tU}Z`, tp = `M4 ${dy}L50 2H196L150 ${dy}Z`;
+    return { h: H, svg: `<svg viewBox="0 0 200 ${f1(H)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>${defs}<clipPath id="${id}f"><path d="${fr}"/></clipPath><clipPath id="${id}p"><path d="${tp}"/></clipPath></defs>
+      <path d="${rt}" fill="${shade(col, -.32)}"/><path d="${fr}" fill="url(#${id}s)"/><g clip-path="url(#${id}f)">${sideTex(st.k, col, 4, dy, 146, tU, R)}</g><path d="${tp}" fill="url(#${id}t)"/><g clip-path="url(#${id}p)" transform="translate(0 0)">${topTex(st.k, col, R).replace(/cy="([\d.]+)"/g, (m, v) => `cy="${f1(+v * 1.1)}"`)}</g><path d="M4 ${dy}H150L196 2" stroke="#fff" stroke-opacity=".3" stroke-width="1.3" fill="none"/></svg>` };
+  }
+  const H = 2 * ry + tU + 4, side = `M4 ${ry}V${f1(ry + tU)}A96 ${ry} 0 0 0 196 ${f1(ry + tU)}V${ry}A96 ${ry} 0 0 1 4 ${ry}Z`;
+  return { h: H, svg: `<svg viewBox="0 0 200 ${f1(H)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>${defs}<clipPath id="${id}c"><path d="${side}"/></clipPath><clipPath id="${id}e"><ellipse cx="100" cy="${ry}" rx="96" ry="${ry}"/></clipPath></defs>
+    <path d="${side}" fill="url(#${id}s)"/><g clip-path="url(#${id}c)">${sideTex(st.k, col, 4, ry, 192, tU + ry, R)}</g><ellipse cx="100" cy="${ry}" rx="96" ry="${ry}" fill="url(#${id}t)"/><g clip-path="url(#${id}e)">${topTex(st.k, col, R)}</g><path d="M6 ${ry}A94 ${ry - 1} 0 0 0 194 ${ry}" stroke="#fff" stroke-opacity=".32" stroke-width="1.4" fill="none"/></svg>` };
+}
+const VS = {
+  jar: { clip: 'M56 168H144V258Q144 266 136 266H64Q56 266 56 258Z', top: 174, bot: 266, fill: .9, rim: 160, hw: () => 44,
+    back: '<ellipse cx="100" cy="280" rx="90" ry="10" fill="rgba(241,234,223,.07)" stroke="rgba(241,234,223,.32)" stroke-width="1.6"/><ellipse cx="100" cy="280" rx="62" ry="6" fill="none" stroke="rgba(241,234,223,.16)"/><path d="M50 160V258Q50 274 66 274H134Q150 274 150 258V160Z" fill="rgba(255,255,255,.045)"/>',
+    front: '<path d="M50 160V258Q50 274 66 274H134Q150 274 150 258V160" fill="none" stroke="rgba(241,234,223,.62)" stroke-width="2.6"/><ellipse cx="100" cy="160" rx="50" ry="7" fill="none" stroke="rgba(241,234,223,.55)" stroke-width="2"/><path d="M59 178V250" stroke="#fff" stroke-opacity=".3" stroke-width="4" stroke-linecap="round"/><path d="M140 182V232" stroke="#fff" stroke-opacity=".14" stroke-width="2.4" stroke-linecap="round"/><rect x="54" y="266" width="92" height="6" rx="3" fill="rgba(255,255,255,.16)"/>',
+    lid: '<path d="M24 276C20 148 44 72 100 64C156 72 180 148 176 276" fill="rgba(255,255,255,.055)" stroke="rgba(241,234,223,.58)" stroke-width="2.4"/><ellipse cx="100" cy="276" rx="76" ry="9" fill="none" stroke="rgba(241,234,223,.4)" stroke-width="1.6"/><path d="M40 238C38 162 56 104 90 86" fill="none" stroke="#fff" stroke-opacity=".32" stroke-width="5" stroke-linecap="round"/><rect x="94" y="50" width="12" height="16" rx="3" fill="rgba(241,234,223,.5)"/><circle cx="100" cy="46" r="10" fill="rgba(241,234,223,.6)"/><circle cx="97" cy="43" r="3" fill="#fff" opacity=".7"/>' },
+  coupe: { clip: 'M34 112Q34 186 100 188Q166 186 166 112Z', top: 114, bot: 186, fill: .98, rim: 108, hw: y => 64 * Math.sqrt(Math.max(0, 1 - Math.pow((y - 112) / 76, 2))),
+    back: '<path d="M96 196C97 222 97 246 90 262H110C103 246 103 222 104 196Z" fill="rgba(241,234,223,.2)"/><ellipse cx="100" cy="266" rx="48" ry="8" fill="rgba(241,234,223,.1)" stroke="rgba(241,234,223,.45)" stroke-width="1.8"/><path d="M28 108Q28 194 100 196Q172 194 172 108Z" fill="rgba(255,255,255,.045)"/>',
+    front: '<path d="M28 108Q28 194 100 196Q172 194 172 108" fill="none" stroke="rgba(241,234,223,.62)" stroke-width="2.6"/><ellipse cx="100" cy="108" rx="72" ry="10" fill="none" stroke="rgba(241,234,223,.55)" stroke-width="2"/><path d="M42 124Q46 168 76 182" stroke="#fff" stroke-opacity=".32" stroke-width="4" fill="none" stroke-linecap="round"/>' },
+  tulip: { clip: 'M52 70C50 150 62 196 100 200C138 196 150 150 148 70Z', top: 76, bot: 198, fill: .92, rim: 64, hw: y => y < 120 ? 47 : 47 * Math.sqrt(Math.max(0, 1 - Math.pow((y - 120) / 82, 2))),
+    back: '<path d="M96 208C97 228 97 248 90 262H110C103 248 103 228 104 208Z" fill="rgba(241,234,223,.2)"/><ellipse cx="100" cy="266" rx="46" ry="8" fill="rgba(241,234,223,.1)" stroke="rgba(241,234,223,.45)" stroke-width="1.8"/><path d="M46 64C44 154 58 206 100 210C142 206 156 154 154 64Z" fill="rgba(255,255,255,.045)"/>',
+    front: '<path d="M46 64C44 154 58 206 100 210C142 206 156 154 154 64" fill="none" stroke="rgba(241,234,223,.62)" stroke-width="2.6"/><ellipse cx="100" cy="64" rx="54" ry="9" fill="none" stroke="rgba(241,234,223,.55)" stroke-width="2"/><path d="M56 84C55 140 62 172 78 190" stroke="#fff" stroke-opacity=".32" stroke-width="4" fill="none" stroke-linecap="round"/>' },
+  plate: { rim: 252, back: '<ellipse cx="100" cy="262" rx="98" ry="22" fill="#000" opacity=".35"/><ellipse cx="100" cy="256" rx="98" ry="22" fill="#e9e1d2"/><ellipse cx="100" cy="256" rx="72" ry="15" fill="none" stroke="#cfc3ab" stroke-width="1.6"/><ellipse cx="100" cy="256" rx="94" ry="20" fill="none" stroke="#b9975f" stroke-width="1.2" opacity=".6"/>', front: '' }
+};
+function vesselGeo(v, comps) {
+  const V = VS[v], lay = comps.slice().reverse(), tot = lay.reduce((a, c) => a + c.g, 0) || 1, H = (V.bot - V.top) * V.fill;
+  let hs = lay.map(c => Math.max(9, H * c.g / tot)); const k = H / hs.reduce((a, b) => a + b, 0); hs = hs.map(h => h * k);
+  let y = V.bot; const geo = hs.map(h => { const r = { y0: y - h, y1: y, h }; y -= h; return r; });
+  return { V, lay, geo };
+}
+function vesselSVG(it, comps, withLid) {
+  const v = it.x.v, V = VS[v], id = 'vs' + (++GID);
+  if (v === 'plate') return `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${V.back}</svg>`;
+  const { lay, geo } = vesselGeo(v, comps), R = RNG(5);
+  const bands = lay.map((c, j) => { const st = pkOf(c), g = geo[j]; return `<g class="vb" data-j="${j}"><rect x="0" y="${f1(g.y0)}" width="200" height="${f1(g.h + .5)}" fill="${st.c}"/><rect x="0" y="${f1(g.y0)}" width="200" height="${f1(g.h + .5)}" fill="url(#${id}g)"/>${sideTex(st.k, st.c, 30, g.y0, 140, g.h, R)}<rect x="0" y="${f1(g.y0)}" width="200" height="1.4" fill="#fff" opacity=".2"/></g>`; }).join('');
+  return `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><clipPath id="${id}"><path d="${V.clip}"/></clipPath><linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset=".3" stop-color="#000" stop-opacity="0"/><stop offset=".6" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></linearGradient></defs>${V.back}<g clip-path="url(#${id})">${bands}</g>${V.front}</svg>`;
+}
+function buildLayered(xr, it, comps, W, pr) {
+  const v = it.x.v, V = VS[v], glass = v !== 'plate', n = comps.length;
+  const Wg = Math.min(W * .44, v === 'plate' ? 220 : 190), kk = Wg / 200, PW = Wg * (glass ? .86 : .8), x0 = Math.max(12, W * .04), gx = x0, px = gx + (Wg - PW) / 2;
+  const geo = glass ? vesselGeo(v, comps).geo : null;
+  // debljina slojeva prema gramaži
+  const tot = comps.reduce((a, c) => a + c.g, 0) || 1, tpx = comps.map(c => Math.max(13, Math.min(54, 150 * c.g / tot)));
+  const S = comps.map((c, i) => slabSVG(c, i, tpx[i] * 200 / PW, it.x.sh)), hpx = S.map(s => s.h * PW / 200);
+  const top0 = 88, gap = glass ? 16 : 14;
+  const yE = []; let y = top0; comps.forEach((c, i) => { yE.push(y); y += hpx[i] + gap; });
+  const colEnd = y - gap, rimY = colEnd + (glass ? 40 : 26), gy = rimY - V.rim * kk, Hv = 300 * kk;
+  const lx = gx + Wg + 18, lw = W - lx - 12;
+  const items = comps.map(c => Object.assign({}, c, { col: pkOf(c).c }));
+  const LP = labelsRight(xr, items, yE.map((yy, i) => yy + hpx[i] * .55), lx, lw);
+  const H = Math.max(gy + Hv + 30, LP.bottom + 40) + 46;
+  let h = `<div class="vx" style="left:${f1(gx)}px;top:${f1(gy)}px;width:${f1(Wg)}px;height:${f1(Hv)}px">${vesselSVG(it, comps)}</div>`;
+  if (glass && V.lid && it.x.lid) h += `<div class="vx vlid" style="left:${f1(gx)}px;top:${f1(gy)}px;width:${f1(Wg)}px;height:${f1(Hv)}px"><svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${V.lid}</svg></div>`;
+  h += comps.map((c, i) => `<div class="sl" style="width:${f1(PW)}px;z-index:${30 + n - i}">${S[i].svg}</div>`).join('');
+  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${comps.map((c, i) => leader(px + PW * .93, yE[i] + hpx[i] * .55, lx, LP.anchors[i])).join('')}</svg>`;
+  h += items.map((c, i) => lab(c, lx, LP.tops[i], lw)).join('') + totLine(it, H - 50);
+  xr.innerHTML = h;
+  const vx = $('.vx', xr), lid = $('.vlid', xr), sl = $$('.sl', xr), lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), tot2 = $('.xr-tot', xr), bands = $$('.vb', xr);
+  // početni položaj slojeva: u čaši (traka) ili složeni na tanjiriću
+  const start = comps.map((c, i) => {
+    if (glass) { const j = n - 1 - i, g = geo[j], cy = gy + (g.y0 + g.h / 2) * kk, bw = 2 * V.hw(g.y0 + g.h / 2) * kk, sc = Math.max(.2, bw / PW); return `translate(${f1(gx + Wg / 2 - PW / 2)}px,${f1(cy - hpx[i] * sc / 2)}px) scale(${sc.toFixed(3)})`; }
+    let yy = rimY - 4; for (let k = n - 1; k > i; k--) yy -= hpx[k] - (it.x.sh === 'box' ? 30 : 56) * PW / 200 * .98; return `translate(${f1(px)}px,${f1(yy - hpx[i])}px)`;
+  });
+  sl.forEach((el, i) => { el.style.transition = 'none'; el.style.opacity = glass ? 0 : 0; el.style.transform = start[i]; });
+  vx.style.opacity = 0; vx.style.transform = 'scale(.94)'; if (lid) { lid.style.opacity = 0; }
+  const s = Wg / Math.max(pr.w, 1) * .92, tx = gx + Wg / 2 - (pr.x + pr.w / 2) * s, ty = gy + Hv * .55 - (pr.y + pr.h / 2) * s;
+  const T = [];
+  const at = (ms, fn) => T.push(setTimeout(fn, reduced ? 0 : ms));
+  return {
+    H, m: 'layered', delay: 420, photo: { tf: `translate(${f1(tx)}px,${f1(ty)}px) scale(${s.toFixed(3)})`, op: 0 },
+    play() {
+      vx.style.transition = 'opacity .5s, transform .7s var(--spring)'; vx.style.opacity = 1; vx.style.transform = 'none'; if (lid) { lid.style.transition = 'opacity .5s, transform .9s var(--ease)'; lid.style.opacity = 1; }
+      if (!glass) sl.forEach(el => { el.style.transition = 'opacity .45s'; el.style.opacity = 1; });
+      if (lid) at(520, () => { lid.style.transform = `translate(${f1(Wg * 1.02)}px,${f1(Hv * .06)}px) rotate(8deg) scale(.7)`; lid.style.opacity = .42; });
+      const t0 = lid ? 950 : 560;
+      sl.forEach((el, i) => at(t0 + i * 150, () => {
+        el.style.transition = 'transform .85s var(--spring), opacity .35s'; el.style.opacity = 1; el.style.transform = `translate(${f1(px)}px,${f1(yE[i])}px)`;
+        const b = bands[n - 1 - i]; if (b) b.style.opacity = 0;
+      }));
+      lbs.forEach((el, i) => { el.style.transitionDelay = (reduced ? 0 : t0 + 260 + i * 150) + 'ms'; el.classList.add('on'); });
+      paths.forEach((p, i) => { p.style.transitionDelay = (reduced ? 0 : t0 + 300 + Math.floor(i / 2) * 150) + 'ms'; p.classList.add('on'); });
+      tot2.style.transitionDelay = (reduced ? 0 : t0 + 400 + n * 150) + 'ms'; tot2.classList.add('on');
+    },
+    back() {
+      T.forEach(clearTimeout);
+      lbs.forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); }); paths.forEach(p => { p.style.transitionDelay = '0ms'; p.classList.remove('on'); }); tot2.classList.remove('on');
+      sl.forEach((el, i) => { el.style.transition = 'transform .6s var(--ease), opacity .45s .15s'; el.style.transform = start[i]; el.style.opacity = glass ? 0 : 1; });
+      bands.forEach(b => { b.style.opacity = 1; });
+      if (lid) { lid.style.transform = ''; lid.style.opacity = 1; }
+      setTimeout(() => { vx.style.opacity = 0; if (lid) lid.style.opacity = 0; if (!glass) sl.forEach(el => { el.style.opacity = 0; }); }, 420);
     }
   };
 }

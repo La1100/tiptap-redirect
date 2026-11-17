@@ -15,8 +15,9 @@ Kako otvoriti na računaru:
   Pravo: jelovnik, karta pića, kolači, torte, cene, opisi (ultracaffe.rs), fotografije (ultracaffe.rs i Instagram @ultra_caffe),
          adrese, telefoni, radno vreme oba lokala i Google ocene (Centar 4,2 · 1.554 recenzija, BIG 4,2 · 739 recenzija).
   Fotografije boca i limenki: javne slike proizvođača, sa uklonjenom pozadinom.
+  Fotografije koktela (osim Mojita i Cosmopolitana): Unsplash, besplatna licenca.
   Okvirno: gramaže, kalorije, alergeni (procena dok kuhinja ne potvrdi), raspored stolova (dok ne dobijemo skicu lokala),
-           unutrašnjost kolača u preseku (crtež po opisu kolača).
+           unutrašnjost kolača u preseku i slojevi kolača u čaši (crtež po opisu kolača).
   Izmišljeno: promet, gosti i rezervacije u upravi i „Sali uživo”.
 
 Google recenzije: gost uvek sam bira — javna recenzija na Google-u ili privatna poruka menadžeru.
