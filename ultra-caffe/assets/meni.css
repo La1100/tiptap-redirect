@@ -526,3 +526,7 @@ svg.cut .pp-sec{opacity:1;transform:none}
 .xr .bp.on{transform:scale(1)}
 .stage .ph.ill.board>svg{width:min(92%,460px)}
 .hc .cu.bd{inset:6% 4% 30%}
+/* njihova fotografija ostaje u pozadini rastavljenog prikaza */
+.stage.bgp .ph{filter:blur(2.5px) saturate(.85);border-radius:0!important}
+.stage.bgp .ph.cut>img{filter:blur(4px)}
+.stage.bgp .ph::after{background:linear-gradient(180deg,rgba(11,21,23,.55),rgba(11,21,23,.25) 30%,rgba(11,21,23,.35) 70%,rgba(11,21,23,.95))}

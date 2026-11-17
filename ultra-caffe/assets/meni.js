@@ -581,6 +581,10 @@ function openX(it) {
   else if (it.mode === 'plate') r = buildPlate(xr, it, comps, W, pr);
   else if (it.mode === 'board') r = buildBoard(xr, it, comps, W, pr);
   else r = buildKnoll(xr, it, comps, W, pr);
+  // njihova fotografija ostaje zatamnjena u pozadini, preko nje naša digitalna verzija
+  const keepBg = (it.kind !== 'cake' && photoOf(it)) || (it.kind === 'cake' && (it.mode === 'layers' || it.mode === 'plate'));
+  if (keepBg) r.photo = { tf: it.kind === 'cake' ? 'scale(1.18)' : 'scale(1.06)', op: it.kind === 'cake' ? .2 : .2 };
+  st.classList.toggle('bgp', !!keepBg);
   XR = r; const ph0 = $('#ph'); ph0.style.height = ph0.offsetHeight + 'px'; xr.style.transform = ''; st.classList.add('open'); st.dataset.m = r.m || ''; btn.setAttribute('aria-pressed', 'true'); $('span', btn).textContent = t('join');
   if (!isDesk()) st.style.height = Math.max(st._h0, r.H) + 'px';
   const ph = $('#ph'); ph.style.transformOrigin = '0 0'; ph.style.transform = r.photo.tf || ''; ph.style.opacity = r.photo.op;
@@ -588,7 +592,7 @@ function openX(it) {
 }
 function closeX(instant) {
   const st = $('#st'), btn = $('#splitBtn'), ph = $('#ph'), xr = $('#xr'); if (!st) return;
-  st.classList.remove('open'); if (btn) { btn.setAttribute('aria-pressed', 'false'); $('span', btn).textContent = CUR ? splitLabel(CUR) : t('split'); }
+  st.classList.remove('open'); st.classList.remove('bgp'); if (btn) { btn.setAttribute('aria-pressed', 'false'); $('span', btn).textContent = CUR ? splitLabel(CUR) : t('split'); }
   if (XR && XR.back) XR.back(instant);
   const d = instant ? 0 : (XR && XR.delay) || 0;
   setTimeout(() => { ph.style.transform = ''; ph.style.opacity = ''; setTimeout(() => { if (!st.classList.contains('open')) { ph.style.transformOrigin = ''; ph.style.height = ''; } }, 820); }, d);
