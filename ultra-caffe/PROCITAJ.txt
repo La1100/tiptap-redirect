@@ -3,7 +3,8 @@ ULTRA CAFFE ZRENJANIN · TipTap demo (verzija 2)
 
 Tri stranice istog sistema:
   index.html               Digitalni meni (gost): početni ekran sa grupama, pretraga, „Pomozi mi da izaberem”,
-                           rastavljanje svakog jela, pića i kolača, Google recenzije
+                           svako jelo, piće i kolač se samo rastavi čim se otvori (dugme „Sastavi” ga vraća),
+                           plate i doručci na daskama u perspektivi sa opisom svake namirnice, Google recenzije
   rezervacije/index.html   Rezervacija stola na tlocrtu (gost) i „Sala uživo” (hostesa)
   uprava/index.html        Uprava: promet, gosti, inženjering menija, digitalni meni, rezervacije, recenzije
 

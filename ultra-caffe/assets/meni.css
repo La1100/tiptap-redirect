@@ -508,3 +508,21 @@ svg.cut .pp-sec{opacity:1;transform:none}
 .xr .vb{transition:opacity .45s}
 .xr .sl{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
 .xr .sl svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 10px 10px rgba(0,0,0,.45))}
+/* plate i doručci: daske na stolu, namirnice padaju, opis gore */
+.bl-cap{position:absolute;left:12px;right:12px;font:400 19px var(--f-d);color:var(--krem);opacity:0;transition:opacity .5s}
+.bl-cap.on{opacity:1}
+.blg{position:absolute;display:flex;align-items:center;gap:8px;height:44px;padding:0 8px;border-radius:12px;background:rgba(19,40,45,.72);border:1px solid var(--line);opacity:0;transform:translateY(6px);transition:opacity .4s,transform .5s var(--ease)}
+.blg.on{opacity:1;transform:none}
+.blg i{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--mesing);color:#1a1208;font-style:normal;font-size:11.5px;font-weight:700}
+.blg span{min-width:0}
+.blg b{display:block;font-size:12.5px;font-weight:600;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.blg small{display:block;font-size:11px;color:var(--magla)}
+.xr .bsc{position:absolute;left:0;opacity:0;transform:translateY(28px);transition:opacity .55s,transform .8s var(--ease)}
+.xr .bsc.on{opacity:1;transform:none}
+.xr .bi{position:absolute;transition:transform .7s var(--spring),opacity .3s}
+.xr .bi svg{position:relative;display:block;width:100%;height:100%;overflow:visible}
+.xr .bi .sh{position:absolute;left:8%;right:8%;bottom:-2%;height:46%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.5),transparent);filter:blur(3px)}
+.xr .bp{position:absolute;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;display:grid;place-items:center;background:var(--mesing);color:#1a1208;font-size:11px;font-weight:700;box-shadow:0 0 0 3px rgba(var(--mesing-rgb),.25),0 4px 10px rgba(0,0,0,.5);transform:scale(0);transition:transform .45s var(--spring)}
+.xr .bp.on{transform:scale(1)}
+.stage .ph.ill.board>svg{width:min(92%,460px)}
+.hc .cu.bd{inset:6% 4% 30%}

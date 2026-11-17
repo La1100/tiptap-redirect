@@ -299,13 +299,13 @@ function tileImg(g) {
   return `<span class="pks">${v.split(',').map((p, i) => `<img src="${packSrc(p, 1)}" alt="" loading="lazy" style="--i:${i}">`).join('')}</span>`;
 }
 function homeHTML() {
-  const house = ITEMS.filter(i => i.sig && photoOf(i)).concat(['nimfa', 'pistac-lampone', 'tiramisu'].map(id => BY[id]));
+  const house = ITEMS.filter(i => i.sig && (photoOf(i) || i.mode === 'board')).concat(['nimfa', 'pistac-lampone', 'tiramisu'].map(id => BY[id]));
   const sec = s => GRPS.filter(g => g.sec === s).map(g => `<button class="tile${g.tile[0] === 'c' || g.tile[0] === 'p' || g.tile[0] === 'i' ? ' art' : ''}" data-g="${g.id}"><span class="ti">${tileImg(g)}</span><span class="tt"><b>${esc(nm(g))}</b><small>${countLabel(g)}</small></span></button>`).join('');
   const g = gOf();
   return heroHTML() + `
   <div class="tools"><label class="srch">${IC.search}<input id="q" type="search" placeholder="${esc(t('search_ph'))}" enterkeyhint="search" autocomplete="off" value="${esc(QRY)}"></label>
     <button class="helpme" id="helpBtn">${IC.spark}<span>${esc(t('help'))}</span></button></div>
-  <section class="house"><h2>${esc(t('house'))}</h2><div class="hs">${house.map(it => `<button class="hc" data-id="${it.id}">${it.kind === 'cake' ? `<span class="cu"><img src="${cutSrc(it)}" alt="" loading="lazy"></span>` : `<img src="${img(photoOf(it)[0], 1)}" alt="" loading="lazy">`}<span class="in"><b>${esc(nm(it))}</b>${it.var ? `<span class="pr num"><small>${t('from')} </small>${nf(Math.min(...it.var.map(v => v.price)))}<small>RSD</small></span>` : money(it.price)}</span></button>`).join('')}</div></section>
+  <section class="house"><h2>${esc(t('house'))}</h2><div class="hs">${house.map(it => `<button class="hc" data-id="${it.id}">${it.kind === 'cake' ? `<span class="cu"><img src="${cutSrc(it)}" alt="" loading="lazy"></span>` : photoOf(it) ? `<img src="${img(photoOf(it)[0], 1)}" alt="" loading="lazy">` : `<span class="cu bd"><img src="img/i/${it.id}.webp" alt="" loading="lazy"></span>`}<span class="in"><b>${esc(nm(it))}</b>${it.var ? `<span class="pr num"><small>${t('from')} </small>${nf(Math.min(...it.var.map(v => v.price)))}<small>RSD</small></span>` : money(it.price)}</span></button>`).join('')}</div></section>
   <section class="gsec"><h2>${esc(t('g_hrana'))}</h2><div class="tiles">${sec('hrana')}</div></section>
   <section class="gsec"><h2>${esc(t('g_slatko'))}</h2><div class="tiles two">${sec('slatko')}</div></section>
   <section class="gsec"><h2>${esc(t('g_pice'))}</h2><div class="tiles">${sec('pice')}</div></section>
@@ -425,9 +425,19 @@ function openItem(id, push = true) {
   sh.classList.add('on'); $('#scrim').classList.add('on'); document.body.classList.add('lock');
   if (push) history.pushState({ dish: id, g: (history.state || {}).g }, '', '#' + encodeURIComponent(id));
   hit('view', it.id);
-  const s = $('.split', sh); if (s && !SS.get('nudged')) { setTimeout(() => { s.classList.add('nudge'); SS.set('nudged', '1'); setTimeout(() => s.classList.remove('nudge'), 2600); }, 900); }
+  autoSplit(it);
 }
-function closeItem() { const sh = $('#dish'); sh.classList.remove('on'); $('#scrim').classList.remove('on'); document.body.classList.remove('lock'); CUR = null; XR = null; setTimeout(() => { if (!sh.classList.contains('on')) sh.innerHTML = ''; }, 600); }
+// čim se otvori, jelo/piće se samo rastavi (gost ne mora da traži dugme)
+let autoT;
+function autoSplit(it, wait = 700) {
+  clearTimeout(autoT); if (!canSplit(it)) return;
+  autoT = setTimeout(() => {
+    if (CUR !== it || !$('#st') || $('#st').classList.contains('open')) return;
+    const im = $('#ph img'), go = () => { if (CUR === it && !$('#st').classList.contains('open')) openX(it); };
+    if (im && !im.complete) { let done = false; const f = () => { if (!done) { done = true; go(); } }; im.addEventListener('load', f, { once: true }); im.addEventListener('error', f, { once: true }); setTimeout(f, 1600); } else go();
+  }, reduced ? 50 : wait);
+}
+function closeItem() { clearTimeout(autoT); const sh = $('#dish'); sh.classList.remove('on'); $('#scrim').classList.remove('on'); document.body.classList.remove('lock'); CUR = null; XR = null; setTimeout(() => { if (!sh.classList.contains('on')) sh.innerHTML = ''; }, 600); }
 addEventListener('popstate', e => {
   const s = e.state || {};
   if ($('#dish').classList.contains('on') && !s.dish) { closeItem(); return; }
@@ -451,6 +461,7 @@ function stageHero(it) {
   const ph = photoOf(it);
   if (ph) return { cls: '', html: `<img src="${img(ph[GAL] || ph[0])}" alt="">`, gal: ph };
   if (it.mode === 'pizza' || it.mode === 'stack') return { cls: 'ill', html: '', illus: true };
+  if (it.mode === 'board') return { cls: 'ill board', html: boardArt(it, 420, 360) };
   return { cls: 'ill', html: plateArt(it, curComps(it)) };
 }
 function packStage(d) {
@@ -465,7 +476,7 @@ function dishHTML(it) {
   const ico = it.kind === 'drink' ? IC.burst : it.mode === 'halves' || it.mode === 'pops' ? IC.knife : IC.split;
   return `<div class="bar"><button class="rb" id="xClose" aria-label="${esc(t('close'))}">${IC.x}</button></div>
   <div class="scroll"><div class="stage" id="st"><div class="ph ${hero.cls}" id="ph">${hero.html}</div><div class="xr" id="xr"></div>${gal}
-    ${cs ? `<button class="split" id="splitBtn" aria-pressed="false">${ico}<span>${esc(splitLabel(it))}</span><em class="hint">${esc(it.mode === 'halves' || it.mode === 'pops' ? t('tap_cut') : t('tap_split'))}</em></button>` : ''}</div>
+    ${cs ? `<button class="split" id="splitBtn" aria-pressed="false">${ico}<span>${esc(splitLabel(it))}</span></button>` : ''}</div>
   <div class="info" id="info">${infoHTML(it)}</div></div>
   <div class="buy"><div class="qty"><button id="qm" aria-label="−">−</button><b class="num" id="qn">1</b><button id="qp" aria-label="+">+</button></div><button class="btn btn-m" id="addBtn">${IC.bag}<span id="addT"></span></button></div>`;
 }
@@ -568,6 +579,7 @@ function openX(it) {
   else if (it.mode === 'pizza') r = buildPizza(xr, it, comps, W, pr);
   else if (it.mode === 'stack' || it.mode === 'cake') r = buildStack(xr, it, comps, W, pr);
   else if (it.mode === 'plate') r = buildPlate(xr, it, comps, W, pr);
+  else if (it.mode === 'board') r = buildBoard(xr, it, comps, W, pr);
   else r = buildKnoll(xr, it, comps, W, pr);
   XR = r; const ph0 = $('#ph'); ph0.style.height = ph0.offsetHeight + 'px'; xr.style.transform = ''; st.classList.add('open'); st.dataset.m = r.m || ''; btn.setAttribute('aria-pressed', 'true'); $('span', btn).textContent = t('join');
   if (!isDesk()) st.style.height = Math.max(st._h0, r.H) + 'px';
@@ -610,6 +622,113 @@ function buildKnoll(xr, it, comps, W, pr) {
       cells.forEach((el, i) => { el.style.transition = ''; el.style.transitionDelay = (D ? 160 + i * 55 : 0) + 'ms'; el.style.opacity = 1; el.style.transform = `translate(${f1(pos[i][0])}px,${f1(pos[i][1])}px)`; });
       [cap, tot].forEach(e => { e.style.transitionDelay = (D ? 300 + n * 55 : 0) + 'ms'; e.classList.add('on'); }); },
     back() { cap.classList.remove('on'); tot.classList.remove('on'); cells.forEach((el, i) => { el.style.transitionDelay = (i * 16) + 'ms'; el.style.opacity = 0; el.style.transform = `translate(${f1(ox)}px,${f1(oy)}px) scale(.3)`; }); }
+  };
+}
+
+// ---------- plate i doručci: daske (ili tanjir) leže na stolu u perspektivi, namirnice padaju na njih, opis gore
+const BRD = { 'ultra-plata': { n: 2, kind: 'wood' }, 'dorucak-za-dvoje': { n: 2, kind: 'wood', pan: 1 }, 'meze-plata': { n: 1, kind: 'wood' }, 'plata-sireva': { n: 1, kind: 'wood' },
+  'mix-bruskete': { n: 1, kind: 'wood' }, 'mekike': { n: 1, kind: 'wood' }, 'domacinski-dorucak': { n: 1, kind: 'plate' }, 'engleski-dorucak': { n: 1, kind: 'plate' } };
+const BOWLA = new Set(['honey', 'jam', 'olives', 'cream', 'kajmak', 'ajvar', 'choc_top', 'caramel', 'beans', 'pelat']);
+const COPIES = { ustipak: 4, toast: 3, prosciutto: 2 };
+const COMBO = { sopska: ['tomato', 'cucumber', 'feta'] };
+let TILT = (+(new URLSearchParams(location.search).get('tilt')) || 64) * Math.PI / 180;
+function boardLayout(it, comps, Wpx, Hmax) {
+  const B = BRD[it.id] || { n: 1, kind: 'wood' }, main = comps.filter(c => !c.side), n = main.length;
+  const plate = B.kind === 'plate', L = plate ? 64 : 100, D = plate ? 64 : 34, ang = plate ? 0 : (B.n > 1 ? -.5 : -.3), P = 230;
+  const perp = [-Math.sin(ang), Math.cos(ang)], dir = [Math.cos(ang), Math.sin(ang)];
+  const centers = B.n > 1 ? [[-perp[0] * D * .62 - dir[0] * 6, -perp[1] * D * .62 - dir[1] * 6], [perp[0] * D * .62 + dir[0] * 6, perp[1] * D * .62 + dir[1] * 6]] : [[0, 0]];
+  const pr3 = (x, y) => { const Y = y * Math.cos(TILT), Z = y * Math.sin(TILT), k = P / (P + Z); return [x * k, -Y * k, k]; };
+  const loc = (ci, lx, ly) => { const c = centers[ci]; return [c[0] + lx * dir[0] - ly * perp[0], c[1] + lx * dir[1] - ly * perp[1]]; };
+  // raspored: dva reda duž daske (tanjir: krug)
+  const cols = Math.ceil(n / 2), slot = [];
+  main.forEach((c, i) => {
+    if (plate) { if (i === 0) slot.push([0, 0, 1.25, 1]); else { const a = -Math.PI / 2 + (i - 1) / (n - 1) * Math.PI * 2; slot.push([Math.cos(a) * L * .3, Math.sin(a) * L * .3, .95, Math.sin(a) < 0 ? 0 : 1]); } return; }
+    const col = Math.floor(i / 2), row = i % 2;
+    slot.push([(-.5 + (col + .5 + (row ? .25 : -.1)) / cols) * L * .92, (row ? -.22 : .22) * D, 1, row ? 1 : 0]);
+  });
+  const gmax = Math.max(...main.map(c => c.g)), unit = plate ? L * .36 : Math.min(L * 1.18 / cols, D * .92);
+  const items = [];
+  for (let b = 0; b < B.n; b++) main.forEach((c, i) => {
+    const sl = slot[i], ly = b === 1 ? -sl[1] : sl[1];
+    const [x, y] = loc(b, sl[0], ly), sz = unit * sl[2] * (BOWLA.has(c.a) ? .62 : (.72 + .38 * Math.sqrt(c.g / gmax)));
+    items.push({ c, i, b, x, y, sz, back: b === 1 ? !sl[3] : !!sl[3] });
+  });
+  // granice scene za razmeru
+  const corners = []; centers.forEach((c, ci) => { [[-L / 2, -D / 2], [L / 2, -D / 2], [L / 2, D / 2], [-L / 2, D / 2]].forEach(([lx, ly]) => { const p = loc(ci, lx, ly); corners.push(pr3(p[0], p[1])); }); });
+  let x0 = Math.min(...corners.map(p => p[0])), x1 = Math.max(...corners.map(p => p[0])), y0 = Math.min(...corners.map(p => p[1])) - 22, y1 = Math.max(...corners.map(p => p[1])) + 8;
+  const S = Math.min((Wpx - 20) / (x1 - x0), Hmax / (y1 - y0)), ox = Wpx / 2 - (x0 + x1) / 2 * S, oy = -y0 * S;
+  const pt = (x, y) => { const p = pr3(x, y); return [ox + p[0] * S, oy + p[1] * S, p[2]]; };
+  const boards = centers.map((c, ci) => ({ ci, poly: [[-L / 2, -D / 2], [L / 2, -D / 2], [L / 2, D / 2], [-L / 2, D / 2]].map(([lx, ly]) => { const p = loc(ci, lx, ly); return pt(p[0], p[1]); }),
+    grain: plate ? [] : [-.3, -.1, .12, .32].map(f => [loc(ci, -L * .46, D * f), loc(ci, L * .46, D * f + 1.5)].map(p => pt(p[0], p[1]))),
+    circ: plate ? [1, .74].map(r => Array.from({ length: 48 }, (_, k) => { const a = k / 48 * 6.283; const p = loc(ci, Math.cos(a) * L / 2 * r, Math.sin(a) * D / 2 * r); return pt(p[0], p[1]); })) : null }));
+  items.forEach(o => { const p = pt(o.x, o.y); o.X = p[0]; o.Y = p[1]; o.w = o.sz * S * p[2]; o.q = Math.max(.5, Math.cos(TILT) * 1.45); o.h = o.w * o.q; });
+  items.sort((a, b) => a.Y - b.Y);
+  return { B, boards, items, H: (y1 - y0) * S, plate, S };
+}
+function boardsSVG(Lt, Wpx, id) {
+  const poly = ps => ps.map(p => `${f1(p[0])},${f1(p[1])}`).join(' ');
+  let s = `<defs><linearGradient id="${id}w" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#a8733f"/><stop offset=".5" stop-color="#8d5b2f"/><stop offset="1" stop-color="#6e4422"/></linearGradient>
+    <radialGradient id="${id}p" cx=".45" cy=".4" r=".75"><stop offset="0" stop-color="#fbf7ee"/><stop offset=".75" stop-color="#e6dece"/><stop offset="1" stop-color="#cbbfa8"/></radialGradient></defs>`;
+  Lt.boards.forEach(b => {
+    if (Lt.plate) { s += `<polygon points="${poly(b.circ[0].map(p => [p[0], p[1] + 8]))}" fill="#000" opacity=".4"/><polygon points="${poly(b.circ[0])}" fill="url(#${id}p)"/><polygon points="${poly(b.circ[1])}" fill="none" stroke="#d3c8b2" stroke-width="1.6"/><polygon points="${poly(b.circ[0])}" fill="none" stroke="#b9975f" stroke-width="1.4" opacity=".6"/>`; return; }
+    const [a, bb, c, d] = b.poly, th = 7;
+    s += `<polygon points="${poly([a, bb, c, d].map(p => [p[0] + 4, p[1] + th + 10]))}" fill="#000" opacity=".38"/>`;
+    // ivica daske okrenuta gostu
+    [[a, bb], [bb, c], [c, d], [d, a]].forEach(([p, q]) => { if (q[0] - p[0] > 0 && (p[1] + q[1]) / 2 > (a[1] + c[1]) / 2 - 1) s += `<polygon points="${poly([p, q, [q[0], q[1] + th], [p[0], p[1] + th]])}" fill="#5a361a"/>`; });
+    s += `<polygon points="${poly(b.poly)}" fill="url(#${id}w)"/>` + b.grain.map(([p, q]) => `<path d="M${f1(p[0])} ${f1(p[1])}L${f1(q[0])} ${f1(q[1])}" stroke="#5e3a1c" stroke-opacity=".28" stroke-width="1.1"/>`).join('') + `<polygon points="${poly(b.poly)}" fill="none" stroke="#c99a62" stroke-opacity=".5" stroke-width="1"/>`;
+  });
+  return s;
+}
+function boardItemSVG(o, pan) {
+  const c = o.c, arts = COMBO[c.i] || Array.from({ length: COPIES[c.a] || 1 }, () => c.a), bowl = BOWLA.has(c.a);
+  let g = '';
+  if (pan) g += `<circle cx="60" cy="60" r="54" fill="#b8bec2"/><circle cx="60" cy="60" r="47" fill="#8e969b"/><rect x="2" y="54" width="10" height="12" rx="3" fill="#c9cfd2"/><rect x="108" y="54" width="10" height="12" rx="3" fill="#c9cfd2"/>`;
+  if (bowl) g += `<circle cx="60" cy="62" r="50" fill="#141a1c"/><circle cx="60" cy="60" r="50" fill="#f1ece2"/><circle cx="60" cy="60" r="41" fill="#d8d0c0"/>`;
+  const k = pan ? .82 : bowl ? .7 : 1;
+  arts.forEach((a, j) => {
+    const m = arts.length, dx = m > 1 ? Math.cos(j / m * 6.283 + .4) * 20 : 0, dy = m > 1 ? Math.sin(j / m * 6.283 + .4) * 16 : 0, sc = m > 1 ? k * .66 : k;
+    g += `<g transform="translate(${f1(60 + dx - 60 * sc)} ${f1(60 + dy - 60 * sc)}) scale(${f1(sc)})">${artInner(a, o.i * 3 + j)}</g>`;
+  });
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${g}</svg>`;
+}
+// cela scena kao jedna slika (naslovna i sličica)
+function boardArt(it, Wpx = 360, Hpx = 300) {
+  const Lt = boardLayout(it, it.comps, Wpx, Hpx - 20), id = 'ba' + (++GID), top = (Hpx - Lt.H) / 2;
+  let s = `<svg viewBox="0 0 ${Wpx} ${Hpx}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="translate(0 ${f1(top)})">${boardsSVG(Lt, Wpx, id)}`;
+  Lt.items.forEach(o => { s += `<ellipse cx="${f1(o.X + 2)}" cy="${f1(o.Y + o.h * .08)}" rx="${f1(o.w * .42)}" ry="${f1(o.h * .4)}" fill="#000" opacity=".3"/>` + boardItemSVG(o, Lt.B.pan).replace('<svg ', `<svg x="${f1(o.X - o.w / 2)}" y="${f1(o.Y - o.h * .62)}" width="${f1(o.w)}" height="${f1(o.h)}" `); });
+  return s + '</g></svg>';
+}
+function buildBoard(xr, it, comps, W, pr) {
+  const main = comps.filter(c => !c.side), n = main.length, two = W >= 520 ? 3 : 2;
+  const cw = (W - 24 - (two - 1) * 8) / two, rows = Math.ceil(n / two), top0 = 102, legH = rows * 50 + 6;
+  const sceneTop = top0 + legH + 18, Lt = boardLayout(it, comps, W, Math.min(330, W * .82)), id = 'bd' + (++GID);
+  const H = sceneTop + Lt.H + 70;
+  let h = `<div class="bl-cap" style="top:${f1(top0 - 30)}px">${esc(BRD[it.id] && BRD[it.id].n > 1 ? (L === 'en' ? 'For two — two boards, same portions' : 'Za dve osobe — dve daske, iste porcije') : t('made_of'))}</div>`;
+  h += main.map((c, i) => `<div class="blg" style="left:${f1(12 + (i % two) * (cw + 8))}px;top:${f1(top0 + Math.floor(i / two) * 50)}px;width:${f1(cw)}px;--gc:${GC[c.grp] || '#CFA670'}"><i class="num">${i + 1}</i><span><b>${esc(cnm(c))}</b><small class="num">${c.g} g · ${c.kcal} kcal</small></span></div>`).join('');
+  h += `<svg class="bsc" width="${W}" height="${f1(Lt.H + 20)}" viewBox="0 0 ${W} ${f1(Lt.H + 20)}" style="top:${f1(sceneTop)}px" aria-hidden="true">${boardsSVG(Lt, W, id)}</svg>`;
+  h += Lt.items.map(o => `<div class="bi" style="left:${f1(o.X - o.w / 2)}px;top:${f1(sceneTop + o.Y - o.h * .62)}px;width:${f1(o.w)}px;height:${f1(o.h)}px"><i class="sh"></i>${boardItemSVG(o, Lt.B.pan)}</div>`).join('');
+  h += Lt.items.filter(o => o.b === 0).map(o => `<div class="bp num" data-i="${o.i}" style="left:${f1(o.X)}px;top:${f1(sceneTop + o.Y + (o.back ? -o.h * .62 - 4 : o.h * .42 + 8))}px">${o.i + 1}</div>`).join('');
+  h += totLine(it, H - 48);
+  xr.innerHTML = h;
+  const sc = $('.bsc', xr), bis = $$('.bi', xr), bps = $$('.bp', xr), lg = $$('.blg', xr), cap = $('.bl-cap', xr), tot = $('.xr-tot', xr);
+  bis.forEach(el => { el.style.transition = 'none'; el.style.opacity = 0; el.style.transform = 'translateY(-46px) scale(1.08)'; });
+  const T = [], at = (ms, fn) => T.push(setTimeout(fn, reduced ? 0 : ms));
+  const sy = sceneTop + Lt.H / 2, s0 = Math.min(1, (pr.h * .9) / Lt.H);
+  return {
+    H, m: 'board', delay: 300, photo: { tf: `translate(0,${f1(sy - (pr.y + pr.h / 2))}px) scale(.9)`, op: 0 },
+    play() {
+      sc.classList.add('on');
+      bis.forEach((el, j) => at(380 + j * 55, () => { el.style.transition = ''; el.style.opacity = 1; el.style.transform = 'none'; }));
+      const t1 = 380 + bis.length * 55 + 200;
+      bps.forEach((el, j) => at(t1 + j * 45, () => el.classList.add('on')));
+      lg.forEach((el, j) => { el.style.transitionDelay = (reduced ? 0 : t1 + j * 45) + 'ms'; el.classList.add('on'); });
+      cap.style.transitionDelay = (reduced ? 0 : t1) + 'ms'; cap.classList.add('on');
+      tot.style.transitionDelay = (reduced ? 0 : t1 + n * 45 + 100) + 'ms'; tot.classList.add('on');
+    },
+    back() {
+      T.forEach(clearTimeout); sc.classList.remove('on'); [...bps, ...lg, cap, tot].forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); });
+      bis.forEach(el => { el.style.transition = 'opacity .3s'; el.style.opacity = 0; });
+    }
   };
 }
 
@@ -1293,12 +1412,12 @@ function pizzaArt(it) {
   const ls = K.pizza(curComps(it).map(c => Object.assign({}, c, { k: c.a })));
   return `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">` + ls.map(l => l.svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '').replace(/<circle class="plate"[^>]*\/>/, '')).join('') + '</svg>';
 }
-window.__uc = { plateArt, glassSVG, stackArt, pizzaArt, BY, U };
+window.__uc = { plateArt, glassSVG, stackArt, pizzaArt, boardArt, BY, U };
 if (qs.has('render')) return;
 skeleton(); demoBadge();
 document.documentElement.lang = L === 'en' ? 'en' : 'sr';
 const h0 = location.hash.slice(1);
 if (h0.startsWith('g=') && grpOf(h0.slice(2))) { history.replaceState({}, '', location.pathname + location.search); render(); openGroup(h0.slice(2)); }
 else { render(); intro(); if (h0.length > 1) { const id = decodeURIComponent(h0); if (BY[id]) { history.replaceState({}, '', location.pathname + location.search); openItem(id); } } }
-addEventListener('resize', () => { if (CUR) { if ($('#st').classList.contains('open')) { closeX(true); } sizeStage(CUR); } });
+let rzT; addEventListener('resize', () => { if (!CUR) return; const was = $('#st').classList.contains('open'); if (was) closeX(true); sizeStage(CUR); clearTimeout(rzT); if (was) rzT = setTimeout(() => autoSplit(CUR, 0), 250); });
 })();
