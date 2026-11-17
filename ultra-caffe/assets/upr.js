@@ -147,7 +147,7 @@ function render() {
   const tFlav = U.torte.map(x => [x.sr, Math.round(4 + RT() * 22)]).sort((a, b) => b[1] - a[1]).slice(0, 5);
   const locName = LOCS.length === 2 ? 'Oba lokala' : U.locs.find(l => l.id === LOCS[0]).name;
   const thumb = it => it.cut ? `<span class="th cut"><img src="../img/k/${it.cut}.webp" alt=""></span>` : it.img && it.img.length ? `<span class="th"><img src="../img/f/${it.img[0]}-t.webp" alt=""></span>` : `<span class="th">${K.top(((it.comps || []).slice().sort((a, b) => b.g - a.g)[0] || {}).a || 'fries', 1)}</span>`;
-  const evName = e => { const it = BY[e.id]; const nm = it ? it.sr : (U.drinks.find((d, i) => 'd' + i === e.id) || {}).sr || e.id; return { view: `Gost je otvorio „${nm}”`, split: `Gost je rastavio „${nm}”`, add: `„${nm}” dodato na listu`, pair: `Gost je otvorio preporuku „${nm}”`, open: 'Novi gost je otvorio meni', show: 'Gost je pokazao listu konobaru', call: 'Gost je pozvao konobara', res: `Nova rezervacija za ${e.party || 2} preko menija · sto ${e.id}`, torta: 'Novi zahtev za tortu', grev: 'Gost je otvorio Google recenziju', mgr: 'Gost je poslao poruku menadžeru', rev: null, help: `Gost je tražio predlog (${e.id})`, loc: `Gost je izabrao lokal ${e.id === 'big' ? 'BIG' : 'Centar'}`, sec: null }[e.type]; };
+  const evName = e => { const it = BY[e.id]; const nm = it ? it.sr : (U.drinks.find((d, i) => 'd' + i === e.id) || {}).sr || e.id; return { view: `Gost je otvorio „${nm}”`, split: `Gost je rastavio „${nm}”`, add: `„${nm}” dodato na listu`, pair: `Gost je otvorio preporuku „${nm}”`, open: 'Novi gost je otvorio meni', show: 'Gost je pokazao listu konobaru', call: 'Gost je pozvao konobara', res: e.st === 'pending' ? `Novi zahtev za rezervaciju (${e.party || 2} ${(e.party || 2) % 10 >= 2 && (e.party || 2) % 10 <= 4 ? 'osobe' : 'osoba'}) preko menija · sto ${e.id} · čeka potvrdu` : `Nova rezervacija za ${e.party || 2} preko menija · sto ${e.id}${e.st === 'ok' ? ' · potvrđena automatski' : ''}`, resok: `Hostesa je potvrdila rezervaciju${e.name ? ' · ' + e.name : ''} · sto ${e.id}`, resno: `Hostesa je odbila zahtev${e.name ? ' · ' + e.name : ''} · sto ${e.id}`, torta: 'Novi zahtev za tortu', grev: 'Gost je otvorio Google recenziju', mgr: 'Gost je poslao poruku menadžeru', rev: null, help: `Gost je tražio predlog (${e.id})`, loc: `Gost je izabrao lokal ${e.id === 'big' ? 'BIG' : 'Centar'}`, sec: null }[e.type]; };
   const feed = ev.slice().reverse().filter(evName).slice(0, 40);
 
   $('#main').innerHTML = `
@@ -244,7 +244,7 @@ function shell() {
   const links = $$('.side a[href^="#"]');
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-30% 0px -60% 0px' });
   render(); $$('.sect').forEach(s => io.observe(s));
-  addEventListener('storage', e => { if (e.key === 'uc_ev' || e.key === 'uc_myres') render(); });
+  addEventListener('storage', e => { if (e.key === 'uc_ev' || e.key === 'uc_myres' || e.key === 'uc_resdec') render(); });
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => window.__ucDraw && window.__ucDraw(), 180); });
 }
 function demoBadge() {

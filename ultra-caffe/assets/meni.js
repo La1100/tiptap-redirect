@@ -196,27 +196,59 @@ const GLASS = {
   jar: { hw: () => 39, o: 'M62 150Q56 150 56 160V262Q56 276 70 276H130Q144 276 144 262V160Q144 150 138 150ZM64 132H136V150H64Z', clip: 'M61 156H139V260Q139 271 128 271H72Q61 271 61 260Z', top: 160, bot: 270, fill: .62 },
   bowl: { hw: y => 56 - (y - 204) * .42, o: 'M40 200Q44 262 100 264 156 262 160 200ZM34 200H166', clip: 'M44 204Q48 258 100 260 152 258 156 204Z', top: 206, bot: 258, fill: .95 },
   shot: { hw: y => 26 - (y - 200) / 68 * 6, o: 'M70 196 76 270Q77 278 85 278H115Q123 278 124 270L130 196', clip: 'M74 200H126L120 268H80Z', top: 206, bot: 268, fill: .75 },
-  pint: { hw: y => 45 - (y - 44) / 230 * 8, o: 'M50 40 58 270Q60 282 72 282H128Q140 282 142 270L150 40', clip: 'M55 44H145L137 268Q136 276 128 276H72Q64 276 63 268Z', top: 50, bot: 274, fill: .92 }
+  pint: { hw: y => 45 - (y - 44) / 230 * 8, o: 'M50 40 58 270Q60 282 72 282H128Q140 282 142 270L150 40', clip: 'M55 44H145L137 268Q136 276 128 276H72Q64 276 63 268Z', top: 50, bot: 274, fill: .92 },
+  // točeno pivo: čaša na nozi (Heineken), tulip čaša sa debelim dnom (Moretti), krigla (Krušovice)
+  stem: { hw: y => y < 176 ? 41 - (y - 28) / 148 * 13 : Math.max(5, 28 - (y - 176) / 27 * 23), o: 'M55 24C53 80 56 140 70 180C78 200 88 210 94 216V250Q94 258 74 260Q56 262 56 268Q58 276 100 276Q142 276 144 268Q144 262 126 260Q106 258 106 250V216C112 210 122 200 130 180C144 140 147 80 145 24', clip: 'M60 28C58 82 61 138 74 176C82 194 92 202 100 203C108 202 118 194 126 176C139 138 142 82 140 28Z', top: 34, bot: 202, fill: .95, base: 276, beer: 1 },
+  tulip: { hw: y => y < 128 ? 40 + (y - 32) / 96 * 6 : Math.max(16, 46 - (y - 128) / 90 * 30), o: 'M60 28C54 60 50 96 54 128C58 160 76 190 80 220C82 238 80 256 76 266Q72 278 80 283Q88 286 100 286Q112 286 120 283Q128 278 124 266C120 256 118 238 120 220C124 190 142 160 146 128C150 96 146 60 140 28', clip: 'M64 32C59 62 56 96 59 127C63 158 80 188 84 218C86 234 86 248 85 258H115C114 248 114 234 116 218C120 188 137 158 141 127C144 96 141 62 136 32Z', top: 38, bot: 258, fill: .95, base: 286, beer: 1 },
+  krigla: { hw: () => 46, o: 'M48 44V268Q48 286 66 286H134Q152 286 152 268V44', clip: 'M54 48H146V262Q146 270 138 270H62Q54 270 54 262Z', top: 54, bot: 270, fill: .94, base: 286, beer: 1,
+    extra: '<path d="M152 88Q190 88 190 122V206Q190 240 152 240V218Q170 218 170 200V128Q170 110 152 110Z" fill="rgba(241,234,223,.08)" stroke="rgba(241,234,223,.55)" stroke-width="3" stroke-linejoin="round"/><path d="M78 60V256M122 60V256" stroke="#fff" stroke-opacity=".045" stroke-width="9"/><path d="M48 272H152" stroke="rgba(241,234,223,.3)" stroke-width="2"/>' },
+  // žestina: čokanjče za rakiju i snifter za konjak i vinjak
+  cokanj: { hw: y => y < 170 ? 24 + (y - 124) / 46 * 5 : Math.max(4, 29 - (y - 170) / 36 * 25), o: 'M74 120C70 140 68 160 70 178C72 198 84 210 96 213V268Q80 270 70 273Q68 278 100 278Q132 278 130 273Q120 270 104 268V213C116 210 128 198 130 178C132 160 130 140 126 120', clip: 'M78 124C74 142 73 160 75 177C77 194 87 204 100 205C113 204 123 194 125 177C127 160 126 142 122 124Z', top: 126, bot: 205, fill: .5 },
+  snifter: { hw: y => y < 204 ? 32 + (y - 120) / 84 * 30 : Math.max(6, 62 - (y - 204) / 44 * 56), o: 'M64 118C48 150 34 178 36 204C38 236 64 252 92 254L94 256V276Q70 278 56 281Q56 286 100 286Q144 286 144 281Q130 278 106 276V256L108 254C136 252 162 236 164 204C166 178 152 150 136 118', clip: 'M68 122C53 152 41 178 42 204C44 232 68 246 100 247C132 246 156 232 158 204C159 178 147 152 132 122Z', top: 124, bot: 246, fill: .26 }
 };
-const VB = { espresso: [24, 168, 156, 110], fildzan: [34, 176, 132, 104], teacup: [14, 146, 186, 150], cup: [22, 118, 174, 176], bowl: [22, 176, 156, 100], jar: [36, 116, 128, 172], jug: [36, 100, 144, 182], shot: [52, 176, 96, 112], mug: [34, 96, 160, 196], rocks: [28, 96, 144, 196], martini: [14, 26, 172, 264] };
+const VB = { espresso: [24, 168, 156, 110], fildzan: [34, 176, 132, 104], teacup: [14, 146, 186, 150], cup: [22, 118, 174, 176], bowl: [22, 176, 156, 100], jar: [36, 116, 128, 172], jug: [36, 100, 144, 182], shot: [52, 176, 96, 112], mug: [34, 96, 160, 196], rocks: [28, 96, 144, 196], martini: [14, 26, 172, 264], cokanj: [56, 108, 88, 176], snifter: [26, 104, 148, 188], stem: [30, 10, 140, 272], tulip: [30, 16, 140, 278], krigla: [26, 32, 176, 262] };
 const vbOf = d => VB[d.glass] || [0, 0, 200, 300];
 const vbS = d => vbOf(d).join(' ');
 const FIZZ = ['soda', 'tonic', 'sprite', 'cola', 'guarana', 'pgf', 'prosecco', 'beer', 'beer_dark'];
 function glassGeo(d) {
   const g = GLASS[d.glass] || GLASS.highball, lay = d.layers || [], tot = lay.reduce((a, b) => a + b[1], 0) || 1;
-  const H = (g.bot - g.top) * g.fill, minH = 7;
+  const H = (g.bot - g.top) * (d.fill || g.fill), minH = 7;
   let hs = lay.map(l => Math.max(minH, H * l[1] / tot)); const k = H / hs.reduce((a, b) => a + b, 0); hs = hs.map(h => h * k);
   let y = g.bot; const geo = hs.map(h => { const r = { y0: y - h, y1: y, h }; y -= h; return r; });
   return { g, geo, lay };
 }
 let GID = 0;
+const BEER = { beer: ['#f5c64f', '#d88f1e', '#b8701a'], beer_dark: ['#7a3a17', '#3d1a0b', '#250e05'] };
+function beerArt(id, key, c, r) {
+  if (BEER[key]) {
+    const [a, b, e] = BEER[key], gid = `${id}b${key}`, my = r.y0 + r.h;
+    let q = `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".55" stop-color="${b}"/><stop offset="1" stop-color="${e}"/></linearGradient></defs><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="url(#${gid})"/>`;
+    q += `<rect x="62" y="${f1(r.y0)}" width="14" height="${f1(r.h)}" fill="#fff" opacity=".1"/>`;
+    [86, 104, 117].forEach((x, s) => { for (let k = 0; k < 9; k++) { const y = my - 8 - k * (r.h - 14) / 9 - (s * 7) % 11; if (y > r.y0 + 4) q += `<circle cx="${x + Math.sin(k + s) * 2}" cy="${f1(y)}" r="${f1(.8 + (k % 3) * .45)}" fill="#fff" opacity="${key === 'beer' ? .55 : .3}"/>`; } });
+    return q;
+  }
+  // pena: talasast vrh, sitni mehurići, senka prema pivu
+  const y0 = r.y0, y1 = r.y0 + r.h;
+  let q = `<path d="M0 ${f1(y1 + .5)}V${f1(y0 + 4)}Q14 ${f1(y0 - 3)} 30 ${f1(y0 + 2)}T60 ${f1(y0 + 1)}T92 ${f1(y0 + 3)}T124 ${f1(y0)}T156 ${f1(y0 + 3)}T200 ${f1(y0 + 2)}V${f1(y1 + .5)}Z" fill="${c}"/>`;
+  q += `<rect x="0" y="${f1(y1 - Math.min(5, r.h * .3))}" width="200" height="${f1(Math.min(5, r.h * .3) + .5)}" fill="#000" opacity=".07"/>`;
+  [[70, .35], [84, .6], [97, .3], [111, .7], [126, .45], [78, .8], [118, .25]].forEach(([x, f], k) => { q += `<circle cx="${x}" cy="${f1(y0 + 4 + f * (r.h - 7))}" r="${1.4 + (k % 3) * .6}" fill="none" stroke="#000" stroke-opacity=".08"/>`; });
+  return q;
+}
+function dropsArt(geo, lay) {
+  const i = lay.findIndex(l => BEER[l[0]]); if (i < 0) return '';
+  const r = geo[i]; let q = '';
+  [[64, .2], [131, .32], [72, .55], [124, .7], [80, .85], [136, .5], [68, .4], [128, .15]].forEach(([x, f], k) => { const y = r.y0 + 6 + f * (r.h - 12); q += `<ellipse cx="${x}" cy="${f1(y)}" rx="${1.6 + (k % 3) * .5}" ry="${2.2 + (k % 3) * .6}" fill="#fff" opacity=".22"/><circle cx="${f1(x - .5)}" cy="${f1(y - .8)}" r=".7" fill="#fff" opacity=".7"/>`; });
+  return q;
+}
 function layerArt(id, key, c, r) {
+  if (key === 'sp_clear') return `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="#cfe0e4" opacity=".3"/><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(Math.min(2.4, r.h))}" fill="#fff" opacity=".75"/><rect x="0" y="${f1(r.y0 + 2.4)}" width="200" height="${f1(Math.min(4, r.h))}" fill="#fff" opacity=".12"/>`;
+  if (BEER[key] || key === 'beer_foam' || key === 'beer_foam_d') return beerArt(id, key, c, r) + `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h)}" fill="url(#${id}s)"/>`;
   let q = `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="${c}"/><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(Math.min(3, r.h))}" fill="#fff" opacity=".18"/>`;
   const my = r.y0 + r.h / 2;
   if (key === 'mint') q += [70, 96, 120].map((x, k) => `<ellipse cx="${x}" cy="${f1(my)}" rx="10" ry="5" fill="#3f7f32" transform="rotate(${k * 40 - 30} ${x} ${f1(my)})"/>`).join('');
-  if (['whip', 'foam', 'icecream', 'beer_foam', 'beer_foam_d', 'tfoam'].includes(key)) q += Array.from({ length: 8 }, (_, k) => `<circle cx="${44 + k * 16}" cy="${f1(r.y0 + 3)}" r="9" fill="${c}"/>`).join('');
+  if (['whip', 'foam', 'icecream', 'tfoam'].includes(key)) q += Array.from({ length: 8 }, (_, k) => `<circle cx="${44 + k * 16}" cy="${f1(r.y0 + 3)}" r="9" fill="${c}"/>`).join('');
   if (key === 'ice') q += [[78, 0], [106, 6], [130, -3]].map(([x, o]) => `<rect x="${x - 12}" y="${f1(my - 11 + o)}" width="24" height="22" rx="5" fill="#eef8fb" opacity=".75" stroke="#fff" stroke-opacity=".8" transform="rotate(${o * 3} ${x} ${f1(my)})"/>`).join('');
-  if (FIZZ.includes(key) && r.h > 14) q += Array.from({ length: 9 }, (_, k) => `<circle cx="${64 + (k * 37) % 76}" cy="${f1(r.y0 + 6 + ((k * 53) % Math.max(8, r.h - 10)))}" r="${1.4 + (k % 3) * .7}" fill="#fff" opacity=".45"/>`).join('');
+  if (FIZZ.includes(key) && !BEER[key] && r.h > 14) q += Array.from({ length: 9 }, (_, k) => `<circle cx="${64 + (k * 37) % 76}" cy="${f1(r.y0 + 6 + ((k * 53) % Math.max(8, r.h - 10)))}" r="${1.4 + (k % 3) * .7}" fill="#fff" opacity=".45"/>`).join('');
   return q + `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h)}" fill="url(#${id}s)"/>`;
 }
 function glassDefs(id, g) {
@@ -228,9 +260,13 @@ function glassSVG(d, only) {
   let s = `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${glassDefs(id, g)}`;
   const one = i => { const l = U.lq[lay[i][0]] || ['', '', '#ccc']; return `<g clip-path="url(#${id})">${layerArt(id, lay[i][0], l[2], geo[i])}</g>`; };
   if (only != null) return s + one(only) + '</svg>';
+  const k = d.gk || 1, base = g.base || g.bot + 12;
+  if (k !== 1) s += `<g transform="matrix(${k},0,0,${k},${f1(100 * (1 - k))},${f1(base * (1 - k))})">`;
   lay.forEach((_, i) => { s += one(i); });
+  if (g.beer) s += `<g clip-path="url(#${id})">${dropsArt(geo, lay)}</g>`;
   if (g.straw) s += `<path d="M${g.straw[0]} ${g.straw[1]}L${g.straw[2]} ${g.straw[3]}" stroke="#CFA670" stroke-width="5" stroke-linecap="round" opacity=".9"/>`;
-  return s + `<path d="${g.o}" fill="none" stroke="rgba(241,234,223,.55)" stroke-width="3" stroke-linejoin="round"/><path d="${g.clip}" fill="url(#${id}s)" opacity=".5"/></svg>`;
+  s += `<path d="${g.o}" fill="none" stroke="rgba(241,234,223,.55)" stroke-width="3" stroke-linejoin="round"/><path d="${g.clip}" fill="url(#${id}s)" opacity=".5"/>${g.extra || ''}`;
+  return s + (k !== 1 ? '</g>' : '') + '</svg>';
 }
 const glassShell = d => { const g = GLASS[d.glass] || GLASS.highball, id = 'gs' + (++GID); return `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${glassDefs(id, g)}<path d="${g.clip}" fill="url(#${id}s)" opacity=".6"/><path d="${g.o}" fill="none" stroke="rgba(241,234,223,.6)" stroke-width="3" stroke-linejoin="round"/></svg>`; };
 const strawSVG = d => { const g = GLASS[d.glass]; if (!g || !g.straw) return ''; return `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M${g.straw[0]} ${g.straw[1]}L${g.straw[2]} ${g.straw[3]}" stroke="#CFA670" stroke-width="5" stroke-linecap="round" opacity=".9"/></svg>`; };
@@ -466,7 +502,7 @@ function stageHero(it) {
   return { cls: 'ill', html: plateArt(it, curComps(it)) };
 }
 function packStage(d) {
-  const glass = d.layers ? `<span class="pk-g">${glassSVG(d)}</span>` : '';
+  const glass = d.layers ? `<span class="pk-g v-${d.glass}">${glassSVG(d)}</span>` : '';
   return `<div class="pk-s${glass ? ' wg' : ''}"><span class="pk-b"><img src="${packSrc(d.pack)}" alt="${esc(d.sr)}"></span>${glass}<i class="pk-f"></i></div>`;
 }
 const canSplit = it => it.kind === 'drink' ? !!it.split : it.kind === 'cake' ? (it.mode !== 'none' && curComps(it).length > 0) : (it.mode && it.mode !== 'none' && curComps(it).length > 0);

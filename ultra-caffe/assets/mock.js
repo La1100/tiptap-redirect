@@ -47,9 +47,19 @@ function reservations(loc, date) {
       } else tm += .5 + R() * 1.2;
     }
   });
-  // lične rezervacije napravljene na ovom uređaju (demo)
-  try { const mine = JSON.parse(localStorage.getItem('uc_myres') || '[]'); mine.filter(m => m.loc === loc && m.date === key).forEach(m => out.push(Object.assign({ mine: 1 }, m))); } catch (e) { }
-  return out.sort((a, b) => a.start - b.start);
+  // zahtevi koji čekaju potvrdu hostese: po dva danas (samo budući termini) i sutra; odluke hostese sa ovog uređaja
+  const dd = Math.round((d - day0()) / 864e5), now = new Date(), nowH = now.getHours() + now.getMinutes() / 60, RP = rng(hash('p' + loc + key));
+  let dec = {}; try { dec = JSON.parse(localStorage.getItem('uc_resdec') || '{}'); } catch (e) { }
+  let np = 0;
+  out.forEach(r => {
+    const x = RP(), y = RP(); r.st = 'ok';
+    if ((dd === 0 || dd === 1) && np < 2 && x < .3 && (r.src === 'Digitalni meni' || r.src === 'Instagram') && (dd > 0 || r.start > nowH + .75)) { r.st = 'pending'; r.ago = 2 + Math.floor(y * 38); np++; }
+    const v = dec[r.id] && dec[r.id].v; if (v) { r.st = v; r.by = 'host'; }
+  });
+  const kept = out.filter(r => r.st !== 'no');
+  // lične rezervacije napravljene na ovom uređaju (demo); odbijene se ne vide u sali
+  try { const mine = JSON.parse(localStorage.getItem('uc_myres') || '[]'); mine.filter(m => m.loc === loc && m.date === key && m.st !== 'no').forEach(m => kept.push(Object.assign({ mine: 1 }, m, { st: m.st || 'ok' }))); } catch (e) { }
+  return kept.sort((a, b) => a.start - b.start);
 }
 // status rezervacije u trenutku h (sati od ponoći, decimalno), za danas
 function status(r, h, R) {

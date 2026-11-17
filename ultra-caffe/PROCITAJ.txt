@@ -5,7 +5,8 @@ Tri stranice istog sistema:
   index.html               Digitalni meni (gost): početni ekran sa grupama, pretraga, „Pomozi mi da izaberem”,
                            svako jelo, piće i kolač se samo rastavi čim se otvori (dugme „Sastavi” ga vraća),
                            plate i doručci na daskama u perspektivi sa opisom svake namirnice, Google recenzije
-  rezervacije/index.html   Rezervacija stola na tlocrtu (gost) i „Sala uživo” (hostesa)
+  rezervacije/index.html   Gost bira termin i sto na tlocrtu i šalje zahtev; hostesa ga potvrđuje ili odbija u „Sali uživo”,
+                           a gost dobija potvrdu porukom. Lokal može da uključi i automatsku potvrdu.
   uprava/index.html        Uprava: promet, gosti, inženjering menija, digitalni meni, rezervacije, recenzije
 
 Kako otvoriti na računaru:
@@ -28,4 +29,5 @@ Google recenzije: gost uvek sam bira — javna recenzija na Google-u ili privatn
 Nema filtriranja po broju zvezdica (Google to ne dozvoljava).
 
 Trik za prezentaciju: na istom telefonu/računaru otvorite meni, rastavite jelo i dodajte ga na listu,
-napravite rezervaciju — sve se odmah vidi u upravi u delu „Uživo sa ovog uređaja” i u „Sali uživo”.
+pošaljite zahtev za rezervaciju, pa „Potvrdi kao hostesa” → „Potvrdi” → „Pogledaj kako gost vidi”.
+Sve se odmah vidi i u upravi u delu „Uživo sa ovog uređaja”.

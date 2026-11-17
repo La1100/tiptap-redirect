@@ -534,3 +534,10 @@ svg.cut .pp-sec{opacity:1;transform:none}
 .stage .ph.pack.dig>img.pk-bgp{opacity:.2;filter:blur(3px) saturate(.85);transform:scale(1.06)}
 .stage .ph.pack.hasbg .pk-s{opacity:0;transform:translateY(26px);transition:opacity .7s .25s,transform .9s .25s cubic-bezier(.2,.8,.2,1)}
 .stage .ph.pack.hasbg.dig .pk-s{opacity:1;transform:none}
+/* čaša pored flaše u realnoj veličini: štamplica, čaša za viski, čokanjče, snifter (vino ostaje veće) */
+.pk-s.wg .pk-b{transform:none;flex:none}
+.pk-s.wg .pk-g{position:relative;left:auto;bottom:auto;flex:none;height:64%;margin-left:-3%}
+.pk-s.wg .pk-g.v-shot{height:26%;margin-left:-1%}
+.pk-s.wg .pk-g.v-rocks{height:31%}
+.pk-s.wg .pk-g.v-cokanj{height:40%;margin-left:-1%}
+.pk-s.wg .pk-g.v-snifter{height:38%}
