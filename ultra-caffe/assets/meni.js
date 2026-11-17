@@ -236,8 +236,8 @@ const glassShell = d => { const g = GLASS[d.glass] || GLASS.highball, id = 'gs' 
 const strawSVG = d => { const g = GLASS[d.glass]; if (!g || !g.straw) return ''; return `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M${g.straw[0]} ${g.straw[1]}L${g.straw[2]} ${g.straw[3]}" stroke="#CFA670" stroke-width="5" stroke-linecap="round" opacity=".9"/></svg>`; };
 // sličica pića u redu: flaša, čaša ili fotografija
 function drinkLead(d) {
-  if (d.pack) return `<span class="dl pk"><img src="${packSrc(d.pack, 1)}" alt="" loading="lazy"></span>`;
   if (d.img) return `<span class="dl ph"><img src="${img(d.img, 1)}" alt="" loading="lazy"></span>`;
+  if (d.pack) return `<span class="dl pk"><img src="${packSrc(d.pack, 1)}" alt="" loading="lazy"></span>`;
   return `<span class="dl gi">${glassSVG(d)}</span>`;
 }
 
@@ -450,8 +450,9 @@ addEventListener('popstate', e => {
 
 function stageHero(it) {
   if (it.kind === 'drink') {
+    if (it.pack && it.img && !it.split) return { cls: 'pack hasbg', html: `<img class="pk-bgp" src="${img(it.img)}" alt="">` + packStage(it) };
+    const ph = photoOf(it); if (ph) return { cls: '', html: `<img src="${img(ph[0])}" alt="">`, gal: ph };   // njihova fotografija je naslovna
     if (it.pack) return { cls: 'pack', html: packStage(it) };
-    const ph = photoOf(it); if (ph) return { cls: '', html: `<img src="${img(ph[0])}" alt="">`, gal: ph };
     return { cls: 'ill glass', html: glassSVG(it) };
   }
   if (it.kind === 'cake') {
@@ -513,7 +514,7 @@ function infoHTML(it) {
   }
   const prs = (it.pair || []).map(pairOf).filter(Boolean);
   if (prs.length) h += `<div><h3 style="font-size:22px;margin-bottom:12px">${t(it.kind === 'dish' ? 'pair' : 'pair_d')}</h3><div class="pairs">${prs.map(p => {
-    let im; if (p.kind === 'cake') im = `<span class="im cut"><img src="${cutSrc(p, 1)}" alt=""></span>`; else if (p.kind === 'drink') im = `<span class="im dk">${p.pack ? `<img class="pk" src="${packSrc(p.pack, 1)}" alt="">` : p.img ? `<img src="${img(p.img, 1)}" alt="">` : glassSVG(p)}</span>`;
+    let im; if (p.kind === 'cake') im = `<span class="im cut"><img src="${cutSrc(p, 1)}" alt=""></span>`; else if (p.kind === 'drink') im = `<span class="im dk">${p.img ? `<img src="${img(p.img, 1)}" alt="">` : p.pack ? `<img class="pk" src="${packSrc(p.pack, 1)}" alt="">` : glassSVG(p)}</span>`;
     else im = photoOf(p) ? `<span class="im"><img src="${img(photoOf(p)[0], 1)}" alt=""></span>` : `<span class="im"><img src="img/i/${p.id}.webp" alt=""></span>`;
     return `<button class="pc" data-id="${p.id}">${im}<b>${esc(nm(p))}</b>${money(p.price)}</button>`; }).join('')}</div></div>`;
   return h;
@@ -527,6 +528,7 @@ function bindDish(it) {
   $('#addBtn', sh).onclick = () => addToCart(it);
   bindInfo(it); updAdd(it); sizeStage(it);
   if (stageHero(it).illus) prepIll(it);
+  if ($('#ph.hasbg')) setTimeout(() => { const p = $('#ph.hasbg'); if (p && CUR === it) p.classList.add('dig'); }, reduced ? 50 : 700);
 }
 function bindInfo(it) {
   $$('#info .vars button').forEach(b => b.onclick = () => { VAR = +b.dataset.v; const open = $('#st').classList.contains('open'); $('#info').innerHTML = infoHTML(it); bindInfo(it); updAdd(it); if (open) { closeX(true); setTimeout(() => openX(it), 60); } else if (!photoOf(it) && it.mode === 'plate') $('#ph').innerHTML = plateArt(it, curComps(it)); else if (stageHero(it).illus) prepIll(it); });
@@ -1265,7 +1267,7 @@ function updDock(bump) {
 }
 function cartThumb(it) {
   if (it.kind === 'cake') return `<img src="${cutSrc(it, 1)}" alt="" style="object-fit:contain">`;
-  if (it.kind === 'drink') return it.pack ? `<img src="${packSrc(it.pack, 1)}" alt="" style="object-fit:contain;padding:3px">` : it.img ? `<img src="${img(it.img, 1)}" alt="">` : glassSVG(it);
+  if (it.kind === 'drink') return it.img ? `<img src="${img(it.img, 1)}" alt="">` : it.pack ? `<img src="${packSrc(it.pack, 1)}" alt="" style="object-fit:contain;padding:3px">` : glassSVG(it);
   return photoOf(it) ? `<img src="${img(photoOf(it)[0], 1)}" alt="">` : `<img src="img/i/${it.id}.webp" alt="">`;
 }
 function sheetOpen(sh) { sh.classList.add('on'); $('#scrim').classList.add('on'); document.body.classList.add('lock'); }
