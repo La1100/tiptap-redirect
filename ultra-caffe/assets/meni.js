@@ -1,7 +1,9 @@
 /* =====================================================================
-   ULTRA CAFFE · TipTap Signature demo — gost
-   Meni sa „Rastavi jelo” (slojevi, gramaža, kalorije, alergeni), piće sa
-   slojevima u čaši, vitrina kolača, torte po porudžbini, lista za konobara.
+   ULTRA CAFFE · TipTap Signature demo — gost (v2)
+   Početni ekran sa grupama, pretraga i „Pomozi mi da izaberem”.
+   Rastavljanje: tanjir iz kog izlaze sastojci, piće koje se rasprsne na
+   sve strane, kolači u čašama po slojevima, presek kupole sa curenjem,
+   Popsy na štapićima. Prave boce i limenke. Google recenzije.
    Ilustracije sastojaka: KART (assets/kart.js). Podaci: assets/data.js.
    ===================================================================== */
 (function () {
@@ -20,11 +22,11 @@ const qs = new URLSearchParams(location.search);
 let L = qs.get('lang') || LS.get('lang', 'sr'); if (!['sr', 'en'].includes(L)) L = 'sr';
 let LOC = qs.get('lokal') || LS.get('loc', 'centar'); if (!U.locs.some(l => l.id === LOC)) LOC = 'centar';
 let CART = LS.get('cart', []);
-let SEC = 'jela';
+let VIEW = 'home', GRP = null, QRY = '', homeY = 0;
 
 const TX = {
   sr: { menu: 'Jelovnik', drinks: 'Piće', cakes: 'Kolači', torte: 'Torte', open_menu: 'Otvori meni', reserve: 'Rezerviši sto', call: 'Pozovi', skip: 'Preskoči',
-    open_until: 'Otvoreno do', closed: 'Zatvoreno', opens: 'otvara se u', split: 'Rastavi jelo', split_d: 'Rastavi piće', join: 'Sastavi', made_of: 'Od čega je napravljeno',
+    open_until: 'Otvoreno do', closed: 'Zatvoreno', opens: 'otvara se u', split: 'Rastavi jelo', split_d: 'Rastavi piće', split_k: 'Rastavi kolač', cut_k: 'Preseci kolač', join: 'Sastavi', made_of: 'Od čega je napravljeno',
     with_dish: 'Uz jelo', est: 'okvirna procena', side: 'prilog', add: 'Dodaj na listu', added: 'Dodato na listu', list: 'Moja lista', items: 'stavki', item1: 'stavka', items2: 'stavke',
     show_waiter: 'Pokaži konobaru', call_waiter: 'Pozovi konobara', waiter_called: 'Konobar je pozvan za vaš sto', total: 'Ukupno', empty: 'Lista je prazna. Dodajte jelo ili piće i pokažite listu konobaru.',
     list_lead: 'Lista vam pomaže da se dogovorite za stolom. Porudžbinu potvrđuje konobar.', prep: 'Priprema', portion: 'Porcija', energy: 'Energija', minutes: 'min',
@@ -34,12 +36,22 @@ const TX = {
     torte_t: 'Torte po porudžbini', torte_lead: 'Pored velikih torti pravimo i mini torte od 1 kg, a Popsi su obavezan deo svakog rođendana. Poručite par dana ranije.',
     per_kg: 'za 1 kg', order_cake: 'Poruči tortu', call_shop: 'Pozovi radionicu', flavor: 'Ukus', weight: 'Težina', date: 'Datum preuzimanja', pickup: 'Preuzimanje',
     msg: 'Natpis na torti', name: 'Ime i prezime', phone: 'Telefon', send: 'Pošalji zahtev', sent_t: 'Zahtev je poslat', sent_d: 'Radionica vas zove da potvrdi ukus, dizajn i termin. U demo verziji zahtev se ne šalje.',
-    vitrina: 'Vitrina', vitrina_lead: 'Kolači iz naše poslastičarnice — svaki možete rastaviti na slojeve.', ml: 'ml', glass: 'čaša', layers_cap: 'Šta je u čaši',
-    hours: 'Radno vreme', contact: 'Kontakt', demo_t: 'TipTap demo za Ultra Caffe', demo_b: 'DEMO', back: 'Nazad', close: 'Zatvori', photo: 'Fotografija',
+    vitrina_lead: 'Kolači iz naše poslastičarnice — svaki možete rastaviti ili preseći.', ml: 'ml', glass: 'u čaši', layers_cap: 'Šta je u čaši',
+    hours: 'Radno vreme', contact: 'Kontakt', demo_t: 'TipTap demo za Ultra Caffe', back: 'Nazad', close: 'Zatvori', photo: 'Fotografija',
     footer_note: 'Prikaz digitalnog menija koji je TipTap pripremio za Ultra Caffe. Jelovnik, cene i fotografije su sa vašeg sajta i Instagrama; gramaže, kalorije i alergeni su okvirni i čekaju potvrdu kuhinje.',
-    tap_split: 'Dodirnite i pogledajte slojeve', tbl: 'Sto', guests_note: 'Pokažite ovaj ekran konobaru', more: 'još', from: 'od' },
+    tap_split: 'Dodirnite i pogledajte šta je unutra', tap_cut: 'Dodirnite i presecite', guests_note: 'Pokažite ovaj ekran konobaru', from: 'od',
+    search_ph: 'Pretražite meni', help: 'Pomozi mi da izaberem', house: 'Preporuka kuće', g_hrana: 'Hrana', g_slatko: 'Slatko', g_pice: 'Piće',
+    c_hrana: 'jela', c_pice: 'pića', c_kolaci: 'kolača', c_torte: 'ukusa', results: 'Rezultati', no_res: 'Ništa nije pronađeno. Probajte drugu reč, na primer „pasta” ili „kafa”.',
+    all: 'Sve', home: 'Meni', reviews: 'recenzija na Google-u', reviews_s: 'recenzija', on_g: 'na Google-u', rev_t: 'Kako vam je bilo?', rev_lead: 'Vaše mišljenje pomaže drugim gostima, a nama da budemo još bolji.',
+    rev_g: 'Ostavi recenziju na Google-u', rev_g_s: 'Javno, za sve goste', rev_m: 'Piši menadžeru', rev_m_s: 'Privatno, samo za nas', rev_read: 'Pročitaj recenzije',
+    rev_m_lead: 'Poruku vidi samo menadžer lokala. Ako želite odgovor, ostavite broj telefona.', rev_m_ph: 'Šta je bilo odlično, a šta možemo bolje?', rev_m_send: 'Pošalji menadžeru',
+    rev_m_ok: 'Hvala! Menadžer je dobio vašu poruku.', rev_m_demo: 'U demo verziji poruka se ne šalje.', rev_card_t: 'Svidelo vam se?', rev_card_d: 'Ocenite nas na Google-u ili pišite direktno menadžeru.',
+    size: 'Zapremina', kind: 'Vrsta', origin: 'Vinarija i poreklo', served: 'Služi se', served_glass: 'u čaši', served_btl: 'u flaši', served_can: 'u limenci', per_glass: 'po čaši',
+    help_t: 'Pomoći ćemo vam da izaberete', q1: 'Koliko ste gladni?', q2: 'Šta vam se jede?', q3: 'Šta pijete uz to?', pick_t: 'Naš predlog za vas', add_all: 'Dodaj sve na listu', again: 'Ponovo',
+    a_light: 'Nešto lagano', a_meal: 'Pravi obrok', a_share: 'Za deljenje', a_meat: 'Meso', a_fish: 'Riba', a_veg: 'Bez mesa', a_any: 'Iznenadite me',
+    a_coffee: 'Kafa', a_fresh: 'Nešto osvežavajuće', a_wine: 'Vino ili pivo', a_cocktail: 'Koktel', step: 'Korak', dessert: 'Za kraj', p_dish: 'Jelo', p_drink: 'Piće' },
   en: { menu: 'Food', drinks: 'Drinks', cakes: 'Cakes', torte: 'Cakes to order', open_menu: 'Open the menu', reserve: 'Book a table', call: 'Call', skip: 'Skip',
-    open_until: 'Open until', closed: 'Closed', opens: 'opens at', split: 'Take it apart', split_d: 'Take it apart', join: 'Put it back', made_of: 'What it’s made of',
+    open_until: 'Open until', closed: 'Closed', opens: 'opens at', split: 'Take it apart', split_d: 'Take it apart', split_k: 'Take it apart', cut_k: 'Cut it open', join: 'Put it back', made_of: 'What it’s made of',
     with_dish: 'On the side', est: 'estimate', side: 'side', add: 'Add to my list', added: 'Added to your list', list: 'My list', items: 'items', item1: 'item', items2: 'items',
     show_waiter: 'Show the waiter', call_waiter: 'Call the waiter', waiter_called: 'A waiter is on the way to your table', total: 'Total', empty: 'Your list is empty. Add dishes or drinks and show the list to your waiter.',
     list_lead: 'Your list helps the table decide. The waiter confirms the order.', prep: 'Ready in', portion: 'Portion', energy: 'Energy', minutes: 'min',
@@ -49,10 +61,20 @@ const TX = {
     torte_t: 'Cakes to order', torte_lead: 'Besides full-size cakes we make 1 kg mini cakes, and our Popsy cake pops belong at every birthday. Order a few days ahead.',
     per_kg: 'per 1 kg', order_cake: 'Order a cake', call_shop: 'Call the bakery', flavor: 'Flavour', weight: 'Weight', date: 'Pick-up date', pickup: 'Pick-up',
     msg: 'Message on the cake', name: 'Full name', phone: 'Phone', send: 'Send request', sent_t: 'Request sent', sent_d: 'The bakery will call you to confirm flavour, design and time. In this demo nothing is sent.',
-    vitrina: 'Pastry case', vitrina_lead: 'Cakes from our own pastry kitchen — take any of them apart, layer by layer.', ml: 'ml', glass: 'glass', layers_cap: 'What’s in the glass',
-    hours: 'Opening hours', contact: 'Contact', demo_t: 'TipTap demo for Ultra Caffe', demo_b: 'DEMO', back: 'Back', close: 'Close', photo: 'Photo',
+    vitrina_lead: 'Cakes from our own pastry kitchen — take any of them apart or cut it open.', ml: 'ml', glass: 'in the glass', layers_cap: 'What’s in the glass',
+    hours: 'Opening hours', contact: 'Contact', demo_t: 'TipTap demo for Ultra Caffe', back: 'Back', close: 'Close', photo: 'Photo',
     footer_note: 'A digital menu preview prepared by TipTap for Ultra Caffe. Menu, prices and photos come from your website and Instagram; weights, calories and allergens are estimates awaiting kitchen sign-off.',
-    tap_split: 'Tap to see every layer', tbl: 'Table', guests_note: 'Show this screen to your waiter', more: 'more', from: 'from' }
+    tap_split: 'Tap to see what’s inside', tap_cut: 'Tap to cut it open', guests_note: 'Show this screen to your waiter', from: 'from',
+    search_ph: 'Search the menu', help: 'Help me choose', house: 'House picks', g_hrana: 'Food', g_slatko: 'Sweets', g_pice: 'Drinks',
+    c_hrana: 'dishes', c_pice: 'drinks', c_kolaci: 'cakes', c_torte: 'flavours', results: 'Results', no_res: 'Nothing found. Try another word, like “pasta” or “coffee”.',
+    all: 'All', home: 'Menu', reviews: 'Google reviews', reviews_s: 'reviews', on_g: 'on Google', rev_t: 'How was it?', rev_lead: 'Your opinion helps other guests — and helps us get even better.',
+    rev_g: 'Leave a Google review', rev_g_s: 'Public, for every guest', rev_m: 'Message the manager', rev_m_s: 'Private, just for us', rev_read: 'Read reviews',
+    rev_m_lead: 'Only the venue manager reads this. Leave a phone number if you’d like a reply.', rev_m_ph: 'What was great, and what could we do better?', rev_m_send: 'Send to the manager',
+    rev_m_ok: 'Thank you! The manager has your message.', rev_m_demo: 'In this demo nothing is sent.', rev_card_t: 'Enjoyed it?', rev_card_d: 'Rate us on Google or write straight to the manager.',
+    size: 'Size', kind: 'Type', origin: 'Winery & origin', served: 'Served', served_glass: 'by the glass', served_btl: 'in the bottle', served_can: 'in the can', per_glass: 'per glass',
+    help_t: 'Let us help you choose', q1: 'How hungry are you?', q2: 'What are you in the mood for?', q3: 'Something to drink with it?', pick_t: 'Our suggestion for you', add_all: 'Add all to my list', again: 'Start over',
+    a_light: 'Something light', a_meal: 'A proper meal', a_share: 'To share', a_meat: 'Meat', a_fish: 'Fish', a_veg: 'No meat', a_any: 'Surprise me',
+    a_coffee: 'Coffee', a_fresh: 'Something refreshing', a_wine: 'Wine or beer', a_cocktail: 'A cocktail', step: 'Step', dessert: 'To finish', p_dish: 'Dish', p_drink: 'Drink' }
 };
 const t = k => (TX[L] && TX[L][k] != null ? TX[L][k] : TX.sr[k] != null ? TX.sr[k] : k);
 const nm = o => (L === 'en' && o.en ? o.en : o.sr);
@@ -61,6 +83,8 @@ const money = p => `<span class="pr num">${nf(p)}<small>RSD</small></span>`;
 const GC = { meso: '#D07A5C', riba: '#E9A07E', sir: '#E6C899', povrce: '#9DBB68', prilog: '#D9AE6A', testo: '#D9AE6A', sos: '#D49A78', slatko: '#E3A9BD', voce: '#D2577A' };
 const IC = {
   split: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6.5h16M6 11h12M5 15.5h14M7 20h10"/><path d="M12 2.5v2M12 21.5v.5" opacity=".5"/></svg>',
+  knife: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5 4 14l3 3 3.5-3.5"/><path d="m10.5 13.5 9-9"/><path d="m13 17 3 3.5M16 14l4.5 4"/></svg>',
+  burst: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg>',
   bag: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>',
   x: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
   cal: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
@@ -70,9 +94,16 @@ const IC = {
   ok: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="28" opacity=".35"/><path d="M20 33l8 8 16-17"/></svg>',
   menu: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 5h14M5 12h14M5 19h9"/></svg>',
   chart: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
-  plan: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2.2"/><rect x="13" y="13" width="5" height="5" rx="1.2"/><path d="M3 13h6v8"/></svg>'
+  plan: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2.2"/><rect x="13" y="13" width="5" height="5" rx="1.2"/><path d="M3 13h6v8"/></svg>',
+  search: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.6 15.6 4.9 4.9"/></svg>',
+  spark: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.5 13.9 9.1 19.5 11 13.9 12.9 12 18.5 10.1 12.9 4.5 11 10.1 9.1Z"/><path d="M18.5 3.5v3M17 5h3M5.5 16.5v3M4 18h3" stroke-linecap="round"/></svg>',
+  back: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>',
+  arrow: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5.5 15.5 12 9 18.5"/></svg>',
+  chat: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.5A1.5 1.5 0 0 1 19 17h-7l-4.5 3.5V17H5a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 5 5.5Z"/></svg>',
+  ext: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5h6v6M19.5 4.5l-8 8M10 6.5H6a1.5 1.5 0 0 0-1.5 1.5v10A1.5 1.5 0 0 0 6 19.5h10a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg>',
+  g: '<svg class="gl" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>'
 };
-// alergeni: jednostavni simboli
+const stars = r => `<span class="stars" style="--p:${Math.round(r / 5 * 100)}%" aria-hidden="true">★★★★★</span>`;
 const ALI = {
   gluten: '<path d="M12 21V8M12 8c-2-1-3-3-3-5 2 .5 3 2 3 5Zm0 0c2-1 3-3 3-5-2 .5-3 2-3 5Zm0 4c-2-1-3.5-2.5-3.5-4.5 2 .5 3.5 2 3.5 4.5Zm0 0c2-1 3.5-2.5 3.5-4.5-2 .5-3.5 2-3.5 4.5Zm0 4c-2-1-3.5-2.5-3.5-4.5 2 .5 3.5 2 3.5 4.5Zm0 0c2-1 3.5-2.5 3.5-4.5-2 .5-3.5 2-3.5 4.5Z"/>',
   jaja: '<path d="M12 3.5c3.2 0 6 5.2 6 9.5a6 6 0 0 1-12 0c0-4.3 2.8-9.5 6-9.5Z"/>',
@@ -97,6 +128,9 @@ KOL.forEach(i => { i.kind = 'cake'; BY[i.id] = i; });
 DR.forEach(d => { BY[d.id] = d; BY['d:' + d.sr] = d; });
 const pairOf = s => s.startsWith('d:') ? BY[s] : BY[s.slice(2)];
 const locOf = id => U.locs.find(l => l.id === id);
+const GRPS = U.groups;
+const grpOf = id => GRPS.find(g => g.id === id);
+const membersOf = g => g.cats[0] === 'kolaci' ? KOL : g.cats[0] === 'torte' ? U.torte : g.sec === 'pice' ? DR.filter(d => g.cats.includes(d.cat)) : ITEMS.filter(i => g.cats.includes(i.cat));
 
 // ---------------------------------------------------------------- događaji za upravu (isti uređaj)
 function hit(type, id) {
@@ -105,31 +139,37 @@ function hit(type, id) {
 
 // ---------------------------------------------------------------- slike
 const img = (k, thumb) => `img/f/${k}${thumb ? '-t' : ''}.webp`;
-const photoOf = it => (it.img && it.img.length ? it.img : null);
+const photoOf = it => (it.kind === 'drink' ? (it.img ? [it.img] : null) : (it.img && it.img.length ? it.img : null));
+const cutSrc = (it, thumb) => `img/c/${it.cut}${thumb ? '-t' : ''}.webp`;
+const packSrc = (p, thumb) => `img/p/${p}${thumb ? '-t' : ''}.webp`;
+const artInner = (key, seed) => K.top(key, seed).replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
 function topArt(key, seed, w = 120, x = 0, y = 0) {
   return K.top(key, seed).replace('<svg viewBox="0 0 120 120"', `<svg x="${f1(x)}" y="${f1(y)}" width="${f1(w)}" height="${f1(w)}" viewBox="0 0 120 120"`);
 }
-// ilustrovan tanjir: sastojci odozgo složeni na kremast tanjir (kad nema fotografije)
+// glavni sastojak u sredini tanjira (naslovna ilustracija kad nema fotografije)
+function heroFirst(it, comps) {
+  const main = (comps || it.comps || []).filter(c => !c.side);
+  const h = main.find(c => c.i === it.hero) || main[0];
+  return [h].concat(main.filter(c => c !== h).sort((a, b) => b.g - a.g)).filter(Boolean).slice(0, 6);
+}
 function plateArt(it, comps) {
-  const main = (comps || it.comps).filter(c => !c.side).slice().sort((a, b) => b.g - a.g).slice(0, 6);
-  const n = main.length, cx = 120, cy = 120;
+  const main = heroFirst(it, comps), n = main.length, cx = 120, cy = 120;
   let s = `<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><radialGradient id="pl-${it.id}" cx=".42" cy=".36" r=".8"><stop offset="0" stop-color="#fbf7ee"/><stop offset=".7" stop-color="#e9e1d1"/><stop offset="1" stop-color="#cfc4ae"/></radialGradient></defs>`;
   s += `<circle cx="120" cy="126" r="108" fill="#000" opacity=".35"/><circle cx="120" cy="120" r="108" fill="url(#pl-${it.id})"/><circle cx="120" cy="120" r="84" fill="none" stroke="#d6cbb5" stroke-width="1.4"/><circle cx="120" cy="120" r="104" fill="none" stroke="#b9975f" stroke-width="1.2" opacity=".55"/>`;
-  main.forEach((c, i) => {
-    let x, y, w;
-    if (i === 0) { w = n > 3 ? 92 : 104; x = cx - w / 2 + (n > 1 ? -14 : 0); y = cy - w / 2 + (n > 1 ? -6 : 0); }
-    else { const a = -0.6 + (i - 1) / Math.max(1, n - 1) * Math.PI * 1.55; w = Math.max(52, 70 - i * 3); x = cx + Math.cos(a) * 52 - w / 2 + 8; y = cy + Math.sin(a) * 50 - w / 2 + 4; }
+  const order = main.map((c, i) => i).slice(1).concat([0]); // glavni se crta poslednji, preko ostalih
+  order.forEach(i => {
+    const c = main[i]; let x, y, w;
+    if (i === 0) { w = n > 3 ? 132 : n > 1 ? 144 : 170; x = cx - w / 2 + (n > 1 ? -12 : 0); y = cy - w / 2 + (n > 1 ? -6 : 0); }
+    else { const a = -0.35 + (i - 1) / Math.max(1, n - 1) * Math.PI * 1.55; w = Math.max(64, 88 - i * 4); x = cx + Math.cos(a) * 64 - w / 2 + 8; y = cy + Math.sin(a) * 62 - w / 2 + 6; }
     s += topArt(c.a, i, w, x, y);
   });
   return s + '</svg>';
 }
 function thumbHTML(it) {
-  if (it.kind === 'cake' && it.cut) return `<span class="th cut"><img src="img/k/${it.cut}.webp" alt="" loading="lazy"></span>`;
+  if (it.kind === 'cake') return `<span class="th cut"><img src="${cutSrc(it, 1)}" alt="" loading="lazy"></span>`;
   const ph = photoOf(it);
   if (ph) return `<span class="th"><img src="${img(ph[0], 1)}" alt="" loading="lazy"></span>`;
-  const main = (it.comps || []).filter(c => !c.side).slice().sort((a, b) => b.g - a.g)[0];
-  const art = it.mode === 'pizza' ? 'pizza_base' : it.mode === 'stack' ? (it.comps.find(c => /patty|chicken|veg_patty|ham|pecenica/.test(c.a)) || main || {}).a : (main || {}).a;
-  return `<span class="th" data-art="${esc(art || 'fries')}" data-seed="${(it.id.length * 7) % 13}"></span>`;
+  return `<span class="th ill"><img src="img/i/${it.id}.webp" alt="" loading="lazy" onerror="this.parentNode.dataset.art='${esc(heroFirst(it)[0] ? heroFirst(it)[0].a : 'fries')}';this.remove()"></span>`;
 }
 const tagHTML = it => {
   const tg = [];
@@ -139,7 +179,7 @@ const tagHTML = it => {
 };
 const descOf = it => (L === 'en' ? it.desc_en || it.desc : it.desc) || '';
 
-// ---------------------------------------------------------------- čaša (piće u slojevima)
+// ---------------------------------------------------------------- čaše, šolje i posuđe (viewBox 200×300)
 const GLASS = {
   highball: { hw: () => 42, o: 'M52 26V274Q52 284 62 284H138Q148 284 148 274V26', clip: 'M58 30H142V264Q142 270 136 270H64Q58 270 58 264Z', top: 34, bot: 268, fill: .86, straw: [112, 4, 128, 250] },
   tall: { hw: y => 48 - (y - 30) / 240 * 11, o: 'M46 26 58 278Q60 286 70 286H130Q140 286 142 278L154 26', clip: 'M52 30H148L137 270H63Z', top: 34, bot: 270, fill: .88, straw: [118, 2, 126, 252] },
@@ -147,53 +187,69 @@ const GLASS = {
   rocks: { hw: y => 56 - (y - 120) / 148 * 6, o: 'M38 116 44 274Q46 284 56 284H144Q154 284 156 274L162 116', clip: 'M44 120H156L150 268H50Z', top: 124, bot: 268, fill: .8 },
   martini: { hw: y => 70 * (160 - y) / 114, o: 'M22 42H178L100 166ZM100 166V270M62 278Q100 266 138 278', clip: 'M30 46H170L100 160Z', top: 48, bot: 158, fill: .86, tri: 1 },
   wine: { hw: y => 39 * Math.sqrt(Math.max(0, 1 - Math.pow((y - 40) / 140, 2))), o: 'M56 34C46 120 62 176 100 182 138 176 154 120 144 34ZM100 182V270M60 278Q100 266 140 278', clip: 'M61 40C53 118 66 170 100 176 134 170 147 118 139 40Z', top: 46, bot: 174, fill: .62 },
-  cup: { hw: y => y < 226 ? 60 - (y - 144) / 82 * 7 : 53 * Math.sqrt(Math.max(0, 1 - Math.pow((y - 226) / 26, 2))), o: 'M34 140 42 228Q46 254 100 256 154 254 158 228L166 140ZM164 160Q192 162 188 188 184 212 156 210M30 262Q100 288 170 262', clip: 'M40 144 47 226Q51 248 100 250 149 248 153 226L160 144Z', top: 150, bot: 248, fill: .94 }
+  cup: { hw: y => y < 226 ? 60 - (y - 144) / 82 * 7 : 53 * Math.sqrt(Math.max(0, 1 - Math.pow((y - 226) / 26, 2))), o: 'M34 140 42 228Q46 254 100 256 154 254 158 228L166 140ZM164 160Q192 162 188 188 184 212 156 210M30 262Q100 288 170 262', clip: 'M40 144 47 226Q51 248 100 250 149 248 153 226L160 144Z', top: 150, bot: 248, fill: .94 },
+  espresso: { hw: y => 38 - (y - 196) / 56 * 7, o: 'M58 192 62 238Q66 256 100 257 134 256 138 238L142 192ZM140 204Q162 204 160 220 158 236 136 234M36 264Q100 284 164 264', clip: 'M62 196 66 237Q70 251 100 252 130 251 134 237L138 196Z', top: 200, bot: 250, fill: .9 },
+  fildzan: { hw: y => 30 - (y - 204) / 48 * 7, o: 'M66 200 72 244Q76 256 100 256 124 256 128 244L134 200ZM50 264Q100 278 150 264', clip: 'M70 204 76 242Q80 252 100 252 120 252 124 242L130 204Z', top: 206, bot: 250, fill: .86 },
+  mug: { hw: () => 43, o: 'M52 120V262Q52 280 70 280H130Q148 280 148 262V120ZM148 150Q182 150 182 186 182 222 148 222', clip: 'M57 124H143V258Q143 274 128 274H72Q57 274 57 258Z', top: 130, bot: 272, fill: .9 },
+  teacup: { hw: y => 64 - (y - 174) / 82 * 12, o: 'M30 170 40 230Q48 260 100 262 152 260 160 230L170 170ZM166 186Q194 188 190 210 186 230 158 228M24 270Q100 292 176 270', clip: 'M36 174 45 228Q52 254 100 256 148 254 155 228L164 174Z', top: 178, bot: 254, fill: .86 },
+  jug: { hw: () => 34, o: 'M66 130 60 150Q56 190 62 240Q66 268 100 270 134 268 138 240Q144 190 140 150L134 130ZM66 130Q62 120 52 118M138 160Q166 166 160 200 154 226 138 226', clip: 'M68 136 64 152Q60 190 66 238Q70 262 100 264 130 262 134 238Q140 190 136 152L132 136Z', top: 140, bot: 262, fill: .8 },
+  jar: { hw: () => 39, o: 'M62 150Q56 150 56 160V262Q56 276 70 276H130Q144 276 144 262V160Q144 150 138 150ZM64 132H136V150H64Z', clip: 'M61 156H139V260Q139 271 128 271H72Q61 271 61 260Z', top: 160, bot: 270, fill: .62 },
+  bowl: { hw: y => 56 - (y - 204) * .42, o: 'M40 200Q44 262 100 264 156 262 160 200ZM34 200H166', clip: 'M44 204Q48 258 100 260 152 258 156 204Z', top: 206, bot: 258, fill: .95 },
+  shot: { hw: y => 26 - (y - 200) / 68 * 6, o: 'M70 196 76 270Q77 278 85 278H115Q123 278 124 270L130 196', clip: 'M74 200H126L120 268H80Z', top: 206, bot: 268, fill: .75 },
+  pint: { hw: y => 45 - (y - 44) / 230 * 8, o: 'M50 40 58 270Q60 282 72 282H128Q140 282 142 270L150 40', clip: 'M55 44H145L137 268Q136 276 128 276H72Q64 276 63 268Z', top: 50, bot: 274, fill: .92 }
 };
+const VB = { espresso: [24, 168, 156, 110], fildzan: [34, 176, 132, 104], teacup: [14, 146, 186, 150], cup: [22, 118, 174, 176], bowl: [22, 176, 156, 100], jar: [36, 116, 128, 172], jug: [36, 100, 144, 182], shot: [52, 176, 96, 112], mug: [34, 96, 160, 196], rocks: [28, 96, 144, 196], martini: [14, 26, 172, 264] };
+const vbOf = d => VB[d.glass] || [0, 0, 200, 300];
+const vbS = d => vbOf(d).join(' ');
+const FIZZ = ['soda', 'tonic', 'sprite', 'cola', 'guarana', 'pgf', 'prosecco', 'beer', 'beer_dark'];
 function glassGeo(d) {
   const g = GLASS[d.glass] || GLASS.highball, lay = d.layers || [], tot = lay.reduce((a, b) => a + b[1], 0) || 1;
   const H = (g.bot - g.top) * g.fill, minH = 7;
   let hs = lay.map(l => Math.max(minH, H * l[1] / tot)); const k = H / hs.reduce((a, b) => a + b, 0); hs = hs.map(h => h * k);
-  let y = g.bot; const geo = hs.map((h, i) => { const r = { y0: y - h, y1: y, h }; y -= h; return r; });
+  let y = g.bot; const geo = hs.map(h => { const r = { y0: y - h, y1: y, h }; y -= h; return r; });
   return { g, geo, lay };
 }
-function glassSVG(d, only, uid) {
-  const { g, geo, lay } = glassGeo(d); const id = 'gc' + (uid || '') + Math.random().toString(36).slice(2, 7);
-  let s = `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><clipPath id="${id}"><path d="${g.clip}"/></clipPath><linearGradient id="${id}s" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".18" stop-color="#fff" stop-opacity=".05"/><stop offset=".8" stop-color="#000" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient></defs>`;
-  const drawLayer = i => { const l = U.lq[lay[i][0]] || ['', '', '#ccc'], c = l[2], r = geo[i];
-    let q = `<g clip-path="url(#${id})"><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="${c}"/><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(Math.min(3, r.h))}" fill="#fff" opacity=".18"/>`;
-    if (lay[i][0] === 'mint') q += [70, 96, 120].map((x, k) => `<ellipse cx="${x}" cy="${f1(r.y0 + r.h / 2)}" rx="10" ry="5" fill="#3f7f32" transform="rotate(${k * 40 - 30} ${x} ${f1(r.y0 + r.h / 2)})"/>`).join('');
-    if (['whip', 'foam', 'icecream'].includes(lay[i][0])) q += Array.from({ length: 7 }, (_, k) => `<circle cx="${50 + k * 17}" cy="${f1(r.y0 + 3)}" r="9" fill="${c}"/>`).join('');
-    return q + `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h)}" fill="url(#${id}s)"/></g>`; };
-  if (only != null) {
-    const l = U.lq[lay[only][0]] || ['', '', '#ccc'], c = l[2], r = geo[only], hw = y => Math.max(4, g.hw(y)), ry = Math.min(7, hw(r.y0) * .16);
-    const a = r.y0 + ry, b = Math.max(a + 2, r.y1 - ry), L0 = 100 - hw(a), R0 = 100 + hw(a), L1 = 100 - hw(b), R1 = 100 + hw(b);
-    s += `<path d="M${f1(L0)} ${f1(a)}L${f1(L1)} ${f1(b)}A${f1(hw(b))} ${f1(ry)} 0 0 0 ${f1(R1)} ${f1(b)}L${f1(R0)} ${f1(a)}Z" fill="${c}"/>` +
-      `<path d="M${f1(L0)} ${f1(a)}L${f1(L1)} ${f1(b)}A${f1(hw(b))} ${f1(ry)} 0 0 0 ${f1(R1)} ${f1(b)}L${f1(R0)} ${f1(a)}Z" fill="url(#${id}s)"/>` +
-      `<ellipse cx="100" cy="${f1(a)}" rx="${f1(hw(a))}" ry="${f1(ry)}" fill="${c}"/><ellipse cx="100" cy="${f1(a)}" rx="${f1(hw(a))}" ry="${f1(ry)}" fill="#fff" opacity=".22"/>` +
-      `<ellipse cx="100" cy="${f1(a)}" rx="${f1(hw(a))}" ry="${f1(ry)}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/>`;
-  }
-  else {
-    lay.forEach((_, i) => { s += drawLayer(i); });
-    if (g.straw && !only) s += `<path d="M${g.straw[0]} ${g.straw[1]}L${g.straw[2]} ${g.straw[3]}" stroke="#CFA670" stroke-width="5" stroke-linecap="round" opacity=".9"/>`;
-    s += `<path d="${g.o}" fill="none" stroke="rgba(241,234,223,.55)" stroke-width="3" stroke-linejoin="round"/><path d="${g.clip}" fill="url(#${id}s)" opacity=".5"/>`;
-  }
-  return s + '</svg>';
+let GID = 0;
+function layerArt(id, key, c, r) {
+  let q = `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h + .6)}" fill="${c}"/><rect x="0" y="${f1(r.y0)}" width="200" height="${f1(Math.min(3, r.h))}" fill="#fff" opacity=".18"/>`;
+  const my = r.y0 + r.h / 2;
+  if (key === 'mint') q += [70, 96, 120].map((x, k) => `<ellipse cx="${x}" cy="${f1(my)}" rx="10" ry="5" fill="#3f7f32" transform="rotate(${k * 40 - 30} ${x} ${f1(my)})"/>`).join('');
+  if (['whip', 'foam', 'icecream', 'beer_foam', 'beer_foam_d', 'tfoam'].includes(key)) q += Array.from({ length: 8 }, (_, k) => `<circle cx="${44 + k * 16}" cy="${f1(r.y0 + 3)}" r="9" fill="${c}"/>`).join('');
+  if (key === 'ice') q += [[78, 0], [106, 6], [130, -3]].map(([x, o]) => `<rect x="${x - 12}" y="${f1(my - 11 + o)}" width="24" height="22" rx="5" fill="#eef8fb" opacity=".75" stroke="#fff" stroke-opacity=".8" transform="rotate(${o * 3} ${x} ${f1(my)})"/>`).join('');
+  if (FIZZ.includes(key) && r.h > 14) q += Array.from({ length: 9 }, (_, k) => `<circle cx="${64 + (k * 37) % 76}" cy="${f1(r.y0 + 6 + ((k * 53) % Math.max(8, r.h - 10)))}" r="${1.4 + (k % 3) * .7}" fill="#fff" opacity=".45"/>`).join('');
+  return q + `<rect x="0" y="${f1(r.y0)}" width="200" height="${f1(r.h)}" fill="url(#${id}s)"/>`;
 }
-const glassOutline = d => { const g = GLASS[d.glass] || GLASS.highball; return `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="${g.o}" fill="none" stroke="rgba(241,234,223,.6)" stroke-width="3" stroke-linejoin="round"/>${g.straw ? `<path d="M${g.straw[0]} ${g.straw[1]}L${g.straw[2]} ${g.straw[3]}" stroke="#CFA670" stroke-width="5" stroke-linecap="round" opacity=".85"/>` : ''}</svg>`; };
+function glassDefs(id, g) {
+  return `<defs><clipPath id="${id}"><path d="${g.clip}"/></clipPath><linearGradient id="${id}s" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".18" stop-color="#fff" stop-opacity=".05"/><stop offset=".8" stop-color="#000" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient></defs>`;
+}
+// cela čaša (sličica, pozornica) ili samo jedan sloj (only = indeks) za rasprskavanje
+function glassSVG(d, only) {
+  const { g, geo, lay } = glassGeo(d); const id = 'gc' + (++GID);
+  let s = `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${glassDefs(id, g)}`;
+  const one = i => { const l = U.lq[lay[i][0]] || ['', '', '#ccc']; return `<g clip-path="url(#${id})">${layerArt(id, lay[i][0], l[2], geo[i])}</g>`; };
+  if (only != null) return s + one(only) + '</svg>';
+  lay.forEach((_, i) => { s += one(i); });
+  if (g.straw) s += `<path d="M${g.straw[0]} ${g.straw[1]}L${g.straw[2]} ${g.straw[3]}" stroke="#CFA670" stroke-width="5" stroke-linecap="round" opacity=".9"/>`;
+  return s + `<path d="${g.o}" fill="none" stroke="rgba(241,234,223,.55)" stroke-width="3" stroke-linejoin="round"/><path d="${g.clip}" fill="url(#${id}s)" opacity=".5"/></svg>`;
+}
+const glassShell = d => { const g = GLASS[d.glass] || GLASS.highball, id = 'gs' + (++GID); return `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${glassDefs(id, g)}<path d="${g.clip}" fill="url(#${id}s)" opacity=".6"/><path d="${g.o}" fill="none" stroke="rgba(241,234,223,.6)" stroke-width="3" stroke-linejoin="round"/></svg>`; };
+const strawSVG = d => { const g = GLASS[d.glass]; if (!g || !g.straw) return ''; return `<svg viewBox="${vbS(d)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M${g.straw[0]} ${g.straw[1]}L${g.straw[2]} ${g.straw[3]}" stroke="#CFA670" stroke-width="5" stroke-linecap="round" opacity=".9"/></svg>`; };
+// sličica pića u redu: flaša, čaša ili fotografija
+function drinkLead(d) {
+  if (d.pack) return `<span class="dl pk"><img src="${packSrc(d.pack, 1)}" alt="" loading="lazy"></span>`;
+  if (d.img) return `<span class="dl ph"><img src="${img(d.img, 1)}" alt="" loading="lazy"></span>`;
+  return `<span class="dl gi">${glassSVG(d)}</span>`;
+}
 
 // ---------------------------------------------------------------- kostur stranice
 const app = $('#app');
 document.body.insertAdjacentHTML('afterbegin', K.defs());
 function skeleton() {
   app.innerHTML = `
-  <header class="top" id="top"><img class="lg" src="img/logo.webp" alt="Ultra Caffe"><div class="sp"></div>
+  <header class="top" id="top"><button class="lgb" id="lgb" aria-label="${esc(t('home'))}"><img class="lg" src="img/logo.webp" alt="Ultra Caffe"></button><div class="sp"></div>
     <div class="lang" role="group" aria-label="Jezik"><button data-l="sr">SR</button><button data-l="en">EN</button></div>
     <button class="bag" id="bagBtn" aria-label="${esc(t('list'))}">${IC.bag}<b class="num" id="bagN">0</b></button></header>
-  <div class="wrap">
-    <section class="hero" id="hero"></section>
-    <div class="secs" id="secs"><div class="seg" role="tablist"></div><nav class="rail" id="rail" aria-label="Kategorije"></nav></div>
-    <main id="main"></main>
-  </div>
+  <div class="wrap"><main id="main"></main></div>
   <div class="dock" id="dock"><div class="t"><b id="dockT"></b><small id="dockS"></small></div><button class="btn btn-m btn-s" id="dockBtn">${esc(t('list'))}</button></div>
   <div class="scrim" id="scrim"></div>
   <section class="sheet dish" id="dish" role="dialog" aria-modal="true"></section>
@@ -202,11 +258,12 @@ function skeleton() {
   <div class="toast" id="toast"></div>`;
   $$('.lang button').forEach(b => b.onclick = () => setLang(b.dataset.l));
   $('#bagBtn').onclick = openCart; $('#dockBtn').onclick = openCart;
+  $('#lgb').onclick = () => { if (VIEW !== 'home') goHome(); else scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }); };
   $('#scrim').onclick = () => { if ($('#dish').classList.contains('on')) history.back(); else closeCart(); };
   addEventListener('scroll', () => $('#top').classList.toggle('sc', scrollY > 10), { passive: true });
 }
 
-// ---------------------------------------------------------------- hero + lokal
+// ---------------------------------------------------------------- hero + lokal + Google ocena
 function openState(loc, now = new Date()) {
   const wd = (now.getDay() + 6) % 7, h = now.getHours() + now.getMinutes() / 60;
   const [o, c] = loc.open[wd], prev = loc.open[(wd + 6) % 7];
@@ -215,80 +272,133 @@ function openState(loc, now = new Date()) {
   return { open: false, at: h < o ? o : loc.open[(wd + 1) % 7][0] };
 }
 const hh = n => (n === 24 || n === 0 ? '00' : String(n).padStart(2, '0')) + 'h';
-function renderHero() {
-  const loc = locOf(LOC), st = openState(loc);
-  $('#hero').innerHTML = `<div class="ph"><img src="img/a/${loc.hero}.webp" alt="${esc(loc.name)}" fetchpriority="high"></div>
-   <div class="in"><h1>${esc(L === 'en' ? U.venue.tagline_en : U.venue.tagline)}</h1>
+const gOf = () => U.google[LOC];
+const rate = r => r.toFixed(1).replace('.', L === 'en' ? '.' : ',');
+function heroHTML() {
+  const loc = locOf(LOC), st = openState(loc), g = gOf();
+  return `<section class="hero" id="hero"><div class="ph"><img src="img/a/${loc.hero}.webp" alt="${esc(loc.name)}" fetchpriority="high"></div>
+   <div class="in"><button class="gbadge" id="gBadge">${IC.g}<b class="num">${rate(g.r)}</b>${stars(g.r)}<span>${nf(g.n)} ${esc(t('reviews_s'))}<span class="lg-g"> ${esc(t('on_g'))}</span></span></button>
+   <h1>${esc(L === 'en' ? U.venue.tagline_en : U.venue.tagline)}</h1>
    <div class="meta"><span class="open${st.open ? '' : ' closed'}"><i></i>${st.open ? `${t('open_until')} ${hh(st.until)}` : `${t('closed')} · ${t('opens')} ${hh(st.at)}`}</span><span>${esc(loc.addr)}</span></div>
    <div class="locsw" role="group" aria-label="Lokal">${U.locs.map(l => `<button data-loc="${l.id}" aria-pressed="${l.id === LOC}">${esc(l.short)}</button>`).join('')}</div>
-   <div class="acts"><a class="btn btn-m" href="rezervacije/?lokal=${LOC}${L === 'en' ? '&lang=en' : ''}">${IC.cal}${esc(t('reserve'))}</a><a class="btn btn-o" href="tel:${loc.phone.replace(/\s/g, '')}">${IC.phone}${esc(loc.phone)}</a></div></div>`;
-  $$('#hero .locsw button').forEach(b => b.onclick = () => { LOC = b.dataset.loc; LS.set('loc', LOC); renderHero(); renderFoot(); hit('loc', LOC); });
+   <div class="acts"><a class="btn btn-m" href="rezervacije/?lokal=${LOC}${L === 'en' ? '&lang=en' : ''}">${IC.cal}${esc(t('reserve'))}</a><a class="btn btn-o" href="tel:${loc.phone.replace(/\s/g, '')}">${IC.phone}${esc(loc.phone)}</a></div></div></section>`;
+}
+function bindHero() {
+  $$('#hero .locsw button').forEach(b => b.onclick = () => { LOC = b.dataset.loc; LS.set('loc', LOC); const y = scrollY; renderMain(); scrollTo(0, y); hit('loc', LOC); });
+  $('#gBadge').onclick = () => openReviews('hero');
 }
 
-// ---------------------------------------------------------------- sekcije
-const SECS = [['jela', 'menu'], ['pice', 'drinks'], ['kolaci', 'cakes'], ['torte', 'torte']];
-function renderSecs() {
-  $('#secs .seg').innerHTML = SECS.map(([id, k]) => `<button role="tab" data-s="${id}" aria-selected="${id === SEC}">${esc(t(k))}</button>`).join('');
-  $$('#secs .seg button').forEach(b => b.onclick = () => { SEC = b.dataset.s; renderSecs(); renderMain(); const y = $('#secs').getBoundingClientRect().top + scrollY - 58; if (scrollY > y) scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' }); hit('sec', SEC); });
+// ---------------------------------------------------------------- početni ekran
+function countLabel(g) { const n = membersOf(g).length; return `${n} ${t(g.cats[0] === 'kolaci' ? 'c_kolaci' : g.cats[0] === 'torte' ? 'c_torte' : g.sec === 'pice' ? 'c_pice' : 'c_hrana')}`; }
+function tileImg(g) {
+  const [k, v] = g.tile.split(':');
+  if (k === 'f') return `<img src="${img(v, 1)}" alt="" loading="lazy">`;
+  if (k === 't') return `<img src="img/t/${v}.webp" alt="" loading="lazy">`;
+  if (k === 'i') return `<img class="il" src="img/i/${v}.webp" alt="" loading="lazy">`;
+  if (k === 'c') return `<img class="cu" src="img/c/${v}-t.webp" alt="" loading="lazy">`;
+  return `<span class="pks">${v.split(',').map((p, i) => `<img src="${packSrc(p, 1)}" alt="" loading="lazy" style="--i:${i}">`).join('')}</span>`;
 }
+function homeHTML() {
+  const house = ITEMS.filter(i => i.sig && photoOf(i)).concat(['nimfa', 'pistac-lampone', 'tiramisu'].map(id => BY[id]));
+  const sec = s => GRPS.filter(g => g.sec === s).map(g => `<button class="tile${g.tile[0] === 'c' || g.tile[0] === 'p' || g.tile[0] === 'i' ? ' art' : ''}" data-g="${g.id}"><span class="ti">${tileImg(g)}</span><span class="tt"><b>${esc(nm(g))}</b><small>${countLabel(g)}</small></span></button>`).join('');
+  const g = gOf();
+  return heroHTML() + `
+  <div class="tools"><label class="srch">${IC.search}<input id="q" type="search" placeholder="${esc(t('search_ph'))}" enterkeyhint="search" autocomplete="off" value="${esc(QRY)}"></label>
+    <button class="helpme" id="helpBtn">${IC.spark}<span>${esc(t('help'))}</span></button></div>
+  <section class="house"><h2>${esc(t('house'))}</h2><div class="hs">${house.map(it => `<button class="hc" data-id="${it.id}">${it.kind === 'cake' ? `<span class="cu"><img src="${cutSrc(it)}" alt="" loading="lazy"></span>` : `<img src="${img(photoOf(it)[0], 1)}" alt="" loading="lazy">`}<span class="in"><b>${esc(nm(it))}</b>${it.var ? `<span class="pr num"><small>${t('from')} </small>${nf(Math.min(...it.var.map(v => v.price)))}<small>RSD</small></span>` : money(it.price)}</span></button>`).join('')}</div></section>
+  <section class="gsec"><h2>${esc(t('g_hrana'))}</h2><div class="tiles">${sec('hrana')}</div></section>
+  <section class="gsec"><h2>${esc(t('g_slatko'))}</h2><div class="tiles two">${sec('slatko')}</div></section>
+  <section class="gsec"><h2>${esc(t('g_pice'))}</h2><div class="tiles">${sec('pice')}</div></section>
+  <section class="revc"><div class="rv-h">${IC.g}<div><b class="num">${rate(g.r)}</b>${stars(g.r)}<small>${nf(g.n)} ${esc(t('reviews'))} · ${esc(locOf(LOC).short)}</small></div></div>
+    <h2>${esc(t('rev_card_t'))}</h2><p>${esc(t('rev_card_d'))}</p>${revButtons('home')}</section>`;
+}
+function revButtons(src) {
+  const g = gOf();
+  return `<div class="rv-b"><a class="rvo" href="https://search.google.com/local/writereview?placeid=${g.pid}" target="_blank" rel="noopener" data-rv="g" data-src="${src}">${IC.g}<span><b>${esc(t('rev_g'))}</b><small>${esc(t('rev_g_s'))}</small></span>${IC.ext}</a>
+    <button class="rvo" data-rv="m" data-src="${src}">${IC.chat}<span><b>${esc(t('rev_m'))}</b><small>${esc(t('rev_m_s'))}</small></span>${IC.arrow}</button></div>`;
+}
+function bindRev(root) {
+  $$('[data-rv]', root).forEach(b => b.onclick = e => { if (b.dataset.rv === 'g') { hit('grev', b.dataset.src); return; } e.preventDefault(); openReviews(b.dataset.src, true); });
+}
+function renderHome() {
+  VIEW = 'home'; GRP = null;
+  const m = $('#main'); m.className = 'home'; m.innerHTML = homeHTML() + footHTML();
+  bindHero();
+  $$('#main .tile').forEach(b => b.onclick = () => openGroup(b.dataset.g));
+  $$('#main .hc').forEach(b => b.onclick = () => openItem(b.dataset.id));
+  $('#helpBtn').onclick = openHelp;
+  bindRev(m);
+  const q = $('#q'); q.oninput = () => { QRY = q.value; if (QRY.trim().length >= 2) showSearch(); else if (VIEW === 'search') { clearSearch(); if (history.state && history.state.q) history.replaceState({}, '', location.pathname + location.search); } };
+  q.onkeydown = e => { if (e.key === 'Enter') q.blur(); };
+}
+
+// ---------------------------------------------------------------- grupa (jedna kategorija menija)
 function rowHTML(it) {
-  const x3 = it.mode && it.mode !== 'none' && (it.comps || []).length;
   return `<li><button class="row" data-id="${it.id}">${thumbHTML(it)}<span class="tx"><b>${esc(nm(it))}</b>${descOf(it) ? `<small>${esc(descOf(it))}</small>` : ''}<span class="tg">${tagHTML(it)}</span></span>${it.var ? `<span class="pr num"><small>${t('from')} </small>${nf(Math.min(...it.var.map(v => v.price)))}<small>RSD</small></span>` : money(it.price)}</button></li>`;
 }
-function featHTML(it) {
-  const ph = photoOf(it);
-  return `<button class="fc" data-id="${it.id}"><img src="${img(ph[0])}" alt="" loading="lazy"><span class="tag sig">${t('sig')}</span><span class="xbadge" aria-hidden="true">${IC.split}</span>
-   <span class="in"><b>${esc(nm(it))}</b><span class="r"><small>${esc(descOf(it))}</small>${it.var ? `<span class="pr num"><small>${t('from')} </small>${nf(Math.min(...it.var.map(v => v.price)))}<small>RSD</small></span>` : money(it.price)}</span></span></button>`;
-}
 function drinkRow(d) {
-  let lead = '', cls = 'drow';
-  if (d.img) { lead = `<img src="${img(d.img, 1)}" alt="" loading="lazy">`; cls += ' ph'; }
-  else if (d.layers) { lead = `<span class="gi">${glassSVG(d)}</span>`; cls += ' gl'; }
-  return `<li><button class="${cls}" data-id="${d.id}">${lead}<span><b>${esc(nm(d))}</b>${d.note ? `<small>${esc(d.note)}</small>` : ''}</span>${money(d.price)}</button></li>`;
+  return `<li><button class="drow" data-id="${d.id}">${drinkLead(d)}<span class="tx"><b>${esc(nm(d))}</b>${d.note ? `<small>${esc(d.note)}</small>` : ''}</span>${money(d.price)}</button></li>`;
 }
-function renderMain() {
-  const m = $('#main'); let h = '', chips = [];
-  if (SEC === 'jela') {
-    U.cats.forEach(c => {
-      const its = ITEMS.filter(i => i.cat === c.id); if (!its.length) return;
-      const feats = its.filter(i => i.sig && photoOf(i)), rest = its.filter(i => !feats.includes(i));
-      chips.push([c.id, nm(c)]);
-      h += `<section class="cat" id="c-${c.id}"><header class="cat-h">${c.hero ? `<figure><img src="${img(c.hero)}" alt="" loading="lazy"></figure>` : ''}<h2>${esc(nm(c))}</h2>${(L === 'en' ? c.note_en : c.note) ? `<p>${esc(L === 'en' ? c.note_en : c.note)}</p>` : ''}</header>
-        ${feats.length ? `<div class="feat">${feats.map(featHTML).join('')}</div>` : ''}<ul class="rows two">${rest.map(rowHTML).join('')}</ul></section>`;
-    });
-  } else if (SEC === 'pice') {
-    U.dcats.forEach(c => {
-      const ds = DR.filter(d => d.cat === c.id); if (!ds.length) return; chips.push([c.id, nm(c)]);
-      h += `<section class="cat" id="c-${c.id}"><header class="cat-h">${c.hero ? `<figure><img src="${img(c.hero)}" alt="" loading="lazy"></figure>` : ''}<h2>${esc(nm(c))}</h2></header><ul class="rows two">${ds.map(drinkRow).join('')}</ul></section>`;
-    });
-  } else if (SEC === 'kolaci') {
-    h += `<section class="cat" id="c-vitrina"><header class="cat-h"><figure><img src="${img('vitrina-2')}" alt="" loading="lazy"></figure><h2>${esc(t('vitrina'))}</h2><p>${esc(t('vitrina_lead'))}</p></header>
-      <div class="vit">${KOL.map(k => `<button class="kc" data-id="${k.id}"><span class="tg">${(k.tags || []).filter(x => x === 'novo' || x === 'posno').map(x => `<span class="tag ${x}">${t(x)}</span>`).join('')}</span><span class="cu"><img src="img/k/${k.cut}.webp" alt="" loading="lazy"></span><b>${esc(nm(k))}</b>${money(k.price)}${k.unit === 'kg' ? `<small style="color:var(--magla);font-size:11.5px">${t('per_kg')}</small>` : ''}</button>`).join('')}</div></section>`;
-  } else {
-    h += `<section class="cat" id="c-torte"><header class="cat-h"><h2>${esc(t('torte_t'))}</h2><p>${esc(t('torte_lead'))}</p></header>
-      <div class="tgal">${U.torte_gal.map(g => `<figure><img src="img/t/${g}.webp" alt="" loading="lazy"></figure>`).join('')}</div>
-      <div class="tlist">${U.torte.map(x => `<div><b>${esc(x.sr)}</b>${money(x.price)}<small style="display:block;color:var(--magla);font-size:11.5px">${t('per_kg')}</small></div>`).join('')}</div>
-      <div class="tcta"><button class="btn btn-m" id="cakeBtn">${IC.cal}${esc(t('order_cake'))}</button><a class="btn btn-o" href="tel:${U.venue.torte_phone.replace(/\s/g, '')}">${IC.phone}${esc(t('call_shop'))} · ${esc(U.venue.torte_phone)}</a></div></section>`;
-  }
-  m.innerHTML = h + footHTML();
-  $('#rail').innerHTML = chips.map(([id, n]) => `<button class="chip" data-c="${id}">${esc(n)}</button>`).join('');
-  $('#rail').style.display = chips.length > 1 ? '' : 'none';
-  $$('#rail .chip').forEach(b => b.onclick = () => { const el = $('#c-' + b.dataset.c); scrollTo({ top: el.getBoundingClientRect().top + scrollY - ($('#top').offsetHeight + $('#secs').offsetHeight) + 6, behavior: reduced ? 'auto' : 'smooth' }); });
+const kcHTML = k => `<button class="kc" data-id="${k.id}"><span class="tg">${(k.tags || []).filter(x => x === 'novo' || x === 'posno').map(x => `<span class="tag ${x}">${t(x)}</span>`).join('')}</span><span class="cu"><img src="${cutSrc(k, 1)}" alt="" loading="lazy"></span><b>${esc(nm(k))}</b>${money(k.price)}${k.unit === 'kg' ? `<small class="pk">${t('per_kg')}</small>` : ''}</button>`;
+function groupHTML(g) {
+  let h = '', chips = [];
+  if (g.cats[0] === 'kolaci') h = `<p class="gv-lead">${esc(t('vitrina_lead'))}</p><div class="vit">${KOL.map(kcHTML).join('')}</div>`;
+  else if (g.cats[0] === 'torte') h = `<p class="gv-lead">${esc(t('torte_lead'))}</p><div class="tgal">${U.torte_gal.map(x => `<figure><img src="img/t/${x}.webp" alt="" loading="lazy"></figure>`).join('')}</div>
+      <div class="tlist">${U.torte.map(x => `<div><b>${esc(x.sr)}</b>${money(x.price)}<small>${t('per_kg')}</small></div>`).join('')}</div>
+      <div class="tcta"><button class="btn btn-m" id="cakeBtn">${IC.cal}${esc(t('order_cake'))}</button><a class="btn btn-o" href="tel:${U.venue.torte_phone.replace(/\s/g, '')}">${IC.phone}${esc(t('call_shop'))} · ${esc(U.venue.torte_phone)}</a></div>`;
+  else if (g.sec === 'pice') g.cats.forEach(c => { const cat = U.dcats.find(x => x.id === c), ds = DR.filter(d => d.cat === c); if (!ds.length) return; chips.push([c, nm(cat)]);
+      h += `<section class="cat" id="c-${c}"><header class="cat-h"><h2>${esc(nm(cat))}</h2></header><ul class="rows two">${ds.map(drinkRow).join('')}</ul></section>`; });
+  else g.cats.forEach(c => { const cat = U.cats.find(x => x.id === c), its = ITEMS.filter(i => i.cat === c); if (!its.length) return; chips.push([c, nm(cat)]);
+      const note = L === 'en' ? cat.note_en : cat.note;
+      h += `<section class="cat" id="c-${c}"><header class="cat-h">${g.cats.length > 1 ? `<h2>${esc(nm(cat))}</h2>` : ''}${note ? `<p>${esc(note)}</p>` : ''}</header><ul class="rows two">${its.map(rowHTML).join('')}</ul></section>`; });
+  return { h, chips };
+}
+function openGroup(id, push = true) {
+  const g = grpOf(id); if (!g) return;
+  if (VIEW === 'home') homeY = scrollY;
+  VIEW = 'group'; GRP = id;
+  if (push) history.pushState({ g: id }, '', '#g=' + id);
+  const { h, chips } = groupHTML(g), m = $('#main'); m.className = 'group';
+  m.innerHTML = `<div class="gv-h" id="gvh"><button class="rb back" id="gBack" aria-label="${esc(t('back'))}">${IC.back}</button><div class="gv-t"><small>${esc(t('g_' + g.sec))}</small><h1>${esc(nm(g))}</h1></div><span class="cnt num">${membersOf(g).length}</span>
+    ${chips.length > 1 ? `<nav class="rail" id="rail">${chips.map(([c, n]) => `<button class="chip" data-c="${c}">${esc(n)}</button>`).join('')}</nav>` : ''}</div>
+    <div class="gv">${h}</div>` + footHTML();
+  scrollTo(0, 0);
+  $('#gBack').onclick = () => history.back();
   $$('#main [data-id]').forEach(b => b.onclick = () => openItem(b.dataset.id));
+  $$('#rail .chip').forEach(b => b.onclick = () => { const el = $('#c-' + b.dataset.c); scrollTo({ top: el.getBoundingClientRect().top + scrollY - $('#top').offsetHeight - $('#gvh').offsetHeight + 4, behavior: reduced ? 'auto' : 'smooth' }); });
   const cb = $('#cakeBtn'); if (cb) cb.onclick = openCakeForm;
-  lazyArt(); spy();
+  lazyArt(); spy(); hit('sec', id);
 }
+function goHome() { if (history.state && (history.state.g || history.state.q)) history.back(); else { renderHome(); scrollTo(0, 0); } }
+
+// ---------------------------------------------------------------- pretraga
+const fold = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'dj');
+function showSearch() {
+  const q = fold(QRY.trim()); VIEW = 'search';
+  const words = q.split(/\s+/).filter(Boolean);
+  const hay = it => fold([it.sr, it.en, it.desc, it.desc_en, it.note, (it.comps || []).map(c => c.sr + ' ' + c.en).join(' ')].join(' '));
+  const match = it => words.every(w => hay(it).includes(w));
+  const fs = ITEMS.filter(match), ks = KOL.filter(match), ds = DR.filter(match);
+  let res = $('#res');
+  if (!res) { const tl = $('.tools'); tl.insertAdjacentHTML('afterend', '<div id="res" class="res"></div>'); res = $('#res'); $$('#main > section').forEach(s => s.hidden = true); const f = $('#foot'); if (f) f.hidden = true; scrollTo(0, 0); }
+  const n = fs.length + ks.length + ds.length;
+  res.innerHTML = `<h2>${esc(t('results'))} <small class="num">${n}</small></h2>` + (n ? (fs.length ? `<ul class="rows two">${fs.map(rowHTML).join('')}</ul>` : '') + (ks.length ? `<div class="vit sm">${ks.map(kcHTML).join('')}</div>` : '') + (ds.length ? `<ul class="rows two">${ds.map(drinkRow).join('')}</ul>` : '') : `<p class="empty">${esc(t('no_res'))}</p>`);
+  $$('#res [data-id]').forEach(b => b.onclick = () => openItem(b.dataset.id));
+  if (!history.state || !history.state.q) history.pushState({ q: 1 }, '', location.pathname + location.search);
+  lazyArt();
+}
+
+function clearSearch() { VIEW = 'home'; const r = $('#res'); if (r) r.remove(); $$('#main > section').forEach(s => s.hidden = false); const f = $('#foot'); if (f) f.hidden = false; }
 function footHTML() {
   return `<footer class="foot" id="foot">${U.locs.map(l => `<div><h3>${esc(l.name)}</h3><div>${esc(l.addr)}, ${esc(l.city)}</div><div><a href="tel:${l.phone.replace(/\s/g, '')}">${esc(l.phone)}</a></div><dl>${l.hours.map(h => `<dt>${esc(h[0])}</dt><dd>${esc(h[1])}</dd>`).join('')}</dl></div>`).join('')}
     <div><h3>Ultra Caffe</h3><div>${esc(U.venue.since_note)}.</div><div>Instagram <a href="https://www.instagram.com/${U.venue.instagram}/" rel="noopener" target="_blank">@${U.venue.instagram}</a></div><p class="tt"><b>${esc(t('demo_t'))}.</b> ${esc(t('footer_note'))}</p></div></footer>`;
 }
-const renderFoot = () => { const f = $('#foot'); if (f) f.outerHTML = footHTML(); };
-// lenje ilustracije u sličicama
+// lenje ilustracije (rezervna varijanta ako slika nije pripremljena)
 let artIO;
 function lazyArt() {
   if (artIO) artIO.disconnect();
-  artIO = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target; el.innerHTML = K.top(el.dataset.art, +el.dataset.seed || 0); artIO.unobserve(el); }), { rootMargin: '300px' });
-  $$('.th[data-art]').forEach(el => artIO.observe(el));
+  artIO = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target; el.innerHTML = K.top(el.dataset.art, 1); artIO.unobserve(el); }), { rootMargin: '300px' });
+  setTimeout(() => $$('.th[data-art]').forEach(el => artIO.observe(el)), 400);
 }
 let spyIO;
 function spy() {
@@ -299,6 +409,7 @@ function spy() {
   }, { rootMargin: '-38% 0px -58% 0px' });
   $$('#main .cat').forEach(s => spyIO.observe(s));
 }
+function renderMain() { if (VIEW === 'group' && GRP) openGroup(GRP, false); else { renderHome(); if (VIEW === 'search' || QRY.trim().length >= 2) showSearch(); } }
 
 // ---------------------------------------------------------------- list jela / pića / kolača
 let CUR = null, VAR = 0, QTY = 1, XR = null, GAL = 0;
@@ -310,32 +421,51 @@ const cnm = c => (L === 'en' ? c.en : c.sr);
 function openItem(id, push = true) {
   const it = BY[id]; if (!it) return;
   CUR = it; VAR = 0; QTY = 1; GAL = 0; XR = null;
-  const sh = $('#dish'); sh.innerHTML = dishHTML(it); bindDish(it);
+  const sh = $('#dish'); sh.innerHTML = dishHTML(it); sh.dataset.kind = it.kind; bindDish(it);
   sh.classList.add('on'); $('#scrim').classList.add('on'); document.body.classList.add('lock');
-  if (push) history.pushState({ dish: id }, '', '#' + encodeURIComponent(id));
+  if (push) history.pushState({ dish: id, g: (history.state || {}).g }, '', '#' + encodeURIComponent(id));
   hit('view', it.id);
   const s = $('.split', sh); if (s && !SS.get('nudged')) { setTimeout(() => { s.classList.add('nudge'); SS.set('nudged', '1'); setTimeout(() => s.classList.remove('nudge'), 2600); }, 900); }
 }
-function closeItem() { const sh = $('#dish'); sh.classList.remove('on'); $('#scrim').classList.remove('on'); document.body.classList.remove('lock'); CUR = null; setTimeout(() => { if (!sh.classList.contains('on')) sh.innerHTML = ''; }, 600); }
-addEventListener('popstate', e => { if ($('#dish').classList.contains('on')) closeItem(); if (e.state && e.state.dish) openItem(e.state.dish, false); });
+function closeItem() { const sh = $('#dish'); sh.classList.remove('on'); $('#scrim').classList.remove('on'); document.body.classList.remove('lock'); CUR = null; XR = null; setTimeout(() => { if (!sh.classList.contains('on')) sh.innerHTML = ''; }, 600); }
+addEventListener('popstate', e => {
+  const s = e.state || {};
+  if ($('#dish').classList.contains('on') && !s.dish) { closeItem(); return; }
+  if (s.dish) { openItem(s.dish, false); return; }
+  if ($('#cart').classList.contains('on')) closeCart();
+  if (s.g) { if (VIEW !== 'group' || GRP !== s.g) openGroup(s.g, false); return; }
+  if (VIEW === 'search' && !s.q) { QRY = ''; const q = $('#q'); if (q) q.value = ''; clearSearch(); return; }
+  if (VIEW !== 'home') { renderHome(); requestAnimationFrame(() => scrollTo(0, homeY)); }
+});
 
 function stageHero(it) {
-  const ph = it.kind === 'drink' ? (it.img ? [it.img] : null) : photoOf(it);
-  if (it.kind === 'cake' && it.cut && !ph) return { cls: 'cut', html: `<img src="img/k/${it.cut}.webp" alt="">`, illus: false };
-  if (it.kind === 'cake' && it.cut && ph) return { cls: 'cut', html: `<img src="img/k/${it.cut}.webp" alt="">`, illus: false, extra: ph };
+  if (it.kind === 'drink') {
+    if (it.pack) return { cls: 'pack', html: packStage(it) };
+    const ph = photoOf(it); if (ph) return { cls: '', html: `<img src="${img(ph[0])}" alt="">`, gal: ph };
+    return { cls: 'ill glass', html: glassSVG(it) };
+  }
+  if (it.kind === 'cake') {
+    if (it.mode === 'pops') return { cls: 'ill pops', html: popsSVG(it) };
+    return { cls: 'cut', html: `<img src="${cutSrc(it)}" alt="">` };
+  }
+  const ph = photoOf(it);
   if (ph) return { cls: '', html: `<img src="${img(ph[GAL] || ph[0])}" alt="">`, gal: ph };
-  if (it.kind === 'drink' && it.layers) return { cls: 'ill', html: '', illus: true };
-  if (it.mode === 'knoll') return { cls: 'ill', html: plateArt(it, curComps(it)), illus: false };
-  if (it.mode === 'pizza') return { cls: 'ill', html: '', illus: true };
-  if (it.mode === 'stack' || it.mode === 'cake') return { cls: 'ill', html: '', illus: true };
-  return { cls: 'ill', html: plateArt(it, curComps(it)), illus: false };
+  if (it.mode === 'pizza' || it.mode === 'stack') return { cls: 'ill', html: '', illus: true };
+  return { cls: 'ill', html: plateArt(it, curComps(it)) };
 }
+function packStage(d) {
+  const glass = d.layers ? `<span class="pk-g">${glassSVG(d)}</span>` : '';
+  return `<div class="pk-s${glass ? ' wg' : ''}"><span class="pk-b"><img src="${packSrc(d.pack)}" alt="${esc(d.sr)}"></span>${glass}<i class="pk-f"></i></div>`;
+}
+const canSplit = it => it.kind === 'drink' ? !!it.split : it.kind === 'cake' ? (it.mode !== 'none' && curComps(it).length > 0) : (it.mode && it.mode !== 'none' && curComps(it).length > 0);
+function splitLabel(it) { return it.kind === 'drink' ? t('split_d') : it.kind === 'cake' ? (it.mode === 'halves' || it.mode === 'pops' ? t('cut_k') : t('split_k')) : t('split'); }
 function dishHTML(it) {
-  const hero = stageHero(it), canSplit = it.kind === 'drink' ? !!it.layers : (it.mode && it.mode !== 'none' && curComps(it).length);
+  const hero = stageHero(it), cs = canSplit(it);
   const gal = hero.gal && hero.gal.length > 1 ? `<div class="gal">${hero.gal.map((g, i) => `<button data-g="${i}" aria-pressed="${i === 0}" aria-label="${t('photo')} ${i + 1}"></button>`).join('')}</div>` : '';
+  const ico = it.kind === 'drink' ? IC.burst : it.mode === 'halves' || it.mode === 'pops' ? IC.knife : IC.split;
   return `<div class="bar"><button class="rb" id="xClose" aria-label="${esc(t('close'))}">${IC.x}</button></div>
   <div class="scroll"><div class="stage" id="st"><div class="ph ${hero.cls}" id="ph">${hero.html}</div><div class="xr" id="xr"></div>${gal}
-    ${canSplit ? `<button class="split" id="splitBtn" aria-pressed="false">${IC.split}<span>${esc(it.kind === 'drink' ? t('split_d') : t('split'))}</span><em class="hint">${esc(t('tap_split'))}</em></button>` : ''}</div>
+    ${cs ? `<button class="split" id="splitBtn" aria-pressed="false">${ico}<span>${esc(splitLabel(it))}</span><em class="hint">${esc(it.mode === 'halves' || it.mode === 'pops' ? t('tap_cut') : t('tap_split'))}</em></button>` : ''}</div>
   <div class="info" id="info">${infoHTML(it)}</div></div>
   <div class="buy"><div class="qty"><button id="qm" aria-label="−">−</button><b class="num" id="qn">1</b><button id="qp" aria-label="+">+</button></div><button class="btn btn-m" id="addBtn">${IC.bag}<span id="addT"></span></button></div>`;
 }
@@ -359,14 +489,21 @@ function infoHTML(it) {
     h += `<div class="card"><h3>${t('composition')}<small class="num">${nf(tot)} g</small></h3><ul class="comp-l">${comps.map((c, i) => `<li><span data-art="${c.a}" data-seed="${i}"></span><span>${esc(cnm(c))}${c.side ? ` <small>· ${t('side')}</small>` : ''}</span><small class="num">${c.g} g · ${c.kcal} kcal</small></li>`).join('')}</ul></div>`;
     h += `<div class="card"><h3>${t('allergens')}</h3>${al.length ? `<div class="als">${al.map(a => `<span class="al">${alIcon(a)}${esc(U.al[a] ? (L === 'en' ? U.al[a][1] : U.al[a][0]) : a)}</span>`).join('')}</div>` : `<div class="desc">${t('no_al')}</div>`}<p class="alnote">${esc(t('al_note'))}</p></div>`;
   }
-  if (it.kind === 'drink' && it.layers) {
-    const tot2 = it.layers.reduce((a, l) => a + l[1], 0);
-    h += `<div class="card"><h3>${t('layers_cap')}<small class="num">${nf(tot2)} ml</small></h3><ul class="comp-l">${it.layers.slice().reverse().map(l => { const q = U.lq[l[0]]; return `<li><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="11" fill="${q[2]}" stroke="rgba(241,234,223,.35)"/></svg><span>${esc(L === 'en' ? q[1] : q[0])}</span><small class="num">${l[1]} ml</small></li>`; }).join('')}</ul></div>`;
+  if (it.kind === 'drink') {
+    const cat = U.dcats.find(c => c.id === it.cat), facts = [];
+    if (it.size) facts.push([t('size'), it.size]);
+    facts.push([t('kind'), nm(cat)]);
+    if (it.pack) facts.push([t('served'), it.layers ? t('served_glass') : /Red Bull|Energy|Guarana/.test(it.sr) ? t('served_can') : t('served_btl')]);
+    h += `<div class="facts dk">${facts.slice(0, 3).map(([k, v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`;
+    if (it.layers && it.layers.length > 1) {
+      const tot2 = it.layers.reduce((a, l) => a + l[1], 0);
+      h += `<div class="card"><h3>${t('layers_cap')}<small class="num">${nf(tot2)} ml</small></h3><ul class="comp-l">${it.layers.slice().reverse().map(l => { const q = U.lq[l[0]]; return `<li><span class="orb-m" style="--c:${q[2]}">${orbIcon(l[0])}</span><span>${esc(L === 'en' ? q[1] : q[0])}</span><small class="num">${l[1]} ml</small></li>`; }).join('')}</ul></div>`;
+    }
   }
   const prs = (it.pair || []).map(pairOf).filter(Boolean);
   if (prs.length) h += `<div><h3 style="font-size:22px;margin-bottom:12px">${t(it.kind === 'dish' ? 'pair' : 'pair_d')}</h3><div class="pairs">${prs.map(p => {
-    let im; if (p.kind === 'cake') im = `<span class="im cut"><img src="img/k/${p.cut}.webp" alt=""></span>`; else if (p.img) im = `<span class="im"><img src="${img(Array.isArray(p.img) ? p.img[0] : p.img, 1)}" alt=""></span>`; else if (p.layers) im = `<span class="im">${glassSVG(p)}</span>`;
-    else im = `<span class="im">${K.top(p.cat === 'vina' || p.cat === 'vina-casa' ? 'berries' : p.cat === 'piva' ? 'honey' : 'lemon', 1)}</span>`;
+    let im; if (p.kind === 'cake') im = `<span class="im cut"><img src="${cutSrc(p, 1)}" alt=""></span>`; else if (p.kind === 'drink') im = `<span class="im dk">${p.pack ? `<img class="pk" src="${packSrc(p.pack, 1)}" alt="">` : p.img ? `<img src="${img(p.img, 1)}" alt="">` : glassSVG(p)}</span>`;
+    else im = photoOf(p) ? `<span class="im"><img src="${img(photoOf(p)[0], 1)}" alt=""></span>` : `<span class="im"><img src="img/i/${p.id}.webp" alt=""></span>`;
     return `<button class="pc" data-id="${p.id}">${im}<b>${esc(nm(p))}</b>${money(p.price)}</button>`; }).join('')}</div></div>`;
   return h;
 }
@@ -374,7 +511,6 @@ function bindDish(it) {
   const sh = $('#dish');
   $('#xClose', sh).onclick = () => history.back();
   const sb = $('#splitBtn', sh); if (sb) sb.onclick = () => toggleX(it);
-  $$('.vars button', sh).forEach(b => b.onclick = () => { VAR = +b.dataset.v; const open = $('#st').classList.contains('open'); $('#info').innerHTML = infoHTML(it); bindInfo(it); updAdd(it); if (open) { closeX(true); setTimeout(() => openX(it), 50); } else if (it.mode === 'knoll' && !photoOf(it)) $('#ph').innerHTML = plateArt(it, curComps(it)); else if (stageHero(it).illus) prepIll(it); });
   $$('.gal button', sh).forEach(b => b.onclick = () => { GAL = +b.dataset.g; const ph = photoOf(it); const im = $('#ph img'); im.style.opacity = 0; setTimeout(() => { im.src = img(ph[GAL]); im.style.opacity = 1; }, 180); $$('.gal button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
   $('#qm', sh).onclick = () => { QTY = Math.max(1, QTY - 1); updAdd(it); }; $('#qp', sh).onclick = () => { QTY = Math.min(20, QTY + 1); updAdd(it); };
   $('#addBtn', sh).onclick = () => addToCart(it);
@@ -382,8 +518,9 @@ function bindDish(it) {
   if (stageHero(it).illus) prepIll(it);
 }
 function bindInfo(it) {
+  $$('#info .vars button').forEach(b => b.onclick = () => { VAR = +b.dataset.v; const open = $('#st').classList.contains('open'); $('#info').innerHTML = infoHTML(it); bindInfo(it); updAdd(it); if (open) { closeX(true); setTimeout(() => openX(it), 60); } else if (!photoOf(it) && it.mode === 'plate') $('#ph').innerHTML = plateArt(it, curComps(it)); else if (stageHero(it).illus) prepIll(it); });
   $$('#info [data-art]').forEach(el => { el.innerHTML = K.top(el.dataset.art, +el.dataset.seed).replace('<svg ', '<svg width="34" height="34" '); });
-  $$('#info .pc').forEach(b => b.onclick = () => { history.replaceState({ dish: b.dataset.id }, '', '#' + encodeURIComponent(b.dataset.id)); openItem(b.dataset.id, false); hit('pair', b.dataset.id); });
+  $$('#info .pc').forEach(b => b.onclick = () => { history.replaceState({ dish: b.dataset.id, g: (history.state || {}).g }, '', '#' + encodeURIComponent(b.dataset.id)); openItem(b.dataset.id, false); hit('pair', b.dataset.id); });
 }
 function updAdd(it) { $('#qn').textContent = QTY; $('#addT').textContent = `${t('add')} · ${nf(curPrice(it) * QTY)} RSD`; }
 const isDesk = () => innerWidth >= 1100;
@@ -401,10 +538,20 @@ function placeLabels(lbs, want, gap = 6) {
   want.forEach((w, i) => { const tp = Math.max(w - Math.min(hs[i] / 2, 18), prev + gap); tops.push(tp); prev = tp + hs[i]; });
   return { tops, anchors: tops.map((tp, i) => tp + Math.min(hs[i] / 2, 18)), bottom: prev };
 }
+// oznake desno, poređane po visini; vraća {tops, anchors, bottom} u istom redosledu kao ulaz
+function labelsRight(xr, items, wantY, lx, lw, extra) {
+  xr.insertAdjacentHTML('beforeend', `<div class="lbtmp">${items.map(c => lab(c, lx, 0, lw, extra && extra(c))).join('')}</div>`);
+  const tmp = $$('.lbtmp .lb', xr), ord = wantY.map((y, i) => i).sort((a, b) => wantY[a] - wantY[b]);
+  const P = placeLabels(ord.map(i => tmp[i]), ord.map(i => wantY[i]));
+  const tops = [], anchors = []; ord.forEach((i, j) => { tops[i] = P.tops[j]; anchors[i] = P.anchors[j]; });
+  $('.lbtmp', xr).remove();
+  return { tops, anchors, bottom: P.bottom };
+}
+const leader = (x1, y1, lx, y2) => `<path d="M${f1(x1)} ${f1(y1)}C${f1(lx - 14)} ${f1(y1)} ${f1(lx - 18)} ${f1(y2)} ${f1(lx - 5)} ${f1(y2)}"/><circle cx="${f1(x1)}" cy="${f1(y1)}" r="2.6"/>`;
 const totLine = (it, y) => `<div class="xr-tot" style="top:${f1(y)}px">≈ <b class="num">${nf(curNut(it).kcal)} kcal</b> · ${t('est')}</div>`;
-function phRect() { const st = $('#st'), ph = $('#ph'), sr = st.getBoundingClientRect(), b = ph.getBoundingClientRect(); const im = $('img', ph), sv = $('svg', ph);
+function phRect() { const st = $('#st'), ph = $('#ph'), sr = st.getBoundingClientRect(), b = ph.getBoundingClientRect(); const im = $('img', ph), sv = $(':scope > svg', ph);
   let w = b.width, h = b.height, x = b.left - sr.left, y = b.top - sr.top + st.scrollTop;
-  const el = im || sv; if (el) { const r = el.getBoundingClientRect(); if (im && im.naturalWidth && getComputedStyle(im).objectFit === 'contain') { const k = Math.min(r.width / im.naturalWidth, r.height / im.naturalHeight); w = im.naturalWidth * k; h = im.naturalHeight * k; x = r.left - sr.left + (r.width - w) / 2; y = r.top - sr.top + st.scrollTop + (r.height - h) / 2; } else { w = r.width; h = r.height; x = r.left - sr.left; y = r.top - sr.top + st.scrollTop; } }
+  const el = im || sv; if (el) { const r = el.getBoundingClientRect(); if (im && im.naturalWidth && getComputedStyle(im).objectFit === 'contain') { const cs = getComputedStyle(im), pl = parseFloat(cs.paddingLeft) || 0, pt = parseFloat(cs.paddingTop) || 0, pr = parseFloat(cs.paddingRight) || 0, pb = parseFloat(cs.paddingBottom) || 0, bw = r.width - pl - pr, bh = r.height - pt - pb; const k = Math.min(bw / im.naturalWidth, bh / im.naturalHeight); w = im.naturalWidth * k; h = im.naturalHeight * k; x = r.left - sr.left + pl + (bw - w) / 2; y = r.top - sr.top + st.scrollTop + pt + (bh - h) / 2; } else { w = r.width; h = r.height; x = r.left - sr.left; y = r.top - sr.top + st.scrollTop; } }
   return { x, y, w, h, cx: x + w / 2, cy: y + h / 2 };
 }
 function toggleX(it) { const st = $('#st'); if (st.classList.contains('open')) closeX(); else { openX(it); hit('split', it.id); } }
@@ -413,35 +560,39 @@ function openX(it) {
   if (!st._h0) st._h0 = st.offsetHeight;
   const W = st.clientWidth, comps = curComps(it), pr = phRect();
   let r;
-  if (it.kind === 'drink') r = buildGlass(xr, it, W, pr);
+  if (it.kind === 'drink') r = buildOrbs(xr, it, W, pr);
+  else if (it.mode === 'bands') r = buildBands(xr, it, comps, W, pr);
+  else if (it.mode === 'halves') r = buildHalves(xr, it, comps, W, pr);
+  else if (it.mode === 'pops') r = buildPops(xr, it, comps, W, pr);
   else if (it.mode === 'pizza') r = buildPizza(xr, it, comps, W, pr);
   else if (it.mode === 'stack' || it.mode === 'cake') r = buildStack(xr, it, comps, W, pr);
+  else if (it.mode === 'plate') r = buildPlate(xr, it, comps, W, pr);
   else r = buildKnoll(xr, it, comps, W, pr);
-  XR = r; const ph0 = $('#ph'); ph0.style.height = ph0.offsetHeight + 'px'; xr.style.transform = ''; st.classList.add('open'); btn.setAttribute('aria-pressed', 'true'); $('span', btn).textContent = t('join');
+  XR = r; const ph0 = $('#ph'); ph0.style.height = ph0.offsetHeight + 'px'; xr.style.transform = ''; st.classList.add('open'); st.dataset.m = r.m || ''; btn.setAttribute('aria-pressed', 'true'); $('span', btn).textContent = t('join');
   if (!isDesk()) st.style.height = Math.max(st._h0, r.H) + 'px';
   const ph = $('#ph'); ph.style.transformOrigin = '0 0'; ph.style.transform = r.photo.tf || ''; ph.style.opacity = r.photo.op;
-  requestAnimationFrame(() => r.play());
+  requestAnimationFrame(() => requestAnimationFrame(() => r.play()));
 }
 function closeX(instant) {
   const st = $('#st'), btn = $('#splitBtn'), ph = $('#ph'), xr = $('#xr'); if (!st) return;
-  st.classList.remove('open'); if (btn) { btn.setAttribute('aria-pressed', 'false'); $('span', btn).textContent = CUR && CUR.kind === 'drink' ? t('split_d') : t('split'); }
+  st.classList.remove('open'); if (btn) { btn.setAttribute('aria-pressed', 'false'); $('span', btn).textContent = CUR ? splitLabel(CUR) : t('split'); }
   if (XR && XR.back) XR.back(instant);
   const d = instant ? 0 : (XR && XR.delay) || 0;
   setTimeout(() => { ph.style.transform = ''; ph.style.opacity = ''; setTimeout(() => { if (!st.classList.contains('open')) { ph.style.transformOrigin = ''; ph.style.height = ''; } }, 820); }, d);
   if (!isDesk()) st.style.height = st._h0 + 'px';
   const keep = XR && XR.keep; XR = null;
-  setTimeout(() => { if (!st.classList.contains('open')) { if (keep && CUR) prepIll(CUR); else xr.innerHTML = ''; } }, instant ? 0 : 900);
+  setTimeout(() => { if (!st.classList.contains('open')) { st.dataset.m = ''; if (keep && CUR) prepIll(CUR); else xr.innerHTML = ''; } }, instant ? 0 : 950);
 }
 // ilustracija bez fotografije: slojevi su već sklopljeni na pozornici
 function prepIll(it) {
   const st = $('#st'), xr = $('#xr'), W = st.clientWidth; if (!W) return requestAnimationFrame(() => prepIll(it));
   const pr = { x: 0, y: 0, w: W, h: st.offsetHeight, cx: W / 2, cy: st.offsetHeight * .46 };
-  let r; if (it.kind === 'drink') r = buildGlass(xr, it, W, pr, true); else if (it.mode === 'pizza') r = buildPizza(xr, it, curComps(it), W, pr, true); else r = buildStack(xr, it, curComps(it), W, pr, true);
+  const r = it.mode === 'pizza' ? buildPizza(xr, it, curComps(it), W, pr, true) : buildStack(xr, it, curComps(it), W, pr, true);
   r.still();
   if (it.mode === 'stack' || it.mode === 'cake') { xr.style.transformOrigin = `${f1(W / 2)}px ${f1(pr.cy)}px`; xr.style.transform = `scale(${isDesk() ? 1.25 : 1.34})`; }
 }
 
-// ---------- knoll: sastojci složeni u mrežu, izleću iz tanjira
+// ---------- knoll: sastojci složeni u mrežu, izleću iz tanjira (plate za deljenje, doručak)
 function buildKnoll(xr, it, comps, W, pr) {
   const n = comps.length, cols = W >= 520 ? 4 : 3, pad = 14, gap = 8, cw = (W - pad * 2 - gap * (cols - 1)) / cols, ch = Math.round(cw * .58 + 72);
   const top0 = 70, phH = Math.min(200, W * .44), gridY = top0 + phH + 50, rows = Math.ceil(n / cols), H = gridY + rows * (ch + gap) + 62;
@@ -460,7 +611,79 @@ function buildKnoll(xr, it, comps, W, pr) {
     back() { cap.classList.remove('on'); tot.classList.remove('on'); cells.forEach((el, i) => { el.style.transitionDelay = (i * 16) + 'ms'; el.style.opacity = 0; el.style.transform = `translate(${f1(ox)}px,${f1(oy)}px) scale(.3)`; }); }
   };
 }
-// ---------- stack: slojevi (burger, sendvič, kolač)
+
+// ---------- tanjir: sastojci izlaze iz tanjira, od osnove do preliva na vrhu
+const BASE_ART = new Set(['pasta', 'risotto', 'rice', 'mash', 'potato_sp', 'fries', 'greens', 'lettuce', 'soup', 'soup_dark', 'potage', 'tortilla', 'crepe', 'mlinci', 'toast', 'lepinja', 'poppy', 'choc_top', 'cabbage']);
+function plateOrder(comps) {
+  const main = comps.filter(c => !c.side);
+  const isB = c => BASE_ART.has(c.a) || c.grp === 'testo' || c.grp === 'prilog';
+  const base = main.filter(isB).sort((a, b) => b.g - a.g)[0] || main.slice().sort((a, b) => b.g - a.g)[0];
+  const rank = c => c === base ? 0 : (c.i === 'yolk' || c.grp === 'sos' || c.grp === 'slatko') ? 3 : (c.g <= 6 || ['herbs', 'garlic'].includes(c.a)) ? 5 : (c.grp === 'meso' || c.grp === 'riba') ? 1 : c.grp === 'sir' ? 4 : 2;
+  return main.slice().sort((a, b) => rank(a) - rank(b) || b.g - a.g);
+}
+const ringSVG = '<circle cx="200" cy="200" r="176" fill="rgba(255,214,140,.05)" stroke="rgba(255,214,140,.22)" stroke-width="2.4" stroke-dasharray="5 7"/>';
+// posebni diskovi: crni biber (zrnca), žumance (sjajan sos)
+function discSpecial(c, i) {
+  const R = RNG(31 + i);
+  if (c.i === 'black_pepper') { let s = ''; for (let k = 0; k < 90; k++) { const a = R() * 6.283, r = Math.sqrt(R()) * 150; s += `<circle cx="${f1(200 + Math.cos(a) * r)}" cy="${f1(200 + Math.sin(a) * r)}" r="${f1(2.2 + R() * 3.2)}" fill="${R() > .3 ? '#1c1714' : '#4a3a2c'}"/>`; } return s; }
+  if (c.i === 'yolk') { let s = ''; for (let k = 0; k < 7; k++) { const a = k / 7 * 6.283 + R() * .5, r = 40 + R() * 80, x = 200 + Math.cos(a) * r, y = 200 + Math.sin(a) * r * .9, w = 34 + R() * 26; s += `<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="${f1(w)}" ry="${f1(w * .7)}" fill="#f2a91c"/><ellipse cx="${f1(x - w * .25)}" cy="${f1(y - w * .2)}" rx="${f1(w * .35)}" ry="${f1(w * .18)}" fill="#fff" opacity=".45"/>`; } return `<path d="M120 170C150 120 260 115 290 165S300 270 230 285 100 260 120 170Z" fill="#f6c24a" opacity=".85"/>` + s; }
+  return '';
+}
+function discSVG(c, i, base) {
+  const s = base ? 3.3 : 2.6, o = 200 - 60 * s, sp = discSpecial(c, i);
+  return `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${base ? '' : ringSVG}${sp || `<g transform="translate(${f1(o)} ${f1(o)}) scale(${s})">${artInner(c.a, i)}</g>`}</svg>`;
+}
+function plateSVG(id) {
+  return `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><radialGradient id="pp-${id}" cx=".45" cy=".4" r=".75"><stop offset="0" stop-color="#fbf7ee"/><stop offset=".72" stop-color="#e7dfcf"/><stop offset="1" stop-color="#c9bea8"/></radialGradient></defs>
+    <circle cx="200" cy="214" r="196" fill="#000" opacity=".4"/><circle cx="200" cy="200" r="196" fill="url(#pp-${id})"/><circle cx="200" cy="200" r="142" fill="none" stroke="#d3c8b2" stroke-width="2.4"/><circle cx="200" cy="200" r="190" fill="none" stroke="#b9975f" stroke-width="2" opacity=".6"/></svg>`;
+}
+function buildPlate(xr, it, comps, W, pr) {
+  const ls = plateOrder(comps), n = ls.length, sides = comps.filter(c => c.side);
+  const D = Math.min(W * .5, 240), x0 = Math.max(10, W * .035), top0 = 78, gap = Math.max(30, Math.min(48, 340 / n)), k = .44;
+  const cyE = ls.map((c, i) => top0 + D * k / 2 + (n - 1 - i) * gap);
+  const plY = cyE[0] + gap * .95, Dp = D * 1.12;
+  const lx = x0 + D + 20, lw = W - lx - 12;
+  const LP = labelsRight(xr, ls, cyE, lx, lw);
+  const sideY = Math.max(plY + Dp * k / 2 + 26, LP.bottom + 16);
+  let H = sideY + (sides.length ? 170 : 0) + 64;
+  let h = `<div class="pl" style="width:${f1(Dp)}px;height:${f1(Dp)}px">${plateSVG(it.id)}</div>`;
+  h += ls.map((c, i) => `<div class="pz pd${i === 0 ? ' base' : ''}" style="width:${f1(D)}px;height:${f1(D)}px;z-index:${10 + i}">${discSVG(c, i, i === 0)}</div>`).join('');
+  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${ls.map((c, i) => leader(x0 + D * (i === 0 ? .96 : .82), cyE[i], lx, LP.anchors[i])).join('')}</svg>`;
+  h += ls.map((c, i) => lab(c, lx, LP.tops[i], lw)).join('');
+  if (sides.length) h += `<div class="sides" style="top:${f1(sideY)}px"><span>${t('with_dish')}</span><div>${sides.map((c, i) => `<div class="sd"><div class="sp">${K.top(c.a, 40 + i)}</div><b>${esc(cnm(c))}</b><small class="num">${c.g} g · ${c.kcal} kcal</small></div>`).join('')}</div></div>`;
+  h += totLine(it, H - 48);
+  xr.innerHTML = h;
+  const plate = $('.pl', xr), els = $$('.pd', xr), lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), sd = $('.sides', xr), tot = $('.xr-tot', xr);
+  if (sd) { H = sideY + sd.offsetHeight + 72; tot.style.top = (H - 50) + 'px'; }
+  const plX = x0 + D / 2 - Dp / 2, plTf = `translate(${f1(plX)}px,${f1(plY - Dp / 2)}px) scale(1,${k})`;
+  plate.style.transformOrigin = '50% 50%'; plate.style.transition = 'none'; plate.style.opacity = 0; plate.style.transform = `translate(${f1(pr.cx - Dp / 2)}px,${f1(pr.cy - Dp / 2)}px) scale(${f1(Math.min(pr.w, pr.h) / Dp * .9)},${f1(Math.min(pr.w, pr.h) / Dp * .9 * .7)})`;
+  const sit = i => `translate(${f1(x0)}px,${f1(plY - D / 2 - 6 - i * 3)}px) scale(.9,${f1(k * .9)})`;
+  els.forEach((el, i) => { el.style.transition = 'none'; el.style.opacity = 0; el.style.transformOrigin = '50% 50%'; el.style.transform = sit(i); });
+  // fotografija se spušta i sabija u tanjir
+  const s = Dp / Math.max(pr.w, 1), tx = plX + Dp / 2 - (pr.x + pr.w / 2) * s, ty = plY - (pr.y + pr.h / 2) * s * k;
+  return {
+    H, m: 'plate', delay: 380, photo: { tf: `translate(${f1(tx)}px,${f1(ty)}px) scale(${s.toFixed(3)},${(s * k).toFixed(3)})`, op: 0 },
+    play() { void xr.offsetWidth; const Dd = reduced ? 0 : 1;
+      plate.style.transition = 'transform .8s var(--ease),opacity .45s'; plate.style.opacity = 1; plate.style.transform = plTf;
+      els.forEach((el, i) => { el.style.transition = 'opacity .3s'; el.style.transitionDelay = (Dd ? 260 + i * 40 : 0) + 'ms'; el.style.opacity = 1; });
+      setTimeout(() => {
+        els.forEach((el, i) => { el.style.transition = ''; el.style.transitionDelay = (Dd ? i * 70 : 0) + 'ms'; el.style.transform = `translate(${f1(x0)}px,${f1(cyE[i] - D / 2)}px) scale(1,${k})`; el.classList.add('ex'); });
+        lbs.forEach((el, i) => { el.style.transitionDelay = (Dd ? 300 + i * 70 : 0) + 'ms'; el.classList.add('on'); });
+        paths.forEach((p, i) => { p.style.transitionDelay = (Dd ? 340 + Math.floor(i / 2) * 70 : 0) + 'ms'; p.classList.add('on'); });
+        if (sd) { sd.style.transitionDelay = (Dd ? 420 + n * 70 : 0) + 'ms'; sd.classList.add('on'); }
+        tot.style.transitionDelay = (Dd ? 520 + n * 70 : 0) + 'ms'; tot.classList.add('on');
+      }, Dd ? 640 : 30);
+    },
+    back() {
+      lbs.forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); }); paths.forEach(p => { p.style.transitionDelay = '0ms'; p.classList.remove('on'); });
+      if (sd) { sd.style.transitionDelay = '0ms'; sd.classList.remove('on'); } tot.classList.remove('on');
+      els.forEach((el, i) => { el.style.transitionDelay = ((n - 1 - i) * 30) + 'ms'; el.style.transform = sit(i); el.classList.remove('ex'); });
+      setTimeout(() => { els.forEach(el => { el.style.transition = 'opacity .3s'; el.style.opacity = 0; }); plate.style.opacity = 0; }, 420);
+    }
+  };
+}
+
+// ---------- stack: slojevi (burger, sendvič, baklava)
 function buildStack(xr, it, comps, W, pr, ill) {
   const cake = it.mode === 'cake', main = comps.filter(c => !c.side), sides = comps.filter(c => c.side);
   const shape = cake ? 'wedge' : (it.shape || 'round');
@@ -470,15 +693,13 @@ function buildStack(xr, it, comps, W, pr, ill) {
   const asH = as[as.length - 1] + Ls[Ls.length - 1].h;
   const gp = cake ? 18 : 13, ex = [top0]; for (let i = 1; i < Ls.length; i++) { const p = Ls[i - 1].o, q = Ls[i].o; ex.push(ex[i - 1] + (p.b - (q.top || 0)) * s + gp); }
   const exEnd = ex[ex.length - 1] + Ls[Ls.length - 1].h;
-  // sklopljeno: centrirano gde je jelo (ili na sredini pozornice za ilustraciju)
   const ax = ill ? (W - Wl) / 2 : x0, asTop = ill ? Math.max(70, pr.cy - asH / 2) : top0 + Math.max(0, (Math.min(exEnd - top0, 420) - asH) / 2);
   const asY = as.map(y => asTop + y);
   const lx = x0 + Wl + 22, lw = W - lx - 12; const cyL = i => ex[i] + Ls[i].o.c * s;
-  xr.innerHTML = Ls.map(l => lab(l.c, lx, 0, lw)).join('');
-  const LP = placeLabels($$('.lb', xr), Ls.map((l, i) => cyL(i)));
+  const LP = labelsRight(xr, Ls.map(l => l.c), Ls.map((l, i) => cyL(i)), lx, lw);
   const sideY = Math.max(exEnd, LP.bottom + 10) + 22; let H = sideY + (sides.length ? 160 : 0) + 60;
   let h = Ls.map((l, i) => `<div class="ly" style="width:${f1(Wl)}px;left:0;z-index:${60 - i}">${l.o.svg}</div>`).join('');
-  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${Ls.map((l, i) => { const y0 = cyL(i), x1 = x0 + Wl * (cake ? .86 : .9), y1 = LP.anchors[i]; return `<path d="M${f1(x1)} ${f1(y0)}C${f1(lx - 14)} ${f1(y0)} ${f1(lx - 20)} ${f1(y1)} ${f1(lx - 5)} ${f1(y1)}"/><circle cx="${f1(x1)}" cy="${f1(y0)}" r="2.6"/>`; }).join('')}</svg>`;
+  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${Ls.map((l, i) => leader(x0 + Wl * (cake ? .86 : .9), cyL(i), lx, LP.anchors[i])).join('')}</svg>`;
   h += Ls.map((l, i) => lab(l.c, lx, LP.tops[i], lw)).join('');
   if (sides.length) h += `<div class="sides" style="top:${f1(sideY)}px"><span>${t('with_dish')}</span><div>${sides.map((c, i) => `<div class="sd"><div class="sp">${K.top(c.a, 40 + i)}</div><b>${esc(cnm(c))}</b><small class="num">${c.g} g · ${c.kcal} kcal</small></div>`).join('')}</div></div>`;
   h += totLine(it, H - 48);
@@ -486,7 +707,6 @@ function buildStack(xr, it, comps, W, pr, ill) {
   const lys = $$('.ly', xr), lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), sd = $('.sides', xr), tot = $('.xr-tot', xr);
   if (sd) { H = sideY + sd.offsetHeight + 70; tot.style.top = (H - 50) + 'px'; }
   lys.forEach((el, i) => { el.style.transition = 'none'; el.style.opacity = ill ? 1 : 0; el.style.transform = `translate(${f1(ax)}px,${f1(asY[i])}px)`; });
-  const sc = Math.min(1, Wl * 1.25 / pr.w);
   return {
     H, keep: !!ill, delay: 380, photo: { tf: '', op: ill ? 1 : 0 },
     still() { },
@@ -514,14 +734,11 @@ function buildPizza(xr, it, comps, W, pr, ill) {
   const D = Math.min(W * .5, 250), x0 = Math.max(12, W * .04), top0 = 80, gap = Math.max(34, Math.min(48, 380 / n)), k = .5;
   const cyE = ls.map((l, i) => top0 + D * k / 2 + (n - 1 - i) * gap), exEnd = cyE[0] + D * k / 2 + 18;
   const lx = x0 + D + 22, lw = W - lx - 12;
-  xr.innerHTML = ls.map(l => lab(l.c, lx, 0, lw)).join('');
-  const order = ls.map((l, i) => n - 1 - i), lbsTmp = $$('.lb', xr);
-  const LPo = placeLabels(order.map(i => lbsTmp[i]), order.map(i => cyE[i]));
-  const ly = [], lt = []; order.forEach((i, j) => { ly[i] = LPo.anchors[j]; lt[i] = LPo.tops[j]; });
-  const H = Math.max(exEnd, LPo.bottom + 20) + 70;
+  const LP = labelsRight(xr, ls.map(l => l.c), cyE, lx, lw);
+  const H = Math.max(exEnd, LP.bottom + 20) + 70;
   let h = ls.map((l, i) => `<div class="pz${i === 0 ? ' base' : ''}" style="width:${f1(D)}px;height:${f1(D)}px;left:0;z-index:${10 + i}">${l.svg}</div>`).join('');
-  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${ls.map((l, i) => { const x1 = x0 + D * (i === 0 ? .99 : .86); return `<path d="M${f1(x1)} ${f1(cyE[i])}C${f1(lx - 14)} ${f1(cyE[i])} ${f1(lx - 18)} ${f1(ly[i])} ${f1(lx - 5)} ${f1(ly[i])}"/><circle cx="${f1(x1)}" cy="${f1(cyE[i])}" r="2.6"/>`; }).join('')}</svg>`;
-  h += ls.map((l, i) => lab(l.c, lx, lt[i], lw)).join('') + totLine(it, H - 48);
+  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${ls.map((l, i) => leader(x0 + D * (i === 0 ? .99 : .86), cyE[i], lx, LP.anchors[i])).join('')}</svg>`;
+  h += ls.map((l, i) => lab(l.c, lx, LP.tops[i], lw)).join('') + totLine(it, H - 48);
   xr.innerHTML = h;
   const els = $$('.pz', xr), lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), tot = $('.xr-tot', xr);
   const sA = ill ? Math.min(W * .76, 360) / D : Math.min(pr.w * .9, pr.h * 1.2) / D;
@@ -546,49 +763,236 @@ function buildPizza(xr, it, comps, W, pr, ill) {
     }
   };
 }
-// ---------- čaša: tečnosti se odvajaju po slojevima
-function buildGlass(xr, it, W, pr, ill) {
-  const { g, geo, lay } = glassGeo(it), n = lay.length;
-  const Wg = Math.min(W * .4, 210), kk = Wg / 200, Hg = 300 * kk, x0 = Math.max(16, W * .07), gap = Math.max(16, Math.min(30, 220 / n));
-  const top0 = 84 + (n - 1) * gap;
-  const asX = ill ? (W - Wg) / 2 : x0, asTop = ill ? Math.max(64, pr.cy - Hg / 2) : top0;
-  const exY = i => top0 - i * gap;               // gornji slojevi se dižu više
-  const cyE = i => exY(i) + (geo[i].y0 + geo[i].h / 2) * kk;
-  const lx = x0 + Wg + 26, lw = W - lx - 12;
-  const items = lay.map((l, i) => { const q = U.lq[l[0]]; return { name: L === 'en' ? q[1] : q[0], g: l[1], col: q[2] }; });
-  xr.innerHTML = items.map(c => lab(c, lx, 0, lw, `${c.g} ml`)).join('');
-  const order = items.map((c, i) => n - 1 - i), tmp = $$('.lb', xr);
-  const LPo = placeLabels(order.map(i => tmp[i]), order.map(i => cyE(i)));
-  const ly = [], lt = []; order.forEach((i, j) => { ly[i] = LPo.anchors[j]; lt[i] = LPo.tops[j]; });
-  const H = Math.max(top0 + Hg + 30, LPo.bottom + 30) + 60;
-  let h = `<div class="gl-base" style="width:${f1(Wg)}px;left:0;transform:translate(${f1(asX)}px,${f1(asTop)}px)">${glassOutline(it)}</div>`;
-  h += lay.map((l, i) => `<div class="gl-l" style="width:${f1(Wg)}px;left:0;z-index:${10 + i}">${glassSVG(it, i, i)}</div>`).join('');
-  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${lay.map((l, i) => { const x1 = x0 + Wg * .82; return `<path d="M${f1(x1)} ${f1(cyE(i))}C${f1(lx - 14)} ${f1(cyE(i))} ${f1(lx - 18)} ${f1(ly[i])} ${f1(lx - 5)} ${f1(ly[i])}"/><circle cx="${f1(x1)}" cy="${f1(cyE(i))}" r="2.6"/>`; }).join('')}</svg>`;
-  h += items.map((c, i) => lab(c, lx, lt[i], lw, `${c.g} ml`)).join('');
+
+// ---------- piće: čaša u sredini, sastojci se rasprsnu na sve strane (kao BHT)
+const ORB = { lemon: 'k:lemon', lime: 'k:lemon', oj: 'k:orange', orange: 'k:orange', grapefruit: 'k:orange', mint: 'k:herbs', blueberry: 'k:berries', raspberry: 'k:berries',
+  banana: 'k:banana', honey: 'k:honey', carrot: 'k:carrot', whip: 'k:whip', icecream: 'k:ice_cream', plazma: 'k:plazma', choc: 'k:milk_choc', hot_choc: 'k:milk_choc',
+  espresso: 'k:coffee_beans', espresso_d: 'k:coffee_beans', nescaffe: 'k:coffee_beans', turkish: 'k:coffee_beans', cocoa: 'g:powder', sugar: 'g:cubes', ice: 'g:ice',
+  soda: 'g:bubbles', tonic: 'g:bubbles', sprite: 'g:bubbles', water: 'g:bubbles', pgf: 'g:bubbles', guarana: 'g:bubbles', cola: 'g:bubbles', apple: 'g:apple', ginger: 'g:root',
+  cinnamon: 'g:stick', beet: 'g:beet', pineapple: 'g:pineapple', tea: 'g:leaf', icetea: 'g:leaf', milk: 'g:drop', foam: 'g:cloud', soy: 'g:drop', crema: 'g:cloud', tfoam: 'g:cloud',
+  grenadine: 'g:drop', syrup: 'g:drop', caramel: 'g:drop', lemon_syrup: 'g:drop', fruit_syrup: 'g:drop', shake: 'g:drop', cedevita: 'g:drop' };
+const GLY = {
+  bottle: '<path d="M10 3h4v3.2c0 .8 2.5 1.8 2.5 4.6V20a1.5 1.5 0 0 1-1.5 1.5H9A1.5 1.5 0 0 1 7.5 20v-9.2C7.5 8 10 7 10 6.2Z"/><path d="M7.5 13h9"/>',
+  drop: '<path d="M12 3.5s6 6.4 6 10.8a6 6 0 0 1-12 0C6 9.9 12 3.5 12 3.5Z"/>', bubbles: '<circle cx="9" cy="15" r="4"/><circle cx="16" cy="9" r="2.6"/><circle cx="15.5" cy="17.5" r="1.6"/><circle cx="9.5" cy="6.5" r="1.4"/>',
+  ice: '<rect x="4" y="9" width="9" height="9" rx="2" transform="rotate(-10 8.5 13.5)"/><rect x="11" y="5" width="8.5" height="8.5" rx="2" transform="rotate(12 15 9)"/>',
+  cubes: '<rect x="4" y="11" width="7" height="7" rx="1.2"/><rect x="12.5" y="11" width="7" height="7" rx="1.2"/><rect x="8.3" y="4" width="7" height="7" rx="1.2"/>',
+  powder: '<path d="M4 18c2-5 5-7 8-7s6 2 8 7Z"/><circle cx="8" cy="8" r=".9" fill="currentColor"/><circle cx="12" cy="6" r=".9" fill="currentColor"/><circle cx="16" cy="8.5" r=".9" fill="currentColor"/>',
+  apple: '<path d="M12 7.5c-2-1.6-6-1.2-6.5 3-.4 3.8 2.2 9 5 9 .7 0 1-.4 1.5-.4s.8.4 1.5.4c2.8 0 5.4-5.2 5-9-.5-4.2-4.5-4.6-6.5-3Z"/><path d="M12 7.5c0-2 .8-3.5 2.5-4"/>',
+  root: '<path d="M5 15c2-4 6-3 8-6s4-4 6-3-1 4-4 6-4 6-8 6-3-1-2-3Z"/><path d="M9 14l-2-2M13 11l-1-3"/>', stick: '<path d="M5 18 18 5M7 20 20 7"/><path d="M5 18c-1 1 0 3 2 2"/>',
+  beet: '<circle cx="12" cy="14" r="5.5"/><path d="M12 8.5c-1-3-3-4.5-5-5M12 8.5c1-3 3-4.5 5-5M12 19.5v2"/>', pineapple: '<ellipse cx="12" cy="15" rx="5" ry="6"/><path d="M9 12l6 6M15 12l-6 6M12 9V4M9.5 5.5 12 9l2.5-3.5"/>',
+  leaf: '<path d="M5 19c0-8 5-14 14-14 0 9-6 14-14 14Z"/><path d="M5 19 13 11"/>', cloud: '<path d="M7 17.5h10a3.5 3.5 0 0 0 .3-7 5 5 0 0 0-9.6-1A4 4 0 0 0 7 17.5Z"/>'
+};
+const SPIRIT = new Set(['rum', 'rum_dark', 'vodka', 'gin', 'tequila', 'triple', 'archers', 'curacao', 'absinth', 'puskin', 'amaretto', 'aperol', 'baileys', 'whiskey', 'cranberry', 'prosecco', 'vermouth', 'bwine', 'wine_w', 'wine_r', 'wine_ro', 'beer', 'beer_dark']);
+function orbIcon(key) {
+  const o = ORB[key] || (SPIRIT.has(key) ? 'g:bottle' : 'g:drop'), [k, v] = o.split(':');
+  if (k === 'k') return `<svg viewBox="0 0 120 120" class="ka">${artInner(v, 3)}</svg>`;
+  return `<svg viewBox="0 0 24 24" class="gy" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${GLY[v]}</svg>`;
+}
+const lum = hex => { const n = parseInt(hex.slice(1), 16); return ((n >> 16) * .299 + ((n >> 8) & 255) * .587 + (n & 255) * .114) / 255; };
+function buildOrbs(xr, it, W, pr) {
+  const { geo, lay } = glassGeo(it), n = lay.length, H0 = $('#st')._h0 || $('#st').offsetHeight;
+  const H = Math.max(H0, 150 + Math.ceil(n / 2) * 74);
+  const vb = vbOf(it), Wg = Math.min(W * .34, 180) * (vb[2] < 200 ? Math.min(1.5, Math.sqrt(200 / vb[2])) : 1), kk = Wg / vb[2], Hg = vb[3] * kk, gx = (W - Wg) / 2, gy = Math.max(70, H * .5 - Hg * .55);
+  const ow = Math.min(132, W * .3), rows = [Math.ceil(n / 2), Math.floor(n / 2)];
+  // sastojci odozgo nadole: vrh čaše levo gore, dno dole
+  const ord = lay.map((l, i) => n - 1 - i);
+  const pos = ord.map((li, j) => { const col = j % 2, row = Math.floor(j / 2), rs = rows[col]; const y = rs <= 1 ? H * .46 : H * (.17 + row * (.66 / (rs - 1))); const x = col ? W - ow / 2 - 8 : ow / 2 + 8; return { x, y, col, li }; });
+  let h = `<div class="og" style="left:${f1(gx)}px;top:${f1(gy)}px;width:${f1(Wg)}px;height:${f1(Hg)}px">` +
+    lay.map((l, i) => `<div class="og-l">${glassSVG(it, i)}</div>`).join('') + `<div class="og-s">${glassShell(it)}</div><div class="og-g">${strawSVG(it)}</div></div>`;
+  h += `<svg class="ol" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${pos.map(p => { const ly = gy + (geo[p.li].y0 + geo[p.li].h / 2 - vb[1]) * kk; const ox = p.col ? p.x + ow / 2 - 23 : p.x - ow / 2 + 23; return `<line x1="${f1(ox)}" y1="${f1(p.y)}" x2="${f1(W / 2 + (p.col ? 1 : -1) * Wg * .3)}" y2="${f1(ly)}"/>`; }).join('')}</svg>`;
+  h += pos.map(p => { const l = lay[p.li], q = U.lq[l[0]] || ['', '', '#ccc']; return `<div class="orb${p.col ? ' r' : ''}" style="width:${f1(ow)}px;--c:${q[2]};--ic:${lum(q[2]) > .62 ? '#2b2118' : '#fff'}"><span class="o">${orbIcon(l[0])}</span><span class="t"><b>${esc(L === 'en' ? q[1] : q[0])}</b><i class="num">${l[1]} ml</i></span></div>`; }).join('');
   const tml = lay.reduce((a, l) => a + l[1], 0);
-  h += `<div class="xr-tot" style="top:${f1(H - 48)}px"><b class="num">${nf(tml)} ml</b> · ${esc(t('glass'))}</div>`;
+  h += `<div class="xr-tot" style="top:${f1(H - 46)}px"><b class="num">${nf(tml)} ml</b> · ${esc(t('glass'))}</div>`;
   xr.innerHTML = h;
-  const base = $('.gl-base', xr), els = $$('.gl-l', xr), lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), tot = $('.xr-tot', xr);
-  els.forEach(el => { el.style.transition = 'none'; el.style.opacity = ill ? 1 : 0; el.style.transform = `translate(${f1(asX)}px,${f1(asTop)}px)`; });
-  base.style.opacity = ill ? 1 : 0;
+  const og = $('.og', xr), ls = $$('.og-l', xr), sh = $('.og-s', xr), gar = $('.og-g', xr), orbs = $$('.orb', xr), lines = $$('.ol line', xr), tot = $('.xr-tot', xr);
+  orbs.forEach(o => { o.style.left = f1(W / 2) + 'px'; o.style.top = f1(gy + Hg * .5) + 'px'; });
+  og.style.opacity = photoOf(it) ? 0 : 1;
   return {
-    H, keep: !!ill, delay: 400, photo: { tf: '', op: ill ? 1 : 0 }, still() { },
-    play() { void xr.offsetWidth; const D = reduced ? 0 : 1;
-      els.forEach(el => { el.style.transition = 'opacity .35s'; el.style.opacity = 1; }); base.style.opacity = 1;
+    H, m: 'orbs', delay: 260, keep: false, photo: photoOf(it) ? { tf: 'scale(1.06)', op: .14 } : { tf: '', op: 0 },
+    play() { const D = reduced ? 0 : 1; og.style.opacity = 1;
       setTimeout(() => {
-        base.style.transition = 'transform .8s var(--spring), opacity .5s'; base.style.transform = `translate(${f1(x0)}px,${f1(top0)}px)`; base.style.opacity = .22;
-        els.forEach((el, i) => { el.style.transition = ''; el.style.transitionDelay = (D ? i * 60 : 0) + 'ms'; el.style.transform = `translate(${f1(x0)}px,${f1(exY(i))}px)`; });
-        lbs.forEach((el, i) => { el.style.transitionDelay = (D ? 300 + (n - 1 - i) * 60 : 0) + 'ms'; el.classList.add('on'); });
-        paths.forEach((p, i) => { p.style.transitionDelay = (D ? 340 + Math.floor(i / 2) * 60 : 0) + 'ms'; p.classList.add('on'); });
-        tot.style.transitionDelay = (D ? 500 + n * 60 : 0) + 'ms'; tot.classList.add('on');
-      }, D && !ill ? 420 : 30);
+        ls.forEach((g, i) => { g.style.transform = `translateY(${f1(-(i - (n - 1) / 2) * 15 - 6)}px)`; });
+        sh.style.opacity = .35; if (gar) gar.style.transform = 'translate(16px,-34px) rotate(16deg)';
+        orbs.forEach((o, j) => { const p = pos[j]; o.style.transitionDelay = (D ? j * 55 : 0) + 'ms'; o.style.opacity = 1; o.style.transform = `translate(calc(-50% + ${f1(p.x - W / 2)}px),calc(-50% + ${f1(p.y - gy - Hg * .5)}px)) scale(1)`; });
+        lines.forEach(l => l.classList.add('on')); tot.classList.add('on');
+      }, D && photoOf(it) ? 260 : 20);
     },
-    back(instant) {
-      lbs.forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); }); paths.forEach(p => { p.style.transitionDelay = '0ms'; p.classList.remove('on'); }); tot.classList.remove('on');
-      base.style.transform = `translate(${f1(asX)}px,${f1(asTop)}px)`; base.style.opacity = ill ? 1 : 0;
-      els.forEach((el, i) => { el.style.transitionDelay = (i * 20) + 'ms'; el.style.transform = `translate(${f1(asX)}px,${f1(asTop)}px)`; });
-      if (!ill) setTimeout(() => els.forEach(el => { el.style.transition = 'opacity .3s'; el.style.opacity = 0; }), instant ? 0 : 450);
+    back() {
+      ls.forEach(g => { g.style.transform = ''; }); sh.style.opacity = ''; if (gar) gar.style.transform = '';
+      orbs.forEach(o => { o.style.transitionDelay = '0ms'; o.style.opacity = 0; o.style.transform = ''; }); lines.forEach(l => l.classList.remove('on')); tot.classList.remove('on');
+      if (photoOf(it)) setTimeout(() => { og.style.opacity = 0; }, 380);
     }
+  };
+}
+
+// ---------- kolači u čaši i kriške: trake fotografije se razmiču po slojevima
+function buildBands(xr, it, comps, W, pr) {
+  const x = it.x, b = x.b, nb = b.length - 1, src = cutSrc(it);
+  const Wt = Math.min(W * .48, 250, (it.cw / it.ch) * 330), Ht = Wt * it.ch / it.cw, x0 = Math.max(12, W * .045), top0 = 92, gap = Math.max(12, Math.min(22, 120 / nb));
+  const lidUp = x.lid ? 34 : 0;
+  const yOf = i => top0 + lidUp + b[i] * Ht + i * gap - (x.lid && i === 0 ? lidUp : 0);
+  const lx = x0 + Wt + 22, lw = W - lx - 12;
+  const bandsL = [], wantY = [];
+  for (let i = 0; i < nb; i++) if (x.lab[i] >= 0 && comps[x.lab[i]]) { bandsL.push(i); wantY.push(yOf(i) + (b[i + 1] - b[i]) * Ht / 2); }
+  const LC = bandsL.map(i => comps[x.lab[i]]);
+  const LP = labelsRight(xr, LC, wantY, lx, lw);
+  const H = Math.max(yOf(nb - 1) + (b[nb] - b[nb - 1]) * Ht, LP.bottom) + 96;
+  let h = '';
+  for (let i = 0; i < nb; i++) h += `<div class="bd${x.lid && i === 0 ? ' lid' : ''}" style="width:${f1(pr.w)}px;height:${f1(pr.h)}px;background-image:url(${src});clip-path:inset(${f1(b[i] * 100 - .4)}% 0 ${f1((1 - b[i + 1]) * 100 - .4)}% 0)"></div>`;
+  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${bandsL.map((i, j) => leader(x0 + Wt * .9, wantY[j], lx, LP.anchors[j])).join('')}</svg>`;
+  h += LC.map((c, j) => lab(c, lx, LP.tops[j], lw)).join('') + totLine(it, H - 50);
+  xr.innerHTML = h;
+  const els = $$('.bd', xr), lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), tot = $('.xr-tot', xr), s = Wt / pr.w;
+  const at = `translate(${f1(pr.x)}px,${f1(pr.y)}px)`;
+  els.forEach(el => { el.style.transition = 'none'; el.style.transform = at; });
+  return {
+    H, m: 'bands', delay: 360, photo: { tf: '', op: 0 },
+    play() { const D = reduced ? 0 : 1;
+      els.forEach((el, i) => { el.style.transition = ''; el.style.transitionDelay = (D ? 80 + i * 60 : 0) + 'ms'; el.style.transform = `translate(${f1(x0)}px,${f1(yOf(i) - b[i] * Ht)}px) scale(${s.toFixed(4)})`; });
+      lbs.forEach((el, i) => { el.style.transitionDelay = (D ? 420 + i * 60 : 0) + 'ms'; el.classList.add('on'); });
+      paths.forEach((p, i) => { p.style.transitionDelay = (D ? 460 + Math.floor(i / 2) * 60 : 0) + 'ms'; p.classList.add('on'); });
+      tot.style.transitionDelay = (D ? 600 + nb * 60 : 0) + 'ms'; tot.classList.add('on');
+    },
+    back() {
+      lbs.forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); }); paths.forEach(p => { p.style.transitionDelay = '0ms'; p.classList.remove('on'); }); tot.classList.remove('on');
+      els.forEach((el, i) => { el.style.transitionDelay = (i * 25) + 'ms'; el.style.transform = at; });
+    }
+  };
+}
+
+// ---------- kupole: kolač se preseče, desna polovina odlazi, vidi se unutrašnjost i fil curi
+const RNG = s => () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
+function texture(kind, R, x0, y0, w, h, n) {
+  let s = '';
+  for (let i = 0; i < n; i++) {
+    const x = x0 + R() * w, y = y0 + R() * h;
+    if (kind === 'crumb') s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(3 + R() * 7)}" fill="${R() > .5 ? '#fff' : '#000'}" opacity="${f1(.08 + R() * .14)}"/>`;
+    else if (kind === 'cubes') s += `<rect x="${f1(x - 16)}" y="${f1(y - 14)}" width="${f1(26 + R() * 12)}" height="${f1(24 + R() * 10)}" rx="7" fill="${R() > .5 ? '#ffc94a' : '#ea7f06'}" stroke="#fff" stroke-opacity=".35" stroke-width="2" transform="rotate(${f1(R() * 60 - 30)} ${f1(x)} ${f1(y)})"/>`;
+    else if (kind === 'seeds') s += `<ellipse cx="${f1(x)}" cy="${f1(y)}" rx="4" ry="2.4" fill="#ffe7b0" opacity=".85" transform="rotate(${f1(R() * 180)} ${f1(x)} ${f1(y)})"/>`;
+    else if (kind === 'berries') s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(9 + R() * 8)}" fill="${R() > .45 ? '#3d1d6e' : '#5b2c8a'}" opacity=".9"/><circle cx="${f1(x - 3)}" cy="${f1(y - 3)}" r="3" fill="#fff" opacity=".25"/>`;
+    else if (kind === 'wafer') s += `<path d="M${f1(x - 18)} ${f1(y)}h36M${f1(x)} ${f1(y - 10)}v20" stroke="#8a5a2a" stroke-width="3" opacity=".35"/>`;
+  }
+  return s;
+}
+function faceSVG(it) {
+  const x = it.x, Hh = Math.round(1000 * it.ch / it.cw), id = 'cf' + it.cut, R = RNG(77);
+  const pts = x.sil.map(p => `${f1(p[0] * 1000)},${f1(p[1] * Hh)}`).join(' ');
+  const topY = (x.top || 0) * Hh;
+  let g = `<rect x="0" y="0" width="1000" height="${Hh}" fill="${x.fill}"/><rect x="0" y="0" width="1000" height="${Hh}" fill="url(#${id}v)"/>`;
+  for (let i = 0; i < 70; i++) g += `<circle cx="${f1(500 + R() * 500)}" cy="${f1(topY + R() * (Hh - topY))}" r="${f1(1.5 + R() * 3.5)}" fill="#fff" opacity="${f1(.12 + R() * .18)}"/>`;
+  g += texture('crumb', R, 500, topY, 500, Hh - topY, 26).replace(/opacity="[^"]*"/g, 'opacity=".06"');
+  (x.layers || []).forEach(l => { g += `<rect x="0" y="${f1(l[0] * Hh)}" width="1000" height="${f1((l[1] - l[0]) * Hh)}" fill="${l[2]}"/>` + (l[3] ? texture(l[3], R, 500, l[0] * Hh, 500, (l[1] - l[0]) * Hh, 40) : ''); });
+  if (x.base) g += `<rect x="0" y="${f1(x.base.y * Hh)}" width="1000" height="${f1(Hh * (1 - x.base.y))}" fill="${x.base.c}"/>` + texture(x.base.tex || 'crumb', R, 500, x.base.y * Hh, 500, Hh * (1 - x.base.y), 60);
+  if (x.ins) { const I = x.ins; g += `<ellipse cx="${I.cx * 1000}" cy="${f1(I.cy * Hh)}" rx="${I.rx * 1000}" ry="${f1(I.ry * Hh)}" fill="${I.c}"/>` + (I.tex ? `<g clip-path="url(#${id}i)">${texture(I.tex, R, I.cx * 1000 - I.rx * 1000, I.cy * Hh - I.ry * Hh, I.rx * 2000, I.ry * 2 * Hh, 26)}</g>` : '') + `<ellipse cx="${I.cx * 1000}" cy="${f1(I.cy * Hh)}" rx="${I.rx * 1000}" ry="${f1(I.ry * Hh)}" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="5"/>`; }
+  g += `<polygon points="${pts}" fill="none" stroke="${x.shell}" stroke-width="${f1(x.sw * 2000)}" stroke-linejoin="round"/>`;
+  if (x.shell2) g += `<polygon points="${pts}" fill="none" stroke="${x.shell2}" stroke-width="${f1(x.sw * 1200)}" stroke-linejoin="round" opacity=".55" clip-path="url(#${id}t)"/>`;
+  g += `<rect x="500" y="0" width="500" height="${Hh}" fill="url(#${id}g)"/><rect x="497" y="0" width="7" height="${Hh}" fill="#fff" opacity=".35"/>`;
+  return `<svg class="cf-face" viewBox="0 0 1000 ${Hh}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <clipPath id="${id}"><polygon points="${pts}"/></clipPath>${x.ins ? `<clipPath id="${id}i"><ellipse cx="${x.ins.cx * 1000}" cy="${f1(x.ins.cy * Hh)}" rx="${x.ins.rx * 1000}" ry="${f1(x.ins.ry * Hh)}"/></clipPath>` : ''}
+    <clipPath id="${id}t"><rect x="0" y="0" width="1000" height="${f1(Hh * .45)}"/></clipPath>
+    <linearGradient id="${id}v" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".12"/></linearGradient>
+    <linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient></defs>
+    <clipPath id="${id}b"><rect x="0" y="${f1(topY)}" width="1000" height="${f1(Hh - topY)}"/></clipPath>
+    <g clip-path="url(#${id}b)"><g clip-path="url(#${id})">${g}</g></g></svg>`;
+}
+function oozeSVG(it) {
+  const x = it.x, Hh = Math.round(1000 * it.ch / it.cw), I = x.ins; if (!x.ooze || !I) return '';
+  const sx = I.cx * 1000 + I.rx * 1000 * .55, sy = I.cy * Hh + I.ry * Hh * .55, ex = sx + 90, ey = Hh * 1.035;
+  const p = `M${f1(sx)} ${f1(sy)}C${f1(sx + 40)} ${f1(sy + 30)} ${f1(sx + 70)} ${f1((sy + ey) / 2)} ${f1(ex - 6)} ${f1(ey - 40)}S${f1(ex + 4)} ${f1(ey - 8)} ${f1(ex)} ${f1(ey)}`;
+  const p2 = `M${f1(I.cx * 1000 + 30)} ${f1(sy + 4)}C${f1(I.cx * 1000 + 36)} ${f1(sy + 60)} ${f1(I.cx * 1000 + 30)} ${f1(sy + 110)} ${f1(I.cx * 1000 + 34)} ${f1(Math.min(ey - 30, sy + 170))}`;
+  return `<svg class="cf-ooze" viewBox="0 -10 1000 ${Hh + 120}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="top:${f1(-10 / Hh * 100)}%;height:${f1((Hh + 120) / Hh * 100)}%">
+    <ellipse class="pud" cx="${f1(ex + 10)}" cy="${f1(ey + 14)}" rx="150" ry="26" fill="${x.ooze}"/><ellipse class="pud" cx="${f1(ex - 20)}" cy="${f1(ey + 8)}" rx="80" ry="10" fill="#fff" opacity=".28"/>
+    <path class="drip" d="${p}" pathLength="1" stroke="${x.ooze}" stroke-width="38" stroke-linecap="round" fill="none"/>
+    <path class="drip" d="${p}" pathLength="1" stroke="#fff" stroke-opacity=".3" stroke-width="9" stroke-linecap="round" fill="none" transform="translate(-9 -4)"/>
+    <path class="drip d2" d="${p2}" pathLength="1" stroke="${x.ooze}" stroke-width="22" stroke-linecap="round" fill="none"/></svg>`;
+}
+function halvesAnchor(it, role, occ) {
+  const x = it.x, top = x.top || 0, I = x.ins, by = x.base ? x.base.y : 1;
+  const silTop = xx => { let best = 1; x.sil.forEach(p => { if (Math.abs(p[0] - xx) < .06 && p[1] < best) best = p[1]; }); return best; };
+  if (role === 'shell') { const yy = Math.max(top, silTop(.72)); return [.72, yy + x.sw * .6]; }
+  if (role === 'top') return x.topxy || [.5, top / 2];
+  if (role === 'edge') return x.edge;
+  if (role === 'ins' && I) return [I.cx + I.rx * .45, I.cy];
+  if (role === 'base') return [.68, (by + .97) / 2];
+  if (role[0] === 'L') { const l = x.layers[+role.slice(1)]; return [.7, (l[0] + l[1]) / 2]; }
+  const t0 = Math.max(top, silTop(.66)) + x.sw;
+  if (I) return occ ? [.66, (I.cy + I.ry + by) / 2] : [.66, (t0 + I.cy - I.ry) / 2];
+  return [.66, (t0 + by) / 2];
+}
+function buildHalves(xr, it, comps, W, pr) {
+  const x = it.x, src = cutSrc(it);
+  const Wt = Math.min(W * .56, 300, (it.cw / it.ch) * 290), Ht = Wt * it.ch / it.cw, x0 = Math.max(10, W * .035), top0 = 96;
+  const lx = x0 + Wt + 20, lw = W - lx - 12;
+  const occ = {}, anchors = x.role.map(r => { const o = occ[r] || 0; occ[r] = o + 1; return halvesAnchor(it, r, o); });
+  const items = comps.slice(0, x.role.length), wantY = anchors.map(a => top0 + a[1] * Ht);
+  const LP = labelsRight(xr, items, wantY, lx, lw);
+  const H = Math.max(top0 + Ht * 1.2 + 40, LP.bottom + 30) + 70;
+  const tp = f1((x.top || 0) * 100);
+  let h = `<div class="cf" style="width:${f1(pr.w)}px;height:${f1(pr.h)}px;--tp:${tp}%"><img class="cf-l" src="${src}" alt=""><div class="cf-in">${faceSVG(it)}</div>${oozeSVG(it)}${x.top ? `<img class="cf-rt" src="${src}" alt="">` : ''}<img class="cf-r" src="${src}" alt=""></div>`;
+  h += `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${anchors.map((a, i) => leader(x0 + a[0] * Wt, wantY[i], lx, LP.anchors[i])).join('')}</svg>`;
+  h += items.map((c, i) => lab(c, lx, LP.tops[i], lw)).join('') + totLine(it, H - 50);
+  xr.innerHTML = h;
+  const cf = $('.cf', xr), lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), tot = $('.xr-tot', xr), s = Wt / pr.w;
+  const at = `translate(${f1(pr.x)}px,${f1(pr.y)}px)`;
+  cf.style.transition = 'none'; cf.style.transform = at;
+  return {
+    H, m: 'halves', delay: 520, photo: { tf: '', op: 0 },
+    play() { const D = reduced ? 0 : 1;
+      cf.style.transition = ''; cf.style.transform = `translate(${f1(x0)}px,${f1(top0)}px) scale(${s.toFixed(4)})`;
+      setTimeout(() => { cf.classList.add('cut'); }, D ? 650 : 0);
+      setTimeout(() => { cf.classList.add('flow'); }, D ? 1350 : 0);
+      lbs.forEach((el, i) => { el.style.transitionDelay = (D ? 1250 + i * 80 : 0) + 'ms'; el.classList.add('on'); });
+      paths.forEach((p, i) => { p.style.transitionDelay = (D ? 1290 + Math.floor(i / 2) * 80 : 0) + 'ms'; p.classList.add('on'); });
+      tot.style.transitionDelay = (D ? 1600 : 0) + 'ms'; tot.classList.add('on');
+    },
+    back() {
+      lbs.forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); }); paths.forEach(p => { p.style.transitionDelay = '0ms'; p.classList.remove('on'); }); tot.classList.remove('on');
+      cf.classList.remove('flow'); setTimeout(() => cf.classList.remove('cut'), 120); setTimeout(() => { cf.style.transform = at; }, 380);
+    }
+  };
+}
+
+// ---------- Popsy: tri kuglice na štapićima, srednja se preseče
+function popsSVG(it) {
+  const w = it.cw, h = it.ch, B = it.x.balls, Hs = h + w * .62, id = 'pp' + it.cut;
+  const mid = B.slice().sort((a, b) => b[2] - a[2])[0], cx = mid[0] * w, cy = mid[1] * h, r = mid[2] * w * .98;
+  const sticks = B.map((b, i) => { const x = b[0] * w, y = b[1] * h + b[2] * w * .5, tx = w * .5 + (b[0] - .5) * w * .38; return `<path d="M${f1(x)} ${f1(y)}L${f1(tx)} ${f1(Hs - 6)}" stroke="url(#${id}st)" stroke-width="${f1(w * .022)}" stroke-linecap="round"/>`; }).join('');
+  const R = RNG(9), spr = ['#e84a6b', '#f6c445', '#4fb3e8', '#7cc86a', '#fff', '#f08a3c', '#b16ad6'];
+  let sec = `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r)}" fill="#3a1f10"/>`;
+  for (let i = 0; i < 70; i++) { const a = R() * 6.283, rr = r * (.86 + R() * .12); sec += `<rect x="${f1(cx + Math.cos(a) * rr - 4)}" y="${f1(cy + Math.sin(a) * rr - 1.5)}" width="8" height="3" rx="1.5" fill="${spr[i % spr.length]}" transform="rotate(${f1(R() * 180)} ${f1(cx + Math.cos(a) * rr)} ${f1(cy + Math.sin(a) * rr)})"/>`; }
+  sec += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r * .8)}" fill="#8a5a36"/>`;
+  for (let i = 0; i < 46; i++) { const a = R() * 6.283, rr = Math.sqrt(R()) * r * .74; sec += `<circle cx="${f1(cx + Math.cos(a) * rr)}" cy="${f1(cy + Math.sin(a) * rr)}" r="${f1(2 + R() * 4)}" fill="${R() > .5 ? '#c8955a' : '#5d3a20'}" opacity=".7"/>`; }
+  sec += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r * .8)}" fill="none" stroke="#2a150a" stroke-width="3" opacity=".6"/><circle cx="${f1(cx - r * .3)}" cy="${f1(cy - r * .35)}" r="${f1(r * .25)}" fill="#fff" opacity=".06"/>`;
+  const half = side => `M${f1(cx)} ${f1(cy - r * 1.04)}A${f1(r * 1.04)} ${f1(r * 1.04)} 0 0 ${side ? 1 : 0} ${f1(cx)} ${f1(cy + r * 1.04)}Z`;
+  return `<svg viewBox="0 0 ${w} ${f1(Hs)}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" data-cx="${f1(cx / w)}" data-cy="${f1(cy / Hs)}" data-r="${f1(r / w)}">
+    <defs><linearGradient id="${id}st" x1="0" x2="1"><stop offset="0" stop-color="#d9c6a3"/><stop offset=".5" stop-color="#f4ead6"/><stop offset="1" stop-color="#c2ad86"/></linearGradient>
+    <clipPath id="${id}l"><path d="${half(0)}"/></clipPath><clipPath id="${id}r"><path d="${half(1)}"/></clipPath>
+    <mask id="${id}m"><rect width="${w}" height="${f1(Hs)}" fill="#fff"/><circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(r * 1.03)}" fill="#000"/></mask></defs>
+    <g class="pp-st">${sticks}</g><image class="pp-a" href="${cutSrc(it)}" width="${w}" height="${h}"/><image class="pp-m" href="${cutSrc(it)}" width="${w}" height="${h}" mask="url(#${id}m)"/>
+    <g class="pp-sec" style="transform-origin:${f1(cx)}px ${f1(cy)}px">${sec}</g>
+    <g class="pp-h l" style="transform-origin:${f1(cx)}px ${f1(cy)}px"><image href="${cutSrc(it)}" width="${w}" height="${h}" clip-path="url(#${id}l)"/></g>
+    <g class="pp-h r" style="transform-origin:${f1(cx)}px ${f1(cy)}px"><image href="${cutSrc(it)}" width="${w}" height="${h}" clip-path="url(#${id}r)"/></g></svg>`;
+}
+function buildPops(xr, it, comps, W, pr) {
+  const sv = $('#ph > svg'), st = $('#st'), sr = st.getBoundingClientRect(), b = sv.getBoundingClientRect();
+  const ox = b.left - sr.left, oy = b.top - sr.top, kx = b.width, ky = b.height;
+  const cx = ox + +sv.dataset.cx * kx, cy = oy + +sv.dataset.cy * ky, r = +sv.dataset.r * kx;
+  const lx = Math.min(W - 156, cx + r * 1.55), lw = W - lx - 10;
+  const anchors = [[cx + r * .93, cy - r * .32], [cx + r * .25, cy + r * .12]];
+  const items = comps.slice(0, 2), wantY = [cy - r * 1.25, cy + r * 1.35];
+  const LP = labelsRight(xr, items, wantY, lx, lw);
+  const H = Math.max(st._h0 || st.offsetHeight, LP.bottom + 90);
+  let h = `<svg class="xl" width="${W}" height="${f1(H)}" viewBox="0 0 ${W} ${f1(H)}" aria-hidden="true">${anchors.map((a, i) => leader(a[0], a[1], lx, LP.anchors[i])).join('')}</svg>`;
+  h += items.map((c, i) => lab(c, lx, LP.tops[i], lw)).join('') + totLine(it, H - 50);
+  xr.innerHTML = h;
+  const lbs = $$('.lb', xr), paths = $$('.xl path, .xl circle', xr), tot = $('.xr-tot', xr);
+  return {
+    H, m: 'pops', delay: 200, photo: { tf: '', op: 1 },
+    play() { const D = reduced ? 0 : 1; sv.classList.add('cut');
+      lbs.forEach((el, i) => { el.style.transitionDelay = (D ? 700 + i * 90 : 0) + 'ms'; el.classList.add('on'); });
+      paths.forEach((p, i) => { p.style.transitionDelay = (D ? 740 + Math.floor(i / 2) * 90 : 0) + 'ms'; p.classList.add('on'); });
+      tot.style.transitionDelay = (D ? 900 : 0) + 'ms'; tot.classList.add('on'); },
+    back() { sv.classList.remove('cut'); lbs.forEach(el => { el.style.transitionDelay = '0ms'; el.classList.remove('on'); }); paths.forEach(p => { p.style.transitionDelay = '0ms'; p.classList.remove('on'); }); tot.classList.remove('on'); }
   };
 }
 
@@ -596,25 +1000,31 @@ function buildGlass(xr, it, W, pr, ill) {
 const cartCount = () => CART.reduce((a, c) => a + c.q, 0);
 const cartSum = () => CART.reduce((a, c) => { const it = BY[c.id]; if (!it) return a; const p = it.var ? it.var[c.v || 0].price : it.price; return a + p * c.q; }, 0);
 const plural = n => { const m10 = n % 10, m100 = n % 100; if (L === 'en') return n === 1 ? t('item1') : t('items'); return m10 === 1 && m100 !== 11 ? t('item1') : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? t('items2') : t('items'); };
-function addToCart(it) {
+function addToCart(it, quiet) {
   const ex = CART.find(c => c.id === it.id && (c.v || 0) === VAR); if (ex) ex.q += QTY; else CART.push({ id: it.id, v: VAR, q: QTY });
-  LS.set('cart', CART); updDock(true); toast(`${t('added')} · ${nm(it)}`); hit('add', it.id);
-  setTimeout(() => history.back(), 450);
+  LS.set('cart', CART); updDock(true); hit('add', it.id);
+  if (!quiet) { toast(`${t('added')} · ${nm(it)}`); setTimeout(() => history.back(), 450); }
 }
 function updDock(bump) {
   const n = cartCount(); $('#bagN').textContent = n; $('#bagN').classList.toggle('on', n > 0);
   $('#dock').classList.toggle('on', n > 0); $('#dockT').textContent = `${n} ${plural(n)} · ${nf(cartSum())} RSD`; $('#dockS').textContent = t('list_lead');
   if (bump) { const b = $('#bagBtn'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
 }
+function cartThumb(it) {
+  if (it.kind === 'cake') return `<img src="${cutSrc(it, 1)}" alt="" style="object-fit:contain">`;
+  if (it.kind === 'drink') return it.pack ? `<img src="${packSrc(it.pack, 1)}" alt="" style="object-fit:contain;padding:3px">` : it.img ? `<img src="${img(it.img, 1)}" alt="">` : glassSVG(it);
+  return photoOf(it) ? `<img src="${img(photoOf(it)[0], 1)}" alt="">` : `<img src="img/i/${it.id}.webp" alt="">`;
+}
+function sheetOpen(sh) { sh.classList.add('on'); $('#scrim').classList.add('on'); document.body.classList.add('lock'); }
 function openCart() {
-  const sh = $('#cart');
+  const sh = $('#cart'); sh.className = 'sheet cart';
   const rows = CART.map((c, i) => { const it = BY[c.id]; if (!it) return ''; const p = it.var ? it.var[c.v || 0].price : it.price;
-    let th = it.kind === 'cake' ? `<img src="img/k/${it.cut}.webp" alt="" style="object-fit:contain">` : photoOf(it) ? `<img src="${img(photoOf(it)[0], 1)}" alt="">` : it.kind === 'drink' ? (it.img ? `<img src="${img(it.img, 1)}" alt="">` : it.layers ? glassSVG(it) : '') : K.top(((it.comps || [])[0] || {}).a || 'fries', 1);
-    return `<div class="ci"><span class="th">${th}</span><span><b>${esc(nm(it))}</b><small>${it.var ? esc(nm(it.var[c.v || 0])) + ' · ' : ''}${nf(p)} RSD</small></span><div class="qty"><button data-m="${i}">−</button><b class="num">${c.q}</b><button data-p="${i}">+</button></div></div>`; }).join('');
+    return `<div class="ci"><span class="th">${cartThumb(it)}</span><span><b>${esc(nm(it))}</b><small>${it.var ? esc(nm(it.var[c.v || 0])) + ' · ' : ''}${nf(p)} RSD</small></span><div class="qty"><button data-m="${i}">−</button><b class="num">${c.q}</b><button data-p="${i}">+</button></div></div>`; }).join('');
   sh.innerHTML = `<div class="bar"><span></span><button class="rb" id="cClose" aria-label="${esc(t('close'))}">${IC.x}</button></div><div class="scroll"><h2>${esc(t('list'))}</h2><p class="lead">${esc(t('list_lead'))}</p>
-    ${CART.length ? rows + `<div class="sum"><span>${t('total')}</span><b class="num">${nf(cartSum())} RSD</b></div><div style="display:grid;gap:10px;margin-top:8px"><button class="btn btn-m" id="showBtn">${IC.eye}${esc(t('show_waiter'))}</button><button class="btn btn-o" id="callBtn">${IC.bell}${esc(t('call_waiter'))}</button></div>` : `<p class="empty">${esc(t('empty'))}</p>`}</div>`;
-  sh.classList.add('on'); $('#scrim').classList.add('on'); document.body.classList.add('lock');
-  $('#cClose').onclick = closeCart;
+    ${CART.length ? rows + `<div class="sum"><span>${t('total')}</span><b class="num">${nf(cartSum())} RSD</b></div><div style="display:grid;gap:10px;margin-top:8px"><button class="btn btn-m" id="showBtn">${IC.eye}${esc(t('show_waiter'))}</button><button class="btn btn-o" id="callBtn">${IC.bell}${esc(t('call_waiter'))}</button></div>` : `<p class="empty">${esc(t('empty'))}</p>`}
+    <div class="revc in-cart"><h2>${esc(t('rev_card_t'))}</h2><p>${esc(t('rev_card_d'))}</p>${revButtons('cart')}</div></div>`;
+  sheetOpen(sh);
+  $('#cClose').onclick = closeCart; bindRev(sh);
   $$('[data-m]', sh).forEach(b => b.onclick = () => { const c = CART[+b.dataset.m]; c.q--; if (c.q <= 0) CART.splice(+b.dataset.m, 1); LS.set('cart', CART); updDock(); openCart(); });
   $$('[data-p]', sh).forEach(b => b.onclick = () => { CART[+b.dataset.p].q++; LS.set('cart', CART); updDock(); openCart(); });
   const sb = $('#showBtn'); if (sb) sb.onclick = showWaiter;
@@ -631,9 +1041,75 @@ function showWaiter() {
 let toastT;
 function toast(msg) { const el = $('#toast'); el.innerHTML = `${IC.bag}<span>${esc(msg)}</span>`; el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2200); }
 
+// ---------------------------------------------------------------- Google recenzije (bez filtriranja po ocenama)
+function openReviews(src, toMgr) {
+  const sh = $('#cart'), g = gOf(), loc = locOf(LOC); sh.className = 'sheet cart rev';
+  sh.innerHTML = `<div class="bar"><span></span><button class="rb" id="cClose" aria-label="${esc(t('close'))}">${IC.x}</button></div><div class="scroll">
+    <div class="rv-sum">${IC.g}<div><b class="num">${rate(g.r)}</b>${stars(g.r)}<small>${nf(g.n)} ${esc(t('reviews'))} · ${esc(loc.name)}</small></div>
+      <a class="btn btn-o btn-s" href="https://search.google.com/local/reviews?placeid=${g.pid}" target="_blank" rel="noopener">${esc(t('rev_read'))}${IC.ext}</a></div>
+    <h2>${esc(t('rev_t'))}</h2><p class="lead">${esc(t('rev_lead'))}</p>${revButtons(src)}
+    <form class="form mgr" id="mgrF" hidden><p class="lead" style="margin:0">${esc(t('rev_m_lead'))}</p><label>${esc(t('rev_m'))}<textarea name="m" maxlength="600" placeholder="${esc(t('rev_m_ph'))}"></textarea></label>
+      <div class="two"><label>${t('name')}<input name="n" autocomplete="name"></label><label>${t('phone')}<input name="t" type="tel" autocomplete="tel"></label></div>
+      <button class="btn btn-m" type="submit">${IC.chat}${esc(t('rev_m_send'))}</button></form></div>`;
+  sheetOpen(sh); $('#cClose').onclick = closeCart;
+  $$('[data-rv]', sh).forEach(b => b.onclick = e => { if (b.dataset.rv === 'g') { hit('grev', src); return; } e.preventDefault(); showMgr(); });
+  const showMgr = () => { const f = $('#mgrF'); f.hidden = false; $('.rv-b', sh).classList.add('dim'); setTimeout(() => { f.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' }); $('textarea', f).focus({ preventScroll: true }); }, 60); };
+  $('#mgrF').onsubmit = e => { e.preventDefault(); hit('mgr', src); $('.scroll', sh).innerHTML = `<div class="ok-msg">${IC.ok}<h2>${esc(t('rev_m_ok'))}</h2><p class="lead">${esc(t('rev_m_demo'))}</p><button class="btn btn-o" id="okC">${esc(t('close'))}</button></div>`; $('#okC').onclick = closeCart; };
+  if (toMgr) showMgr();
+  hit('rev', src);
+}
+
+// ---------------------------------------------------------------- Pomozi mi da izaberem
+const HELPQ = [['q1', ['light', 'meal', 'share']], ['q2', ['meat', 'fish', 'veg', 'any']], ['q3', ['coffee', 'fresh', 'wine', 'cocktail']]];
+function openHelp() {
+  const sh = $('#cart'); sh.className = 'sheet cart help'; const A = [];
+  const step = i => {
+    const [q, opts] = HELPQ[i];
+    $('.scroll', sh).innerHTML = `<div class="hp-dots">${HELPQ.map((x, j) => `<i class="${j <= i ? 'on' : ''}"></i>`).join('')}</div><small class="hp-st">${t('step')} ${i + 1} / 3</small><h2>${esc(t(q))}</h2>
+      <div class="hp-o">${opts.map(o => `<button data-o="${o}">${esc(t('a_' + o))}${IC.arrow}</button>`).join('')}</div>`;
+    $$('.hp-o button', sh).forEach(b => b.onclick = () => { A[i] = b.dataset.o; if (i < 2) step(i + 1); else result(); });
+  };
+  const result = () => {
+    const picks = recommend(A); hit('help', A.join('-'));
+    $('.scroll', sh).innerHTML = `<small class="hp-st">${esc(t('help_t'))}</small><h2>${esc(t('pick_t'))}</h2><div class="hp-r">${picks.map(([k, it]) => `<button class="hp-c" data-id="${it.id}"><span class="th">${cartThumb(it)}</span><span><small>${esc(t(k))}</small><b>${esc(nm(it))}</b>${money(curP(it))}</span>${IC.arrow}</button>`).join('')}</div>
+      <div class="sum"><span>${t('total')}</span><b class="num">${nf(picks.reduce((a, p) => a + curP(p[1]), 0))} RSD</b></div>
+      <div style="display:grid;gap:10px"><button class="btn btn-m" id="hpAdd">${IC.bag}${esc(t('add_all'))}</button><button class="btn btn-o" id="hpAg">${esc(t('again'))}</button></div>`;
+    $$('.hp-c', sh).forEach(b => b.onclick = () => { closeCart(); openItem(b.dataset.id); });
+    $('#hpAdd').onclick = () => { picks.forEach(([, it]) => { VAR = 0; QTY = 1; addToCart(it, true); }); toast(`${t('added')} · ${picks.length} ${plural(picks.length)}`); closeCart(); };
+    $('#hpAg').onclick = () => step(0);
+  };
+  sh.innerHTML = `<div class="bar"><span></span><button class="rb" id="cClose" aria-label="${esc(t('close'))}">${IC.x}</button></div><div class="scroll"></div>`;
+  sheetOpen(sh); $('#cClose').onclick = closeCart; step(0);
+}
+const curP = it => it.var ? it.var[0].price : it.price;
+function recommend([hun, want, drink]) {
+  const seed = Math.floor(Date.now() / 6e4); let s = seed; const R = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  const meat = it => (it.comps || []).some(c => c.grp === 'meso' && !['yolk', 'egg', 'egg_fried', 'omelette'].includes(c.i)), fish = it => it.cat === 'riba' || (it.comps || []).some(c => c.grp === 'riba');
+  let pool = ITEMS.filter(it => {
+    if (hun === 'light' && !['salate', 'obrok-salate', 'corbe', 'sendvici', 'predjela', 'slane-palacinke', 'vege'].includes(it.cat)) return false;
+    if (hun === 'light' && (it.tags || []).includes('deljenje')) return false;
+    if (hun === 'meal' && !['testenine', 'rizoto', 'piletina', 'curetina', 'tradicionalna', 'specijaliteti', 'riba', 'burgeri', 'italijanski', 'pica', 'vege'].includes(it.cat)) return false;
+    if (hun === 'share' && !((it.tags || []).includes('deljenje') || it.cat === 'pica')) return false;
+    if (want === 'meat' && !meat(it)) return false; if (want === 'fish' && !fish(it)) return false; if (want === 'veg' && !(it.tags || []).includes('vege')) return false;
+    return true;
+  });
+  if (!pool.length) pool = ITEMS.filter(it => it.sig);
+  pool.sort((a, b) => ((b.sig ? 3 : 0) + (photoOf(b) ? 2 : 0) + R()) - ((a.sig ? 3 : 0) + (photoOf(a) ? 2 : 0) + R()));
+  const dish = pool[0];
+  const dn = n => DR.find(d => d.sr === n);
+  let dr;
+  if (drink === 'coffee') dr = dn(['Cappuccino', 'Latte macchiato', 'Espresso bez mleka'][Math.floor(R() * 3)]);
+  else if (drink === 'fresh') dr = dn(['Limunada aromatizovana 0,3', 'Sreća veća 0,3', 'Mojito bezalkoholni 0,3', 'Fruity soda 0,3'][Math.floor(R() * 4)]);
+  else if (drink === 'cocktail') dr = dn(['Mojito', 'Aperol spritz', 'Cosmopolitan', 'Mai Tai'][Math.floor(R() * 4)]);
+  else dr = fish(dish) || ['piletina', 'curetina', 'testenine', 'rizoto'].includes(dish.cat) ? dn('Chardonnay Kovačević 0,125') : ['burgeri', 'pica'].includes(dish.cat) ? dn('Heineken točeno 0,5') : dn('Kardaš, Vinarija Aleksić 0,187');
+  const kp = (dish.pair || []).find(p => p.startsWith('k:'));
+  const ds = (kp && BY[kp.slice(2)]) || BY[['nimfa', 'pistac-lampone', 'tiramisu', 'merry-berry'][Math.floor(R() * 4)]];
+  return [['p_dish', dish], ['p_drink', dr || DR[0]], ['dessert', ds]];
+}
+
 // ---------------------------------------------------------------- torte: zahtev
 function openCakeForm() {
-  const sh = $('#cart'); const d = new Date(); d.setDate(d.getDate() + 3); const min = d.toISOString().slice(0, 10);
+  const sh = $('#cart'); sh.className = 'sheet cart'; const d = new Date(); d.setDate(d.getDate() + 3); const min = d.toISOString().slice(0, 10);
   sh.innerHTML = `<div class="bar"><span></span><button class="rb" id="cClose" aria-label="${esc(t('close'))}">${IC.x}</button></div><div class="scroll"><h2>${esc(t('order_cake'))}</h2><p class="lead">${esc(t('torte_lead'))}</p>
    <form class="form" id="cakeF"><label>${t('flavor')}<select name="u">${U.torte.map(x => `<option>${esc(x.sr)} · ${nf(x.price)} RSD/kg</option>`).join('')}</select></label>
    <label>${t('weight')}<div class="kgs">${[1, 1.5, 2, 3, 4].map(k => `<button type="button" data-k="${k}" aria-pressed="${k === 2}">${String(k).replace('.', ',')} kg</button>`).join('')}</div></label>
@@ -641,7 +1117,7 @@ function openCakeForm() {
    <label>${t('msg')}<input name="m" maxlength="40" placeholder="Srećan rođendan, Ana!"></label>
    <div class="two"><label>${t('name')}<input name="n" autocomplete="name"></label><label>${t('phone')}<input name="t" type="tel" autocomplete="tel"></label></div>
    <button class="btn btn-m" type="submit">${esc(t('send'))}</button></form></div>`;
-  sh.classList.add('on'); $('#scrim').classList.add('on'); document.body.classList.add('lock'); $('#cClose').onclick = closeCart;
+  sheetOpen(sh); $('#cClose').onclick = closeCart;
   $$('.kgs button', sh).forEach(b => b.onclick = () => $$('.kgs button', sh).forEach(x => x.setAttribute('aria-pressed', x === b)));
   $('#cakeF').onsubmit = e => { e.preventDefault(); hit('torta', LOC); $('.scroll', sh).innerHTML = `<div class="ok-msg">${IC.ok}<h2>${esc(t('sent_t'))}</h2><p class="lead">${esc(t('sent_d'))}</p><button class="btn btn-o" id="okC">${esc(t('close'))}</button></div>`; $('#okC').onclick = closeCart; };
 }
@@ -651,7 +1127,7 @@ function demoBadge() {
   const b = document.createElement('button'); b.className = 'demo'; b.innerHTML = `<i></i><span class="sh-t">TipTap demo</span><span class="lg-t">${esc(t('demo_t'))}</span>`; document.body.appendChild(b);
   const p = document.createElement('div'); p.className = 'demo-p'; p.innerHTML = `<h4>${esc(t('demo_t'))}</h4><p>Tri dela istog sistema. Sve što gost uradi u meniju vidi se u upravi na ovom uređaju.</p>
    <nav><a class="cur" href="./">${IC.menu}<span><b>Digitalni meni</b><span>Ono što gost vidi za stolom</span></span></a><a href="rezervacije/">${IC.plan}<span><b>Rezervacije i tlocrt</b><span>Gost bira sto, hostesa vodi salu</span></span></a><a href="uprava/">${IC.chart}<span><b>Uprava i analitika</b><span>Promet, gosti, jelovnik, recenzije</span></span></a></nav>
-   <footer>Demo podaci osim jelovnika, cena i fotografija (ultracaffe.rs i @ultra_caffe). Napravio TipTap.</footer>`;
+   <footer>Demo podaci osim jelovnika, cena, fotografija i Google ocena (ultracaffe.rs, @ultra_caffe, Google Maps). Napravio TipTap.</footer>`;
   document.body.appendChild(p);
   b.onclick = e => { e.stopPropagation(); p.classList.toggle('on'); };
   document.addEventListener('click', e => { if (!p.contains(e.target)) p.classList.remove('on'); });
@@ -671,11 +1147,28 @@ function setLang(l) { L = l; LS.set('lang', l); document.documentElement.lang = 
 function render() {
   $$('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === L));
   $('#bagBtn').setAttribute('aria-label', t('list')); $('#dockBtn').textContent = t('list');
-  renderHero(); renderSecs(); renderMain(); updDock();
+  renderMain(); updDock();
   const d = $('.demo'); if (d) d.innerHTML = `<i></i><span class="sh-t">TipTap demo</span><span class="lg-t">${esc(t('demo_t'))}</span>`;
 }
 
-skeleton(); demoBadge(); render(); intro();
+// pomoćne funkcije za pripremu sličica (build/thumbs)
+function stackArt(it) {
+  const main = (it.comps || []).filter(c => !c.side), shape = it.mode === 'cake' ? 'wedge' : (it.shape || 'round');
+  const Ls = main.map((c, i) => it.mode === 'cake' ? K.cake(c.a, shape) : K.layer(c.a, { pos: i === 0 ? 'top' : i === main.length - 1 ? 'bottom' : 'mid', shape, seed: i }));
+  const as = [0]; for (let i = 1; i < Ls.length; i++) as.push(as[i - 1] + (it.mode === 'cake' ? (Ls[i - 1].t || 40) : (Ls[i - 1].b - Ls[i].c - 6)));
+  const H = as[as.length - 1] + Ls[Ls.length - 1].h;
+  return `<svg viewBox="0 -30 700 ${f1(H + 60)}" xmlns="http://www.w3.org/2000/svg">` + Ls.map((o, i) => [o, i]).reverse().map(([o, i]) => o.svg.replace('<svg ', `<svg y="${f1(as[i])}" width="700" height="${f1(o.h)}" `)).join('') + '</svg>';
+}
+function pizzaArt(it) {
+  const ls = K.pizza(curComps(it).map(c => Object.assign({}, c, { k: c.a })));
+  return `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">` + ls.map(l => l.svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '').replace(/<circle class="plate"[^>]*\/>/, '')).join('') + '</svg>';
+}
+window.__uc = { plateArt, glassSVG, stackArt, pizzaArt, BY, U };
+if (qs.has('render')) return;
+skeleton(); demoBadge();
+document.documentElement.lang = L === 'en' ? 'en' : 'sr';
+const h0 = location.hash.slice(1);
+if (h0.startsWith('g=') && grpOf(h0.slice(2))) { history.replaceState({}, '', location.pathname + location.search); render(); openGroup(h0.slice(2)); }
+else { render(); intro(); if (h0.length > 1) { const id = decodeURIComponent(h0); if (BY[id]) { history.replaceState({}, '', location.pathname + location.search); openItem(id); } } }
 addEventListener('resize', () => { if (CUR) { if ($('#st').classList.contains('open')) { closeX(true); } sizeStage(CUR); } });
-if (location.hash.length > 1) { const id = decodeURIComponent(location.hash.slice(1)); if (BY[id]) { history.replaceState(null, '', location.pathname + location.search); openItem(id); } }
 })();

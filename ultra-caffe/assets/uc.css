@@ -57,6 +57,7 @@ small{font-size:.8em}
 body.lock .demo,body.lock .demo-p{opacity:0;pointer-events:none}
 .demo .lg-t{display:none}
 @media (min-width:600px){.demo .lg-t{display:inline}.demo .sh-t{display:none}}
+@media (max-width:420px){.demo{left:88px;transform:none;padding:0 10px 0 9px;font-size:12px}}
 .demo{transition:opacity .3s}
 .demo i{width:7px;height:7px;border-radius:50%;background:var(--mesing);box-shadow:0 0 0 3px rgba(var(--mesing-rgb),.18);animation:pulse 2.4s infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(var(--mesing-rgb),0)}}

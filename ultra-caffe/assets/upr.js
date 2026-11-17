@@ -119,9 +119,9 @@ function render() {
   const dayN = Math.max(P, 14), daysChart = P >= 14 ? cur : period(14);
   const delta = (a, b, inv) => { const d = pct(a, b), up = d >= 0; return `<span class="dl ${up !== !!inv ? 'up' : 'dn'}">${up ? '▲' : '▼'} ${Math.abs(d).toFixed(1).replace('.', ',')}%<em>&nbsp;u odnosu na prethodni period</em></span>`; };
   const lab = { 1: 'danas do sada', 7: 'poslednjih 7 dana', 30: 'poslednjih 30 dana', 90: 'poslednjih 90 dana' }[P];
-  // recenzije (demo): TipTap kartice podižu broj novih recenzija
-  const RV = { centar: [4.6, 1180], big: [4.5, 640] }; const rvBase = LOCS.reduce((a, l) => a + RV[l][1], 0);
-  const newRev = Math.round(cov * .021), newRevP = Math.round(covP * .012), rating = (LOCS.reduce((a, l) => a + RV[l][0] * RV[l][1], 0) / rvBase + Math.min(.15, newRev / 4000)).toFixed(2);
+  // recenzije: prave Google ocene po lokalu (Google Maps, novembar 2026); nove recenzije uz TipTap kartice su procena
+  const RV = { centar: [U.google.centar.r, U.google.centar.n], big: [U.google.big.r, U.google.big.n] }; const rvBase = LOCS.reduce((a, l) => a + RV[l][1], 0);
+  const newRev = Math.round(cov * .021), newRevP = Math.round(covP * .012), rating = (LOCS.reduce((a, l) => a + RV[l][0] * RV[l][1], 0) / rvBase).toFixed(1);
   // događaji sa ovog uređaja
   let ev = []; try { ev = JSON.parse(localStorage.getItem('uc_ev') || '[]'); } catch (e) { }
   const evC = k => ev.filter(e => e.type === k).length;
@@ -147,7 +147,7 @@ function render() {
   const tFlav = U.torte.map(x => [x.sr, Math.round(4 + RT() * 22)]).sort((a, b) => b[1] - a[1]).slice(0, 5);
   const locName = LOCS.length === 2 ? 'Oba lokala' : U.locs.find(l => l.id === LOCS[0]).name;
   const thumb = it => it.cut ? `<span class="th cut"><img src="../img/k/${it.cut}.webp" alt=""></span>` : it.img && it.img.length ? `<span class="th"><img src="../img/f/${it.img[0]}-t.webp" alt=""></span>` : `<span class="th">${K.top(((it.comps || []).slice().sort((a, b) => b.g - a.g)[0] || {}).a || 'fries', 1)}</span>`;
-  const evName = e => { const it = BY[e.id]; const nm = it ? it.sr : (U.drinks.find((d, i) => 'd' + i === e.id) || {}).sr || e.id; return { view: `Gost je otvorio „${nm}”`, split: `Gost je rastavio „${nm}”`, add: `„${nm}” dodato na listu`, pair: `Gost je otvorio preporuku „${nm}”`, open: 'Novi gost je otvorio meni', show: 'Gost je pokazao listu konobaru', call: 'Gost je pozvao konobara', res: `Nova rezervacija za ${e.party || 2} preko menija · sto ${e.id}`, torta: 'Novi zahtev za tortu', loc: `Gost je izabrao lokal ${e.id === 'big' ? 'BIG' : 'Centar'}`, sec: null }[e.type]; };
+  const evName = e => { const it = BY[e.id]; const nm = it ? it.sr : (U.drinks.find((d, i) => 'd' + i === e.id) || {}).sr || e.id; return { view: `Gost je otvorio „${nm}”`, split: `Gost je rastavio „${nm}”`, add: `„${nm}” dodato na listu`, pair: `Gost je otvorio preporuku „${nm}”`, open: 'Novi gost je otvorio meni', show: 'Gost je pokazao listu konobaru', call: 'Gost je pozvao konobara', res: `Nova rezervacija za ${e.party || 2} preko menija · sto ${e.id}`, torta: 'Novi zahtev za tortu', grev: 'Gost je otvorio Google recenziju', mgr: 'Gost je poslao poruku menadžeru', rev: null, help: `Gost je tražio predlog (${e.id})`, loc: `Gost je izabrao lokal ${e.id === 'big' ? 'BIG' : 'Centar'}`, sec: null }[e.type]; };
   const feed = ev.slice().reverse().filter(evName).slice(0, 40);
 
   $('#main').innerHTML = `
@@ -196,14 +196,16 @@ function render() {
   </div></section>
 
   <section class="sect" id="recenzije"><h3>Recenzije</h3><div class="grid">
-   <div class="panel c4"><div class="kp"><span>Google ocena</span><b class="num">${rating.replace('.', ',')}<small>/ 5</small></b><span class="dl up">▲ ${nf(newRev)} novih recenzija <em>u periodu</em></span></div>
-     <div class="stars" style="margin-top:14px">${[[5, 78], [4, 14], [3, 4], [2, 2], [1, 2]].map(([s, p]) => `<div><span>${s} ★</span><i><em style="width:${p}%"></em></i><span class="num" style="text-align:right">${p}%</span></div>`).join('')}</div></div>
-   <div class="panel c4"><div class="ph2"><div><h2>TipTap kartice na stolovima</h2><div class="sub">Gost prisloni telefon i ostavi ocenu</div></div></div>
-     <div class="mini"><div><span>Dodira kartice</span><b class="num">${nf(newRev * 3.4)}</b></div><div><span>Novih recenzija</span><b class="num">${nf(newRev)}</b></div><div><span>Ranije u istom periodu</span><b class="num">${nf(newRevP)}</b></div></div>
-     <p class="note">Recenzije su glavni razlog zašto vas nalaze na Google mapama u Zrenjaninu. Kartice stoje uz račun i na svakom stolu.</p></div>
+   <div class="panel c4"><div class="kp"><span>Google ocena danas</span><b class="num">${rating.replace('.', ',')}<small>/ 5</small></b><span class="dl">${nf(rvBase)} recenzija na Google mapama</span></div>
+     <div class="gloc">${LOCS.map(l => `<a href="https://search.google.com/local/reviews?placeid=${U.google[l].pid}" target="_blank" rel="noopener"><span><i style="background:${C[l]}"></i>${l === 'big' ? 'BIG' : 'Centar'}</span><b class="num">${String(RV[l][0]).replace('.', ',')}</b><small class="num">${nf(RV[l][1])} recenzija</small></a>`).join('')}</div>
+     <p class="note">Prave ocene sa Google mapa. Dodirnite lokal da otvorite sve recenzije.</p></div>
+   <div class="panel c4"><div class="ph2"><div><h2>TipTap kartice i meni</h2><div class="sub">Procena za ${lab}, uz kartice na stolovima</div></div></div>
+     <div class="mini"><div><span>Dodira kartice</span><b class="num">${nf(newRev * 3.4)}</b></div><div><span>Novih recenzija</span><b class="num">${nf(newRev)}</b></div><div><span>Bez kartica, isti period</span><b class="num">${nf(newRevP)}</b></div></div>
+     <div class="mini" style="margin-top:8px"><div><span>Google recenzija iz menija</span><b class="num">${nf(evC('grev'))}</b></div><div><span>Poruka menadžeru</span><b class="num">${nf(evC('mgr'))}</b></div><div><span>Otvorena ocena</span><b class="num">${nf(evC('rev'))}</b></div></div>
+     <p class="note">Gornji red je procena. Donji red broji šta su gosti uradili u meniju na ovom uređaju. Gost uvek bira sam: javna recenzija na Google-u ili privatna poruka menadžeru.</p></div>
    <div class="panel c4"><div class="ph2"><div><h2>O čemu gosti pišu</h2><div class="sub">Teme iz recenzija, bez imena gostiju</div></div></div>
-     <div class="topics">${[['Kolači i torte', 'p', 34], ['Ambijent', 'p', 27], ['Kafa', 'p', 22], ['Ljubazno osoblje', 'p', 19], ['Doručak', 'p', 12], ['Čekanje vikendom', 'n', 9], ['Parking u centru', 'n', 6], ['Buka petkom', 'n', 4]].map(([k, c, n]) => `<span class="topic ${c}">${c === 'p' ? '▲' : '▼'} ${k} <small>${n}%</small></span>`).join('')}</div>
-     <p class="note">Primer prikaza — teme se izdvajaju automatski iz vaših Google recenzija kada povežemo profil.</p></div>
+     <div class="topics">${[['Ambijent i uređenje', 'p'], ['Kolači i torte', 'p'], ['Hrana i cene', 'p'], ['Sporija usluga vikendom', 'n'], ['Gorak espresso i cappuccino', 'n']].map(([k, c]) => `<span class="topic ${c}">${c === 'p' ? '▲' : '▼'} ${k}</span>`).join('')}</div>
+     <p class="note">Teme iz javnih Google recenzija oba lokala, pregledano u novembru 2026. Kada povežemo profil, teme se osvežavaju same.</p></div>
   </div></section>
 
   <section class="sect" id="lokali"><h3>Lokali i radionica</h3><div class="grid">
@@ -249,7 +251,7 @@ function demoBadge() {
   const b = document.createElement('button'); b.className = 'demo'; b.innerHTML = '<i></i><span class="sh-t">TipTap demo</span><span class="lg-t">TipTap demo za Ultra Caffe</span>'; document.body.appendChild(b);
   const p = document.createElement('div'); p.className = 'demo-p'; p.innerHTML = `<h4>TipTap demo za Ultra Caffe</h4><p>Tri dela istog sistema. Ono što gost uradi u meniju i rezervacijama na ovom uređaju pojavljuje se ovde u delu „Uživo”.</p>
    <nav><a href="../">${IC.menu}<span><b>Digitalni meni</b><span>Ono što gost vidi za stolom</span></span></a><a href="../rezervacije/">${IC.plan}<span><b>Rezervacije i tlocrt</b><span>Gost bira sto, hostesa vodi salu</span></span></a><a class="cur" href="./">${IC.chart}<span><b>Uprava i analitika</b><span>Promet, gosti, jelovnik, recenzije</span></span></a></nav>
-   <footer>Promet, gosti i recenzije su demo podaci. Napravio TipTap.</footer>`;
+   <footer>Promet, gosti i rezervacije su demo podaci. Google ocene su prave. Napravio TipTap.</footer>`;
   document.body.appendChild(p); b.onclick = e => { e.stopPropagation(); p.classList.toggle('on'); }; document.addEventListener('click', e => { if (!p.contains(e.target)) p.classList.remove('on'); });
 }
 demoBadge(); shell();

@@ -1,20 +1,26 @@
-ULTRA CAFFE ZRENJANIN · TipTap demo
-====================================
+ULTRA CAFFE ZRENJANIN · TipTap demo (verzija 2)
+===============================================
 
 Tri stranice istog sistema:
-  index.html               Digitalni meni (gost): jela, piće, kolači, torte; „Rastavi jelo” za svako jelo i koktel
+  index.html               Digitalni meni (gost): početni ekran sa grupama, pretraga, „Pomozi mi da izaberem”,
+                           rastavljanje svakog jela, pića i kolača, Google recenzije
   rezervacije/index.html   Rezervacija stola na tlocrtu (gost) i „Sala uživo” (hostesa)
   uprava/index.html        Uprava: promet, gosti, inženjering menija, digitalni meni, rezervacije, recenzije
 
 Kako otvoriti na računaru:
-  Najbolje preko adrese na sajtu (npr. tiptapreviews.com/ultra-caffe).
+  Najbolje preko adrese na sajtu (tiptapreviews.com/ultra-caffe).
   Lokalno: u ovoj fascikli pokrenite „python -m http.server 8000” i otvorite http://localhost:8000
 
 Šta je pravo, a šta demo:
   Pravo: jelovnik, karta pića, kolači, torte, cene, opisi (ultracaffe.rs), fotografije (ultracaffe.rs i Instagram @ultra_caffe),
-         adrese, telefoni i radno vreme oba lokala.
-  Okvirno: gramaže, kalorije, alergeni (procena dok kuhinja ne potvrdi), raspored stolova (dok ne dobijemo skicu lokala).
-  Izmišljeno: promet, gosti, rezervacije i recenzije u upravi i „Sali uživo”.
+         adrese, telefoni, radno vreme oba lokala i Google ocene (Centar 4,2 · 1.554 recenzija, BIG 4,2 · 739 recenzija).
+  Fotografije boca i limenki: javne slike proizvođača, sa uklonjenom pozadinom.
+  Okvirno: gramaže, kalorije, alergeni (procena dok kuhinja ne potvrdi), raspored stolova (dok ne dobijemo skicu lokala),
+           unutrašnjost kolača u preseku (crtež po opisu kolača).
+  Izmišljeno: promet, gosti i rezervacije u upravi i „Sali uživo”.
+
+Google recenzije: gost uvek sam bira — javna recenzija na Google-u ili privatna poruka menadžeru.
+Nema filtriranja po broju zvezdica (Google to ne dozvoljava).
 
 Trik za prezentaciju: na istom telefonu/računaru otvorite meni, rastavite jelo i dodajte ga na listu,
 napravite rezervaciju — sve se odmah vidi u upravi u delu „Uživo sa ovog uređaja” i u „Sali uživo”.

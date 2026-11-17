@@ -113,3 +113,12 @@ svg.ch .hit{fill:transparent;cursor:crosshair}
   .mtop img{display:none}
   .c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}.c7{grid-column:span 7}.c8{grid-column:span 8}
 }
+/* prave Google ocene po lokalu */
+.gloc{display:grid;gap:8px;margin-top:14px}
+.gloc a{display:grid;grid-template-columns:1fr auto auto;align-items:baseline;gap:10px;padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:rgba(241,234,223,.03)}
+.gloc a:hover{border-color:rgba(var(--mesing-rgb),.5)}
+.gloc span{display:flex;align-items:center;gap:8px;font-size:13.5px}
+.gloc i{width:9px;height:9px;border-radius:50%}
+.gloc b{font:400 22px var(--f-d)}
+.gloc small{font-size:12px;color:var(--magla)}
+.gloc a{text-decoration:none}.gloc a b,.gloc a small{text-decoration:none}
