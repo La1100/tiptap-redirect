@@ -1,0 +1,82 @@
+/* =====================================================================
+   ULTRA CAFFE · TipTap Signature demo — zajednički dizajn
+   Boje sa njihovog sajta i enterijera: noć (#0B1517), baršun (petrolej),
+   mesing (#CFA670), krem tanjiri, maslinasta zelena iz vitrine kolača.
+   ===================================================================== */
+@font-face{font-family:Gloock;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/gloock-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:Gloock;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/gloock-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Rubik;font-style:normal;font-weight:300 800;font-display:swap;src:url(fonts/rubik-latin-ext-wght-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:Rubik;font-style:normal;font-weight:300 800;font-display:swap;src:url(fonts/rubik-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  --noc:#0B1517; --noc2:#0F1D20; --plis:#13282D; --plis2:#193339; --plis3:#21414A;
+  --mesing:#CFA670; --mesing2:#E6C899; --mesing3:#A9834F; --mesing-rgb:207,166,112;
+  --krem:#F1EADF; --krem2:#CDC6BA; --magla:#8FA0A1; --senka:#5B6D70;
+  --skriljac:#3A4F66; --maslina:#8A9C5A; --cigla:#C9684B; --bobica:#B9476A;
+  --line:rgba(241,234,223,.085); --line2:rgba(241,234,223,.15); --glass:rgba(11,21,23,.72);
+  --r-s:10px; --r:16px; --r-l:26px;
+  --f-d:Gloock, 'Times New Roman', serif; --f-b:Rubik, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ease:cubic-bezier(.22,.7,.18,1); --spring:cubic-bezier(.34,1.32,.5,1);
+  --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--noc);color:var(--krem);font:400 15px/1.5 var(--f-b);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--mesing);outline-offset:3px;border-radius:8px}
+.num{font-variant-numeric:tabular-nums lining-nums}
+h1,h2,h3{font-family:var(--f-d);font-weight:400;letter-spacing:-.005em;margin:0}
+small{font-size:.8em}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* dugmad */
+.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;height:50px;padding:0 22px;border-radius:999px;font-weight:600;font-size:15.5px;letter-spacing:.005em;transition:transform .18s var(--ease),background .2s,box-shadow .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-m{background:linear-gradient(180deg,#E3C38F 0%,#CFA670 55%,#BC9259 100%);color:#1a1208;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 28px -12px rgba(var(--mesing-rgb),.65)}
+.btn-m:hover{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 12px 32px -10px rgba(var(--mesing-rgb),.8)}
+.btn-o{border:1px solid var(--line2);background:rgba(241,234,223,.03)}
+.btn-o:hover{border-color:rgba(var(--mesing-rgb),.55);background:rgba(var(--mesing-rgb),.07)}
+.btn-s{height:40px;padding:0 16px;font-size:14px}
+.ic{width:20px;height:20px;flex:none}
+
+/* čipovi */
+.chip{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line2);font-size:14px;font-weight:500;color:var(--krem2);white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
+.chip[aria-pressed=true],.chip.on{background:var(--krem);color:var(--noc);border-color:var(--krem)}
+.tag{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 9px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.01em;background:rgba(241,234,223,.07);color:var(--krem2)}
+.tag.sig{background:rgba(var(--mesing-rgb),.16);color:var(--mesing2)}
+.tag.vege,.tag.posno{background:rgba(138,156,90,.18);color:#C5D69A}
+.tag.ljuto{background:rgba(201,104,75,.18);color:#F0A58A}
+.tag.novo{background:rgba(185,71,106,.2);color:#F2A9C0}
+.tag svg{width:12px;height:12px}
+
+/* DEMO oznaka (TipTap) */
+.demo{position:fixed;z-index:80;left:50%;top:calc(var(--safe-t) + 8px);transform:translateX(-50%);display:flex;align-items:center;gap:8px;height:30px;padding:0 12px 0 10px;border-radius:999px;background:rgba(11,21,23,.82);border:1px solid rgba(var(--mesing-rgb),.45);color:var(--mesing2);font-size:12px;font-weight:600;letter-spacing:.02em;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 24px -10px #000}
+body.lock .demo,body.lock .demo-p{opacity:0;pointer-events:none}
+.demo .lg-t{display:none}
+@media (min-width:600px){.demo .lg-t{display:inline}.demo .sh-t{display:none}}
+.demo{transition:opacity .3s}
+.demo i{width:7px;height:7px;border-radius:50%;background:var(--mesing);box-shadow:0 0 0 3px rgba(var(--mesing-rgb),.18);animation:pulse 2.4s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(var(--mesing-rgb),0)}}
+.demo-p{position:fixed;z-index:81;left:50%;top:calc(var(--safe-t) + 46px);width:min(380px,calc(100vw - 24px));transform:translate(-50%,-8px);opacity:0;pointer-events:none;transition:.25s var(--ease);background:#102125;border:1px solid var(--line2);border-radius:20px;padding:18px;box-shadow:0 30px 60px -20px #000}
+.demo-p.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.demo-p h4{margin:0 0 4px;font:600 15px var(--f-b)}
+.demo-p p{margin:0 0 14px;color:var(--krem2);font-size:13.5px;line-height:1.5}
+.demo-p nav{display:grid;gap:8px}
+.demo-p a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:rgba(241,234,223,.04);border:1px solid var(--line);text-decoration:none;transition:.2s}
+.demo-p a:hover{border-color:rgba(var(--mesing-rgb),.5);background:rgba(var(--mesing-rgb),.07)}
+.demo-p a b{display:block;font-weight:600;font-size:14.5px}
+.demo-p a span{font-size:12.5px;color:var(--magla)}
+.demo-p a.cur{border-color:rgba(var(--mesing-rgb),.45)}
+.demo-p .ic{color:var(--mesing)}
+.demo-p footer{margin-top:12px;font-size:11.5px;color:var(--senka);line-height:1.45}
+
+/* zajednički modal/sheet */
+.scrim{position:fixed;inset:0;z-index:60;background:rgba(4,9,10,.62);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim.on{opacity:1;pointer-events:auto}
+.toast{position:fixed;z-index:90;left:50%;bottom:calc(var(--safe-b) + 92px);transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:.35s var(--ease);background:var(--krem);color:var(--noc);font-weight:600;font-size:14px;padding:11px 18px;border-radius:999px;box-shadow:0 14px 30px -12px #000;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}

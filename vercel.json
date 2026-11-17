@@ -70,6 +70,18 @@
       "destination": "/taxi-app/dispecer/index.html"
     },
     {
+      "source": "/ultra-caffe",
+      "destination": "/ultra-caffe/index.html"
+    },
+    {
+      "source": "/ultra-caffe/rezervacije",
+      "destination": "/ultra-caffe/rezervacije/index.html"
+    },
+    {
+      "source": "/ultra-caffe/uprava",
+      "destination": "/ultra-caffe/uprava/index.html"
+    },
+    {
       "source": "/:code",
       "destination": "/api/redirect?code=:code"
     }

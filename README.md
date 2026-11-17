@@ -11,6 +11,7 @@
 | `v/`, `api/tt.js`, `lib/tt/` | /v/‹lokal›/, /v/grupa/ | BHT: pravi sustav prema ugovorenom paketu (`tools/bht_paket.py`); gradi se s `python3 tools/build_live.py` |
 | `lib/tt/report.cjs`, `tools/live/izvjestaj.*` | /v/grupa/izvjestaj/ | BHT: mjesečni izvještaj za direktore (PIN direktora); Google ocjene automatski uz `GOOGLE_PLACES_KEY` u Vercelu, inače ručno s `?uredi=1` |
 | `kosnica/` | /kosnica/ | Košnica Gastro Pub, Šabac |
+| `ultra-caffe/` | /ultra-caffe/ | Ultra Caffe Zrenjanin — meni sa rastavljanjem jela i pića, rezervacije na tlocrtu, uprava (TipTap demo) |
 | `osjecki-taxi/` | /osjecki-taxi | Osječki taxi |
 | `studio-charm/` | /studio-charm | Studio Charm, Osijek |
 
