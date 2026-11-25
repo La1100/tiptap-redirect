@@ -36,12 +36,13 @@ const IC = {
 
 // ---------------------------------------------------------------- podaci za izabrani period
 const range = (end, n) => Array.from({ length: n }, (_, i) => M.addD(end, i - n + 1));
-function daySales(d) { // zbir izabranih lokala; za danas samo do sada
-  const isT = M.dkey(d) === M.dkey(today); let rev = 0, cov = 0, tk = 0; const by = {};
-  LOCS.forEach(l => { const s = M.sales(l, d); let r = 0, c = 0, t = 0; s.hours.forEach(h => { const hh = h.h < 6 ? h.h + 24 : h.h; if (isT && hh + 1 > nowH + .001) return; r += h.rev; c += h.covers; }); t = Math.round(c / 2.1); by[l] = r; rev += r; cov += c; tk += t; });
+function daySales(d, cut) { // zbir izabranih lokala; cut = samo sati koji su prošli (danas i isti dan prošle godine)
+  let rev = 0, cov = 0, tk = 0; const by = {};
+  LOCS.forEach(l => { const s = M.sales(l, d); let r = 0, c = 0, t = 0; s.hours.forEach(h => { const hh = h.h < 6 ? h.h + 24 : h.h; if (cut != null && hh + 1 > cut + .001) return; r += h.rev; c += h.covers; }); t = Math.round(c / 2.1); by[l] = r; rev += r; cov += c; tk += t; });
   return { d, rev, cov, tk, by };
 }
-function period(n, offset = 0) { const end = M.addD(today, -offset); return range(end, n).map(daySales); }
+const LY = 364; // isti dan u nedelji, godinu dana ranije: poređenje sa istim periodom prošle godine (sezona je ista)
+function period(n, offset = 0) { const end = M.addD(today, -offset); return range(end, n).map((d, i) => daySales(d, i === n - 1 && (offset === 0 || offset === LY) ? nowH : null)); }
 function resIn(days) { const out = []; days.forEach(x => LOCS.forEach(l => M.reservations(l, x.d).forEach(r => out.push(r)))); return out; }
 
 // ---------------------------------------------------------------- tooltip
@@ -72,7 +73,7 @@ function barsDaily(days, W = 760) {
   });
   return s + '</svg>';
 }
-function linesHourly(a, b, W = 760) { // a = danas (do sada), b = isti dan prošle nedelje
+function linesHourly(a, b, W = 760) { // a = danas (do sada), b = isti dan prošle godine
   const H = 230, l = 46, r = 10, tp = 12, bt = 26, iw = W - l - r, ih = H - tp - bt, hrs = b.map(x => x.h), n = hrs.length;
   const mx = niceMax(Math.max(...a.map(x => x.rev), ...b.map(x => x.rev), 1)), X = i => l + iw * i / Math.max(1, n - 1), Y = v => tp + ih - v / mx * ih;
   let s = `<svg class="ch" viewBox="0 0 ${W} ${H}" role="img" aria-label="Promet po satu"><g class="g">`;
@@ -112,16 +113,16 @@ function hbars(rows, col, fmt) { const mx = Math.max(...rows.map(r => r[1]), 1);
 
 // ---------------------------------------------------------------- iscrtavanje
 function render() {
-  const cur = period(P), prev = period(P, P), sum = (a, k) => a.reduce((x, y) => x + y[k], 0);
+  const cur = period(P), prev = period(P, LY), sum = (a, k) => a.reduce((x, y) => x + y[k], 0);
   const rev = sum(cur, 'rev'), revP = sum(prev, 'rev'), cov = sum(cur, 'cov'), covP = sum(prev, 'cov'), tk = sum(cur, 'tk'), tkP = sum(prev, 'tk');
   const avg = tk ? rev / tk : 0, avgP = tkP ? revP / tkP : 0;
   const res = resIn(cur), resP = resIn(prev), dig = res.filter(r => r.src === 'Digitalni meni').length;
   const dayN = Math.max(P, 14), daysChart = P >= 14 ? cur : period(14);
-  const delta = (a, b, inv) => { const d = pct(a, b), up = d >= 0; return `<span class="dl ${up !== !!inv ? 'up' : 'dn'}">${up ? '▲' : '▼'} ${Math.abs(d).toFixed(1).replace('.', ',')}%<em>&nbsp;u odnosu na prethodni period</em></span>`; };
+  const delta = (a, b, inv) => { const d = pct(a, b), up = d >= 0; return `<span class="dl ${up !== !!inv ? 'up' : 'dn'}">${up ? '▲' : '▼'} ${Math.abs(d).toFixed(1).replace('.', ',')}%<em>&nbsp;u odnosu na prošlu godinu</em></span>`; };
   const lab = { 1: 'danas do sada', 7: 'poslednjih 7 dana', 30: 'poslednjih 30 dana', 90: 'poslednjih 90 dana' }[P];
   // recenzije: prave Google ocene po lokalu (Google Maps, novembar 2026); nove recenzije uz TipTap kartice su procena
   const RV = { centar: [U.google.centar.r, U.google.centar.n], big: [U.google.big.r, U.google.big.n] }; const rvBase = LOCS.reduce((a, l) => a + RV[l][1], 0);
-  const newRev = Math.round(cov * .021), newRevP = Math.round(covP * .012), rating = (LOCS.reduce((a, l) => a + RV[l][0] * RV[l][1], 0) / rvBase).toFixed(1);
+  const newRev = Math.round(cov * .004), newRevP = Math.round(covP * .0014) /* ≈ 1 recenzija na 250 gostiju uz kartice, bez njih ≈ 1 na 700 */, rating = (LOCS.reduce((a, l) => a + RV[l][0] * RV[l][1], 0) / rvBase).toFixed(1);
   // događaji sa ovog uređaja
   let ev = []; try { ev = JSON.parse(localStorage.getItem('uc_ev') || '[]'); } catch (e) { }
   const evC = k => ev.filter(e => e.type === k).length;
@@ -136,9 +137,9 @@ function render() {
   const hrs = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0]; const grid = Array.from({ length: 7 }, () => hrs.map(() => 0)), cnt = Array.from({ length: 7 }, () => hrs.map(() => 0));
   range(M.addD(today, -1), 28).forEach(d => LOCS.forEach(l => { const s = M.sales(l, d), wd = (d.getDay() + 6) % 7; s.hours.forEach(h => { const j = hrs.indexOf(h.h); if (j >= 0) { grid[wd][j] += h.covers; cnt[wd][j]++; } }); }));
   const avgGrid = grid.map((r, i) => r.map((v, j) => cnt[i][j] ? Math.round(v / cnt[i][j] * LOCS.length) : 0));
-  // po satu: danas vs prošle nedelje
+  // po satu: danas vs isti dan prošle godine
   const hourOf = (d, onlyNow) => { const map = {}; LOCS.forEach(l => M.sales(l, d).hours.forEach(h => { map[h.h] = (map[h.h] || 0) + h.rev; })); const ordered = Object.keys(map).map(Number).sort((a, b) => (a < 6 ? a + 24 : a) - (b < 6 ? b + 24 : b)); return ordered.map(h => ({ h, rev: map[h] })).filter(x => !onlyNow || ((x.h < 6 ? x.h + 24 : x.h) + 1 <= nowH)); };
-  const hb = hourOf(M.addD(today, -7)), ha = hourOf(today, true), lastW = hb.slice(0, ha.length).reduce((a, x) => a + x.rev, 0), todayRev = ha.reduce((a, x) => a + x.rev, 0);
+  const hb = hourOf(M.addD(today, -LY)), ha = hourOf(today, true), lastW = hb.slice(0, ha.length).reduce((a, x) => a + x.rev, 0), todayRev = ha.reduce((a, x) => a + x.rev, 0);
   // rezervacije: izvori i zone
   const srcN = SRC.map(([k, c]) => [k, res.filter(r => r.src === k).length, c]), srcT = srcN.reduce((a, x) => a + x[1], 0) || 1;
   const zoneN = {}; res.forEach(r => { zoneN[r.zone] = (zoneN[r.zone] || 0) + r.party; });
@@ -162,8 +163,8 @@ function render() {
 
   <section class="sect" id="prodaja"><h3>Prodaja</h3><div class="grid">
    <div class="panel c8"><div class="ph2"><div><h2>Promet po danima</h2><div class="sub">RSD, ${daysChart.length} dana · pređite preko stubića za detalje</div></div><div class="legend2">${LOCS.map(l => `<span><i style="background:${C[l]}"></i>${l === 'big' ? 'BIG' : 'Centar'}</span>`).join('')}</div></div><div id="cDaily"></div></div>
-   <div class="panel c4"><div class="ph2"><div><h2>${late ? 'Juče po satu' : 'Danas po satu'}</h2><div class="sub">${late ? 'juče do zatvaranja' : 'do ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0')} · ${rsd(todayRev)} RSD ${lastW ? `(${pct(todayRev, lastW) >= 0 ? '+' : '−'}${Math.abs(pct(todayRev, lastW)).toFixed(0)}% od prošle nedelje)` : ''}</div></div></div>
-     <div class="legend2" style="margin-bottom:8px"><span><i class="ln" style="background:#CFA670;width:16px"></i>${late ? 'Juče' : 'Danas'}</span><span><i class="dash"></i>Nedelju dana ranije</span></div><div id="cHour"></div></div>
+   <div class="panel c4"><div class="ph2"><div><h2>${late ? 'Juče po satu' : 'Danas po satu'}</h2><div class="sub">${late ? 'juče do zatvaranja' : 'do ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0')} · ${rsd(todayRev)} RSD ${lastW ? `(${pct(todayRev, lastW) >= 0 ? '+' : '−'}${Math.abs(pct(todayRev, lastW)).toFixed(0)}% od prošle godine)` : ''}</div></div></div>
+     <div class="legend2" style="margin-bottom:8px"><span><i class="ln" style="background:#CFA670;width:16px"></i>${late ? 'Juče' : 'Danas'}</span><span><i class="dash"></i>Isti dan prošle godine</span></div><div id="cHour"></div></div>
    <div class="panel c7"><div class="ph2"><div><h2>Kada dolaze gosti</h2><div class="sub">Prosečan broj gostiju po satu, poslednje 4 nedelje</div></div></div><div id="cHeat" style="overflow-x:auto"></div>
      ${(() => { let best = [0, 0, 0], low = [0, 0, 1e9]; avgGrid.forEach((r, i) => r.forEach((v, j) => { if (v > best[2]) best = [i, j, v]; if (v < low[2] && hrs[j] >= 9 && hrs[j] <= 21) low = [i, j, v]; })); const tot = avgGrid.flat().reduce((a, b) => a + b, 0) || 1, brk = avgGrid.reduce((a, r) => a + r.slice(0, 4).reduce((x, y) => x + y, 0), 0);
        return `<div class="mini" style="margin-top:14px"><div><span>Najjači termin</span><b class="num">${WD[best[0]]} ${String(hrs[best[1]]).padStart(2, '0')}h</b><span>≈ ${best[2]} gostiju na sat</span></div><div><span>Najmirnije</span><b class="num">${WD[low[0]]} ${String(hrs[low[1]]).padStart(2, '0')}h</b><span>≈ ${low[2]} gostiju na sat</span></div><div><span>Doručak 7–11h</span><b class="num">${Math.round(brk / tot * 100)}%</b><span>gostiju u nedelji</span></div></div>`; })()}
@@ -200,7 +201,7 @@ function render() {
      <div class="gloc">${LOCS.map(l => `<a href="https://search.google.com/local/reviews?placeid=${U.google[l].pid}" target="_blank" rel="noopener"><span><i style="background:${C[l]}"></i>${l === 'big' ? 'BIG' : 'Centar'}</span><b class="num">${String(RV[l][0]).replace('.', ',')}</b><small class="num">${nf(RV[l][1])} recenzija</small></a>`).join('')}</div>
      <p class="note">Prave ocene sa Google mapa. Dodirnite lokal da otvorite sve recenzije.</p></div>
    <div class="panel c4"><div class="ph2"><div><h2>TipTap kartice i meni</h2><div class="sub">Procena za ${lab}, uz kartice na stolovima</div></div></div>
-     <div class="mini"><div><span>Dodira kartice</span><b class="num">${nf(newRev * 3.4)}</b></div><div><span>Novih recenzija</span><b class="num">${nf(newRev)}</b></div><div><span>Bez kartica, isti period</span><b class="num">${nf(newRevP)}</b></div></div>
+     <div class="mini"><div><span>Dodira kartice</span><b class="num">${nf(newRev * 3.4)}</b></div><div><span>Novih recenzija</span><b class="num">${nf(newRev)}</b></div><div><span>Prošle godine, bez kartica</span><b class="num">${nf(newRevP)}</b></div></div>
      <div class="mini" style="margin-top:8px"><div><span>Google recenzija iz menija</span><b class="num">${nf(evC('grev'))}</b></div><div><span>Poruka menadžeru</span><b class="num">${nf(evC('mgr'))}</b></div><div><span>Otvorena ocena</span><b class="num">${nf(evC('rev'))}</b></div></div>
      <p class="note">Gornji red je procena. Donji red broji šta su gosti uradili u meniju na ovom uređaju. Gost uvek bira sam: javna recenzija na Google-u ili privatna poruka menadžeru.</p></div>
    <div class="panel c4"><div class="ph2"><div><h2>O čemu gosti pišu</h2><div class="sub">Teme iz recenzija, bez imena gostiju</div></div></div>
@@ -222,7 +223,7 @@ function render() {
     $('#cDaily').innerHTML = barsDaily(daysChart, w('#cDaily')); $('#cHour').innerHTML = linesHourly(ha, hb, w('#cHour'));
     $('#cHeat').innerHTML = heatmap(avgGrid, hrs, w('#cHeat')); sc = scatter(dishes.slice(0, 70), w('#cScat')); $('#cScat').innerHTML = sc.svg;
     bindTips($('#cDaily'), i => { const x = daysChart[+i]; return `<b>${WD[(x.d.getDay() + 6) % 7]}, ${x.d.getDate()}. ${MON[x.d.getMonth()]}</b>${LOCS.map(l => `<div class="r"><span><i style="background:${C[l]}"></i>${l === 'big' ? 'BIG' : 'Centar'}</span><span class="num">${nf(x.by[l] || 0)}</span></div>`).join('')}<div class="r"><span>Ukupno</span><b class="num" style="display:inline">${nf(x.rev)} RSD</b></div><div class="r"><span>Gosti</span><span class="num">${nf(x.cov)}</span></div>`; });
-    bindTips($('#cHour'), i => { const h = hb[+i], a = ha[+i]; return `<b>${String(h.h).padStart(2, '0')}:00–${String((h.h + 1) % 24).padStart(2, '0')}:00</b><div class="r"><span><i style="background:#CFA670"></i>${late ? 'Juče' : 'Danas'}</span><span class="num">${a ? nf(a.rev) : '—'}</span></div><div class="r"><span><i style="background:rgba(233,226,214,.55)"></i>Nedelju dana ranije</span><span class="num">${nf(h.rev)}</span></div>`; });
+    bindTips($('#cHour'), i => { const h = hb[+i], a = ha[+i]; return `<b>${String(h.h).padStart(2, '0')}:00–${String((h.h + 1) % 24).padStart(2, '0')}:00</b><div class="r"><span><i style="background:#CFA670"></i>${late ? 'Juče' : 'Danas'}</span><span class="num">${a ? nf(a.rev) : '—'}</span></div><div class="r"><span><i style="background:rgba(233,226,214,.55)"></i>Prošle godine</span><span class="num">${nf(h.rev)}</span></div>`; });
     bindTips($('#cHeat'), k => { const [i, j] = k.split('|').map(Number); return `<b>${WD[i]}, ${String(hrs[j]).padStart(2, '0')}h</b><div class="r"><span>Prosečno gostiju</span><span class="num">${avgGrid[i][j]}</span></div>`; });
     const scRows = dishes.slice(0, 70); bindTips($('#cScat'), i => { const x = scRows[+i]; const q = x.q >= sc.medQ, m = x.margin >= sc.medM; return `<b>${esc(x.it.sr)}</b><div class="r"><span>Prodato</span><span class="num">${nf(x.q)} porcija</span></div><div class="r"><span>Zarada po porciji</span><span class="num">${nf(x.margin)} RSD</span></div><div class="r"><span>Grupa</span><span>${q && m ? 'Zvezda' : q ? 'Radni konj' : m ? 'Zagonetka' : 'Za preispitivanje'}</span></div>`; });
   };

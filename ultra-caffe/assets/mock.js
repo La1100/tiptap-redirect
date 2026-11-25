@@ -25,7 +25,9 @@ const WDAY = [.86, .88, .92, .97, 1.18, 1.3, 1.02]; // pon..ned
 
 function tablesOf(loc) { const L = U.locs.find(l => l.id === loc); const out = []; L.floors.forEach(f => f.tables.forEach(t => out.push(Object.assign({ floor: f.id }, t)))); return out; }
 
-// rezervacije za lokal i dan
+// rezervacije za lokal i dan; RES_RATE = koliko često se sto rezerviše (većina gostiju dolazi bez rezervacije)
+const RES_RATE = .4;
+const RESP = { 7: .02, 8: .03, 9: .05, 10: .06, 11: .08, 12: .2, 13: .3, 14: .26, 15: .12, 16: .1, 17: .18, 18: .42, 19: .85, 20: 1, 21: .78, 22: .38, 23: .1, 0: .02 }; // rezervacije su uglavnom za ručak i veče
 function reservations(loc, date) {
   const d = day0(date), key = dkey(d), R = rng(hash(loc + key)), wd = (d.getDay() + 6) % 7, L = U.locs.find(l => l.id === loc);
   const [o, c] = L.open[wd]; const tbs = tablesOf(loc).filter(t => t.zone !== 'sank');
@@ -35,7 +37,7 @@ function reservations(loc, date) {
     const isTer = t.zone === 'terasa', month = d.getMonth(), terOK = !isTer || (month >= 3 && month <= 9) || R() < .15;
     if (!terOK) return;
     while (tm < c - 1.4) {
-      const hr = Math.floor(tm) % 24, p = (DEMAND[hr] || .3) * WDAY[wd] * (t.zone === 'separe' || t.zone === 'banketi' ? 1.15 : 1) * .4;
+      const hr = Math.floor(tm) % 24, p = (RESP[hr] || .02) * WDAY[wd] * (t.zone === 'separe' || t.zone === 'banketi' ? 1.15 : 1) * RES_RATE;
       if (R() < p) {
         const dur = t.seats >= 6 ? 2.5 : t.seats >= 4 ? 2 : 1.5, start = Math.round(tm * 2) / 2;
         if (start + dur > c + .5) break;
@@ -68,17 +70,24 @@ function status(r, h, R) {
   if (r.start - h <= 1) return 'soon';
   return 'booked';
 }
+// ---------------------------------------------------------------- veličina lokala
+// Za novi lokal menja se samo ovaj blok (ako vlasnik da okvirne brojke, upišu se ovde):
+//   peak  = gostiju na sat u najjačem terminu (petak i subota uveče)
+//   spend = prosečna potrošnja po gostu u glavnom delu dana, RSD (jutro je jeftinije, kasno uveče nešto manje)
+// Ultra Caffe: Centar 185 mesta (≈ 360 gostiju dnevno), BIG 118 mesta (≈ 270 gostiju dnevno),
+// prosečno ≈ 1.000 RSD po gostu i ≈ 2.100 RSD po računu.
+const SIZE = { centar: { peak: 32, spend: 1200 }, big: { peak: 24, spend: 1100 } };
+const GROWTH = { guests: .045, prices: .05 }; // rast godišnje (gosti, cene); uprava poredi sa istim periodom prošle godine
 // promet po satu za lokal i dan (demo)
-const AVG = { centar: 1890, big: 1740 };
-const COVERS = { centar: 30, big: 34 };     // gostiju po satu pri vrhuncu
 function sales(loc, date) {
-  const d = day0(date), key = dkey(d), R = rng(hash('s' + loc + key)), wd = (d.getDay() + 6) % 7, L = U.locs.find(l => l.id === loc);
+  const d = day0(date), key = dkey(d), R = rng(hash('s' + loc + key)), wd = (d.getDay() + 6) % 7, L = U.locs.find(l => l.id === loc), S = SIZE[loc] || { peak: 25, spend: 1000 };
   const [o, c] = L.open[wd], month = d.getMonth(), season = [.9, .88, .94, 1, 1.06, 1.1, 1.08, 1.04, 1.06, 1.02, .97, 1.12][month];
-  const trend = (1 + (d - new Date(2026, 0, 1)) / 864e5 / 365 * .08) * (.88 + rng(hash('dan' + key))() * .26); // dan ima svoj karakter (vreme, događaji)
+  const yrs = (d - new Date(2026, 0, 1)) / 864e5 / 365, price = 1 + yrs * GROWTH.prices;
+  const trend = (1 + yrs * GROWTH.guests) * (.94 + rng(hash('dan' + key))() * .12); // dan ima svoj karakter (vreme, događaji)
   const hours = []; let rev = 0, cov = 0, tickets = 0;
   for (let h = o; h < c; h++) {
-    const hr = h % 24, base = (DEMAND[hr] || .25) * WDAY[wd] * season * trend * COVERS[loc] * (.86 + R() * .28);
-    const covers = Math.round(base), avg = AVG[loc] * ((hr >= 7 && hr < 11) ? .48 : (hr >= 21 || hr < 2) ? .82 : 1) * (.92 + R() * .16);
+    const hr = h % 24, base = (DEMAND[hr] || .25) * WDAY[wd] * season * trend * S.peak * (.86 + R() * .28);
+    const covers = Math.round(base), avg = S.spend * price * ((hr >= 7 && hr < 11) ? .48 : (hr >= 21 || hr < 2) ? .82 : 1) * (.92 + R() * .16);
     const r = Math.round(covers * avg); hours.push({ h: hr, covers, rev: r }); rev += r; cov += covers; tickets += Math.round(covers / (1.8 + R() * .7));
   }
   return { date: key, wd, rev, covers: cov, tickets, hours };
@@ -91,5 +100,5 @@ function itemSales(loc, from, days) {
   const portions = covers * 0.92;
   return all.map((it, i) => { const q = Math.round(portions * w[i] / tw); const cost = it.price * (.27 + (hash(it.id) % 13) / 100); return { id: it.id, it, q, rev: q * it.price, margin: it.price - cost }; }).sort((a, b) => b.q - a.q);
 }
-window.UCM = { rng, hash, dkey, day0, addD, reservations, status, sales, itemSales, tablesOf, DEMAND };
+window.UCM = { rng, hash, dkey, day0, addD, reservations, status, sales, itemSales, tablesOf, DEMAND, SIZE };
 })();
