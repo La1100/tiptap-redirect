@@ -34,7 +34,17 @@ Kako otvoriti na računaru:
          Devil's i Blue frog: Unsplash, besplatna licenca (lokal za njih nema posebnu fotografiju).
   Okvirno: gramaže, kalorije, alergeni (procena dok kuhinja ne potvrdi), raspored stolova (dok ne dobijemo skicu lokala),
            unutrašnjost kolača u preseku i slojevi kolača u čaši (crtež po opisu kolača).
-  Izmišljeno: promet, gosti i rezervacije u upravi i „Sali uživo”.
+  Izmišljeno: promet, gosti i rezervacije u upravi i „Sali uživo”. Veličina je podešena prema lokalu
+         (Centar ≈ 380, BIG ≈ 280 gostiju dnevno, ≈ 1.060 RSD po gostu, ≈ 420 rezervacija nedeljno),
+         a uprava sve poredi sa istim periodom prošle godine.
+  Ponuda za mirne sate: u upravi, u delu „Kada dolaze gosti”, sistem pokaže najmirniji termin
+         (Pon–Čet 15–17h) i dugme „Napravi ponudu”. Vlasnik bira dane, sate, lokal i ponudu
+         (Kafa i kolač, Doručak uz kafu, Dva koktela), cenu i vidi procenu prometa. Gost ponudu vidi
+         na vrhu menija samo u tom terminu, može da je doda na listu, a uprava broji ko ju je video i dodao.
+
+Za sledeći lokal (ovo je glavni primerak):
+  data.js — jelovnik, cene, lokali i stolovi; mock.js — blok SIZE (gosti na sat u vrhuncu, potrošnja po gostu)
+  i RES_RATE; upr.js — OFFER_PICK (koja kafa, kolač, doručak i kokteli idu u ponude). Ostalo radi samo.
 
 Google recenzije: gost uvek sam bira — javna recenzija na Google-u ili privatna poruka menadžeru.
 Nema filtriranja po broju zvezdica (Google to ne dozvoljava).
@@ -42,3 +52,7 @@ Nema filtriranja po broju zvezdica (Google to ne dozvoljava).
 Trik za prezentaciju: na istom telefonu/računaru otvorite meni, rastavite jelo i dodajte ga na listu,
 pošaljite zahtev za rezervaciju, pa „Potvrdi kao hostesa” → „Potvrdi” → „Pogledaj kako gost vidi”.
 Sve se odmah vidi i u upravi u delu „Uživo sa ovog uređaja”.
+
+Ponuda na prezentaciji: uprava → „Napravi ponudu” → „Pokreni ponudu” → „Pogledaj kako gost vidi”.
+Meni se otvori sa ponudom na vrhu i van termina (piše „Pregled”). Ako je meni već otvoren u drugom tabu,
+ponuda se u njemu pojavi sama čim je vlasnik pokrene. „Zaustavi” je skida iz menija.

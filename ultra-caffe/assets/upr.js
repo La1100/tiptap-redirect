@@ -5,7 +5,7 @@
    ===================================================================== */
 (function () {
 'use strict';
-const U = window.UC, M = window.UCM, K = window.KART;
+const U = window.UC, M = window.UCM, K = window.KART, O = window.TT_OFFER;
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const f1 = n => Math.round(n * 10) / 10;
@@ -31,6 +31,9 @@ const IC = {
   pin: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
   cake: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20h16M5 20v-7h14v7M5 16c2 1.4 4 1.4 7 0s5-1.4 7 0M12 13V8M12 5.5v.5"/></svg>',
   plan: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2.2"/><rect x="13" y="13" width="5" height="5" rx="1.2"/></svg>',
+  spark: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.5 13.9 9.1 19.5 11 13.9 12.9 12 18.5 10.1 12.9 4.5 11 10.1 9.1Z"/><path d="M18.5 3.5v3M17 5h3M5.5 16.5v3M4 18h3" stroke-linecap="round"/></svg>',
+  eye: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>',
+  cup: '<svg viewBox="0 0 24 24" fill="none" stroke="#CFA670" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 9h12v4.5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16.5 10.5h1.7a2.3 2.3 0 0 1 0 4.6h-1.9"/></svg>',
   chart: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>'
 };
 
@@ -111,6 +114,117 @@ function scatter(rows, W = 760) {
 }
 function hbars(rows, col, fmt) { const mx = Math.max(...rows.map(r => r[1]), 1); return `<div class="stars">${rows.map(r => `<div style="grid-template-columns:120px 1fr 64px"><span>${esc(r[0])}</span><i><em style="width:${f1(r[1] / mx * 100)}%;background:${r[2] || col}"></em></i><b class="num" style="text-align:right;font-weight:600">${fmt(r[1])}</b></div>`).join('')}</div>`; }
 
+
+// ---------------------------------------------------------------- ponuda za mirne sate
+// Vlasnik izabere dane, sate i ponudu; gost je u meniju vidi samo tada (assets/ponuda.js).
+// Stavke se biraju po kategorijama iz data.js, pa isti šabloni rade i za sledeće lokale.
+const DRS = U.drinks.map((d, i) => Object.assign({ id: 'd' + i, kind: 'drink' }, d));
+const ANY = id => BY[id] || DRS.find(d => d.id === id);
+const OFFER_PICK = { coffee: /^cappuccino/i, cakes: ['nimfa', 'pistac-lampone', 'tiramisu'], breakfast: ['domacinski-dorucak'], cocktails: [/mojito/i, /aperol/i] };
+function offerTemplates() {
+  const dr = (cat, re) => DRS.find(d => d.cat === cat && (!re || re.test(d.sr))) || DRS.find(d => d.cat === cat);
+  const coffee = dr('kafe', OFFER_PICK.coffee), cake = OFFER_PICK.cakes.map(id => BY[id]).find(Boolean) || U.kolaci[0];
+  const brk = OFFER_PICK.breakfast.map(id => BY[id]).find(Boolean) || U.items.find(i => i.cat === 'dorucak');
+  return [
+    { id: 'kafa-kolac', sr: 'Kafa i kolač', en: 'Coffee and cake', items: [coffee, cake], fit: [12, 19] },
+    { id: 'dorucak', sr: 'Doručak uz kafu', en: 'Breakfast with coffee', items: [brk, coffee], fit: [7, 12] },
+    { id: 'kokteli', sr: 'Dva koktela', en: 'Two cocktails', items: OFFER_PICK.cocktails.map(re => dr('kokteli', re)), fit: [19, 24] }
+  ].filter(t => t.items.every(Boolean) && new Set(t.items.map(i => i.id)).size === t.items.length)
+    .map(t => Object.assign(t, { ids: t.items.map(i => i.id), sum: t.items.reduce((a, i) => a + i.price, 0) }));
+}
+function othumb(it) {
+  if (!it) return '';
+  if (it.kind === 'drink') return it.img ? `<img src="../img/f/${it.img}-t.webp" alt="">` : it.pack ? `<img class="ct" src="../img/p/${it.pack}-t.webp" alt="">` : IC.cup;
+  if (it.cut) return `<img class="ct" src="../img/c/${it.cut}-t.webp" alt="">`;
+  if (it.img && it.img.length) return `<img src="../img/f/${it.img[0]}-t.webp" alt="">`;
+  return `<img class="ct" src="../img/i/${it.id}.webp" alt="">`;
+}
+const OH = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+function guestGrid(locs) { // prosečno gostiju po danu u nedelji i satu (zbir lokala), poslednje 4 nedelje
+  const g = Array.from({ length: 7 }, () => OH.map(() => 0)), n = [0, 0, 0, 0, 0, 0, 0];
+  range(M.addD(today, -1), 28).forEach(d => { const wd = (d.getDay() + 6) % 7; n[wd]++; locs.forEach(l => M.sales(l, d).hours.forEach(h => { const j = OH.indexOf(h.h); if (j >= 0) g[wd][j] += h.covers; })); });
+  return g.map((r, i) => r.map(v => n[i] ? v / n[i] : 0));
+}
+function slowWindow(grid) { // najmirnija dva sata radnim danima (pon–čet), između 9 i 21h
+  const days = [0, 1, 2, 3]; let best = null;
+  for (let j = OH.indexOf(9); j <= OH.indexOf(19); j++) { const v = days.reduce((a, d) => a + grid[d][j] + grid[d][j + 1], 0) / (days.length * 2); if (!best || v < best.v) best = { v, from: OH[j], to: OH[j] + 2 }; }
+  return { days, from: best.from, to: best.to, perHour: Math.round(best.v), peak: Math.round(Math.max(...grid.flat())) };
+}
+function offerGuests(grid, days, from, to) { let s = 0; days.forEach(d => { for (let h = from; h < to; h++) { const j = OH.indexOf(h); if (j >= 0) s += grid[d][j]; } }); return s; }
+function logEv(type, id) { try { const ev = JSON.parse(localStorage.getItem('uc_ev') || '[]'); ev.push({ t: Date.now(), type, id, loc: 'uprava' }); if (ev.length > 400) ev.splice(0, ev.length - 400); localStorage.setItem('uc_ev', JSON.stringify(ev)); } catch (e) { } }
+const plPon = n => { const a = n % 10, b = n % 100; return a >= 2 && a <= 4 && (b < 12 || b > 14) ? 'ponude' : 'ponuda'; };
+const locWord = locs => !locs || locs.length !== 1 ? 'oba lokala' : locs[0] === 'big' ? 'BIG' : 'Centar';
+function offerBlock() {
+  const o = O.get(), now = new Date();
+  if (!o) {
+    const w = slowWindow(guestGrid(LOCS));
+    return `<div class="ofb" id="ofb"><div class="ofb-h">${IC.spark}<div><b>Popunite mirne sate</b><p>Najmirnije je ${esc(O.winLabel(w))}: oko ${w.perHour} gostiju na sat, a u najjačem terminu ${w.peak}. Pokrenite ponudu koju gosti u meniju vide samo tada.</p></div></div><button class="btn btn-m btn-s" id="ofNew">${IC.spark}Napravi ponudu</button></div>`;
+  }
+  const parts = o.items.map(ANY).filter(Boolean), on = O.live(o, now), nx = O.next(o, now);
+  const st = on ? `U toku · gosti je vide do ${O.hh(o.to)}h` : nx ? `Zakazano · sledeći put ${nx.days === 0 ? 'danas' : nx.days === 1 ? 'sutra' : ['u ponedeljak', 'u utorak', 'u sredu', 'u četvrtak', 'u petak', 'u subotu', 'u nedelju'][nx.wd]} u ${O.hh(nx.h)}h` : 'Nije zakazana';
+  let ev = []; try { ev = JSON.parse(localStorage.getItem('uc_ev') || '[]'); } catch (e) { }
+  const cnt = k => ev.filter(e => e.type === k && e.t >= o.created).length;
+  const est = Math.round(offerGuests(guestGrid(o.locs || ['centar', 'big']), o.days, o.from, o.to) * .1);
+  return `<div class="ofb on" id="ofb"><div class="ofb-st${on ? ' live' : ''}"><i></i>${esc(st)}</div>
+    <div class="ofb-o"><span class="ofb-th">${parts.map(p => `<span>${othumb(p)}</span>`).join('')}</span><div><b>${esc(o.sr)}</b><span>${esc(parts.map(p => p.sr).join(' + '))}</span><span><b class="num">${nf(o.price)} RSD</b> umesto ${nf(o.was)} · ${esc(O.winLabel(o))} · ${locWord(o.locs)}</span></div></div>
+    <div class="mini"><div><span>Videli u meniju</span><b class="num">${nf(cnt('offer_view'))}</b></div><div><span>Dodali na listu</span><b class="num">${nf(cnt('offer_add'))}</b></div><div><span>Procena nedeljno</span><b class="num">≈ ${nf(est)}</b><span>${plPon(est)}, ${nf(est * o.price)} RSD</span></div></div>
+    <div class="ofb-a"><a class="btn btn-m btn-s" href="../?ponuda=pregled&amp;bez-uvoda${o.locs && o.locs.length === 1 ? '&amp;lokal=' + o.locs[0] : ''}" target="_blank" rel="noopener">${IC.eye}Pogledaj kako gost vidi</a><button class="btn btn-o btn-s" id="ofEdit">Izmeni</button><button class="btn btn-o btn-s" id="ofStop">Zaustavi</button></div>
+    <p class="note">„Videli” i „Dodali” broje goste u meniju na ovom uređaju. Procena računa da ponudu uzme svaki deseti gost u tom terminu.</p></div>`;
+}
+function openComposer() {
+  const T = offerTemplates(); if (!T.length) return;
+  const cur = O.get(); let s;
+  if (cur) s = { days: cur.days.slice(), from: cur.from, to: cur.to, locs: (cur.locs || ['centar', 'big']).slice(), tpl: (T.find(t => t.id === cur.tpl) || T[0]).id, price: cur.price };
+  else { const w = slowWindow(guestGrid(['centar', 'big'])), tp = T.find(t => w.from >= t.fit[0] && w.from < t.fit[1]) || T[0]; s = { days: w.days, from: w.from, to: w.to, locs: ['centar', 'big'], tpl: tp.id, price: O.suggestPrice(tp.sum) }; }
+  const box = document.createElement('div'); box.className = 'ofm'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-labelledby', 'ofmT');
+  document.body.appendChild(box); document.body.classList.add('lock'); requestAnimationFrame(() => box.classList.add('on'));
+  const back = document.activeElement, onKey = e => { if (e.key === 'Escape') close(); };
+  function close() { box.classList.remove('on'); document.body.classList.remove('lock'); removeEventListener('keydown', onKey); setTimeout(() => box.remove(), 220); if (back && back.focus) back.focus(); }
+  addEventListener('keydown', onKey);
+  const hrs = (a, b, sel) => { let o = ''; for (let h = a; h <= b; h++) o += `<option value="${h}"${h === sel ? ' selected' : ''}>${String(h).padStart(2, '0')}:00</option>`; return o; };
+  function draw(focusSel) {
+    const tp = T.find(t => t.id === s.tpl), grid = guestGrid(s.locs), g = offerGuests(grid, s.days, s.from, s.to), n = Math.round(g * .1), off = Math.round((1 - s.price / tp.sum) * 100);
+    const per = s.days.length ? g / (s.days.length * (s.to - s.from)) : 0, pnow = new Date(); pnow.setHours(s.from, 40, 0, 0);
+    const draft = { sr: tp.sr, en: tp.en, items: tp.ids, price: s.price, was: tp.sum, days: s.days, from: s.from, to: s.to, locs: s.locs };
+    const allL = s.locs.length === 2;
+    box.innerHTML = `<div class="ofm-c"><button class="ofm-x" id="ofX" aria-label="Zatvori">×</button>
+     <h2 id="ofmT">Popunite mirne sate</h2><p class="ofm-l">Gosti ponudu vide u digitalnom meniju samo u terminu koji izaberete. Van tog termina meni izgleda kao i inače.</p>
+     <div class="ofm-g"><div class="ofm-f">
+      <h3>Kada</h3>
+      <div class="ofm-days" role="group" aria-label="Dani">${O.WD.sr.map((d, i) => `<button type="button" class="chip" data-d="${i}" aria-pressed="${s.days.includes(i)}">${d}</button>`).join('')}</div>
+      <div class="ofm-hrs"><label>Od<select id="ofFrom">${hrs(7, 22, s.from)}</select></label><label>Do<select id="ofTo">${hrs(s.from + 1, 24, s.to)}</select></label>
+       <div class="segm" role="group" aria-label="Lokal">${[['all', 'Oba lokala'], ['centar', 'Centar'], ['big', 'BIG']].map(([k, v]) => `<button type="button" data-ol="${k}" aria-pressed="${k === 'all' ? allL : !allL && s.locs[0] === k}">${v}</button>`).join('')}</div></div>
+      <p class="ofm-n">${s.days.length ? `U tom terminu prosečno dolazi oko <b class="num">${nf(per)}</b> gostiju na sat (poslednje 4 nedelje).` : 'Izaberite bar jedan dan.'}</p>
+      <h3>Ponuda</h3>
+      <div class="ofm-t">${T.map(t => `<button type="button" class="ofm-tp" data-t="${t.id}" aria-pressed="${t.id === s.tpl}"><span class="ofm-th">${t.items.map(i => `<span>${othumb(i)}</span>`).join('')}</span><b>${esc(t.sr)}</b><small>${esc(t.items.map(i => i.sr).join(' + '))}</small><small class="num">redovno ${nf(t.sum)} RSD</small></button>`).join('')}</div>
+      <div class="ofm-p"><span>Cena ponude</span><div class="ofm-st"><button type="button" id="ofMinus" aria-label="10 RSD manje">−</button><b class="num">${nf(s.price)}<small>RSD</small></b><button type="button" id="ofPlus" aria-label="10 RSD više">+</button></div><span class="num">umesto ${nf(tp.sum)} RSD · ${off > 0 ? '−' + off + '%' : 'bez popusta'}</span></div>
+     </div><div class="ofm-v">
+      <h3>Kako gost vidi</h3>
+      <div class="ofm-pv" aria-hidden="true">${O.cardHTML(draft, { lang: 'sr', parts: tp.items.map(i => ({ name: i.sr, thumb: othumb(i) })), now: pnow, add: 'Dodaj na listu' })}</div>
+      <div class="ofm-e"><b>Procena</b><p>${s.days.length ? `U tom terminu nedeljno dođe oko ${nf(g)} gostiju. Ako ponudu uzme svaki deseti, to je oko ${nf(n)} ${plPon(n)} i ${nf(n * s.price)} RSD nedeljno.` : '—'}</p></div>
+     </div></div>
+     <div class="ofm-a"><button type="button" class="btn btn-m" id="ofGo"${s.days.length ? '' : ' disabled'}>${cur ? 'Sačuvaj izmene' : 'Pokreni ponudu'}</button><button type="button" class="btn btn-o" id="ofCancel">Otkaži</button></div></div>`;
+    $$('[data-d]', box).forEach(b => b.onclick = () => { const d = +b.dataset.d; s.days = s.days.includes(d) ? s.days.filter(x => x !== d) : s.days.concat(d).sort((a, c) => a - c); draw('[data-d="' + d + '"]'); });
+    $('#ofFrom', box).onchange = e => { const d = s.to - s.from; s.from = +e.target.value; s.to = Math.min(24, Math.max(s.from + 1, s.from + d)); draw('#ofFrom'); };
+    $('#ofTo', box).onchange = e => { s.to = +e.target.value; draw('#ofTo'); };
+    $$('[data-ol]', box).forEach(b => b.onclick = () => { s.locs = b.dataset.ol === 'all' ? ['centar', 'big'] : [b.dataset.ol]; draw('[data-ol="' + b.dataset.ol + '"]'); });
+    $$('[data-t]', box).forEach(b => b.onclick = () => { if (s.tpl !== b.dataset.t) { s.tpl = b.dataset.t; s.price = O.suggestPrice(T.find(t => t.id === s.tpl).sum); } draw('[data-t="' + b.dataset.t + '"]'); });
+    $('#ofMinus', box).onclick = () => { s.price = Math.max(10, s.price - 10); draw('#ofMinus'); };
+    $('#ofPlus', box).onclick = () => { s.price = Math.min(tp.sum, s.price + 10); draw('#ofPlus'); };
+    $('#ofX', box).onclick = close; $('#ofCancel', box).onclick = close;
+    box.onclick = e => { if (e.target === box) close(); };
+    $('#ofGo', box).onclick = () => {
+      const keep = cur && cur.tpl === tp.id;
+      logEv(cur ? 'offer_edit' : 'offer_on', tp.sr); // prvo događaj, pa ponuda: meni u drugom tabu odmah upisuje svoj događaj
+      O.set({ id: keep ? cur.id : 'p' + Date.now(), tpl: tp.id, sr: tp.sr, en: tp.en, items: tp.ids, price: s.price, was: tp.sum, days: s.days.slice(), from: s.from, to: s.to, locs: s.locs.slice(), created: keep ? cur.created : Date.now() });
+      close(); render();
+      const b = $('#ofb'); if (b) { b.scrollIntoView({ block: 'center', behavior: 'smooth' }); b.classList.add('flash'); }
+    };
+    const f = focusSel && $(focusSel, box); (f || $('#ofX', box)).focus({ preventScroll: true });
+  }
+  draw();
+}
+
 // ---------------------------------------------------------------- iscrtavanje
 function render() {
   const cur = period(P), prev = period(P, LY), sum = (a, k) => a.reduce((x, y) => x + y[k], 0);
@@ -148,7 +262,7 @@ function render() {
   const tFlav = U.torte.map(x => [x.sr, Math.round(4 + RT() * 22)]).sort((a, b) => b[1] - a[1]).slice(0, 5);
   const locName = LOCS.length === 2 ? 'Oba lokala' : U.locs.find(l => l.id === LOCS[0]).name;
   const thumb = it => it.cut ? `<span class="th cut"><img src="../img/k/${it.cut}.webp" alt=""></span>` : it.img && it.img.length ? `<span class="th"><img src="../img/f/${it.img[0]}-t.webp" alt=""></span>` : `<span class="th">${K.top(((it.comps || []).slice().sort((a, b) => b.g - a.g)[0] || {}).a || 'fries', 1)}</span>`;
-  const evName = e => { const it = BY[e.id]; const nm = it ? it.sr : (U.drinks.find((d, i) => 'd' + i === e.id) || {}).sr || e.id; return { view: `Gost je otvorio „${nm}”`, split: `Gost je rastavio „${nm}”`, add: `„${nm}” dodato na listu`, pair: `Gost je otvorio preporuku „${nm}”`, open: 'Novi gost je otvorio meni', show: 'Gost je pokazao listu konobaru', call: 'Gost je pozvao konobara', res: e.st === 'pending' ? `Novi zahtev za rezervaciju (${e.party || 2} ${(e.party || 2) % 10 >= 2 && (e.party || 2) % 10 <= 4 ? 'osobe' : 'osoba'}) preko menija · sto ${e.id} · čeka potvrdu` : `Nova rezervacija za ${e.party || 2} preko menija · sto ${e.id}${e.st === 'ok' ? ' · potvrđena automatski' : ''}`, jump: `Brzi skok u meniju: ${({ 'g-hrana': 'Hrana', 'g-slatko': 'Slatko', 'g-pice': 'Piće' })[e.id] || e.id}`, resok: `Hostesa je potvrdila rezervaciju${e.name ? ' · ' + e.name : ''} · sto ${e.id}`, resno: `Hostesa je odbila zahtev${e.name ? ' · ' + e.name : ''} · sto ${e.id}`, mood: e.id === 'surprise' ? 'Gost je pritisnuo „Iznenadi me” u piću' : `Gost bira piće po raspoloženju: ${({ fresh: 'osvežavajuće', warm: 'toplo', sweet: 'slatko', free: 'bez alkohola', strong: 'jako', party: 'za proslavu' })[e.id] || e.id}`, story: `Gost pravi Instagram story: „${nm}”`, torta: 'Novi zahtev za tortu', grev: 'Gost je otvorio Google recenziju', mgr: 'Gost je poslao poruku menadžeru', rev: null, help: `Gost je tražio predlog (${e.id})`, loc: `Gost je izabrao lokal ${e.id === 'big' ? 'BIG' : 'Centar'}`, sec: null }[e.type]; };
+  const evName = e => { const it = BY[e.id]; const nm = it ? it.sr : (U.drinks.find((d, i) => 'd' + i === e.id) || {}).sr || e.id; return { view: `Gost je otvorio „${nm}”`, split: `Gost je rastavio „${nm}”`, add: `„${nm}” dodato na listu`, pair: `Gost je otvorio preporuku „${nm}”`, open: 'Novi gost je otvorio meni', show: 'Gost je pokazao listu konobaru', call: 'Gost je pozvao konobara', res: e.st === 'pending' ? `Novi zahtev za rezervaciju (${e.party || 2} ${(e.party || 2) % 10 >= 2 && (e.party || 2) % 10 <= 4 ? 'osobe' : 'osoba'}) preko menija · sto ${e.id} · čeka potvrdu` : `Nova rezervacija za ${e.party || 2} preko menija · sto ${e.id}${e.st === 'ok' ? ' · potvrđena automatski' : ''}`, jump: `Brzi skok u meniju: ${({ 'g-hrana': 'Hrana', 'g-slatko': 'Slatko', 'g-pice': 'Piće' })[e.id] || e.id}`, resok: `Hostesa je potvrdila rezervaciju${e.name ? ' · ' + e.name : ''} · sto ${e.id}`, resno: `Hostesa je odbila zahtev${e.name ? ' · ' + e.name : ''} · sto ${e.id}`, mood: e.id === 'surprise' ? 'Gost je pritisnuo „Iznenadi me” u piću' : `Gost bira piće po raspoloženju: ${({ fresh: 'osvežavajuće', warm: 'toplo', sweet: 'slatko', free: 'bez alkohola', strong: 'jako', party: 'za proslavu' })[e.id] || e.id}`, story: `Gost pravi Instagram story: „${nm}”`, torta: 'Novi zahtev za tortu', grev: 'Gost je otvorio Google recenziju', mgr: 'Gost je poslao poruku menadžeru', rev: null, help: `Gost je tražio predlog (${e.id})`, offer_on: `Pokrenuta ponuda „${nm}”`, offer_edit: `Izmenjena ponuda „${nm}”`, offer_off: `Zaustavljena ponuda „${nm}”`, offer_view: `Gost je video ponudu „${nm}”`, offer_add: `Gost je dodao ponudu „${nm}” na listu`, loc: `Gost je izabrao lokal ${e.id === 'big' ? 'BIG' : 'Centar'}`, sec: null }[e.type]; };
   const feed = ev.slice().reverse().filter(evName).slice(0, 40);
 
   $('#main').innerHTML = `
@@ -168,7 +282,7 @@ function render() {
    <div class="panel c7"><div class="ph2"><div><h2>Kada dolaze gosti</h2><div class="sub">Prosečan broj gostiju po satu, poslednje 4 nedelje</div></div></div><div id="cHeat" style="overflow-x:auto"></div>
      ${(() => { let best = [0, 0, 0], low = [0, 0, 1e9]; avgGrid.forEach((r, i) => r.forEach((v, j) => { if (v > best[2]) best = [i, j, v]; if (v < low[2] && hrs[j] >= 9 && hrs[j] <= 21) low = [i, j, v]; })); const tot = avgGrid.flat().reduce((a, b) => a + b, 0) || 1, brk = avgGrid.reduce((a, r) => a + r.slice(0, 4).reduce((x, y) => x + y, 0), 0);
        return `<div class="mini" style="margin-top:14px"><div><span>Najjači termin</span><b class="num">${WD[best[0]]} ${String(hrs[best[1]]).padStart(2, '0')}h</b><span>≈ ${best[2]} gostiju na sat</span></div><div><span>Najmirnije</span><b class="num">${WD[low[0]]} ${String(hrs[low[1]]).padStart(2, '0')}h</b><span>≈ ${low[2]} gostiju na sat</span></div><div><span>Doručak 7–11h</span><b class="num">${Math.round(brk / tot * 100)}%</b><span>gostiju u nedelji</span></div></div>`; })()}
-     <p class="note">Najjači termini su petak i subota posle 19h. Pre podne radnim danima dominira kafa — dobar trenutak za ponudu doručka uz kafu.</p></div>
+     ${offerBlock()}</div>
    <div class="panel c5"><div class="ph2"><div><h2>Najprodavanija jela</h2><div class="sub">Porcija u periodu · ${lab}</div></div></div>
      <ol class="rank">${top.map((x, i) => `<li><span class="n">${i + 1}</span>${thumb(x.it)}<span class="nm"><b>${esc(x.it.sr)}</b><span class="bar"><i style="width:${f1(x.q / topMx * 100)}%"></i></span></span><span class="v"><b class="num">${nf(x.q)}</b>${rsd(x.rev)} RSD</span></li>`).join('')}</ol></div>
   </div></section>
@@ -232,6 +346,9 @@ function render() {
   $$('[data-l]').forEach(b => b.onclick = () => { LOCS = b.dataset.l === 'all' ? ['centar', 'big'] : [b.dataset.l]; render(); });
   $$('[data-p]').forEach(b => b.onclick = () => { P = +b.dataset.p; render(); });
   const cl = $('#clr'); if (cl) cl.onclick = () => { try { localStorage.removeItem('uc_ev'); } catch (e) { } render(); };
+  const on = $('#ofNew'); if (on) on.onclick = openComposer;
+  const oe = $('#ofEdit'); if (oe) oe.onclick = openComposer;
+  const os = $('#ofStop'); if (os) os.onclick = () => { const o = O.get(); if (o) logEv('offer_off', o.sr); O.clear(); render(); };
   bindTips($('#rezervacije'), k => { const s = srcN.find(x => x[0] === k); return s ? `<b>${k}</b><div class="r"><span>Rezervacija</span><span class="num">${nf(s[1])}</span></div>` : ''; });
 }
 
@@ -245,7 +362,8 @@ function shell() {
   const links = $$('.side a[href^="#"]');
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-30% 0px -60% 0px' });
   render(); $$('.sect').forEach(s => io.observe(s));
-  addEventListener('storage', e => { if (e.key === 'uc_ev' || e.key === 'uc_myres' || e.key === 'uc_resdec') render(); });
+  addEventListener('storage', e => { if (e.key === 'uc_ev' || e.key === 'uc_myres' || e.key === 'uc_resdec' || e.key === O.KEY) render(); });
+  let ofLive = O.live(O.get()); setInterval(() => { const l = O.live(O.get()); if (l !== ofLive && !$('.ofm')) { ofLive = l; render(); } }, 30000); // ponuda počinje ili ističe
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => window.__ucDraw && window.__ucDraw(), 180); });
 }
 function demoBadge() {

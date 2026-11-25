@@ -26,7 +26,7 @@ let VIEW = 'home', GRP = null, QRY = '', homeY = 0;
 
 const TX = {
   sr: { menu: 'Jelovnik', drinks: 'Piće', cakes: 'Kolači', torte: 'Torte', open_menu: 'Otvori meni', reserve: 'Rezerviši sto', call: 'Pozovi', skip: 'Preskoči',
-    open_until: 'Otvoreno do', closed: 'Zatvoreno', opens: 'otvara se u', split: 'Rastavi jelo', split_d: 'Rastavi piće', split_k: 'Rastavi kolač', cut_k: 'Preseci kolač', join: 'Sastavi', made_of: 'Od čega je napravljeno',
+    open_until: 'Otvoreno do', of_added: 'Ponuda je na listi', closed: 'Zatvoreno', opens: 'otvara se u', split: 'Rastavi jelo', split_d: 'Rastavi piće', split_k: 'Rastavi kolač', cut_k: 'Preseci kolač', join: 'Sastavi', made_of: 'Od čega je napravljeno',
     with_dish: 'Uz jelo', est: 'okvirna procena', side: 'prilog', add: 'Dodaj na listu', added: 'Dodato na listu', list: 'Moja lista', items: 'stavki', item1: 'stavka', items2: 'stavke',
     show_waiter: 'Pokaži konobaru', call_waiter: 'Pozovi konobara', waiter_called: 'Konobar je pozvan za vaš sto', total: 'Ukupno', empty: 'Lista je prazna. Dodajte jelo ili piće i pokažite listu konobaru.',
     list_lead: 'Lista vam pomaže da se dogovorite za stolom. Porudžbinu potvrđuje konobar.', prep: 'Priprema', portion: 'Porcija', energy: 'Energija', minutes: 'min',
@@ -57,7 +57,7 @@ const TX = {
     a_light: 'Nešto lagano', a_meal: 'Pravi obrok', a_share: 'Za deljenje', a_meat: 'Meso', a_fish: 'Riba', a_veg: 'Bez mesa', a_any: 'Iznenadite me',
     a_coffee: 'Kafa', a_fresh: 'Nešto osvežavajuće', a_wine: 'Vino ili pivo', a_cocktail: 'Koktel', step: 'Korak', dessert: 'Za kraj', p_dish: 'Jelo', p_drink: 'Piće' },
   en: { menu: 'Food', drinks: 'Drinks', cakes: 'Cakes', torte: 'Cakes to order', open_menu: 'Open the menu', reserve: 'Book a table', call: 'Call', skip: 'Skip',
-    open_until: 'Open until', closed: 'Closed', opens: 'opens at', split: 'Take it apart', split_d: 'Take it apart', split_k: 'Take it apart', cut_k: 'Cut it open', join: 'Put it back', made_of: 'What it’s made of',
+    open_until: 'Open until', of_added: 'Offer added to your list', closed: 'Closed', opens: 'opens at', split: 'Take it apart', split_d: 'Take it apart', split_k: 'Take it apart', cut_k: 'Cut it open', join: 'Put it back', made_of: 'What it’s made of',
     with_dish: 'On the side', est: 'estimate', side: 'side', add: 'Add to my list', added: 'Added to your list', list: 'My list', items: 'items', item1: 'item', items2: 'items',
     show_waiter: 'Show the waiter', call_waiter: 'Call the waiter', waiter_called: 'A waiter is on the way to your table', total: 'Total', empty: 'Your list is empty. Add dishes or drinks and show the list to your waiter.',
     list_lead: 'Your list helps the table decide. The waiter confirms the order.', prep: 'Ready in', portion: 'Portion', energy: 'Energy', minutes: 'min',
@@ -159,6 +159,30 @@ const locOf = id => U.locs.find(l => l.id === id);
 const GRPS = U.groups;
 const grpOf = id => GRPS.find(g => g.id === id);
 const membersOf = g => g.cats[0] === 'kolaci' ? KOL : g.cats[0] === 'torte' ? U.torte : g.sec === 'pice' ? DR.filter(d => g.cats.includes(d.cat)) : ITEMS.filter(i => g.cats.includes(i.cat));
+
+// ---------------------------------------------------------------- ponuda za mirne sate (assets/ponuda.js)
+// Vlasnik je pokreće u upravi; gost je vidi na vrhu menija samo u izabranim danima i satima.
+// ?ponuda=pregled prikazuje je i van termina (za prezentaciju).
+const O = window.TT_OFFER, PREVIEW = qs.get('ponuda') === 'pregled', OID = 'ponuda';
+let OFFER = null, OF_SEEN = false;
+function syncOffer() {
+  OFFER = O ? O.get() : null;
+  if (OFFER && OFFER.items.every(id => BY[id])) BY[OID] = { id: OID, kind: 'offer', sr: `Ponuda: ${OFFER.sr}`, en: `Offer: ${OFFER.en || OFFER.sr}`, price: OFFER.price, parts: OFFER.items };
+  else { OFFER = null; delete BY[OID]; }
+}
+const forLoc = o => !o.locs || !o.locs.length || o.locs.includes(LOC);
+const offerOn = () => !!OFFER && (O.live(OFFER, new Date(), LOC) || (PREVIEW && forLoc(OFFER)));
+function offerHTML() {
+  if (!offerOn()) return '';
+  return O.cardHTML(OFFER, { lang: L, parts: OFFER.items.map(id => ({ name: nm(BY[id]), thumb: cartThumb(BY[id]) })), now: new Date(), preview: !O.live(OFFER, new Date(), LOC), add: t('add') });
+}
+function bindOffer() {
+  const c = $('#main .offer'); if (!c || !OFFER) return;
+  if (!OF_SEEN) { OF_SEEN = true; hit('offer_view', OFFER.sr); }
+  $$('.of-it', c).forEach(b => b.onclick = () => openItem(OFFER.items[+b.dataset.oi]));
+  $('.of-add', c).onclick = () => { const ex = CART.find(x => x.id === OID); if (ex) ex.q++; else CART.push({ id: OID, v: 0, q: 1 }); LS.set('cart', CART); updDock(true); hit('offer_add', OFFER.sr); toast(t('of_added')); };
+}
+syncOffer();
 
 // ---------------------------------------------------------------- događaji za upravu (isti uređaj)
 function hit(type, id) {
@@ -374,7 +398,7 @@ function homeHTML() {
   const house = ITEMS.filter(i => i.sig && (photoOf(i) || i.mode === 'board')).concat(['nimfa', 'pistac-lampone', 'tiramisu'].map(id => BY[id]));
   const sec = s => GRPS.filter(g => g.sec === s).map(g => `<button class="tile${g.tile[0] === 'c' || g.tile[0] === 'p' || g.tile[0] === 'i' ? ' art' : ''}" data-g="${g.id}"><span class="ti">${tileImg(g)}</span><span class="tt"><b>${esc(nm(g))}</b><small>${countLabel(g)}</small></span></button>`).join('');
   const g = gOf();
-  return heroHTML() + `
+  return heroHTML() + offerHTML() + `
   <div class="tools"><label class="srch">${IC.search}<input id="q" type="search" placeholder="${esc(t('search_ph'))}" enterkeyhint="search" autocomplete="off" value="${esc(QRY)}"></label>
     <button class="helpme" id="helpBtn">${IC.spark}<span>${esc(t('help'))}</span></button></div>
   <nav class="jump" id="jump" aria-label="${esc(t('jump_l'))}">${[['g-hrana', 'food', 'g_hrana'], ['g-slatko', 'sweet', 'g_slatko'], ['g-pice', 'drink', 'g_pice']].map(([id, ic, k]) => `<button type="button" data-to="${id}" aria-current="false">${IC[ic]}<span>${esc(t(k))}</span></button>`).join('')}</nav>
@@ -404,6 +428,7 @@ function renderHome() {
   bindMood();
   jumpSpy();
   bindRev(m);
+  bindOffer();
   const q = $('#q'); q.oninput = () => { QRY = q.value; if (QRY.trim().length >= 2) showSearch(); else if (VIEW === 'search') { clearSearch(); if (history.state && history.state.q) history.replaceState({}, '', location.pathname + location.search); } };
   q.onkeydown = e => { if (e.key === 'Enter') q.blur(); };
 }
@@ -1669,6 +1694,7 @@ function updDock(bump) {
   if (bump) { const b = $('#bagBtn'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
 }
 function cartThumb(it) {
+  if (it.kind === 'offer') return cartThumb(it.parts.map(id => BY[id]).find(x => x && x.kind !== 'drink') || BY[it.parts[0]]);
   if (it.kind === 'cake') return `<img src="${cutSrc(it, 1)}" alt="" style="object-fit:contain">`;
   if (it.kind === 'drink') return it.img ? `<img src="${img(it.img, 1)}" alt="">` : it.pack ? `<img src="${packSrc(it.pack, 1)}" alt="" style="object-fit:contain;padding:3px">` : glassSVG(it);
   return photoOf(it) ? `<img src="${img(photoOf(it)[0], 1)}" alt="">` : `<img src="img/i/${it.id}.webp" alt="">`;
@@ -1692,7 +1718,7 @@ function closeCart() { $('#cart').classList.remove('on'); $('#scrim').classList.
 function showWaiter() {
   const w = $('#showW');
   w.innerHTML = `<button class="btn btn-o btn-s" id="wBack" style="color:var(--noc);border-color:rgba(11,21,23,.2);margin-bottom:18px">${esc(t('back'))}</button><h2>${esc(t('list'))}</h2><div class="t">${esc(t('guests_note'))} · ${esc(locOf(LOC).short)}</div>
-   <ul>${CART.map(c => { const it = BY[c.id]; return it ? `<li><span><b>${c.q}×</b> ${esc(it.sr)}${it.var ? ` <small>(${esc(it.var[c.v || 0].sr)})</small>` : ''}</span><span class="num">${nf((it.var ? it.var[c.v || 0].price : it.price) * c.q)}</span></li>` : ''; }).join('')}</ul>
+   <ul>${CART.map(c => { const it = BY[c.id]; return it ? `<li><span><b>${c.q}×</b> ${esc(it.sr)}${it.var ? ` <small>(${esc(it.var[c.v || 0].sr)})</small>` : ''}${it.kind === 'offer' ? ` <small>(${it.parts.map(id => BY[id] ? esc(BY[id].sr) : '').join(' + ')})</small>` : ''}</span><span class="num">${nf((it.var ? it.var[c.v || 0].price : it.price) * c.q)}</span></li>` : ''; }).join('')}</ul>
    <div style="display:flex;justify-content:space-between;font-size:26px"><b style="font-family:var(--f-d);font-weight:400">${t('total')}</b><b class="num">${nf(cartSum())} RSD</b></div>`;
   w.classList.add('on'); $('#wBack').onclick = () => w.classList.remove('on'); hit('show', LOC);
 }
@@ -1828,5 +1854,8 @@ document.documentElement.lang = L === 'en' ? 'en' : 'sr';
 const h0 = location.hash.slice(1);
 if (h0.startsWith('g=') && grpOf(h0.slice(2))) { history.replaceState({}, '', location.pathname + location.search); render(); openGroup(h0.slice(2)); }
 else { render(); intro(); if (h0.length > 1) { const id = decodeURIComponent(h0); if (BY[id]) { history.replaceState({}, '', location.pathname + location.search); openItem(id); } } }
+const ofRefresh = () => { if (VIEW === 'home' && !document.body.classList.contains('lock')) { const y = scrollY; renderMain(); scrollTo(0, y); } };
+addEventListener('storage', e => { if (O && e.key === O.KEY) { const was = offerOn(); syncOffer(); updDock(); if (was || offerOn()) ofRefresh(); } });
+let ofState = offerOn(); setInterval(() => { const st = offerOn(); if (st !== ofState) { ofState = st; ofRefresh(); return; } const el = $('#main .of-left'); if (el && OFFER) el.textContent = O.leftLabel(O.minsLeft(OFFER), L); }, 30000);
 let rzT; addEventListener('resize', () => { if (!CUR) return; const was = $('#st').classList.contains('open'); if (was) closeX(true); sizeStage(CUR); clearTimeout(rzT); if (was) rzT = setTimeout(() => autoSplit(CUR, 0, false), 250); });
 })();
