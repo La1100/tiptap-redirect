@@ -125,8 +125,8 @@
     P.ua = cap(L.arm, 'body', 11); P.fa = cap(L.arm, 'body', 9.5); P.hd = el('circle', { class: 'body', r: 5 }, L.arm);
     function hls(list, cls) {
       return (list || []).map(function (m) {
-        var lay = m.on === 'torso' ? L.hlT : m.on === 'leg' ? L.hlL : L.hlA;
-        var e = m.on === 'torso' ? el('path', { class: cls }, lay) : el('line', { class: cls, 'stroke-width': m.w || 6, 'stroke-linecap': 'round' }, lay);
+        var lay = L[m.layer || (m.on === 'torso' ? 'hlT' : m.on === 'leg' ? 'hlL' : 'hlA')];
+        var e = m.on === 'torso' ? el('path', { class: cls }, lay) : m.on === 'joint' ? el('circle', { class: cls, r: m.r || 7 }, lay) : el('line', { class: cls, 'stroke-width': m.w || 6, 'stroke-linecap': 'round' }, lay);
         return { m: m, e: e };
       });
     }
@@ -165,6 +165,7 @@
         var m = h.m;
         if (!show) { h.e.style.opacity = 0; return; }
         if (m.on === 'torso') h.e.setAttribute('d', torsoBand(H, S, m.t[0], m.t[1], m.side, m.depth || 7));
+        else if (m.on === 'joint') circ(h.e, J[m.j]);
         else {
           var a = J[m.seg[0]], b = J[m.seg[1]], ln = limbBand(a, b, m.side, m.o || 2.5, m.t[0], m.t[1]);
           line(h.e, ln[0], ln[1]);
@@ -215,12 +216,29 @@
   };
 
   // mirna slika za popis sprava
-  function still(host, spec, p) {
+  function still(host, spec, p, ratio) {
     var s = new Scene(host, spec, {});
     s.svg.classList.add('still');
     s.draw(p == null ? .55 : p, 'hold');
+    // izrez oko osobe da se na maloj sličici vidi pokret
+    try {
+      var bb = null;
+      ['far', 'torso', 'leg', 'arm', 'mid'].forEach(function (k) {
+        var b = s.L[k].getBBox();
+        if (!b.width) return;
+        if (!bb) bb = { x0: b.x, y0: b.y, x1: b.x + b.width, y1: b.y + b.height };
+        else { bb.x0 = Math.min(bb.x0, b.x); bb.y0 = Math.min(bb.y0, b.y); bb.x1 = Math.max(bb.x1, b.x + b.width); bb.y1 = Math.max(bb.y1, b.y + b.height); }
+      });
+      if (bb) {
+        var r = ratio || 1.25, pad = 14, w = bb.x1 - bb.x0 + pad * 2, h = bb.y1 - bb.y0 + pad * 2, cx = (bb.x0 + bb.x1) / 2, cy = (bb.y0 + bb.y1) / 2;
+        if (w / h > r) h = w / r; else w = h * r;
+        s.svg.setAttribute('viewBox', [cx - w / 2, cy - h / 2, w, h].map(function (v) { return v.toFixed(1); }).join(' '));
+      }
+    } catch (e) {}
     return s;
   }
 
-  window.BGRig = { Scene: Scene, still: still, stack: stack, el: el, line: line, circ: circ, mix: mix, mixP: mixP, at: at, B: B };
+  // točka uz trup ili ud: along po smjeru kuta, side okomito (pozitivno = prema prsima)
+  function pt(p, a, along, side) { var d = dir(a); return [p[0] + d[0] * along - d[1] * side, p[1] + d[1] * along + d[0] * side]; }
+  window.BGRig = { Scene: Scene, still: still, stack: stack, el: el, line: line, circ: circ, mix: mix, mixP: mixP, at: at, dir: dir, pt: pt, ease: ease, B: B, RAD: RAD };
 })();

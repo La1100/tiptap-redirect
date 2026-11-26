@@ -108,7 +108,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .grp{margin-top:26px}
 .grp h2{font:700 25px/1 var(--display);margin:0 0 10px}
 .it{display:flex;align-items:center;gap:14px;background:var(--paper);border-radius:16px;padding:8px 14px 8px 8px;text-decoration:none;margin-bottom:8px;box-shadow:0 1px 0 var(--line)}
-.it .th{flex:none;width:96px;border-radius:11px;overflow:hidden;background:#FBFCFE}
+.it .th{flex:none;width:108px;border-radius:11px;overflow:hidden;background:#FBFCFE}
 .it .th svg{display:block;width:100%;height:auto}
 .it b{display:block;font:700 22px/1.05 var(--display)}
 .it small{display:block;color:var(--ink2);font-size:14px;margin-top:2px}
@@ -137,6 +137,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .rig .cable{stroke:#46546C;stroke-width:1.4;fill:none}
 .rig .pulley{fill:#fff;stroke:#A3AEBF;stroke-width:3}
 .rig .bar{stroke:#24324D}
+.rig .padl{stroke:#2A3B5C;stroke-linecap:round}
+.rig .lever{stroke:#8592A8;stroke-linecap:round}
+.rig .grip{stroke:#24324D;stroke-linecap:round}
+.rig .pivot{fill:#fff;stroke:#8592A8;stroke-width:3}
+.rig .axis{fill:#fff;stroke:var(--blue);stroke-width:2.6}
+.rig .disc{fill:#3E4C66}
+.rig .hub{fill:#A3AEBF}
 .rig .body{fill:var(--ink);stroke:var(--ink)}
 .rig path.body{stroke-width:0}
 .rig .far{fill:#7A879D;stroke:#7A879D}
