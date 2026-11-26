@@ -22,5 +22,6 @@
     }
   };
   Object.keys(L).forEach(function (k) { L[k].id = k; L[k].maps = maps(L[k].name, L[k].placeId); L[k].review = review(L[k].placeId); });
-  window.BG = { brand: 'Blue Gym', order: ['centar', 'sjenjak', 'bosutsko'], locations: L, machines: { centar: null, sjenjak: null, bosutsko: null } };
+  // active: teretane koje su uključene (za sada samo Centar); ostale su spremne za kasnije
+  window.BG = { brand: 'Blue Gym', order: ['centar', 'sjenjak', 'bosutsko'], active: ['centar'], locations: L, machines: { centar: null, sjenjak: null, bosutsko: null } };
 })();

@@ -185,14 +185,22 @@
   function pick() {
     document.title = 'Blue Gym · Osijek';
     app.innerHTML = top(null) + '<main class="pick wrap"><h1>Blue Gym</h1><p class="intro">' + t('choose') + '</p>' +
-      G.order.map(function (k) { var L = G.locations[k]; return '<a href="/bluegym/' + k + '"><b>' + esc(L.short) + '</b><small>' + esc(L.address) + '</small></a>'; }).join('') +
+      (G.active || G.order).map(function (k) { var L = G.locations[k]; return '<a href="/bluegym/' + k + '"><b>' + esc(L.short) + '</b><small>' + esc(L.address) + '</small></a>'; }).join('') +
       '</main>';
     bindLang(pick);
   }
 
   document.documentElement.lang = lang;
+  var act = G.active || G.order;
   var parts = location.pathname.replace(/^\/bluegym\/?/, '').split('/').filter(Boolean);
-  var loc = G.locations[parts[0]] ? parts[0] : null, id = loc && parts[1] && S[parts[1]] ? parts[1] : null;
+  var loc = act.indexOf(parts[0]) >= 0 ? parts[0] : null;
+  var rest = loc || G.locations[parts[0]] ? parts.slice(1) : parts;
+  if (!loc && act.length === 1) {
+    loc = act[0];
+    var want = '/bluegym/' + loc + (rest[0] && S[rest[0]] ? '/' + rest[0] : '');
+    if (location.pathname !== want && history.replaceState) history.replaceState(null, '', want + location.search);
+  }
+  var id = loc && rest[0] && S[rest[0]] ? rest[0] : null;
   if (loc && id) machine(loc, id);
   else if (loc) gym(loc);
   else pick();
