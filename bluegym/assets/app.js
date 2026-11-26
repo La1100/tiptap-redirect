@@ -25,10 +25,17 @@
       notePh: 'Opiši ukratko (nije obavezno)', send: 'Pošalji prijavu', goesTo: 'Prijava ide upravi teretane.',
       thanks: 'Hvala!', sent: 'Uprava je obaviještena. Dok se kvar ne popravi, sprava je označena i za ostale članove.', doneBtn: 'Gotovo',
       reported: 'Prijavljen kvar', reportedSub: 'Uprava je obaviještena.', tag: 'Prijavljen kvar',
-      upr: 'Prijave kvarova', open: 'Otvoreno', fixed: 'Riješeno', markFixed: 'Označi kao riješeno',
+      upr: 'Uprava', open: 'Otvoreno', fixed: 'Riješeno', markFixed: 'Označi kao riješeno',
       emptyOpen: 'Sve sprave rade', emptyOpenSub: 'Kad član prijavi kvar s kartice na spravi, prijava će se pojaviti ovdje.', emptyFixed: 'Još nema riješenih prijava.',
       reportedAt: 'Prijavljeno ', fixedAt: 'Riješeno ', now: 'upravo sada', min: 'prije {n} min', hrs: 'prije {n} h', yday: 'jučer',
-      days: ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota']
+      days: ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'],
+      dShort: ['ned', 'pon', 'uto', 'sri', 'čet', 'pet', 'sub'], and: ' i ',
+      prices: 'Članarine', classes: 'Grupni treninzi', coach: 'Trener: ', todayAt: 'Danas u ', live: 'Upravo traje', tomorrowAt: 'Sutra u ', at: ' u ',
+      insta: 'Instagram', offerRow: 'Pogledaj ponudu', notice: 'Obavijest', validTo: 'Vrijedi do ',
+      tabRep: 'Kvarovi', tabNote: 'Obavijest', noteNow: 'Članovi sada vide', noteNone: 'Trenutno nema obavijesti.',
+      fromIg: 'Preuzeto s vašeg Instagrama, objava od 4. studenoga.', newNote: 'Nova obavijest', fTitle: 'Naslov', fText: 'Tekst', fUntil: 'Vrijedi do',
+      fTitlePh: 'npr. Novi termin grupnog treninga', fTextPh: 'Kratko i jasno, do 200 znakova', publish: 'Objavi članovima', remove: 'Ukloni obavijest',
+      noteWhere: 'Obavijest se prikazuje na početnoj stranici i na svakoj spravi.', published: 'Objavljeno', fixedList: 'Riješeno'
     },
     en: {
       ok: 'Correct', bad: 'Common mistake', setup: 'Set up', how: 'How to do it', watch: 'Watch out for', start: 'To start',
@@ -43,10 +50,17 @@
       notePh: 'Add a short note (optional)', send: 'Send report', goesTo: 'Your report goes to the gym staff.',
       thanks: 'Thank you!', sent: 'The staff has been notified. Until it’s fixed, other members will see this machine is reported.', doneBtn: 'Done',
       reported: 'Problem reported', reportedSub: 'The staff has been notified.', tag: 'Reported',
-      upr: 'Problem reports', open: 'Open', fixed: 'Fixed', markFixed: 'Mark as fixed',
+      upr: 'Management', open: 'Open', fixed: 'Fixed', markFixed: 'Mark as fixed',
       emptyOpen: 'All machines working', emptyOpenSub: 'When a member reports a problem from a machine card, it will show up here.', emptyFixed: 'No fixed reports yet.',
       reportedAt: 'Reported ', fixedAt: 'Fixed ', now: 'just now', min: '{n} min ago', hrs: '{n} h ago', yday: 'yesterday',
-      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      dShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], and: ' and ',
+      prices: 'Memberships', classes: 'Group classes', coach: 'Coach: ', todayAt: 'Today at ', live: 'Happening now', tomorrowAt: 'Tomorrow at ', at: ' at ',
+      insta: 'Instagram', offerRow: 'See the offer', notice: 'Notice', validTo: 'Valid until ',
+      tabRep: 'Problems', tabNote: 'Notice', noteNow: 'Members currently see', noteNone: 'No notice right now.',
+      fromIg: 'Taken from your Instagram post of 4 November.', newNote: 'New notice', fTitle: 'Title', fText: 'Text', fUntil: 'Valid until',
+      fTitlePh: 'e.g. New group class time', fTextPh: 'Short and clear, up to 200 characters', publish: 'Publish to members', remove: 'Remove notice',
+      noteWhere: 'The notice shows on the home page and on every machine.', published: 'Published', fixedList: 'Fixed'
     }
   };
   var ISSUES = [
@@ -77,6 +91,10 @@
     phone: ico('<path d="M6.6 3.5h2.6l1.4 4-2 1.3a11 11 0 0 0 6.6 6.6l1.3-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.4 16.4 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/>'),
     clock: ico('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'),
     gym: ico('<path d="M6.5 8v8M3.5 10v4M17.5 8v8M20.5 10v4M6.5 12h11"/>'),
+    cam: ico('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>'),
+    people: ico('<circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2A4.5 4.5 0 0 1 21 18.5"/>'),
+    tag: ico('<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.6 6.6a1.4 1.4 0 0 1-2 0Z"/><circle cx="8" cy="8" r="1.4"/>'),
+    mega: ico('<path d="M4 10v4a1 1 0 0 0 1 1h2l5 4V5L7 9H5a1 1 0 0 0-1 1Z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/>'),
     star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6 .9-4.4 4.2 1 6-5.3-2.8-5.4 2.8 1-6L3.3 9.6l6-.9Z" fill="currentColor"/></svg>',
     pause: '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.6" height="12" rx="1.2" fill="currentColor"/><rect x="9.4" y="2" width="3.6" height="12" rx="1.2" fill="currentColor"/></svg>',
     play: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.4v11.2a.8.8 0 0 0 1.2.7l9-5.6a.8.8 0 0 0 0-1.4l-9-5.6a.8.8 0 0 0-1.2.7Z" fill="currentColor"/></svg>'
@@ -115,6 +133,78 @@
     var d = new Date(ts); return d.getDate() + '. ' + (d.getMonth() + 1) + '.';
   }
 
+  // ---------- obavijest za članove (vlasnik je objavljuje; bez nje vrijedi akcija s Instagrama dok traje) ----------
+  var OB = {
+    key: 'bg_obavijest',
+    raw: function () { try { return JSON.parse(localStorage.getItem(this.key)); } catch (e) { return null; } },
+    get: function (L) {
+      var s = this.raw(), now = Date.now();
+      if (s && s.loc === L.id && s.removed) return null;
+      if (s && s.loc === L.id && s.title) return s.until && now > s.until ? null : { kind: 'custom', title: s.title, text: s.text || '', until: s.until };
+      var p = L.promo;
+      if (p && now >= Date.parse(p.from) && now <= Date.parse(p.until)) return { kind: 'promo', promo: p, until: Date.parse(p.until) };
+      return null;
+    },
+    set: function (o) { store.set(this.key, JSON.stringify(o)); },
+    remove: function (L) { this.set({ loc: L.id, removed: true, t: Date.now() }); }
+  };
+  function dmy(ts) { var d = new Date(ts); return d.getDate() + '. ' + (d.getMonth() + 1) + '.'; }
+  function joinList(a) { return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + t('and') + a[a.length - 1]; }
+
+  function promoHTML(L, ob) {
+    if (!ob) return '';
+    if (ob.kind === 'custom') {
+      return '<section class="promo"><div class="promo-h"><span class="promo-i">' + I.mega + '</span><h2>' + esc(ob.title) + '</h2></div>' +
+        (ob.text ? '<p>' + esc(ob.text) + '</p>' : '') + (ob.until ? '<p class="promo-u">' + t('validTo') + dmy(ob.until) + '</p>' : '') + '</section>';
+    }
+    var p = ob.promo, rows = L.prices.filter(function (x) { return x.id && p.prices[x.id] != null; }).reverse().map(function (x) {
+      return '<li><span>' + esc(tx(x.name)) + '</span><s>' + x.p + ' €</s><b>' + p.prices[x.id] + ' €</b></li>';
+    }).join('');
+    return '<section class="promo"><div class="promo-h"><span class="promo-i">' + I.tag + '</span><h2>' + esc(tx(p.title)) + '</h2></div>' +
+      '<p>' + esc(tx(p.sub)) + '</p><ul>' + rows + '</ul></section>';
+  }
+  function nextClass(c) {
+    var now = new Date(), d = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
+    for (var k = 0; k < 8; k++) {
+      var dd = (d + k) % 7;
+      if (c.days.indexOf(dd) < 0 || (k === 0 && h >= c.to)) continue;
+      if (k === 0 && h >= c.from) return { text: t('live'), hot: true };
+      if (k === 0) return { text: t('todayAt') + hh(c.from), hot: true };
+      if (k === 1) return { text: t('tomorrowAt') + hh(c.from) };
+      return { text: T[lang].days[dd] + t('at') + hh(c.from) };
+    }
+    return { text: '' };
+  }
+  function classesHTML(L) {
+    if (!L.classes || !L.classes.length) return '';
+    return '<h2 class="sh">' + t('classes') + '</h2><div class="group">' + L.classes.map(function (c) {
+      var n = nextClass(c), days = joinList(c.days.map(function (x) { return T[lang].dShort[x]; }));
+      days = days.charAt(0).toUpperCase() + days.slice(1);
+      return '<div class="row cls"><span class="ic ic-b">' + I.people + '</span><span class="tx"><b>' + esc(tx(c.name)) + '</b>' +
+        '<small>' + t('coach') + esc(c.coach) + '. ' + days + ' ' + hh(c.from) + '–' + hh(c.to) + '.</small>' +
+        (c.note ? '<small class="cn">' + esc(tx(c.note)) + '</small>' : '') + '</span>' +
+        (n.text ? '<span class="when' + (n.hot ? ' hot' : '') + '">' + esc(n.text) + '</span>' : '') + '</div>';
+    }).join('') + '</div>';
+  }
+  function pricesHTML(L, ob) {
+    if (!L.prices) return '';
+    var promo = ob && ob.kind === 'promo' ? ob.promo : null;
+    return '<h2 class="sh" id="clanarine">' + t('prices') + '</h2><div class="group">' + L.prices.map(function (x) {
+      var np = promo && x.id ? promo.prices[x.id] : null;
+      return '<div class="row pr"><span class="tx"><b>' + esc(tx(x.name)) + '</b></span>' +
+        (np ? '<s>' + x.p + ' €</s><span class="pv hot">' + np + ' €</span>' : '<span class="pv">' + x.p + ' €</span>') + '</div>';
+    }).join('') + '</div>';
+  }
+  function heroHTML(L, st) {
+    if (!L.hero) return '<h1 class="lt">' + esc(L.name) + '</h1><p class="status' + (st.open ? '' : ' is-closed') + '"><i></i>' + esc(st.text) + '</p>';
+    return '<section class="hero"><img class="hero-bg" src="' + L.hero + '" alt="">' +
+      '<div class="hero-in"><img class="hero-logo" src="' + L.logo + '" alt="" width="60" height="60">' +
+      '<h1 class="lt">' + esc(L.name) + '</h1><p class="hero-tag">' + esc(tx(L.tagline)) + '</p>' +
+      '<p class="status' + (st.open ? '' : ' is-closed') + '"><i></i>' + esc(st.text) + '</p>' +
+      (L.facts ? '<div class="facts">' + L.facts.map(function (f) { return '<span><b>' + esc(f.b) + '</b> ' + esc(tx(f.s)) + '</span>'; }).join('') + '</div>' : '') +
+      '</div></section>';
+  }
+
   // ---------- radno vrijeme ----------
   function status(L, now) {
     now = now || new Date();
@@ -132,15 +222,18 @@
       '<div class="nav-r"><button class="nav-b theme" type="button"></button>' +
       '<button class="nav-b lang" type="button" lang="' + (lang === 'hr' ? 'en' : 'hr') + '" aria-label="' + t('otherLabel') + '">' + t('other') + '</button></div></div></header>';
   }
-  function brand(L) { return '<a class="brand" href="/bluegym/' + L.id + '">' + LOGO + '<span class="bt">Blue Gym <span>' + esc(L.short) + '</span></span></a>'; }
+  function logoImg(L, cls) { return L.logo ? '<img class="' + (cls || 'lg') + '" src="' + L.logo + '" alt="" width="28" height="28">' : LOGO; }
+  function brand(L) { return '<a class="brand" href="/bluegym/' + L.id + '">' + logoImg(L) + '<span class="bt">Blue Gym <span>' + esc(L.short) + '</span></span></a>'; }
   function backTo(L) { return '<a class="nav-back" href="/bluegym/' + L.id + '">' + I.back + t('back') + '</a>'; }
 
   function gymBlock(L, withAll) {
-    var st = status(L), parts = L.address.split(', '), city = parts.pop(), street = parts.join(', ');
+    var st = status(L), parts = L.address.split(', '), city = parts.pop(), street = parts.join(', '), ob = withAll ? OB.get(L) : null;
     return '<section class="gym"><h2 class="sh">' + esc(L.name) + '</h2><div class="group">' +
-      '<div class="row"><span class="ic ' + (st.open ? 'ic-g' : '') + '" style="' + (st.open ? '' : 'background:var(--label3)') + '">' + I.clock + '</span><span class="tx"><b>' + esc(st.text) + '</b></span></div>' +
+      '<div class="row"><span class="ic ' + (st.open ? 'ic-g' : 'ic-x') + '">' + I.clock + '</span><span class="tx"><b>' + esc(st.text) + '</b></span></div>' +
+      (ob ? '<a class="row" href="/bluegym/' + L.id + (ob.kind === 'promo' ? '#clanarine' : '') + '"><span class="ic ic-o">' + (ob.kind === 'promo' ? I.tag : I.mega) + '</span><span class="tx"><b>' + esc(ob.kind === 'promo' ? tx(ob.promo.title) : ob.title) + '</b><small>' + esc(ob.kind === 'promo' ? tx(ob.promo.sub) : (ob.text || t('notice'))) + '</small></span>' + I.chev + '</a>' : '') +
       '<a class="row" href="' + L.maps + '" target="_blank" rel="noopener"><span class="ic ic-b">' + I.pin + '</span><span class="tx"><b>' + esc(street) + '</b><small>' + esc(city) + '</small></span>' + I.chev + '</a>' +
       (L.phone ? '<a class="row" href="tel:' + L.phone.replace(/\s/g, '') + '"><span class="ic ic-g">' + I.phone + '</span><span class="tx"><b>' + t('call') + '</b><small>' + esc(L.phone) + '</small></span>' + I.chev + '</a>' : '') +
+      (L.instagram ? '<a class="row" href="https://www.instagram.com/' + L.instagram + '/" target="_blank" rel="noopener"><span class="ic ic-ig">' + I.cam + '</span><span class="tx"><b>' + t('insta') + '</b><small>@' + esc(L.instagram) + '</small></span>' + I.chev + '</a>' : '') +
       (withAll ? '<a class="row" href="/bluegym/' + L.id + '"><span class="ic ic-b">' + I.gym + '</span><span class="tx"><b>' + t('all') + '</b></span>' + I.chev + '</a>' : '') +
       '</div><a class="btn rev" href="' + L.review + '" target="_blank" rel="noopener">' + I.star + t('review') + '</a>' +
       '<p class="foot">' + t('reviewSub') + '<br>' + t('made') + '<a href="https://tiptapreviews.com" target="_blank" rel="noopener">TipTap</a></p></section>';
@@ -214,6 +307,7 @@
       '<div><b>' + m.plan.rest + '</b><span>' + t('rest') + '</span></div></div>' +
       '<p>' + esc(tx(m.plan.tip)) + '</p></section>' +
       '<p class="ask">' + t('ask') + '</p>' +
+      (L.motto ? '<p class="motto">' + esc(L.motto) + '</p>' : '') +
       gymBlock(L, true) +
       '</main>';
 
@@ -347,7 +441,7 @@
   // ---------- teretana ----------
   function machinesFor(loc) { return (G.machines[loc] || Object.keys(S)).filter(function (id) { return S[id]; }); }
   function gym(loc) {
-    var L = G.locations[loc], st = status(L), ids = machinesFor(loc), now = new Date().getDay();
+    var L = G.locations[loc], st = status(L), ids = machinesFor(loc), now = new Date().getDay(), ob = OB.get(L);
     current = { page: 'gym', loc: loc };
     if (scene) { scene.pause(); scene = null; }
     document.title = L.name;
@@ -365,56 +459,87 @@
       return '<li' + (d === now ? ' class="is-today"' : '') + '><span>' + T[lang].days[d] + '</span><span>' + (h ? hh(h[0]) + '–' + hh(h[1]) : '—') + '</span></li>';
     }).join('');
     app.innerHTML = navBar(brand(L), L.name) +
-      '<main class="wrap home"><h1 class="lt">' + esc(L.name) + '</h1>' +
-      '<p class="status' + (st.open ? '' : ' is-closed') + '"><i></i>' + esc(st.text) + '</p>' +
+      '<main class="wrap home">' + heroHTML(L, st) +
+      promoHTML(L, ob) +
       '<p class="intro">' + t('intro') + '</p>' + groups +
+      classesHTML(L) + pricesHTML(L, ob) +
       '<h2 class="sh">' + t('hours') + '</h2><ul class="week">' + week + '</ul>' +
       gymBlock(L, false).replace('<h2 class="sh">' + esc(L.name) + '</h2>', '<div style="height:12px"></div>') +
       '</main>';
     app.querySelectorAll('.th').forEach(function (h) { R.still(h, S[h.getAttribute('data-id')].anim, .55, 72 / 58); });
     chrome(function () { gym(loc); });
+    if (location.hash === '#clanarine') { var c = document.getElementById('clanarine'); if (c) setTimeout(function () { c.scrollIntoView(); }, 60); }
   }
 
-  // ---------- uprava: prijave kvarova ----------
+  // ---------- uprava: prijave kvarova i obavijest za članove ----------
   var uprTimer = null;
   function uprava(loc, tab) {
     var L = G.locations[loc], all = KV.all().filter(function (r) { return r.loc === loc && S[r.machine]; });
     var open = all.filter(function (r) { return !r.done; }), fixed = all.filter(function (r) { return r.done; }).sort(function (a, b) { return b.done - a.done; });
-    tab = tab || 'open';
+    tab = tab || 'rep';
     current = { page: 'uprava', loc: loc, tab: tab };
     if (scene) { scene.pause(); scene = null; }
     document.title = t('upr') + ' · ' + L.name;
-    var list = tab === 'open' ? open : fixed;
-    var rows = list.map(function (r) {
+    function repRow(r) {
       return '<div class="rep"><span class="th" data-id="' + r.machine + '"></span><span class="tx"><b>' + esc(tx(S[r.machine].name)) + '</b>' +
         '<span class="is">' + esc(issue(r.issue)) + '</span>' + (r.note ? '<span class="nt">„' + esc(r.note) + '“</span>' : '') +
         '<span class="tm">' + (r.done ? t('fixedAt') + ago(r.done) : t('reportedAt') + ago(r.t)) + '</span>' +
         (r.done ? '' : '<button class="fix" type="button" data-rid="' + r.id + '">' + I.check + t('markFixed') + '</button>') + '</span></div>';
-    }).join('');
-    var empty = tab === 'open'
-      ? '<div class="empty"><div class="ic ic-g">' + I.check + '</div><b>' + t('emptyOpen') + '</b><p style="margin:6px 0 0">' + t('emptyOpenSub') + '</p></div>'
-      : '<div class="empty"><p style="margin:0">' + t('emptyFixed') + '</p></div>';
+    }
+    var body;
+    if (tab === 'rep') {
+      body = '<div class="group">' + (open.length ? open.map(repRow).join('') :
+        '<div class="empty"><div class="ic ic-g">' + I.check + '</div><b>' + t('emptyOpen') + '</b><p style="margin:6px 0 0">' + t('emptyOpenSub') + '</p></div>') + '</div>' +
+        (fixed.length ? '<h2 class="sh">' + t('fixedList') + '</h2><div class="group">' + fixed.slice(0, 20).map(repRow).join('') + '</div>' : '');
+    } else {
+      var ob = OB.get(L);
+      body = '<p class="sh-h" style="margin:0 4px 8px">' + t('noteNow') + '</p>' + (ob ? promoHTML(L, ob) : '<div class="group"><div class="empty"><p style="margin:0">' + t('noteNone') + '</p></div></div>') +
+        (ob && ob.kind === 'promo' ? '<p class="foot" style="margin:10px 0 0;text-align:left">' + t('fromIg') + '</p>' : '') +
+        '<h2 class="sh">' + t('newNote') + '</h2><div class="group form">' +
+        '<label class="fl"><span>' + t('fTitle') + '</span><input class="in n-t" maxlength="60" placeholder="' + t('fTitlePh') + '"></label>' +
+        '<label class="fl"><span>' + t('fText') + '</span><textarea class="in n-x" maxlength="200" rows="3" placeholder="' + t('fTextPh') + '"></textarea></label>' +
+        '<label class="fl"><span>' + t('fUntil') + '</span><input class="in n-u" type="date"></label></div>' +
+        '<button class="btn n-pub" type="button" disabled style="margin-top:14px">' + t('publish') + '</button>' +
+        (ob ? '<button class="btn plain n-rm" type="button" style="margin-top:10px">' + t('remove') + '</button>' : '') +
+        '<p class="foot" style="margin:12px 0 0">' + t('noteWhere') + '</p>';
+    }
     app.innerHTML = navBar(brand(L), t('upr')) +
       '<main class="wrap"><h1 class="lt">' + t('upr') + '</h1><p class="lead">' + esc(L.name) + '</p>' +
-      '<div class="seg tabs" data-i="' + (tab === 'open' ? 0 : 1) + '" role="tablist">' +
-      '<button type="button" role="tab" aria-selected="' + (tab === 'open') + '" aria-checked="' + (tab === 'open') + '" data-tab="open">' + t('open') + ' (' + open.length + ')</button>' +
-      '<button type="button" role="tab" aria-selected="' + (tab !== 'open') + '" aria-checked="' + (tab !== 'open') + '" data-tab="fixed">' + t('fixed') + ' (' + fixed.length + ')</button></div>' +
-      '<div class="group">' + (rows || empty) + '</div>' +
-      '<p class="foot">' + t('made') + '<a href="https://tiptapreviews.com" target="_blank" rel="noopener">TipTap</a></p></main>';
+      '<div class="seg tabs" data-i="' + (tab === 'rep' ? 0 : 1) + '" role="tablist">' +
+      '<button type="button" role="tab" aria-selected="' + (tab === 'rep') + '" aria-checked="' + (tab === 'rep') + '" data-tab="rep">' + t('tabRep') + (open.length ? ' (' + open.length + ')' : '') + '</button>' +
+      '<button type="button" role="tab" aria-selected="' + (tab !== 'rep') + '" aria-checked="' + (tab !== 'rep') + '" data-tab="note">' + t('tabNote') + '</button></div>' +
+      body + '<p class="foot">' + t('made') + '<a href="https://tiptapreviews.com" target="_blank" rel="noopener">TipTap</a></p></main>';
     app.querySelectorAll('.th').forEach(function (h) { R.still(h, S[h.getAttribute('data-id')].anim, .55, 72 / 58); });
     app.querySelectorAll('.seg.tabs button').forEach(function (b) { b.onclick = function () { uprava(loc, b.getAttribute('data-tab')); }; });
     app.querySelectorAll('.fix').forEach(function (b) { b.onclick = function () { KV.resolve(b.getAttribute('data-rid')); uprava(loc, tab); }; });
+    var ti = app.querySelector('.n-t'), pub = app.querySelector('.n-pub'), rm = app.querySelector('.n-rm');
+    if (ti) {
+      ti.oninput = function () { pub.disabled = !ti.value.trim(); };
+      pub.onclick = function () {
+        var u = app.querySelector('.n-u').value, until = u ? new Date(u + 'T23:59:59').getTime() : null;
+        OB.set({ loc: loc, title: ti.value.trim().slice(0, 60), text: app.querySelector('.n-x').value.trim().slice(0, 200), until: until, t: Date.now() });
+        uprava(loc, 'note'); toast(t('published'));
+      };
+    }
+    if (rm) rm.onclick = function () { OB.remove(L); uprava(loc, 'note'); };
     clearInterval(uprTimer);
-    uprTimer = setInterval(function () { if (current.page === 'uprava') uprava(loc, current.tab); }, 30000);
+    uprTimer = setInterval(function () { if (current.page === 'uprava' && current.tab === 'rep') uprava(loc, 'rep'); }, 30000);
     chrome(function () { uprava(loc, tab); });
+  }
+  function toast(msg) {
+    var el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role', 'status'); el.innerHTML = I.check + '<span>' + esc(msg) + '</span>';
+    document.body.appendChild(el);
+    requestAnimationFrame(function () { el.classList.add('is-on'); });
+    setTimeout(function () { el.classList.remove('is-on'); setTimeout(function () { el.remove(); }, 400); }, 1800);
   }
 
   // promjene s druge kartice preglednika (npr. član prijavi kvar, uprava ga vidi)
   window.addEventListener('storage', function (e) {
-    if (e.key !== KV.key || !current) return;
+    if ((e.key !== KV.key && e.key !== OB.key) || !current) return;
     if (current.page === 'machine') refreshNotice();
     else if (current.page === 'gym') gym(current.loc);
     else if (current.page === 'uprava') uprava(current.loc, current.tab);
+    if (e.key === OB.key && current.page === 'machine') machine(current.loc, current.id);
   });
 
   function pick() {

@@ -8,7 +8,34 @@
     centar: {
       name: 'Blue Gym Centar', short: 'Centar', address: 'Ul. Pavla Pejačevića 22, Osijek', phone: '',
       placeId: 'ChIJexWD16XnXEcRyP5lWoL_wlg',
-      hours: { 0: [14, 21], 1: [7, 22], 2: [7, 22], 3: [7, 22], 4: [7, 22], 5: [7, 22], 6: [8, 21] }
+      hours: { 0: [14, 21], 1: [7, 22], 2: [7, 22], 3: [7, 22], 4: [7, 22], 5: [7, 22], 6: [8, 21] },
+      // s Instagrama @bluegymcentar (studeni 2026.)
+      instagram: 'bluegymcentar',
+      logo: '/bluegym/assets/img/logo.jpg',
+      hero: '/bluegym/assets/img/dvorana.jpg',
+      tagline: { hr: 'Tvoj prostor za napredak.', en: 'Your space to make progress.' },
+      motto: 'Stronger than excuses.',
+      facts: [
+        { b: '2.500 m²', s: { hr: 'prostora i opreme', en: 'of space and equipment' } },
+        { b: '3× tjedno', s: { hr: 'grupni treninzi', en: 'group classes' } }
+      ],
+      classes: [
+        { name: { hr: 'Funkcionalni trening', en: 'Functional training' }, coach: 'Dino', days: [1, 3, 5], from: 19, to: 20,
+          note: { hr: 'Nije bitno jesi li početnik ili već treniraš. Bitno je da se pojaviš.', en: 'Beginner or regular, it doesn’t matter. Just show up.' } }
+      ],
+      prices: [
+        { name: { hr: 'Dnevna', en: 'Day pass' }, p: 8 },
+        { name: { hr: 'Mjesečna za učenike, studente i umirovljenike', en: 'Monthly for pupils, students and seniors' }, p: 35 },
+        { name: { hr: 'Mjesečna', en: 'Monthly' }, p: 40 },
+        { id: '3m', name: { hr: 'Tromjesečna', en: '3 months' }, p: 100 },
+        { id: '6m', name: { hr: 'Polugodišnja', en: '6 months' }, p: 180 },
+        { id: '12m', name: { hr: 'Godišnja', en: 'Yearly' }, p: 310 }
+      ],
+      promo: {
+        title: { hr: 'Black Friday u teretani', en: 'Black Friday at the gym' },
+        sub: { hr: 'Popusti na članarine do kraja studenoga.', en: 'Membership discounts until the end of November.' },
+        from: '2026-11-06T00:00:00', until: '2026-11-30T23:59:59', prices: { '3m': 85, '6m': 155, '12m': 240 }
+      }
     },
     sjenjak: {
       name: 'Blue Gym Sjenjak', short: 'Sjenjak', address: 'Sjenjak 133, Osijek', phone: '+385 31 782 068',
