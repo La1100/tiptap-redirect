@@ -89,7 +89,7 @@
   function applyTheme(d) {
     root.setAttribute('data-theme', d ? 'dark' : 'light');
     var m = document.querySelector('meta[name=theme-color]');
-    if (m) m.setAttribute('content', d ? '#000000' : '#F2F2F7');
+    if (m) m.setAttribute('content', d ? '#232325' : '#F2F2F7');
     var b = app.querySelector('.theme');
     if (b) { b.innerHTML = d ? I.sun : I.moon; b.setAttribute('aria-label', d ? t('light') : t('dark')); }
   }
