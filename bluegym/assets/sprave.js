@@ -66,7 +66,6 @@
     },
     anim: {
       view: '44 14 296 272',
-      tempo: { ok: [1.5, .5, 2.6, .8], bad: [.45, .12, .5, .6] },
       muscles: [
         { on: 'torso', side: -1, t: [.34, .9], depth: 7.5 },
         { on: 'arm', seg: 'SE', side: 1, t: [.25, .8], w: 5, o: 2.4, soft: true }
@@ -125,7 +124,7 @@
   // ---------- NOŽNI POTISAK (45°) ----------
   var LP = { H: [118, 236] };
   S['nozni-potisak'] = {
-    group: 'noge',
+    group: 'noge', kind: 'plates',
     name: { hr: 'Nožni potisak', en: 'Leg press' },
     lead: { hr: 'Guraš platformu nogama. Jača bedra i stražnjicu, a štedi leđa.', en: 'Push the platform with your legs. Builds thighs and glutes while sparing your back.' },
     muscles: { hr: 'Prednja loža (kvadriceps), stražnjica, stražnja loža', en: 'Quads, glutes, hamstrings' },
@@ -163,7 +162,6 @@
     },
     anim: {
       view: '38 96 228 210',
-      tempo: { ok: [1.4, .35, 2.4, .35], bad: [.45, .15, .5, .2] },
       muscles: [
         { on: 'leg', seg: 'HK', side: 1, t: [.15, .9], w: 6, o: 2.6 },
         { on: 'torso', side: -1, t: [-.12, .14], depth: 7, soft: true }
@@ -249,7 +247,6 @@
     },
     anim: {
       view: '44 14 296 272',
-      tempo: { ok: [1.3, .6, 2.4, .5], bad: [.4, .1, .45, .5] },
       muscles: [{ on: 'leg', seg: 'HK', side: 1, t: [.12, .92], w: 6, o: 2.6 }],
       strain: [{ on: 'joint', j: 'K', r: 6.5, layer: 'hlL' }],
       pins: [
@@ -332,7 +329,6 @@
     },
     anim: {
       view: '44 14 296 272',
-      tempo: { ok: [1.3, .5, 2.4, .6], bad: [.45, .1, .5, .5] },
       muscles: [
         { on: 'leg', seg: 'HK', side: -1, t: [.15, .9], w: 5.5, o: 3 },
         { on: 'leg', seg: 'KA', side: -1, t: [.12, .6], w: 4.5, o: 2, soft: true }
@@ -419,7 +415,6 @@
     },
     anim: {
       view: '44 14 296 272',
-      tempo: { ok: [1.3, .4, 2.4, .6], bad: [.45, .12, .5, .5] },
       muscles: [
         { on: 'torso', side: 1, t: [.6, .96], depth: 7 },
         { on: 'arm', seg: 'SE', side: -1, t: [.2, .85], w: 5, o: 2.4, soft: true }
@@ -503,7 +498,6 @@
     },
     anim: {
       view: '44 14 296 272',
-      tempo: { ok: [1.4, .5, 2.4, .6], bad: [.5, .1, .55, .4] },
       muscles: [
         { on: 'torso', side: -1, t: [.5, .96], depth: 7.5 },
         { on: 'arm', seg: 'SE', side: 1, t: [.25, .8], w: 5, o: 2.4, soft: true }
@@ -582,7 +576,6 @@
     },
     anim: {
       view: '44 14 296 272',
-      tempo: { ok: [1.4, .4, 2.4, .6], bad: [.45, .12, .5, .5] },
       muscles: [
         { on: 'joint', j: 'S', r: 7.5, layer: 'hlA' },
         { on: 'arm', seg: 'SE', side: -1, t: [.25, .85], w: 5, o: 2.4, soft: true }

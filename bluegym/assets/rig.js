@@ -183,12 +183,15 @@
     });
   };
 
+  // tempo u sekundama: [podizanje, zadržavanje, spuštanje, odmor]; pravilno 2-1-3-1, greška mirnije ali bez kontrole
+  var TEMPO = { ok: [2, 1, 3, 1], bad: [1.3, 1.4, 1.2, 1.4] };
+  function tempo(spec, m) { return (spec.tempo && spec.tempo[m]) || TEMPO[m]; }
   Scene.prototype.tick = function (dt) {
-    var s = this, T = s.spec.tempo[s.mode], tot = T[0] + T[1] + T[2] + T[3], t, ph, p, f;
-    s.t = (s.t + dt) % tot; t = s.t;
-    if (t < T[0]) { ph = 'up'; f = t / T[0]; p = ease(f); }
+    var s = this, T = tempo(s.spec, s.mode), tot = T[0] + T[1] + T[2] + T[3], bad = s.mode === 'bad', t, ph, p, f;
+    s.t = (s.t + dt * (s.speed || 1)) % tot; t = s.t;
+    if (t < T[0]) { ph = 'up'; f = t / T[0]; p = bad ? 1 - (1 - f) * (1 - f) : ease(f); }
     else if ((t -= T[0]) < T[1]) { ph = 'hold'; f = t / T[1]; p = 1; }
-    else if ((t -= T[1]) < T[2]) { ph = 'down'; f = t / T[2]; p = 1 - ease(f); }
+    else if ((t -= T[1]) < T[2]) { ph = 'down'; f = t / T[2]; p = bad ? 1 - f * f : 1 - ease(f); }
     else { t -= T[2]; ph = 'rest'; f = T[3] ? t / T[3] : 1; p = 0; }
     s.draw(p, ph);
     if (ph !== s.ph) { s.ph = ph; s.onCue(ph, s.mode); }
@@ -240,5 +243,5 @@
 
   // točka uz trup ili ud: along po smjeru kuta, side okomito (pozitivno = prema prsima)
   function pt(p, a, along, side) { var d = dir(a); return [p[0] + d[0] * along - d[1] * side, p[1] + d[1] * along + d[0] * side]; }
-  window.BGRig = { Scene: Scene, still: still, stack: stack, el: el, line: line, circ: circ, mix: mix, mixP: mixP, at: at, dir: dir, pt: pt, ease: ease, B: B, RAD: RAD };
+  window.BGRig = { tempo: tempo, Scene: Scene, still: still, stack: stack, el: el, line: line, circ: circ, mix: mix, mixP: mixP, at: at, dir: dir, pt: pt, ease: ease, B: B, RAD: RAD };
 })();
