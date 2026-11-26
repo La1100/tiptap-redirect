@@ -82,12 +82,8 @@
       "destination": "/ultra-caffe/uprava/index.html"
     },
     {
-      "source": "/bluegym",
-      "destination": "/bluegym/index.html"
-    },
-    {
-      "source": "/bluegym/:path*",
-      "destination": "/bluegym/index.html"
+      "source": "/bluegym/:path+",
+      "destination": "/bluegym"
     },
     {
       "source": "/:code",
