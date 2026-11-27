@@ -309,29 +309,74 @@
   }
   function fmtKm(d) { return d < 1 ? Math.round(d * 100) * 10 + ' m' : String(Math.round(d * 10) / 10).replace('.', lang === 'hr' ? ',' : '.') + ' km'; }
   var myPos = null;
+  // kartice s fotografijom s Instagrama; listaju se u stranu, ova teretana je prva, ostale po udaljenosti kad je znamo
   function locsHTML(cur) {
-    var ids = G.order.slice();
+    var ids = G.order.filter(function (k) { return k !== cur; });
     if (myPos) ids.sort(function (a, b) { return distKm(myPos, G.locations[a]) - distKm(myPos, G.locations[b]); });
-    return '<h2 class="sh" id="poslovnice">' + t('inOsijek') + '</h2><div class="group locs">' + ids.map(function (k) {
-      var L = G.locations[k], st = status(L), here = k === cur, parts = L.address.split(', '); parts.pop();
-      return '<' + (here ? 'div' : 'a href="' + L.route + '" target="_blank" rel="noopener"') + ' class="loc">' +
-        '<span class="ic ' + (here ? 'ic-g' : 'ic-b') + '">' + I.pin + '</span>' +
-        '<span class="tx"><b>' + esc(L.short) + (here ? ' <span class="here">' + t('here') + '</span>' : '') + '</b><small>' + esc(parts.join(', ')) + '</small>' +
-        '<span class="st' + (st.open ? '' : ' is-closed') + '"><i></i>' + esc(st.text) + '</span></span>' +
-        '<span class="side">' + (myPos ? '<span class="dist">' + fmtKm(distKm(myPos, L)) + '</span>' : '') + (here ? '' : '<span class="go">' + t('directions') + '</span>') + '</span>' +
-        (here ? '</div>' : '</a>');
-    }).join('') + '</div>' + (myPos ? '' : '<button class="btn plain dist-btn" type="button" style="margin-top:12px">' + I.loc + t('showDist') + '</button>');
+    ids.unshift(cur);
+    var cards = ids.map(function (k, i) {
+      // "Ovdje si" dok ne znamo lokaciju ili kad je član stvarno u ovoj teretani; inače i ova dobiva udaljenost i upute
+      var L = G.locations[k], st = status(L), d = myPos ? distKm(myPos, L) : 0, here = k === cur && d <= 0.5, el = here ? 'div' : 'a', parts = L.address.split(', '); parts.pop();
+      return '<li class="lc-w"><' + el + ' class="lc' + (L.cover ? '' : ' no-img') + '"' + (here ? '' : ' href="' + L.route + '" target="_blank" rel="noopener"') + (L.tone ? ' style="--tone:' + L.tone + '"' : '') + '>' +
+        (L.cover ? '<img class="lc-bg" src="' + L.cover + '" alt="" ' + (i ? 'loading="lazy" ' : '') + 'decoding="async">' : '<span class="lc-art" aria-hidden="true">' + I.gym + '</span>') +
+        '<div class="lc-top">' + (here ? '<span class="lc-pill lc-here"><i></i>' + t('here') + '</span>' : '') +
+        (myPos && !here ? '<span class="lc-pill lc-dist">' + I.loc + fmtKm(d) + '</span>' : '') + '</div>' +
+        '<div class="lc-in"><h3>' + esc(L.short) + '</h3>' + (L.tag ? '<p class="lc-tag">' + esc(tx(L.tag)) + '</p>' : '') +
+        '<p class="lc-st' + (st.open ? '' : ' is-closed') + '"><i></i>' + esc(st.text) + '</p>' +
+        (L.feats ? '<div class="lc-feats">' + L.feats.map(function (f) { return '<span>' + esc(tx(f)) + '</span>'; }).join('') + '</div>' : '') +
+        '<div class="lc-foot"><span class="lc-ad">' + esc(parts.join(', ')) + '</span>' + (here ? '' : '<span class="lc-go">' + I.loc + t('directions') + '</span>') + '</div></div>' +
+        '</' + el + '></li>';
+    }).join('');
+    var dots = ids.length > 1 ? '<div class="lc-dots">' + ids.map(function (k, i) {
+      return '<button type="button" aria-label="' + esc(G.locations[k].name) + '"' + (i ? '' : ' aria-current="true"') + '></button>';
+    }).join('') + '</div>' : '';
+    return '<section class="locs" aria-labelledby="poslovnice"><h2 class="sh" id="poslovnice">' + t('inOsijek') + '</h2>' +
+      '<ul class="lc-rail">' + cards + '</ul>' + dots +
+      (myPos || !navigator.geolocation ? '' : '<button class="btn plain dist-btn" type="button">' + I.loc + t('showDist') + '</button>') + '</section>';
   }
   function bindLocs(cur) {
-    var b = app.querySelector('.dist-btn');
-    if (!b || !navigator.geolocation) { if (b) b.remove(); return; }
-    b.onclick = function () {
+    var sec = app.querySelector('.locs'); if (!sec) return;
+    var rail = sec.querySelector('.lc-rail'), items = [].slice.call(rail.children), dots = [].slice.call(sec.querySelectorAll('.lc-dots button'));
+    var imgs = items.map(function (li) { return li.querySelector('.lc-bg'); }), active = 0, raf = 0;
+    imgs.forEach(function (im) {
+      if (!im) return;
+      if (im.complete && im.naturalWidth) im.classList.add('is-ld');
+      else {
+        im.addEventListener('load', function () { im.classList.add('is-ld'); });
+        im.addEventListener('error', function () { im.remove(); });
+      }
+    });
+    function step() { return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : 1; }
+    // aktivna kartica za točkice i blagi paralaksni pomak fotografije dok se lista
+    function frame() {
+      raf = 0;
+      var s = step(), x = rail.scrollLeft, max = rail.scrollWidth - rail.clientWidth;
+      var a = x >= max - 2 ? items.length - 1 : Math.max(0, Math.min(items.length - 1, Math.round(x / s)));
+      if (a !== active) {
+        active = a;
+        dots.forEach(function (d, i) { if (i === a) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      }
+      if (!reduce) imgs.forEach(function (im, i) {
+        if (!im) return;
+        var off = Math.max(-1.1, Math.min(1.1, (items[i].offsetLeft - items[0].offsetLeft - x) / s));
+        im.style.transform = 'translate3d(' + (-off * 6).toFixed(2) + '%,0,0)';
+      });
+    }
+    rail.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(frame); }, { passive: true });
+    frame();
+    dots.forEach(function (d, i) {
+      d.onclick = function () {
+        var max = rail.scrollWidth - rail.clientWidth;
+        rail.scrollTo({ left: Math.min(max, items[i].offsetLeft - items[0].offsetLeft), behavior: reduce ? 'auto' : 'smooth' });
+      };
+    });
+    var b = sec.querySelector('.dist-btn');
+    if (b) b.onclick = function () {
       b.disabled = true;
       navigator.geolocation.getCurrentPosition(function (p) {
         myPos = { lat: p.coords.latitude, lng: p.coords.longitude };
-        var box = app.querySelector('#poslovnice'), grp = box.nextElementSibling;
         var tmp = document.createElement('div'); tmp.innerHTML = locsHTML(cur);
-        box.replaceWith(tmp.children[0]); grp.replaceWith(tmp.children[0]); b.remove();
+        sec.replaceWith(tmp.firstChild); bindLocs(cur);
       }, function () { b.disabled = false; toast(t('noLoc')); }, { enableHighAccuracy: false, timeout: 9000, maximumAge: 300000 });
     };
   }
