@@ -40,7 +40,8 @@
       onlyPhone: 'Sprema se samo na tvom mobitelu.', tryNext: 'Sva ponavljanja u 3 serije. Sljedeći put probaj {w}.', progress: 'Napredak',
       firstTime: 'Upiši težinu i ponavljanja nakon svake serije. Idući put ćeš ovdje vidjeti što si radio.', lastShort: 'Zadnje: ', saved: 'Spremljeno',
       yesterday: 'jučer', daysAgo: 'prije {n} dana', minus: 'Manje', plus: 'Više',
-      inOsijek: 'Blue Gym u Osijeku', here: 'Ovdje si', directions: 'Upute', showDist: 'Prikaži udaljenost', noLoc: 'Lokacija nije dostupna.'
+      inOsijek: 'Blue Gym u Osijeku', here: 'Ovdje si', directions: 'Upute', showDist: 'Udaljenost', noLoc: 'Lokacija nije dostupna.',
+      map: 'Karta', revQ: 'Kako ti je u Blue Gymu?'
     },
     en: {
       ok: 'Correct', bad: 'Common mistake', setup: 'Set up', how: 'How to do it', watch: 'Watch out for', start: 'To start',
@@ -70,7 +71,8 @@
       onlyPhone: 'Saved only on your phone.', tryNext: 'All reps in 3 sets. Next time try {w}.', progress: 'Progress',
       firstTime: 'Log the weight and reps after each set. Next time you’ll see what you did here.', lastShort: 'Last: ', saved: 'Saved',
       yesterday: 'yesterday', daysAgo: '{n} days ago', minus: 'Less', plus: 'More',
-      inOsijek: 'Blue Gym in Osijek', here: 'You’re here', directions: 'Directions', showDist: 'Show distance', noLoc: 'Location unavailable.'
+      inOsijek: 'Blue Gym in Osijek', here: 'You’re here', directions: 'Directions', showDist: 'Distance', noLoc: 'Location unavailable.',
+      map: 'Map', revQ: 'How’s your time at Blue Gym?'
     }
   };
   var ISSUES = [
@@ -330,9 +332,9 @@
     var dots = ids.length > 1 ? '<div class="lc-dots">' + ids.map(function (k, i) {
       return '<button type="button" aria-label="' + esc(G.locations[k].name) + '"' + (i ? '' : ' aria-current="true"') + '></button>';
     }).join('') + '</div>' : '';
-    return '<section class="locs" aria-labelledby="poslovnice"><h2 class="sh" id="poslovnice">' + t('inOsijek') + '</h2>' +
-      '<ul class="lc-rail">' + cards + '</ul>' + dots +
-      (myPos || !navigator.geolocation ? '' : '<button class="btn plain dist-btn" type="button">' + I.loc + t('showDist') + '</button>') + '</section>';
+    return '<section class="locs" aria-labelledby="poslovnice"><div class="sh-row"><h2 class="sh" id="poslovnice">' + t('inOsijek') + '</h2>' +
+      (myPos || !navigator.geolocation ? '' : '<button class="sh-act dist-btn" type="button">' + I.loc + t('showDist') + '</button>') + '</div>' +
+      '<ul class="lc-rail">' + cards + '</ul>' + dots + '</section>';
   }
   function bindLocs(cur) {
     var sec = app.querySelector('.locs'); if (!sec) return;
@@ -402,17 +404,21 @@
   function brand(L) { return '<a class="brand" href="/bluegym/' + L.id + '">' + logoImg(L) + '<span class="bt">Blue Gym <span>' + esc(L.short) + '</span></span></a>'; }
   function backTo(L) { return '<a class="nav-back" href="/bluegym/' + L.id + '">' + I.back + t('back') + '</a>'; }
 
-  function gymBlock(L, withAll) {
-    var st = status(L), parts = L.address.split(', '), city = parts.pop(), street = parts.join(', '), ob = withAll ? OB.get(L) : null;
-    return '<section class="gym"><h2 class="sh">' + esc(L.name) + '</h2><div class="group">' +
-      '<div class="row"><span class="ic ' + (st.open ? 'ic-g' : 'ic-x') + '">' + I.clock + '</span><span class="tx"><b>' + esc(st.text) + '</b></span></div>' +
-      (ob ? '<a class="row" href="/bluegym/' + L.id + (ob.kind === 'promo' ? '#clanarine' : '') + '"><span class="ic ic-o">' + (ob.kind === 'promo' ? I.tag : I.mega) + '</span><span class="tx"><b>' + esc(ob.kind === 'promo' ? tx(ob.promo.title) : ob.title) + '</b><small>' + esc(ob.kind === 'promo' ? tx(ob.promo.sub) : (ob.text || t('notice'))) + '</small></span>' + I.chev + '</a>' : '') +
-      '<a class="row" href="' + L.maps + '" target="_blank" rel="noopener"><span class="ic ic-b">' + I.pin + '</span><span class="tx"><b>' + esc(street) + '</b><small>' + esc(city) + '</small></span>' + I.chev + '</a>' +
-      (L.phone ? '<a class="row" href="tel:' + L.phone.replace(/\s/g, '') + '"><span class="ic ic-g">' + I.phone + '</span><span class="tx"><b>' + t('call') + '</b><small>' + esc(L.phone) + '</small></span>' + I.chev + '</a>' : '') +
-      (L.instagram ? '<a class="row" href="https://www.instagram.com/' + L.instagram + '/" target="_blank" rel="noopener"><span class="ic ic-ig">' + I.cam + '</span><span class="tx"><b>' + t('insta') + '</b><small>@' + esc(L.instagram) + '</small></span>' + I.chev + '</a>' : '') +
-      (withAll ? '<a class="row" href="/bluegym/' + L.id + '"><span class="ic ic-b">' + I.gym + '</span><span class="tx"><b>' + t('all') + '</b></span>' + I.chev + '</a>' : '') +
-      '</div><a class="btn rev" href="' + L.review + '" target="_blank" rel="noopener">' + I.star + t('review') + '</a>' +
-      '<p class="foot">' + t('reviewSub') + '<br>' + t('made') + '<a href="https://tiptapreviews.com" target="_blank" rel="noopener">TipTap</a></p></section>';
+  // podnožje: ime i stanje, tri gumba (karta, poziv, Instagram), ponuda i sve sprave, ocjena na Googleu, potpis
+  function gymBlock(L, onMachine) {
+    var st = status(L), ob = onMachine ? OB.get(L) : null;
+    var acts = '<a class="act" href="' + L.maps + '" target="_blank" rel="noopener">' + I.pin + t('map') + '</a>' +
+      (L.phone ? '<a class="act" href="tel:' + L.phone.replace(/\s/g, '') + '" aria-label="' + t('call') + ' ' + esc(L.phone) + '">' + I.phone + t('call') + '</a>' : '') +
+      (L.instagram ? '<a class="act" href="https://www.instagram.com/' + L.instagram + '/" target="_blank" rel="noopener" aria-label="Instagram @' + esc(L.instagram) + '">' + I.cam + t('insta') + '</a>' : '');
+    var rows = (ob ? '<a class="row" href="/bluegym/' + L.id + (ob.kind === 'promo' ? '#clanarine' : '') + '"><span class="ic ic-o">' + (ob.kind === 'promo' ? I.tag : I.mega) + '</span><span class="tx"><b>' + esc(ob.kind === 'promo' ? tx(ob.promo.title) : ob.title) + '</b><small>' + esc(ob.kind === 'promo' ? tx(ob.promo.sub) : (ob.text || t('notice'))) + '</small></span>' + I.chev + '</a>' : '') +
+      (onMachine ? '<a class="row" href="/bluegym/' + L.id + '"><span class="ic ic-b">' + I.gym + '</span><span class="tx"><b>' + t('all') + '</b></span>' + I.chev + '</a>' : '');
+    return '<section class="gym"><h2 class="sh">' + esc(L.name) + '</h2>' +
+      (onMachine ? '<p class="status g-st' + (st.open ? '' : ' is-closed') + '"><i></i>' + esc(st.text) + '</p>' : '') +
+      '<div class="acts">' + acts + '</div>' +
+      (rows ? '<div class="group g-rows">' + rows + '</div>' : '') +
+      '<div class="revc"><b>' + t('revQ') + '</b><p>' + t('reviewSub') + '</p><a class="btn rev" href="' + L.review + '" target="_blank" rel="noopener">' + I.star + t('review') + '</a></div>' +
+      '<footer class="sign">' + (L.logo ? '<img src="' + L.logo + '" alt="" width="44" height="44">' : '') + (L.motto ? '<p class="sign-m">' + esc(L.motto) + '</p>' : '') +
+      '<p class="foot">' + t('made') + '<a href="https://tiptapreviews.com" target="_blank" rel="noopener">TipTap</a></p></footer></section>';
   }
 
   var io = null;
@@ -484,7 +490,6 @@
       '<div><b>' + m.plan.rest + '</b><span>' + t('rest') + '</span></div></div>' +
       '<p>' + esc(tx(m.plan.tip)) + '</p></section>' +
       '<p class="ask">' + t('ask') + '</p>' +
-      (L.motto ? '<p class="motto">' + esc(L.motto) + '</p>' : '') +
       gymBlock(L, true) +
       '</main>';
 
@@ -647,7 +652,7 @@
       classesHTML(L) + pricesHTML(L, ob) +
       '<h2 class="sh">' + t('hours') + '</h2><ul class="week">' + week + '</ul>' +
       locsHTML(loc) +
-      gymBlock(L, false).replace('<h2 class="sh">' + esc(L.name) + '</h2>', '<div style="height:12px"></div>') +
+      gymBlock(L, false) +
       '</main>';
     app.querySelectorAll('.th').forEach(function (h) { R.still(h, S[h.getAttribute('data-id')].anim, .55, 72 / 58); });
     bindLocs(loc);
