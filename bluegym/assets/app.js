@@ -17,28 +17,28 @@
       sets: 'serije', reps: 'ponavljanja', rest: 'odmora', works: 'Radi:', pause: 'Zaustavi animaciju', play: 'Pokreni animaciju', speed: 'Brzina',
       ask: 'Nisi siguran? Pitaj trenera, rado će ti pokazati.', back: 'Sprave',
       openTill: 'Otvoreno do ', opensAt: 'Danas od ', closedToday: 'Danas zatvoreno', tomorrow: 'sutra od ', closedNow: 'Zatvoreno',
-      call: 'Nazovi', all: 'Sve sprave', review: 'Ocijeni nas na Googleu', reviewSub: 'Tvoja ocjena pomaže drugima da nas pronađu.',
-      choose: 'Odaberi teretanu', intro: 'Na spravama su kartice. Prisloni mobitel na karticu i vidi kako se sprava pravilno koristi.',
+      call: 'Nazovi', all: 'Sve sprave', review: 'Ocijeni nas na Googleu', reviewSub: 'Ocjena pomaže drugima da nas nađu.',
+      choose: 'Odaberi teretanu', intro: 'Prisloni mobitel na karticu na spravi. Vidjet ćeš kako se pravilno koristi.',
       hours: 'Radno vrijeme', made: 'Upute na spravama: ', other: 'EN', otherLabel: 'English',
       dark: 'Uključi tamni način', light: 'Uključi svijetli način',
-      report: 'Prijavi kvar', reportSub: 'Sprava ne radi kako treba? Javi upravi.', cancel: 'Odustani', whatWrong: 'Što ne radi?',
+      report: 'Prijavi kvar', reportSub: 'Nešto ne radi? Javi upravi.', cancel: 'Odustani', whatWrong: 'Što ne radi?',
       notePh: 'Opiši ukratko (nije obavezno)', send: 'Pošalji prijavu', goesTo: 'Prijava ide upravi teretane.',
-      thanks: 'Hvala!', sent: 'Uprava je obaviještena. Dok se kvar ne popravi, sprava je označena i za ostale članove.', doneBtn: 'Gotovo',
+      thanks: 'Hvala!', sent: 'Uprava je obaviještena. Ostali će vidjeti da sprava ne radi.', doneBtn: 'Gotovo',
       reported: 'Prijavljen kvar', reportedSub: 'Uprava je obaviještena.', tag: 'Prijavljen kvar',
       upr: 'Uprava', open: 'Otvoreno', fixed: 'Riješeno', markFixed: 'Označi kao riješeno',
-      emptyOpen: 'Sve sprave rade', emptyOpenSub: 'Kad član prijavi kvar s kartice na spravi, prijava će se pojaviti ovdje.', emptyFixed: 'Još nema riješenih prijava.',
+      emptyOpen: 'Sve sprave rade', emptyOpenSub: 'Prijave članova stižu ovdje.', emptyFixed: 'Još nema riješenih prijava.',
       reportedAt: 'Prijavljeno ', fixedAt: 'Riješeno ', now: 'upravo sada', min: 'prije {n} min', hrs: 'prije {n} h', yday: 'jučer',
       days: ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'],
       dShort: ['ned', 'pon', 'uto', 'sri', 'čet', 'pet', 'sub'], and: ' i ',
-      prices: 'Članarine', classes: 'Grupni treninzi', coach: 'Trener: ', todayAt: 'Danas u ', live: 'Upravo traje', tomorrowAt: 'Sutra u ', at: ' u ',
+      prices: 'Članarine', classes: 'Grupni treninzi', coach: 'Trener: ', clsMeta: '{d} u {h}, trener {c}', todayAt: 'Danas u ', live: 'Upravo traje', tomorrowAt: 'Sutra u ', at: ' u ',
       insta: 'Instagram', offerRow: 'Pogledaj ponudu', notice: 'Obavijest', validTo: 'Vrijedi do ',
       tabRep: 'Kvarovi', tabNote: 'Obavijest', noteNow: 'Članovi sada vide', noteNone: 'Trenutno nema obavijesti.',
       fromIg: 'Preuzeto s vašeg Instagrama, objava od 4. studenoga.', newNote: 'Nova obavijest', fTitle: 'Naslov', fText: 'Tekst', fUntil: 'Vrijedi do',
       fTitlePh: 'npr. Novi termin grupnog treninga', fTextPh: 'Kratko i jasno, do 200 znakova', publish: 'Objavi članovima', remove: 'Ukloni obavijest',
-      noteWhere: 'Obavijest se prikazuje na početnoj stranici i na svakoj spravi.', published: 'Objavljeno', fixedList: 'Riješeno',
+      noteWhere: 'Vidi se na početnoj i na svakoj spravi.', published: 'Objavljeno', fixedList: 'Riješeno',
       log: 'Moj dnevnik', last: 'Prošli put', todayL: 'Danas', weight: 'Težina', repsL: 'Ponavljanja', saveSet: 'Spremi seriju', undo: 'Poništi zadnju',
       onlyPhone: 'Sprema se samo na tvom mobitelu.', tryNext: 'Sva ponavljanja u 3 serije. Sljedeći put probaj {w}.', progress: 'Napredak',
-      firstTime: 'Upiši težinu i ponavljanja nakon svake serije. Idući put ćeš ovdje vidjeti što si radio.', lastShort: 'Zadnje: ', saved: 'Spremljeno',
+      firstTime: 'Nakon svake serije upiši težinu. Idući put ovdje vidiš prošli trening.', lastShort: 'Zadnje: ', saved: 'Spremljeno',
       yesterday: 'jučer', daysAgo: 'prije {n} dana', minus: 'Manje', plus: 'Više',
       inOsijek: 'Blue Gym u Osijeku', here: 'Ovdje si', directions: 'Upute', showDist: 'Udaljenost', noLoc: 'Lokacija nije dostupna.',
       map: 'Karta', revQ: 'Kako ti je u Blue Gymu?'
@@ -46,30 +46,30 @@
     en: {
       ok: 'Correct', bad: 'Common mistake', setup: 'Set up', how: 'How to do it', watch: 'Watch out for', start: 'To start',
       sets: 'sets', reps: 'reps', rest: 'rest', works: 'Works:', pause: 'Pause animation', play: 'Play animation', speed: 'Speed',
-      ask: 'Not sure? Ask a trainer, they’re happy to show you.', back: 'Machines',
+      ask: 'Not sure? Ask a trainer to show you.', back: 'Machines',
       openTill: 'Open until ', opensAt: 'Today from ', closedToday: 'Closed today', tomorrow: 'tomorrow from ', closedNow: 'Closed',
       call: 'Call', all: 'All machines', review: 'Rate us on Google', reviewSub: 'Your rating helps others find us.',
-      choose: 'Choose your gym', intro: 'Every machine has a card. Tap it with your phone to see how the machine is used correctly.',
+      choose: 'Choose your gym', intro: 'Tap your phone on a machine’s card. You’ll see how to use it correctly.',
       hours: 'Opening hours', made: 'Machine guides by ', other: 'HR', otherLabel: 'Hrvatski',
       dark: 'Switch to dark mode', light: 'Switch to light mode',
-      report: 'Report a problem', reportSub: 'Machine not working right? Let the staff know.', cancel: 'Cancel', whatWrong: 'What’s wrong?',
+      report: 'Report a problem', reportSub: 'Something wrong? Tell the staff.', cancel: 'Cancel', whatWrong: 'What’s wrong?',
       notePh: 'Add a short note (optional)', send: 'Send report', goesTo: 'Your report goes to the gym staff.',
-      thanks: 'Thank you!', sent: 'The staff has been notified. Until it’s fixed, other members will see this machine is reported.', doneBtn: 'Done',
+      thanks: 'Thank you!', sent: 'The staff has been notified. Others will see it’s reported.', doneBtn: 'Done',
       reported: 'Problem reported', reportedSub: 'The staff has been notified.', tag: 'Reported',
       upr: 'Management', open: 'Open', fixed: 'Fixed', markFixed: 'Mark as fixed',
-      emptyOpen: 'All machines working', emptyOpenSub: 'When a member reports a problem from a machine card, it will show up here.', emptyFixed: 'No fixed reports yet.',
+      emptyOpen: 'All machines working', emptyOpenSub: 'Members’ reports will show up here.', emptyFixed: 'No fixed reports yet.',
       reportedAt: 'Reported ', fixedAt: 'Fixed ', now: 'just now', min: '{n} min ago', hrs: '{n} h ago', yday: 'yesterday',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       dShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], and: ' and ',
-      prices: 'Memberships', classes: 'Group classes', coach: 'Coach: ', todayAt: 'Today at ', live: 'Happening now', tomorrowAt: 'Tomorrow at ', at: ' at ',
+      prices: 'Memberships', classes: 'Group classes', coach: 'Coach: ', clsMeta: '{d} at {h} with {c}', todayAt: 'Today at ', live: 'Happening now', tomorrowAt: 'Tomorrow at ', at: ' at ',
       insta: 'Instagram', offerRow: 'See the offer', notice: 'Notice', validTo: 'Valid until ',
       tabRep: 'Problems', tabNote: 'Notice', noteNow: 'Members currently see', noteNone: 'No notice right now.',
       fromIg: 'Taken from your Instagram post of 4 November.', newNote: 'New notice', fTitle: 'Title', fText: 'Text', fUntil: 'Valid until',
       fTitlePh: 'e.g. New group class time', fTextPh: 'Short and clear, up to 200 characters', publish: 'Publish to members', remove: 'Remove notice',
-      noteWhere: 'The notice shows on the home page and on every machine.', published: 'Published', fixedList: 'Fixed',
+      noteWhere: 'Shown on the home page and every machine.', published: 'Published', fixedList: 'Fixed',
       log: 'My log', last: 'Last time', todayL: 'Today', weight: 'Weight', repsL: 'Reps', saveSet: 'Save set', undo: 'Undo last',
       onlyPhone: 'Saved only on your phone.', tryNext: 'All reps in 3 sets. Next time try {w}.', progress: 'Progress',
-      firstTime: 'Log the weight and reps after each set. Next time you’ll see what you did here.', lastShort: 'Last: ', saved: 'Saved',
+      firstTime: 'Log the weight after each set. Next time you’ll see it here.', lastShort: 'Last: ', saved: 'Saved',
       yesterday: 'yesterday', daysAgo: '{n} days ago', minus: 'Less', plus: 'More',
       inOsijek: 'Blue Gym in Osijek', here: 'You’re here', directions: 'Directions', showDist: 'Distance', noLoc: 'Location unavailable.',
       map: 'Map', revQ: 'How’s your time at Blue Gym?'
@@ -85,6 +85,34 @@
     { id: 'ostalo', hr: 'Nešto drugo', en: 'Something else' }
   ];
   function t(k) { return T[lang][k]; }
+  var SENT = '.lead,.intro,.ask,.plan p,.list li>span:last-child,.lg-first,.lg-sug>span,.notice small,.row small,.revc p,.promo>p,.done p,.empty p,.foot,.sh-sub';
+  function splitSent(el) {
+    [].slice.call(el.childNodes).forEach(function (n) {
+      if (n.nodeType !== 3) return;
+      var txt = n.nodeValue, re = /[.!?…]\s+(?=[A-ZČĆĐŠŽ„"(0-9])/g, parts = [], last = 0, m;
+      while ((m = re.exec(txt))) { parts.push(txt.slice(last, m.index + 1)); last = m.index + m[0].length; }
+      if (!parts.length) return;
+      parts.push(txt.slice(last));
+      var f = document.createDocumentFragment();
+      parts.forEach(function (p, i) {
+        if (!p) return;
+        if (i) f.appendChild(document.createTextNode(' '));
+        var sp = document.createElement('span'); sp.className = 'snt'; sp.textContent = p; f.appendChild(sp);
+      });
+      el.replaceChild(f, n);
+    });
+  }
+  function sentAll(node) {
+    if (node.nodeType !== 1) return;
+    if (node.matches && node.matches(SENT)) splitSent(node);
+    [].forEach.call(node.querySelectorAll(SENT), splitSent);
+  }
+  if (window.MutationObserver) new MutationObserver(function (ms) {
+    ms.forEach(function (mu) {
+      if (mu.target.nodeType === 1 && mu.target.matches && mu.target.matches(SENT)) splitSent(mu.target);
+      [].forEach.call(mu.addedNodes, sentAll);
+    });
+  }).observe(document.body, { childList: true, subtree: true });
   function tx(o) { return o == null ? '' : typeof o === 'string' ? o : (o[lang] || o.hr); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function hh(h) { return h + ':00'; }
@@ -195,9 +223,9 @@
       var n = nextClass(c), days = joinList(c.days.map(function (x) { return T[lang].dShort[x]; }));
       days = days.charAt(0).toUpperCase() + days.slice(1);
       return '<div class="row cls"><span class="ic ic-b">' + I.people + '</span><span class="tx"><b>' + esc(tx(c.name)) + '</b>' +
-        '<small>' + t('coach') + esc(c.coach) + '. ' + days + ' ' + hh(c.from) + '–' + hh(c.to) + '.</small>' +
-        (c.note ? '<small class="cn">' + esc(tx(c.note)) + '</small>' : '') + '</span>' +
-        (n.text ? '<span class="when' + (n.hot ? ' hot' : '') + '">' + esc(n.text) + '</span>' : '') + '</div>';
+        '<small>' + esc(t('clsMeta').replace('{d}', days).replace('{h}', hh(c.from)).replace('{c}', c.coach)) + '</small>' +
+        (c.note ? '<small class="cn">' + esc(tx(c.note)) + '</small>' : '') +
+        (n.text ? '<span class="when' + (n.hot ? ' hot' : '') + '">' + esc(n.text) + '</span>' : '') + '</span></div>';
     }).join('') + '</div>';
   }
   function pricesHTML(L, ob) {
@@ -205,7 +233,7 @@
     var promo = ob && ob.kind === 'promo' ? ob.promo : null;
     return '<h2 class="sh" id="clanarine">' + t('prices') + '</h2><div class="group">' + L.prices.map(function (x) {
       var np = promo && x.id ? promo.prices[x.id] : null;
-      return '<div class="row pr"><span class="tx"><b>' + esc(tx(x.name)) + '</b></span>' +
+      return '<div class="row pr"><span class="tx"><b>' + esc(tx(x.name)) + '</b>' + (x.note ? '<small>' + esc(tx(x.note)) + '</small>' : '') + '</span>' +
         (np ? '<s>' + x.p + ' €</s><span class="pv hot">' + np + ' €</span>' : '<span class="pv">' + x.p + ' €</span>') + '</div>';
     }).join('') + '</div>';
   }

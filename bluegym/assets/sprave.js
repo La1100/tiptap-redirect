@@ -32,30 +32,30 @@
     group: 'ledja',
     name: { hr: 'Lat mašina', en: 'Lat pulldown' },
     lead: { hr: 'Povlačiš šipku do prsa. Jača leđa i daje im širinu.', en: 'Pull the bar down to your chest. Builds a stronger, wider back.' },
-    muscles: { hr: 'Široki leđni mišić, stražnja ramena, biceps', en: 'Lats, rear shoulders, biceps' },
+    muscles: { hr: 'Leđa, stražnja ramena, biceps', en: 'Lats, rear shoulders, biceps' },
     label: { hr: 'Animacija: osoba sjedi na lat mašini i povlači šipku do gornjeg dijela prsa.', en: 'Animation: a person seated at the lat pulldown pulls the bar to the upper chest.' },
     setup: [
-      { hr: 'Namjesti jastučić tako da ti čvrsto drži bedra. Onda te težina ne podiže sa sjedala.', en: 'Set the knee pad so it holds your thighs firmly. Then the weight can’t lift you off the seat.' },
-      { hr: 'Utakni klin ispod pločice s težinom koju želiš. Za početak uzmi manje nego što misliš.', en: 'Put the pin under the plate with the weight you want. Start lighter than you think.' },
-      { hr: 'Uhvati šipku malo šire od ramena, dlanovi gledaju od tebe.', en: 'Grip the bar a little wider than your shoulders, palms facing away.' }
+      { hr: 'Jastučić čvrsto na bedra. Tada te težina ne podiže.', en: 'Pad firmly on your thighs. So the weight can’t lift you.' },
+      { hr: 'Utakni klin na željenu težinu. Počni lakše nego što misliš.', en: 'Put the pin in your weight. Start lighter than you think.' },
+      { hr: 'Hvat malo širi od ramena. Dlanovi gledaju od tebe.', en: 'Hands wider than shoulders. Palms face away from you.' }
     ],
     steps: [
-      { hr: 'Sjedni uspravno, prsa gore i lagano se nagni unatrag.', en: 'Sit tall, chest up, and lean back slightly.' },
-      { hr: 'Povuci šipku do gornjeg dijela prsa. Laktovi idu dolje, uz tijelo.', en: 'Pull the bar to your upper chest. Elbows travel down, close to your body.' },
-      { hr: 'Na dnu na trenutak stisni lopatice.', en: 'At the bottom, squeeze your shoulder blades for a moment.' },
-      { hr: 'Polako vrati šipku gore dok se ruke skoro ne isprave.', en: 'Let the bar back up slowly until your arms are almost straight.' }
+      { hr: 'Sjedni uspravno, prsa gore. Lagano se nagni unatrag.', en: 'Sit tall, chest up. Lean back slightly.' },
+      { hr: 'Povuci šipku do vrha prsa. Laktovi idu dolje, uz tijelo.', en: 'Pull to your upper chest. Elbows go down, close in.' },
+      { hr: 'Na dnu stisni lopatice.', en: 'Squeeze your shoulder blades.' },
+      { hr: 'Polako vrati šipku gore. Ruke se skoro isprave.', en: 'Let the bar up slowly. Arms end almost straight.' }
     ],
     watch: [
-      { hr: 'Ljuljanje tijelom. Tada vuče težina tijela, a leđa ne rade.', en: 'Swinging your body. Your body weight does the work instead of your back.' },
-      { hr: 'Povlačenje iza glave. Nepotrebno opterećuje ramena.', en: 'Pulling behind your neck. It puts needless stress on your shoulders.' },
-      { hr: 'Puštanje šipke da leti gore. Utezi ne smiju lupati.', en: 'Letting the bar fly up. The plates should never slam.' }
+      { hr: 'Ljuljanje tijelom. Tada leđa ne rade.', en: 'Swinging your body. Then your back isn’t working.' },
+      { hr: 'Povlačenje iza glave. Opterećuje ramena.', en: 'Pulling behind your neck. It strains your shoulders.' },
+      { hr: 'Puštanje šipke da leti gore. Utezi ne smiju lupati.', en: 'Letting the bar fly up. Plates should never slam.' }
     ],
-    plan: { sets: '3', reps: '10–12', rest: '60–90 s', tip: { hr: 'Težinu biraj tako da su zadnja dva ponavljanja teška, ali i dalje čista.', en: 'Pick a weight where the last two reps are hard but still clean.' } },
+    plan: { sets: '3', reps: '10–12', rest: '60–90 s', tip: { hr: 'Zadnja dva ponavljanja neka budu teška. Ali i dalje čista.', en: 'The last two reps should be hard. But still clean.' } },
     cues: {
       ok: {
-        up: { hr: ['Povuci do prsa', 'izdah'], en: ['Pull to your chest', 'breathe out'] },
-        hold: { hr: ['Stisni lopatice', ''], en: ['Squeeze your shoulder blades', ''] },
-        down: { hr: ['Polako gore', 'udah'], en: ['Slowly back up', 'breathe in'] },
+        up: { hr: ['Povuci do prsa', 'izdah'], en: ['Pull to chest', 'exhale'] },
+        hold: { hr: ['Stisni lopatice', ''], en: ['Blades together', ''] },
+        down: { hr: ['Polako gore', 'udah'], en: ['Slowly back up', 'inhale'] },
         rest: { hr: ['Ruke skoro ravne', ''], en: ['Arms almost straight', ''] }
       },
       bad: {
@@ -128,31 +128,31 @@
     w0: 40, inc: 5, step: 10,
     group: 'noge', kind: 'plates',
     name: { hr: 'Nožni potisak', en: 'Leg press' },
-    lead: { hr: 'Guraš platformu nogama. Jača bedra i stražnjicu, a štedi leđa.', en: 'Push the platform with your legs. Builds thighs and glutes while sparing your back.' },
-    muscles: { hr: 'Prednja loža (kvadriceps), stražnjica, stražnja loža', en: 'Quads, glutes, hamstrings' },
+    lead: { hr: 'Guraš platformu nogama. Jača bedra i stražnjicu, štedi leđa.', en: 'Push the platform with your legs. Thighs and glutes, easy on the back.' },
+    muscles: { hr: 'Bedra, stražnjica, stražnja loža', en: 'Quads, glutes, hamstrings' },
     label: { hr: 'Animacija: osoba na nožnom potisku gura platformu pod kutom od 45°.', en: 'Animation: a person on the 45° leg press pushes the platform.' },
     setup: [
-      { hr: 'Stopala stavi na sredinu platforme, u širini ramena.', en: 'Place your feet in the middle of the platform, shoulder-width apart.' },
-      { hr: 'Cijela leđa, i križa, neka leže na naslonu.', en: 'Keep your whole back, including your lower back, flat on the pad.' },
-      { hr: 'Uhvati ručke uz sjedalo. Sigurnosne kočnice otpusti tek s ispruženim nogama i vrati ih kad završiš.', en: 'Hold the handles by the seat. Release the safety stops only with your legs extended, and lock them again when you finish.' }
+      { hr: 'Stopala na sredinu platforme. Razmak u širini ramena.', en: 'Feet mid-platform. Shoulder-width apart.' },
+      { hr: 'Leđa i križa na naslonu.', en: 'Whole back flat on the pad.' },
+      { hr: 'Drži ručke uz sjedalo. Noge ispruži, otpusti kočnice. Na kraju vrati kočnice.', en: 'Hold the handles by the seat. Legs straight, release stops. Lock them again when done.' }
     ],
     steps: [
-      { hr: 'Polako savij koljena dok ne dođu do otprilike 90°.', en: 'Slowly bend your knees to about 90°.' },
-      { hr: 'Gurni platformu petama, uz izdah.', en: 'Push the platform through your heels as you breathe out.' },
-      { hr: 'Na vrhu zastani, ali koljena ne zaključavaj.', en: 'Pause at the top, but don’t lock your knees.' },
-      { hr: 'Koljena neka prate smjer prstiju, ne prema unutra.', en: 'Keep your knees in line with your toes, not caving in.' }
+      { hr: 'Polako savij koljena do 90°.', en: 'Slowly bend knees to 90°.' },
+      { hr: 'Gurni petama, uz izdah.', en: 'Push with your heels, exhale.' },
+      { hr: 'Na vrhu zastani. Koljena ne zaključavaj.', en: 'Pause at the top. Don’t lock your knees.' },
+      { hr: 'Koljena prate smjer prstiju.', en: 'Knees track over your toes.' }
     ],
     watch: [
-      { hr: 'Zaključavanje koljena na vrhu. Tada sva težina ide u zglob.', en: 'Locking your knees at the top. All the load then goes into the joint.' },
-      { hr: 'Odvajanje križa od naslona na dnu. Ne spuštaj se toliko duboko.', en: 'Your lower back lifting off the pad at the bottom. Don’t go that deep.' },
+      { hr: 'Zaključana koljena na vrhu. Tada sva težina ide u zglob.', en: 'Locked knees at the top. The load goes into the joint.' },
+      { hr: 'Križa se odvajaju od naslona. Ne spuštaj se toliko duboko.', en: 'Lower back leaves the pad. Don’t go that deep.' },
       { hr: 'Odbijanje s dna i trzaji.', en: 'Bouncing out of the bottom.' }
     ],
-    plan: { sets: '3', reps: '10–12', rest: '90 s', tip: { hr: 'Počni s malo pločica. Dodaj tek kad svih 12 ponavljanja ide polako i čisto.', en: 'Start with a few plates. Add more only when all 12 reps are slow and clean.' } },
+    plan: { sets: '3', reps: '10–12', rest: '90 s', tip: { hr: 'Počni s malo pločica. Dodaj kad 12 ponavljanja ide čisto.', en: 'Start with a few plates. Add more when all 12 reps are clean.' } },
     cues: {
       ok: {
-        up: { hr: ['Gurni petama', 'izdah'], en: ['Push through your heels', 'breathe out'] },
+        up: { hr: ['Gurni petama', 'izdah'], en: ['Push with heels', 'exhale'] },
         hold: { hr: ['Koljena ne zaključavaj', ''], en: ['Don’t lock your knees', ''] },
-        down: { hr: ['Polako dolje', 'udah'], en: ['Slowly down', 'breathe in'] },
+        down: { hr: ['Polako dolje', 'udah'], en: ['Slowly down', 'inhale'] },
         rest: { hr: ['Koljena oko 90°', ''], en: ['Knees at about 90°', ''] }
       },
       bad: {
@@ -215,30 +215,30 @@
     group: 'noge',
     name: { hr: 'Opružanje nogu', en: 'Leg extension' },
     lead: { hr: 'Ispružaš noge protiv jastučića. Ciljano jača prednju stranu bedara.', en: 'Straighten your legs against the pad. Targets the front of your thighs.' },
-    muscles: { hr: 'Prednja loža natkoljenice (kvadriceps)', en: 'Quads (front of the thigh)' },
+    muscles: { hr: 'Prednja loža (kvadriceps)', en: 'Quads (front of the thigh)' },
     label: { hr: 'Animacija: osoba sjedi na spravi i ispruža noge protiv jastučića.', en: 'Animation: a seated person straightens the legs against the pad.' },
     setup: [
-      { hr: 'Pomakni naslon tako da ti koljeno bude u ravnini s osi sprave.', en: 'Move the backrest so your knee lines up with the machine’s pivot.' },
-      { hr: 'Jastučić neka leži na potkoljenici, malo iznad gležnja.', en: 'Rest the pad on your shins, just above your ankles.' },
-      { hr: 'Utakni klin ispod težine koju želiš.', en: 'Put the pin under the weight you want.' }
+      { hr: 'Koljeno poravnaj s osi sprave.', en: 'Knee in line with the pivot.' },
+      { hr: 'Jastučić malo iznad gležnja.', en: 'Pad just above your ankles.' },
+      { hr: 'Utakni klin na željenu težinu.', en: 'Put the pin in your weight.' }
     ],
     steps: [
-      { hr: 'Sjedni do kraja natrag i uhvati ručke uz sjedalo.', en: 'Sit all the way back and hold the handles by the seat.' },
-      { hr: 'Ispruži noge dok skoro ne budu ravne, uz izdah.', en: 'Straighten your legs until they’re almost straight, breathing out.' },
-      { hr: 'Na vrhu na trenutak stisni bedra.', en: 'Squeeze your thighs for a moment at the top.' },
-      { hr: 'Polako spusti, uz udah. Utezi se ne smiju dodirnuti.', en: 'Lower slowly as you breathe in. Don’t let the plates touch.' }
+      { hr: 'Sjedni do kraja natrag. Uhvati ručke uz sjedalo.', en: 'Sit all the way back. Hold the handles by the seat.' },
+      { hr: 'Ispruži noge, uz izdah.', en: 'Straighten your legs, exhale.' },
+      { hr: 'Na vrhu stisni bedra.', en: 'Squeeze at the top.' },
+      { hr: 'Polako spusti, uz udah. Utezi se ne smiju dodirnuti.', en: 'Lower slowly, inhale. Don’t let the plates touch.' }
     ],
     watch: [
       { hr: 'Trzanje nogama. Pokret mora biti kontroliran.', en: 'Kicking the weight up. Keep it controlled.' },
-      { hr: 'Odizanje stražnjice sa sjedala.', en: 'Lifting your hips off the seat.' },
-      { hr: 'Preteška težina koja vuče koljena.', en: 'A weight so heavy it yanks on your knees.' }
+      { hr: 'Odizanje sa sjedala.', en: 'Hips lifting off the seat.' },
+      { hr: 'Preteška težina vuče koljena.', en: 'Too much weight on the knees.' }
     ],
-    plan: { sets: '3', reps: '12–15', rest: '60 s', tip: { hr: 'Ovdje vrijedi lakša težina i sporiji pokret.', en: 'A lighter weight and a slower movement work best here.' } },
+    plan: { sets: '3', reps: '12–15', rest: '60 s', tip: { hr: 'Lakša težina, sporiji pokret.', en: 'Lighter weight, slower movement.' } },
     cues: {
       ok: {
-        up: { hr: ['Ispruži noge', 'izdah'], en: ['Straighten your legs', 'breathe out'] },
+        up: { hr: ['Ispruži noge', 'izdah'], en: ['Straighten legs', 'exhale'] },
         hold: { hr: ['Stisni bedra', ''], en: ['Squeeze your thighs', ''] },
-        down: { hr: ['Polako dolje', 'udah'], en: ['Slowly down', 'breathe in'] },
+        down: { hr: ['Polako dolje', 'udah'], en: ['Slowly down', 'inhale'] },
         rest: { hr: ['Utezi se ne dodiruju', ''], en: ['Plates don’t touch', ''] }
       },
       bad: {
@@ -297,31 +297,31 @@
     group: 'noge',
     name: { hr: 'Pregibanje nogu', en: 'Leg curl' },
     lead: { hr: 'Savijaš noge prema dolje i natrag. Jača stražnju stranu bedara.', en: 'Bend your legs down and back. Strengthens the back of your thighs.' },
-    muscles: { hr: 'Stražnja loža natkoljenice, listovi', en: 'Hamstrings, calves' },
+    muscles: { hr: 'Stražnja loža, listovi', en: 'Hamstrings, calves' },
     label: { hr: 'Animacija: osoba sjedi na spravi i savija noge prema dolje i natrag.', en: 'Animation: a seated person bends the legs down and back against the roller.' },
     setup: [
-      { hr: 'Naslon namjesti tako da ti koljeno bude u ravnini s osi sprave.', en: 'Set the backrest so your knee lines up with the machine’s pivot.' },
-      { hr: 'Valjak neka ti bude na donjem dijelu lista, iznad pete.', en: 'Put the roller on your lower calves, just above your heels.' },
-      { hr: 'Jastučić spusti čvrsto na bedra, iznad koljena.', en: 'Lower the thigh pad firmly onto your thighs, above the knees.' },
-      { hr: 'Utakni klin ispod težine koju želiš.', en: 'Put the pin under the weight you want.' }
+      { hr: 'Koljeno poravnaj s osi sprave.', en: 'Knee in line with the pivot.' },
+      { hr: 'Valjak malo iznad pete.', en: 'Roller just above your heels.' },
+      { hr: 'Jastučić čvrsto na bedra.', en: 'Pad firmly on your thighs.' },
+      { hr: 'Utakni klin na željenu težinu.', en: 'Put the pin in your weight.' }
     ],
     steps: [
-      { hr: 'Sjedni uspravno i uhvati ručke.', en: 'Sit up straight and hold the handles.' },
-      { hr: 'Savij noge prema dolje i natrag što više možeš, uz izdah.', en: 'Bend your legs down and back as far as you can, breathing out.' },
-      { hr: 'Na dnu na trenutak zastani.', en: 'Pause for a moment at the bottom.' },
-      { hr: 'Polako vrati noge naprijed, uz udah.', en: 'Slowly bring your legs back up as you breathe in.' }
+      { hr: 'Sjedni uspravno, uhvati ručke.', en: 'Sit tall, hold the handles.' },
+      { hr: 'Savij noge do kraja, uz izdah.', en: 'Curl all the way, exhale.' },
+      { hr: 'Na dnu na trenutak zastani.', en: 'Pause at the bottom.' },
+      { hr: 'Polako vrati noge, uz udah.', en: 'Return slowly, inhale.' }
     ],
     watch: [
-      { hr: 'Bacanje tijela naprijed da pomogneš pokretu.', en: 'Throwing your body forward to help the movement.' },
-      { hr: 'Labav jastučić, pa se bedra dižu sa sjedala.', en: 'A loose thigh pad that lets your thighs lift.' },
+      { hr: 'Bacanje tijela naprijed.', en: 'Throwing your body forward.' },
+      { hr: 'Labav jastučić, bedra se dižu.', en: 'Loose pad, thighs lift up.' },
       { hr: 'Pola pokreta. Idi do kraja u oba smjera.', en: 'Half reps. Use the full range both ways.' }
     ],
-    plan: { sets: '3', reps: '10–12', rest: '60–90 s', tip: { hr: 'Spuštanje neka traje duže od dizanja.', en: 'Make the lowering slower than the lifting.' } },
+    plan: { sets: '3', reps: '10–12', rest: '60–90 s', tip: { hr: 'Spuštanje neka traje duže od dizanja.', en: 'Lower slower than you lift.' } },
     cues: {
       ok: {
-        up: { hr: ['Savij noge', 'izdah'], en: ['Bend your legs', 'breathe out'] },
+        up: { hr: ['Savij noge', 'izdah'], en: ['Bend your legs', 'exhale'] },
         hold: { hr: ['Zastani', ''], en: ['Pause', ''] },
-        down: { hr: ['Polako naprijed', 'udah'], en: ['Slowly forward', 'breathe in'] },
+        down: { hr: ['Polako naprijed', 'udah'], en: ['Slowly forward', 'inhale'] },
         rest: { hr: ['Noge skoro ravne', ''], en: ['Legs almost straight', ''] }
       },
       bad: {
@@ -384,31 +384,31 @@
     w0: 20, inc: 2.5, step: 5,
     group: 'prsa',
     name: { hr: 'Potisak za prsa', en: 'Chest press' },
-    lead: { hr: 'Guraš ručke od sebe. Jača prsa, prednja ramena i triceps.', en: 'Push the handles away from you. Builds chest, front shoulders and triceps.' },
+    lead: { hr: 'Guraš ručke od sebe. Jača prsa, prednja ramena i triceps.', en: 'Push the handles away from you. Builds chest, shoulders, triceps.' },
     muscles: { hr: 'Prsa, prednja ramena, triceps', en: 'Chest, front shoulders, triceps' },
     label: { hr: 'Animacija: osoba sjedi uz naslon i gura ručke naprijed.', en: 'Animation: a person seated against the pad pushes the handles forward.' },
     setup: [
-      { hr: 'Namjesti visinu sjedala da ručke budu u visini sredine prsa.', en: 'Set the seat height so the handles are level with the middle of your chest.' },
-      { hr: 'Uhvati ručke cijelim dlanom, zapešća ravna.', en: 'Grip the handles with your whole hand, wrists straight.' },
-      { hr: 'Leđa i lopatice priljubi uz naslon.', en: 'Press your back and shoulder blades against the pad.' },
-      { hr: 'Utakni klin ispod težine koju želiš.', en: 'Put the pin under the weight you want.' }
+      { hr: 'Namjesti visinu sjedala. Ručke u visini sredine prsa.', en: 'Adjust the seat height. Handles at mid-chest.' },
+      { hr: 'Cijeli dlan, ravna zapešća.', en: 'Full grip, wrists straight.' },
+      { hr: 'Leđa i lopatice uz naslon.', en: 'Back flat against the pad.' },
+      { hr: 'Utakni klin na željenu težinu.', en: 'Put the pin in your weight.' }
     ],
     steps: [
-      { hr: 'Gurni ručke naprijed dok se ruke skoro ne isprave, uz izdah.', en: 'Push the handles forward until your arms are almost straight, breathing out.' },
-      { hr: 'Laktove na kraju ne zaključavaj.', en: 'Don’t lock your elbows at the end.' },
-      { hr: 'Polako vrati ručke dok ne osjetiš blago istezanje prsa, uz udah.', en: 'Bring the handles back slowly until you feel a light stretch in your chest, breathing in.' }
+      { hr: 'Gurni naprijed, uz izdah.', en: 'Push forward, exhale.' },
+      { hr: 'Laktove ne zaključavaj.', en: 'Don’t lock your elbows.' },
+      { hr: 'Polako natrag, uz udah. Do blagog istezanja prsa.', en: 'Slowly back, inhale. To a light chest stretch.' }
     ],
     watch: [
-      { hr: 'Odvajanje ramena i leđa od naslona.', en: 'Shoulders and back coming off the pad.' },
-      { hr: 'Laktovi visoko uz uši. Drži ih malo ispod ramena.', en: 'Elbows flared up by your ears. Keep them a little below shoulder height.' },
-      { hr: 'Puštanje ručki da utezi lupnu.', en: 'Letting the handles drop so the plates slam.' }
+      { hr: 'Leđa se odvajaju od naslona.', en: 'Back coming off the pad.' },
+      { hr: 'Laktovi visoko uz uši. Drži ih malo ispod ramena.', en: 'Elbows flared up high. Keep them below shoulders.' },
+      { hr: 'Puštanje ručki da utezi lupnu.', en: 'Letting the plates slam.' }
     ],
-    plan: { sets: '3', reps: '10–12', rest: '60–90 s', tip: { hr: 'Ako ne možeš zadržati leđa na naslonu, težina je preteška.', en: 'If you can’t keep your back on the pad, the weight is too heavy.' } },
+    plan: { sets: '3', reps: '10–12', rest: '60–90 s', tip: { hr: 'Leđa ti se odvajaju od naslona? Težina je preteška.', en: 'Back leaving the pad? The weight is too heavy.' } },
     cues: {
       ok: {
-        up: { hr: ['Gurni naprijed', 'izdah'], en: ['Push forward', 'breathe out'] },
+        up: { hr: ['Gurni naprijed', 'izdah'], en: ['Push forward', 'exhale'] },
         hold: { hr: ['Laktovi mekani', ''], en: ['Soft elbows', ''] },
-        down: { hr: ['Polako natrag', 'udah'], en: ['Slowly back', 'breathe in'] },
+        down: { hr: ['Polako natrag', 'udah'], en: ['Slowly back', 'inhale'] },
         rest: { hr: ['Leđa na naslonu', ''], en: ['Back on the pad', ''] }
       },
       bad: {
@@ -468,31 +468,31 @@
     w0: 25, inc: 2.5, step: 5,
     group: 'ledja',
     name: { hr: 'Veslanje na sajli', en: 'Seated cable row' },
-    lead: { hr: 'Povlačiš ručku prema trbuhu. Jača sredinu leđa i popravlja držanje.', en: 'Pull the handle toward your stomach. Strengthens your mid back and helps your posture.' },
-    muscles: { hr: 'Sredina leđa, široki leđni mišić, biceps', en: 'Mid back, lats, biceps' },
+    lead: { hr: 'Povlačiš ručku prema trbuhu. Jača leđa i popravlja držanje.', en: 'Pull the handle toward your stomach. Builds mid back, helps posture.' },
+    muscles: { hr: 'Sredina i širina leđa, biceps', en: 'Mid back, lats, biceps' },
     label: { hr: 'Animacija: osoba sjedi uspravno i povlači ručku sajle prema trbuhu.', en: 'Animation: a person sitting tall pulls the cable handle to the stomach.' },
     setup: [
-      { hr: 'Stopala stavi na platformu, koljena lagano savijena.', en: 'Put your feet on the platform with your knees slightly bent.' },
-      { hr: 'Utakni klin ispod težine koju želiš.', en: 'Put the pin under the weight you want.' },
-      { hr: 'Uhvati ručku i sjedni uspravno, ruke ispružene.', en: 'Grab the handle and sit up tall with your arms extended.' }
+      { hr: 'Stopala na platformu. Koljena lagano savijena.', en: 'Feet on the platform. Knees slightly bent.' },
+      { hr: 'Utakni klin na željenu težinu.', en: 'Put the pin in your weight.' },
+      { hr: 'Uhvati ručku, sjedni uspravno.', en: 'Grab the handle, sit tall.' }
     ],
     steps: [
-      { hr: 'Prsa gore, ramena dolje i natrag.', en: 'Chest up, shoulders down and back.' },
-      { hr: 'Povuci ručku do trbuha, laktovi idu uz tijelo, uz izdah.', en: 'Pull the handle to your stomach, elbows close to your body, breathing out.' },
-      { hr: 'Na trenutak stisni lopatice.', en: 'Squeeze your shoulder blades for a moment.' },
-      { hr: 'Polako ispruži ruke, uz udah. Tijelo ostaje mirno.', en: 'Slowly extend your arms as you breathe in. Keep your body still.' }
+      { hr: 'Prsa gore, ramena natrag.', en: 'Chest up, shoulders back.' },
+      { hr: 'Povuci do trbuha, uz izdah. Laktovi idu uz tijelo.', en: 'Pull to your stomach, exhale. Elbows close to your body.' },
+      { hr: 'Na trenutak stisni lopatice.', en: 'Squeeze your shoulder blades.' },
+      { hr: 'Polako ispruži ruke, uz udah. Tijelo ostaje mirno.', en: 'Arms out slowly, inhale. Keep your body still.' }
     ],
     watch: [
-      { hr: 'Ljuljanje tijelom naprijed i natrag.', en: 'Rocking your body back and forth.' },
-      { hr: 'Grbljenje leđa kad ruke idu naprijed.', en: 'Rounding your back as your arms go forward.' },
-      { hr: 'Povlačenje samo rukama, bez lopatica.', en: 'Pulling with your arms only, without your shoulder blades.' }
+      { hr: 'Ljuljanje tijelom.', en: 'Rocking your body.' },
+      { hr: 'Grbljenje leđa pri ispružanju.', en: 'Rounding your back forward.' },
+      { hr: 'Vuku samo ruke, ne lopatice.', en: 'Pulling with your arms only.' }
     ],
-    plan: { sets: '3', reps: '10–12', rest: '60–90 s', tip: { hr: 'Zamisli da laktovima guraš nešto iza sebe.', en: 'Imagine pushing something behind you with your elbows.' } },
+    plan: { sets: '3', reps: '10–12', rest: '60–90 s', tip: { hr: 'Laktovima guraj nešto iza sebe.', en: 'Push your elbows behind you.' } },
     cues: {
       ok: {
-        up: { hr: ['Povuci do trbuha', 'izdah'], en: ['Pull to your stomach', 'breathe out'] },
-        hold: { hr: ['Stisni lopatice', ''], en: ['Squeeze your shoulder blades', ''] },
-        down: { hr: ['Polako naprijed', 'udah'], en: ['Slowly forward', 'breathe in'] },
+        up: { hr: ['Povuci do trbuha', 'izdah'], en: ['Pull to belly', 'exhale'] },
+        hold: { hr: ['Stisni lopatice', ''], en: ['Blades together', ''] },
+        down: { hr: ['Polako naprijed', 'udah'], en: ['Slowly forward', 'inhale'] },
         rest: { hr: ['Leđa ravna', ''], en: ['Back straight', ''] }
       },
       bad: {
@@ -549,29 +549,29 @@
     group: 'ramena',
     name: { hr: 'Potisak za ramena', en: 'Shoulder press' },
     lead: { hr: 'Guraš ručke iznad glave. Jača ramena i triceps.', en: 'Press the handles overhead. Builds your shoulders and triceps.' },
-    muscles: { hr: 'Ramena, triceps, gornja prsa', en: 'Shoulders, triceps, upper chest' },
+    muscles: { hr: 'Ramena, triceps, gornja prsa', en: 'Shoulders, triceps, chest' },
     label: { hr: 'Animacija: osoba sjedi uz naslon i gura ručke iznad glave.', en: 'Animation: a person seated against the pad presses the handles overhead.' },
     setup: [
-      { hr: 'Namjesti visinu sjedala da ručke budu u visini ramena.', en: 'Set the seat so the handles are at shoulder height.' },
-      { hr: 'Uhvati ručke, zapešća ravna, laktovi ispod šaka.', en: 'Grip the handles, wrists straight, elbows under your hands.' },
-      { hr: 'Utakni klin ispod težine koju želiš.', en: 'Put the pin under the weight you want.' }
+      { hr: 'Namjesti visinu sjedala. Ručke u visini ramena.', en: 'Adjust the seat height. Handles at shoulder height.' },
+      { hr: 'Uhvati ručke, ravna zapešća. Laktovi ispod šaka.', en: 'Grip, wrists straight. Elbows under your hands.' },
+      { hr: 'Utakni klin na željenu težinu.', en: 'Put the pin in your weight.' }
     ],
     steps: [
-      { hr: 'Leđa cijelom dužinom uz naslon, trbuh lagano stegnut.', en: 'Keep your whole back on the pad and your stomach lightly braced.' },
-      { hr: 'Gurni ručke gore dok se ruke skoro ne isprave, uz izdah.', en: 'Press the handles up until your arms are almost straight, breathing out.' },
-      { hr: 'Polako spusti do visine ramena, uz udah.', en: 'Lower slowly to shoulder height as you breathe in.' }
+      { hr: 'Cijela leđa uz naslon. Trbuh lagano stegnut.', en: 'Whole back on the pad. Brace your stomach lightly.' },
+      { hr: 'Gurni ručke gore, uz izdah.', en: 'Press up, exhale.' },
+      { hr: 'Polako do ramena, uz udah.', en: 'Lower to shoulders, inhale.' }
     ],
     watch: [
       { hr: 'Izvijanje donjeg dijela leđa. Križa ostaju na naslonu.', en: 'Arching your lower back. Keep it on the pad.' },
-      { hr: 'Zaključavanje laktova na vrhu.', en: 'Locking your elbows at the top.' },
-      { hr: 'Spuštanje ispod ramena ako te ramena bole.', en: 'Going below shoulder height if your shoulders hurt.' }
+      { hr: 'Zaključavanje laktova na vrhu.', en: 'Locked elbows at the top.' },
+      { hr: 'Preduboko kad ramena bole.', en: 'Too deep with sore shoulders.' }
     ],
-    plan: { sets: '3', reps: '8–12', rest: '90 s', tip: { hr: 'Ramena su manji mišić. Počni lakše nego na potisku za prsa.', en: 'Shoulders are a smaller muscle. Start lighter than on the chest press.' } },
+    plan: { sets: '3', reps: '8–12', rest: '90 s', tip: { hr: 'Ramena su manji mišić. Počni lakše nego na prsima.', en: 'Shoulders are a smaller muscle. Start lighter than on chest press.' } },
     cues: {
       ok: {
-        up: { hr: ['Gurni gore', 'izdah'], en: ['Press up', 'breathe out'] },
+        up: { hr: ['Gurni gore', 'izdah'], en: ['Press up', 'exhale'] },
         hold: { hr: ['Laktovi mekani', ''], en: ['Soft elbows', ''] },
-        down: { hr: ['Polako do ramena', 'udah'], en: ['Slowly to your shoulders', 'breathe in'] },
+        down: { hr: ['Polako dolje', 'udah'], en: ['Slowly down', 'inhale'] },
         rest: { hr: ['Leđa na naslonu', ''], en: ['Back on the pad', ''] }
       },
       bad: {
