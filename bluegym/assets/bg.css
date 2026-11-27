@@ -294,3 +294,47 @@ a.row:active,button.row:active{background:var(--fill)}
 
 @media (prefers-reduced-motion:reduce){*,*::before{transition:none!important;animation:none!important}}
 @media (min-width:600px){.lt{font-size:44px}}
+
+/* dnevnik težine */
+.log{background:var(--card);border-radius:16px;box-shadow:var(--card-shadow);padding:16px}
+.lg-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px}
+.lg-h b{font-weight:600}
+.lg-h span{font-size:14px;color:var(--label2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;background:var(--fill);border-radius:10px;padding:6px 10px}
+.lg-today .chip{background:var(--blue-soft);color:var(--blue)}
+.lg-first{margin:0;color:var(--label2);font-size:15px}
+.lg-sug{display:flex;gap:10px;align-items:flex-start;margin:12px 0 0;padding:11px 12px;border-radius:12px;background:var(--green-soft);color:var(--green);font-weight:600;font-size:15px}
+.lg-sug svg{width:20px;height:20px;stroke-width:2.2;margin-top:1px}
+.lg-in{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 12px;padding-top:14px;border-top:.5px solid var(--sep)}
+.stp{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;row-gap:6px;background:var(--card2);border-radius:14px;padding:8px}
+.stp .sl{grid-column:1/-1;font-size:13px;color:var(--label2);text-align:center}
+.stp output{text-align:center;font:700 20px/1 var(--font-d);letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sb{width:40px;height:40px;border-radius:50%;border:0;background:var(--card);color:var(--blue);font-size:22px;line-height:1;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+:root[data-theme=dark] .sb{background:var(--fill);box-shadow:none}
+.sb:active{transform:scale(.94)}
+.lg-today{margin-top:16px}
+.lg-undo{border:0;background:none;color:var(--blue);font-size:14px;font-weight:600;padding:2px 0}
+.spark{margin-top:16px;padding-top:14px;border-top:.5px solid var(--sep)}
+.spark svg{display:block;width:100%;height:64px;overflow:visible}
+.spark polyline{fill:none;stroke:var(--blue);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.spark circle{fill:var(--blue);stroke:var(--card);stroke-width:2;vector-effect:non-scaling-stroke}
+.lg-note{margin:12px 0 0;font-size:13px;color:var(--label3)}
+.tag-b{color:var(--blue);background:var(--blue-soft);margin-left:4px}
+
+/* ostale teretane */
+.loc{display:flex;gap:14px;align-items:flex-start;padding:13px 16px;position:relative}
+.loc + .loc::before{content:"";position:absolute;top:0;right:0;left:60px;border-top:.5px solid var(--sep)}
+a.loc:active{background:var(--fill)}
+.loc .lgi{flex:none;width:30px;height:30px;border-radius:8px}
+.loc .tx{flex:1;min-width:0}
+.loc b{display:flex;align-items:center;gap:8px;font-weight:600}
+.loc small{display:block;color:var(--label2);font-size:14px;margin-top:1px}
+.loc .st{display:flex;align-items:center;gap:6px;font-size:14px;margin-top:5px;color:var(--label2)}
+.loc .st i{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.loc .st.is-closed i{background:var(--label3)}
+.loc .side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px;padding-top:2px}
+.loc .dist{font-size:14px;color:var(--label2);font-variant-numeric:tabular-nums}
+.go{border-radius:999px;background:var(--blue-soft);color:var(--blue);font-size:14px;font-weight:600;padding:6px 12px}
+.here{font-size:12px;font-weight:600;color:var(--green);background:var(--green-soft);border-radius:999px;padding:3px 8px}
+.dist-btn svg{width:18px;height:18px;stroke-width:2.1}

@@ -28,6 +28,7 @@
   var S = {};
 
   S['lat-masina'] = {
+    w0: 25, inc: 2.5, step: 5,
     group: 'ledja',
     name: { hr: 'Lat mašina', en: 'Lat pulldown' },
     lead: { hr: 'Povlačiš šipku do prsa. Jača leđa i daje im širinu.', en: 'Pull the bar down to your chest. Builds a stronger, wider back.' },
@@ -124,6 +125,7 @@
   // ---------- NOŽNI POTISAK (45°) ----------
   var LP = { H: [118, 236] };
   S['nozni-potisak'] = {
+    w0: 40, inc: 5, step: 10,
     group: 'noge', kind: 'plates',
     name: { hr: 'Nožni potisak', en: 'Leg press' },
     lead: { hr: 'Guraš platformu nogama. Jača bedra i stražnjicu, a štedi leđa.', en: 'Push the platform with your legs. Builds thighs and glutes while sparing your back.' },
@@ -209,6 +211,7 @@
   var LE = { H: [120, 224] };
   LE.K = R.at(LE.H, 92, 43);
   S['opruzanje-nogu'] = {
+    w0: 15, inc: 2.5, step: 2.5,
     group: 'noge',
     name: { hr: 'Opružanje nogu', en: 'Leg extension' },
     lead: { hr: 'Ispružaš noge protiv jastučića. Ciljano jača prednju stranu bedara.', en: 'Straighten your legs against the pad. Targets the front of your thighs.' },
@@ -290,6 +293,7 @@
   var LC = { H: [116, 224] };
   LC.K = R.at(LC.H, 92, 43);
   S['pregibanje-nogu'] = {
+    w0: 15, inc: 2.5, step: 2.5,
     group: 'noge',
     name: { hr: 'Pregibanje nogu', en: 'Leg curl' },
     lead: { hr: 'Savijaš noge prema dolje i natrag. Jača stražnju stranu bedara.', en: 'Bend your legs down and back. Strengthens the back of your thighs.' },
@@ -377,6 +381,7 @@
   // ---------- POTISAK ZA PRSA ----------
   var CP = { H: [170, 229], P: [160, 70], r: 127, a0: 11, a1: 28 };
   S['potisak-za-prsa'] = {
+    w0: 20, inc: 2.5, step: 5,
     group: 'prsa',
     name: { hr: 'Potisak za prsa', en: 'Chest press' },
     lead: { hr: 'Guraš ručke od sebe. Jača prsa, prednja ramena i triceps.', en: 'Push the handles away from you. Builds chest, front shoulders and triceps.' },
@@ -460,6 +465,7 @@
   // ---------- VESLANJE NA SAJLI ----------
   var SR = { H: [110, 248], h0: [162, 207], h1: [126, 226], b0: [178, 211], b1: [118, 232], P: [246, 212] };
   S['veslanje-na-sajli'] = {
+    w0: 25, inc: 2.5, step: 5,
     group: 'ledja',
     name: { hr: 'Veslanje na sajli', en: 'Seated cable row' },
     lead: { hr: 'Povlačiš ručku prema trbuhu. Jača sredinu leđa i popravlja držanje.', en: 'Pull the handle toward your stomach. Strengthens your mid back and helps your posture.' },
@@ -539,6 +545,7 @@
   // ---------- POTISAK ZA RAMENA ----------
   var SPR = { H: [168, 229], P: [112, 150], r: 66.5, a0: 75, a1: 112, b1: 108 };
   S['potisak-za-ramena'] = {
+    w0: 15, inc: 2.5, step: 2.5,
     group: 'ramena',
     name: { hr: 'Potisak za ramena', en: 'Shoulder press' },
     lead: { hr: 'Guraš ručke iznad glave. Jača ramena i triceps.', en: 'Press the handles overhead. Builds your shoulders and triceps.' },

@@ -35,7 +35,12 @@
       tabRep: 'Kvarovi', tabNote: 'Obavijest', noteNow: 'Članovi sada vide', noteNone: 'Trenutno nema obavijesti.',
       fromIg: 'Preuzeto s vašeg Instagrama, objava od 4. studenoga.', newNote: 'Nova obavijest', fTitle: 'Naslov', fText: 'Tekst', fUntil: 'Vrijedi do',
       fTitlePh: 'npr. Novi termin grupnog treninga', fTextPh: 'Kratko i jasno, do 200 znakova', publish: 'Objavi članovima', remove: 'Ukloni obavijest',
-      noteWhere: 'Obavijest se prikazuje na početnoj stranici i na svakoj spravi.', published: 'Objavljeno', fixedList: 'Riješeno'
+      noteWhere: 'Obavijest se prikazuje na početnoj stranici i na svakoj spravi.', published: 'Objavljeno', fixedList: 'Riješeno',
+      log: 'Moj dnevnik', last: 'Prošli put', todayL: 'Danas', weight: 'Težina', repsL: 'Ponavljanja', saveSet: 'Spremi seriju', undo: 'Poništi zadnju',
+      onlyPhone: 'Sprema se samo na tvom mobitelu.', tryNext: 'Sva ponavljanja u 3 serije. Sljedeći put probaj {w}.', progress: 'Napredak',
+      firstTime: 'Upiši težinu i ponavljanja nakon svake serije. Idući put ćeš ovdje vidjeti što si radio.', lastShort: 'Zadnje: ', saved: 'Spremljeno',
+      yesterday: 'jučer', daysAgo: 'prije {n} dana', minus: 'Manje', plus: 'Više',
+      inOsijek: 'Blue Gym u Osijeku', here: 'Ovdje si', directions: 'Upute', showDist: 'Prikaži udaljenost', noLoc: 'Lokacija nije dostupna.'
     },
     en: {
       ok: 'Correct', bad: 'Common mistake', setup: 'Set up', how: 'How to do it', watch: 'Watch out for', start: 'To start',
@@ -60,7 +65,12 @@
       tabRep: 'Problems', tabNote: 'Notice', noteNow: 'Members currently see', noteNone: 'No notice right now.',
       fromIg: 'Taken from your Instagram post of 4 November.', newNote: 'New notice', fTitle: 'Title', fText: 'Text', fUntil: 'Valid until',
       fTitlePh: 'e.g. New group class time', fTextPh: 'Short and clear, up to 200 characters', publish: 'Publish to members', remove: 'Remove notice',
-      noteWhere: 'The notice shows on the home page and on every machine.', published: 'Published', fixedList: 'Fixed'
+      noteWhere: 'The notice shows on the home page and on every machine.', published: 'Published', fixedList: 'Fixed',
+      log: 'My log', last: 'Last time', todayL: 'Today', weight: 'Weight', repsL: 'Reps', saveSet: 'Save set', undo: 'Undo last',
+      onlyPhone: 'Saved only on your phone.', tryNext: 'All reps in 3 sets. Next time try {w}.', progress: 'Progress',
+      firstTime: 'Log the weight and reps after each set. Next time you’ll see what you did here.', lastShort: 'Last: ', saved: 'Saved',
+      yesterday: 'yesterday', daysAgo: '{n} days ago', minus: 'Less', plus: 'More',
+      inOsijek: 'Blue Gym in Osijek', here: 'You’re here', directions: 'Directions', showDist: 'Show distance', noLoc: 'Location unavailable.'
     }
   };
   var ISSUES = [
@@ -94,6 +104,8 @@
     cam: ico('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>'),
     people: ico('<circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2A4.5 4.5 0 0 1 21 18.5"/>'),
     tag: ico('<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.6 6.6a1.4 1.4 0 0 1-2 0Z"/><circle cx="8" cy="8" r="1.4"/>'),
+    up: ico('<path d="M4 16l5-5 4 4 7-7M15 8h5v5"/>'),
+    loc: ico('<path d="M12 3.5l7.5 17-7.5-4-7.5 4Z"/>'),
     mega: ico('<path d="M4 10v4a1 1 0 0 0 1 1h2l5 4V5L7 9H5a1 1 0 0 0-1 1Z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/>'),
     star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6 .9-4.4 4.2 1 6-5.3-2.8-5.4 2.8 1-6L3.3 9.6l6-.9Z" fill="currentColor"/></svg>',
     pause: '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.6" height="12" rx="1.2" fill="currentColor"/><rect x="9.4" y="2" width="3.6" height="12" rx="1.2" fill="currentColor"/></svg>',
@@ -205,6 +217,125 @@
       '</div></section>';
   }
 
+  // ---------- dnevnik težine (samo na ovom mobitelu) ----------
+  var LOG = {
+    key: 'bg_dnevnik',
+    all: function () { try { return JSON.parse(localStorage.getItem(this.key)) || {}; } catch (e) { return {}; } },
+    sets: function (id) { return this.all()[id] || []; },
+    add: function (id, w, r) { var a = this.all(); (a[id] = a[id] || []).push({ t: Date.now(), w: w, r: r }); a[id] = a[id].slice(-400); store.set(this.key, JSON.stringify(a)); },
+    undoToday: function (id) {
+      var a = this.all(), l = a[id];
+      if (l && l.length && dayKey(l[l.length - 1].t) === dayKey(Date.now())) { l.pop(); store.set(this.key, JSON.stringify(a)); }
+    }
+  };
+  function dayKey(ts) { var d = new Date(ts); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
+  function sessions(sets) {
+    var m = {}, order = [];
+    sets.forEach(function (x) { var k = dayKey(x.t); if (!m[k]) { m[k] = []; order.push(k); } m[k].push(x); });
+    return order.map(function (k) { return { k: k, t: m[k][0].t, sets: m[k], top: Math.max.apply(null, m[k].map(function (x) { return x.w; })) }; });
+  }
+  function kg(w) { return String(Math.round(w * 10) / 10).replace('.', lang === 'hr' ? ',' : '.') + ' kg'; }
+  function maxReps(m) { return parseInt(String(m.plan.reps).split(/[–-]/).pop(), 10) || 12; }
+  function agoDay(ts) {
+    var a = new Date(); a.setHours(0, 0, 0, 0); var b = new Date(ts); b.setHours(0, 0, 0, 0);
+    var d = Math.round((a - b) / 864e5);
+    if (d <= 1) return t('yesterday');
+    if (d < 7) return t('daysAgo').replace('{n}', d);
+    return dmy(ts);
+  }
+  function suggest(m, prev) {
+    if (!prev) return null;
+    var top = prev.top, at = prev.sets.filter(function (x) { return x.w === top; }), mr = maxReps(m);
+    return at.length >= 3 && at.every(function (x) { return x.r >= mr; }) ? top + (m.step || 5) : null;
+  }
+  function sparkHTML(ss) {
+    var pts = ss.slice(-8);
+    if (pts.length < 2) return '';
+    var W = 300, H = 64, px = 14, py = 12, lo = Math.min.apply(null, pts.map(function (p) { return p.top; })), hi = Math.max.apply(null, pts.map(function (p) { return p.top; }));
+    if (hi === lo) { hi += 1; lo -= 1; }
+    var xy = pts.map(function (p, i) { return [px + i * (W - 2 * px) / (pts.length - 1), H - py - (p.top - lo) / (hi - lo) * (H - 2 * py)]; });
+    var line = xy.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' ');
+    var dots = xy.map(function (q, i) { return '<circle cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="' + (i === xy.length - 1 ? 4.5 : 3) + '"><title>' + dmy(pts[i].t) + ': ' + kg(pts[i].top) + '</title></circle>'; }).join('');
+    return '<div class="spark"><div class="lg-h"><b>' + t('progress') + '</b><span>' + kg(pts[0].top).replace(' kg', '') + ' → ' + kg(pts[pts.length - 1].top) + '</span></div>' +
+      '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="' + t('progress') + '"><polyline points="' + line + '"/>' + dots + '</svg></div>';
+  }
+  function logHTML(id, m, w, r) {
+    var ss = sessions(LOG.sets(id)), today = dayKey(Date.now()), cur = null, prev = null;
+    ss.forEach(function (x) { if (x.k === today) cur = x; else prev = x; });
+    var sug = suggest(m, prev), last = cur ? cur.sets[cur.sets.length - 1] : prev ? prev.sets[prev.sets.length - 1] : null;
+    if (w == null) w = sug || (last ? last.w : m.w0 || 20);
+    if (r == null) r = last ? last.r : maxReps(m);
+    function chip(x) { return '<span class="chip">' + kg(x.w).replace(' kg', '') + ' × ' + x.r + '</span>'; }
+    return '<section class="log" data-w="' + w + '" data-r="' + r + '">' +
+      (prev ? '<div class="lg-h"><b>' + t('last') + '</b><span>' + agoDay(prev.t) + '</span></div><div class="chips">' + prev.sets.map(chip).join('') + '</div>'
+            : (cur ? '' : '<p class="lg-first">' + t('firstTime') + '</p>')) +
+      (sug ? '<p class="lg-sug">' + I.up + '<span>' + t('tryNext').replace('{w}', kg(sug)) + '</span></p>' : '') +
+      '<div class="lg-in">' +
+      '<div class="stp" data-k="w"><span class="sl">' + t('weight') + '</span><button class="sb" type="button" data-d="-1" aria-label="' + t('minus') + '">−</button><output aria-live="polite">' + kg(w) + '</output><button class="sb" type="button" data-d="1" aria-label="' + t('plus') + '">+</button></div>' +
+      '<div class="stp" data-k="r"><span class="sl">' + t('repsL') + '</span><button class="sb" type="button" data-d="-1" aria-label="' + t('minus') + '">−</button><output aria-live="polite">' + r + '</output><button class="sb" type="button" data-d="1" aria-label="' + t('plus') + '">+</button></div>' +
+      '</div><button class="btn lg-save" type="button">' + t('saveSet') + '</button>' +
+      (cur ? '<div class="lg-today"><div class="lg-h"><b>' + t('todayL') + '</b><button class="lg-undo" type="button">' + t('undo') + '</button></div><div class="chips">' + cur.sets.map(chip).join('') + '</div></div>' : '') +
+      sparkHTML(ss) + '<p class="lg-note">' + t('onlyPhone') + '</p></section>';
+  }
+  function bindLog(id, m) {
+    var sec = app.querySelector('.log');
+    if (!sec) return;
+    var w = +sec.getAttribute('data-w'), r = +sec.getAttribute('data-r');
+    function redraw() { sec.outerHTML = logHTML(id, m, w, r); bindLog(id, m); }
+    sec.querySelectorAll('.stp').forEach(function (st) {
+      var k = st.getAttribute('data-k'), out = st.querySelector('output');
+      st.querySelectorAll('.sb').forEach(function (b) {
+        b.onclick = function () {
+          var d = +b.getAttribute('data-d');
+          if (k === 'w') { w = Math.max(0, Math.round((w + d * (m.inc || 2.5)) * 10) / 10); out.textContent = kg(w); sec.setAttribute('data-w', w); }
+          else { r = Math.min(60, Math.max(1, r + d)); out.textContent = r; sec.setAttribute('data-r', r); }
+        };
+      });
+    });
+    sec.querySelector('.lg-save').onclick = function () {
+      LOG.add(id, w, r);
+      if (navigator.vibrate) try { navigator.vibrate(12); } catch (e) {}
+      redraw(); toast(t('saved'));
+    };
+    var u = sec.querySelector('.lg-undo');
+    if (u) u.onclick = function () { LOG.undoToday(id); redraw(); };
+  }
+
+  // ---------- ostale teretane ----------
+  function distKm(a, b) {
+    var R2 = Math.PI / 180, dLa = (b.lat - a.lat) * R2, dLo = (b.lng - a.lng) * R2;
+    var h = Math.sin(dLa / 2) * Math.sin(dLa / 2) + Math.cos(a.lat * R2) * Math.cos(b.lat * R2) * Math.sin(dLo / 2) * Math.sin(dLo / 2);
+    return 12742 * Math.asin(Math.sqrt(h));
+  }
+  function fmtKm(d) { return d < 1 ? Math.round(d * 100) * 10 + ' m' : String(Math.round(d * 10) / 10).replace('.', lang === 'hr' ? ',' : '.') + ' km'; }
+  var myPos = null;
+  function locsHTML(cur) {
+    var ids = G.order.slice();
+    if (myPos) ids.sort(function (a, b) { return distKm(myPos, G.locations[a]) - distKm(myPos, G.locations[b]); });
+    return '<h2 class="sh" id="poslovnice">' + t('inOsijek') + '</h2><div class="group locs">' + ids.map(function (k) {
+      var L = G.locations[k], st = status(L), here = k === cur, parts = L.address.split(', '); parts.pop();
+      return '<' + (here ? 'div' : 'a href="' + L.route + '" target="_blank" rel="noopener"') + ' class="loc">' +
+        '<span class="ic ' + (here ? 'ic-g' : 'ic-b') + '">' + I.pin + '</span>' +
+        '<span class="tx"><b>' + esc(L.short) + (here ? ' <span class="here">' + t('here') + '</span>' : '') + '</b><small>' + esc(parts.join(', ')) + '</small>' +
+        '<span class="st' + (st.open ? '' : ' is-closed') + '"><i></i>' + esc(st.text) + '</span></span>' +
+        '<span class="side">' + (myPos ? '<span class="dist">' + fmtKm(distKm(myPos, L)) + '</span>' : '') + (here ? '' : '<span class="go">' + t('directions') + '</span>') + '</span>' +
+        (here ? '</div>' : '</a>');
+    }).join('') + '</div>' + (myPos ? '' : '<button class="btn plain dist-btn" type="button" style="margin-top:12px">' + I.loc + t('showDist') + '</button>');
+  }
+  function bindLocs(cur) {
+    var b = app.querySelector('.dist-btn');
+    if (!b || !navigator.geolocation) { if (b) b.remove(); return; }
+    b.onclick = function () {
+      b.disabled = true;
+      navigator.geolocation.getCurrentPosition(function (p) {
+        myPos = { lat: p.coords.latitude, lng: p.coords.longitude };
+        var box = app.querySelector('#poslovnice'), grp = box.nextElementSibling;
+        var tmp = document.createElement('div'); tmp.innerHTML = locsHTML(cur);
+        box.replaceWith(tmp.children[0]); grp.replaceWith(tmp.children[0]); b.remove();
+      }, function () { b.disabled = false; toast(t('noLoc')); }, { enableHighAccuracy: false, timeout: 9000, maximumAge: 300000 });
+    };
+  }
+
   // ---------- radno vrijeme ----------
   function status(L, now) {
     now = now || new Date();
@@ -297,6 +428,7 @@
       '<ol class="phases">' + phasesHTML(m, 'ok') + '</ol>' +
       '<p class="mus"><span class="sw" aria-hidden="true"></span><span><b>' + t('works') + '</b> ' + esc(tx(m.muscles)) + '</span></p>' +
       '</section>' +
+      '<h2 class="sh">' + t('log') + '</h2>' + logHTML(id, m) +
       '<div class="group report"><button class="row rep-open" type="button"><span class="ic ic-o">' + I.wrench + '</span><span class="tx"><b>' + t('report') + '</b><small>' + t('reportSub') + '</small></span>' + I.chev + '</button></div>' +
       '<h2 class="sh">' + t('setup') + '</h2><ol class="list setup">' + setup + '</ol>' +
       '<h2 class="sh">' + t('how') + '</h2><ol class="list how">' + how + '</ol>' +
@@ -378,6 +510,7 @@
       };
     });
     app.querySelector('.rep-open').onclick = function () { openReport(loc, id); };
+    bindLog(id, m);
     document.onvisibilitychange = function () { if (document.hidden) scene.pause(); else if (wantPlay) scene.play(); };
     chrome(function () { machine(loc, id); });
   }
@@ -439,6 +572,10 @@
   }
 
   // ---------- teretana ----------
+  function lastTag(id) {
+    var l = LOG.sets(id); if (!l.length) return '';
+    var x = l[l.length - 1]; return '<span class="tag tag-b">' + t('lastShort') + kg(x.w) + ' × ' + x.r + '</span>';
+  }
   function machinesFor(loc) { return (G.machines[loc] || Object.keys(S)).filter(function (id) { return S[id]; }); }
   function gym(loc) {
     var L = G.locations[loc], st = status(L), ids = machinesFor(loc), now = new Date().getDay(), ob = OB.get(L);
@@ -451,7 +588,7 @@
       return '<h2 class="sh">' + esc(tx(g.name)) + '</h2><div class="group">' + items.map(function (id) {
         var rep = KV.open(loc, id).length;
         return '<a class="it" href="/bluegym/' + loc + '/' + id + '"><span class="th" data-id="' + id + '"></span><span class="tx"><b>' + esc(tx(S[id].name)) + '</b><small>' + esc(tx(S[id].muscles)) + '</small>' +
-          (rep ? '<span class="tag">' + t('tag') + '</span>' : '') + '</span>' + I.chev + '</a>';
+          (rep ? '<span class="tag">' + t('tag') + '</span>' : '') + lastTag(id) + '</span>' + I.chev + '</a>';
       }).join('') + '</div>';
     }).join('');
     var week = [1, 2, 3, 4, 5, 6, 0].map(function (d) {
@@ -464,9 +601,11 @@
       '<p class="intro">' + t('intro') + '</p>' + groups +
       classesHTML(L) + pricesHTML(L, ob) +
       '<h2 class="sh">' + t('hours') + '</h2><ul class="week">' + week + '</ul>' +
+      locsHTML(loc) +
       gymBlock(L, false).replace('<h2 class="sh">' + esc(L.name) + '</h2>', '<div style="height:12px"></div>') +
       '</main>';
     app.querySelectorAll('.th').forEach(function (h) { R.still(h, S[h.getAttribute('data-id')].anim, .55, 72 / 58); });
+    bindLocs(loc);
     chrome(function () { gym(loc); });
     if (location.hash === '#clanarine') { var c = document.getElementById('clanarine'); if (c) setTimeout(function () { c.scrollIntoView(); }, 60); }
   }

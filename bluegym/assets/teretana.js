@@ -4,9 +4,10 @@
   'use strict';
   function maps(name, id) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(name + ', Osijek') + '&query_place_id=' + id; }
   function review(id) { return 'https://search.google.com/local/writereview?placeid=' + id; }
+  function route(name, id) { return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(name + ', Osijek') + '&destination_place_id=' + id; }
   var L = {
     centar: {
-      name: 'Blue Gym Centar', short: 'Centar', address: 'Ul. Pavla Pejačevića 22, Osijek', phone: '',
+      name: 'Blue Gym Centar', short: 'Centar', address: 'Ul. Pavla Pejačevića 22, Osijek', phone: '', lat: 45.5615649, lng: 18.6728063,
       placeId: 'ChIJexWD16XnXEcRyP5lWoL_wlg',
       hours: { 0: [14, 21], 1: [7, 22], 2: [7, 22], 3: [7, 22], 4: [7, 22], 5: [7, 22], 6: [8, 21] },
       // s Instagrama @bluegymcentar (studeni 2026.)
@@ -38,17 +39,17 @@
       }
     },
     sjenjak: {
-      name: 'Blue Gym Sjenjak', short: 'Sjenjak', address: 'Sjenjak 133, Osijek', phone: '+385 31 782 068',
+      name: 'Blue Gym Sjenjak', short: 'Sjenjak', address: 'Sjenjak 133, Osijek', phone: '+385 31 782 068', lat: 45.551078, lng: 18.6957562,
       placeId: 'ChIJ-8LnLI_nXEcRfFj0jjidNCs',
       hours: { 0: null, 1: [8, 22], 2: [8, 22], 3: [8, 22], 4: [8, 22], 5: [8, 22], 6: [8, 21] }
     },
     bosutsko: {
-      name: 'Blue Gym Bosutsko', short: 'Bosutsko', address: 'Mercator, Industrijska četvrt, Osijek', phone: '',
+      name: 'Blue Gym Bosutsko', short: 'Bosutsko', address: 'Kod Mercatora, Industrijska četvrt, Osijek', phone: '', lat: 45.5447856, lng: 18.6779655,
       placeId: 'ChIJP_n_KDvnXEcRQYdv6LaEZKQ',
       hours: { 0: [14, 21], 1: [7, 22], 2: [7, 22], 3: [7, 22], 4: [7, 22], 5: [7, 22], 6: [8, 21] }
     }
   };
-  Object.keys(L).forEach(function (k) { L[k].id = k; L[k].maps = maps(L[k].name, L[k].placeId); L[k].review = review(L[k].placeId); });
+  Object.keys(L).forEach(function (k) { L[k].id = k; L[k].maps = maps(L[k].name, L[k].placeId); L[k].review = review(L[k].placeId); L[k].route = route(L[k].name, L[k].placeId); });
   // active: teretane koje su uključene (za sada samo Centar); ostale su spremne za kasnije
   window.BG = { brand: 'Blue Gym', order: ['centar', 'sjenjak', 'bosutsko'], active: ['centar'], locations: L, machines: { centar: null, sjenjak: null, bosutsko: null } };
 })();
