@@ -16,7 +16,7 @@
       tag: { hr: 'Najveća teretana u regiji', en: 'The largest gym in the region' },
       feats: [{ hr: '2.500 m²', en: '2,500 m²' }, { hr: 'Grupni treninzi', en: 'Group classes' }, 'MultiSport'],
       // s Instagrama @bluegymcentar (studeni 2026.)
-      instagram: 'bluegymcentar',
+      instagram: 'bluegymcentar', facebook: 'bluegymcentar',
       logo: '/bluegym/assets/img/logo.jpg',
       hero: '/bluegym/assets/img/dvorana.jpg',
       tagline: { hr: 'Tvoj prostor za napredak.', en: 'Your space to make progress.' },
@@ -45,7 +45,7 @@
     },
     sjenjak: {
       name: 'Blue Gym Sjenjak', short: 'Sjenjak', address: 'Sjenjak 133, Osijek', phone: '+385 31 782 068', lat: 45.551078, lng: 18.6957562,
-      placeId: 'ChIJ-8LnLI_nXEcRfFj0jjidNCs',
+      placeId: 'ChIJ-8LnLI_nXEcRfFj0jjidNCs', facebook: 'bluegymsjenjak',
       hours: { 0: null, 1: [8, 22], 2: [8, 22], 3: [8, 22], 4: [8, 22], 5: [8, 22], 6: [8, 21] },
       // Instagram @bluegymsjenjak trenutno nije dostupan: kartica bez fotografije dok je ne dobijemo; opis s Facebooka
       cover: null,
@@ -53,8 +53,9 @@
       feats: ['Fitness', 'CrossFit', 'Protein bar']
     },
     bosutsko: {
-      name: 'Blue Gym Bosutsko', short: 'Bosutsko', address: 'Kod Mercatora, Industrijska četvrt, Osijek', phone: '', lat: 45.5447856, lng: 18.6779655,
-      placeId: 'ChIJP_n_KDvnXEcRQYdv6LaEZKQ',
+      // adresa i telefon s njihove Facebook stranice
+      name: 'Blue Gym Bosutsko', short: 'Bosutsko', address: 'Gacka ulica 10, Mercator, Osijek', phone: '+385 31 218 398', lat: 45.5447856, lng: 18.6779655,
+      placeId: 'ChIJP_n_KDvnXEcRQYdv6LaEZKQ', instagram: 'bluegymbosutsko', facebook: 'bluegymbosutsko',
       hours: { 0: [14, 21], 1: [7, 22], 2: [7, 22], 3: [7, 22], 4: [7, 22], 5: [7, 22], 6: [8, 21] },
       // s Instagrama @bluegymbosutsko: dvorana za grupne treninge, bio i objava za Black Friday
       cover: '/bluegym/assets/img/bosutsko.jpg', tone: '#545047',

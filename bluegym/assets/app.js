@@ -131,7 +131,9 @@
     phone: ico('<path d="M6.6 3.5h2.6l1.4 4-2 1.3a11 11 0 0 0 6.6 6.6l1.3-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.4 16.4 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/>'),
     clock: ico('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'),
     gym: ico('<path d="M6.5 8v8M3.5 10v4M17.5 8v8M20.5 10v4M6.5 12h11"/>'),
-    cam: ico('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>'),
+    cam: ico('<path d="M3.5 9A1.8 1.8 0 0 1 5.3 7.2h2.4L9.3 5h5.4l1.6 2.2h2.4A1.8 1.8 0 0 1 20.5 9v8.2a1.8 1.8 0 0 1-1.8 1.8H5.3a1.8 1.8 0 0 1-1.8-1.8Z"/><circle cx="12" cy="12.6" r="3.3"/>'),
+    fb: ico('<path d="M7.5 10.6V19"/><path d="M14.3 6.3 13.6 10h4.9a1.8 1.8 0 0 1 1.7 2.3l-1.9 6.1a1.8 1.8 0 0 1-1.7 1.3H5.4a1.6 1.6 0 0 1-1.6-1.6v-6.3a1.6 1.6 0 0 1 1.6-1.6h2.1l2.9-5.4a2.1 2.1 0 0 1 3.9 1.5Z"/>'),
+    tt: ico('<path d="M9.5 17.5V5.5l10-2v12"/><circle cx="7" cy="17.5" r="2.5"/><circle cx="17" cy="15.5" r="2.5"/>'),
     people: ico('<circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2A4.5 4.5 0 0 1 21 18.5"/>'),
     tag: ico('<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.6 6.6a1.4 1.4 0 0 1-2 0Z"/><circle cx="8" cy="8" r="1.4"/>'),
     up: ico('<path d="M4 16l5-5 4 4 7-7M15 8h5v5"/>'),
@@ -437,7 +439,9 @@
     var st = status(L), ob = onMachine ? OB.get(L) : null;
     var acts = '<a class="act" href="' + L.maps + '" target="_blank" rel="noopener">' + I.pin + t('map') + '</a>' +
       (L.phone ? '<a class="act" href="tel:' + L.phone.replace(/\s/g, '') + '" aria-label="' + t('call') + ' ' + esc(L.phone) + '">' + I.phone + t('call') + '</a>' : '') +
-      (L.instagram ? '<a class="act" href="https://www.instagram.com/' + L.instagram + '/" target="_blank" rel="noopener" aria-label="Instagram @' + esc(L.instagram) + '">' + I.cam + t('insta') + '</a>' : '');
+      (L.instagram ? '<a class="act" href="https://www.instagram.com/' + L.instagram + '/" target="_blank" rel="noopener" aria-label="Instagram @' + esc(L.instagram) + '">' + I.cam + t('insta') + '</a>' : '') +
+      (L.facebook ? '<a class="act" href="https://www.facebook.com/' + L.facebook + '/" target="_blank" rel="noopener" aria-label="Facebook: ' + esc(L.name) + '">' + I.fb + 'Facebook</a>' : '') +
+      (L.tiktok ? '<a class="act" href="https://www.tiktok.com/@' + L.tiktok + '" target="_blank" rel="noopener" aria-label="TikTok @' + esc(L.tiktok) + '">' + I.tt + 'TikTok</a>' : '');
     var rows = (ob ? '<a class="row" href="/bluegym/' + L.id + (ob.kind === 'promo' ? '#clanarine' : '') + '"><span class="ic ic-o">' + (ob.kind === 'promo' ? I.tag : I.mega) + '</span><span class="tx"><b>' + esc(ob.kind === 'promo' ? tx(ob.promo.title) : ob.title) + '</b><small>' + esc(ob.kind === 'promo' ? tx(ob.promo.sub) : (ob.text || t('notice'))) + '</small></span>' + I.chev + '</a>' : '') +
       (onMachine ? '<a class="row" href="/bluegym/' + L.id + '"><span class="ic ic-b">' + I.gym + '</span><span class="tx"><b>' + t('all') + '</b></span>' + I.chev + '</a>' : '');
     return '<section class="gym"><h2 class="sh">' + esc(L.name) + '</h2>' +
